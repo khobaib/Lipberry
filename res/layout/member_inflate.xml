@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+     android:layoutDirection="rtl"
+    android:background="@drawable/splash" >
+
+    <RelativeLayout
+          android:id="@+id/re_top"
+        android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+         android:layoutDirection="rtl"
+         android:background="#895767"
+        android:layout_alignParentTop="true"
+       >
+
+        <ImageView
+            android:id="@+id/img_pro_pic"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
+             android:layout_alignParentStart="true"
+           android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/text_member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:gravity="right|center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/img_pro_pic"
+            android:textColor="#000000"
+            android:textSize="17dp"
+            android:text="Lipberry" />
+
+        
+
+    </RelativeLayout>
+
+
+
+    <TextView
+        android:id="@+id/text_member_bio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_below="@+id/re_top"
+       android:layout_marginTop="5dp"
+       android:padding="5dp"
+       android:background="@drawable/rounded_edittext"
+      android:gravity="right|center_vertical"
+       android:textColor="#000000"
+        android:text="Bio data"
+        	android:textSize="24dp"/>
+
+    <Button
+        android:id="@+id/btn_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+    	android:layout_below="@+id/text_member_bio"
+    	android:text="@string/txt_follow_her"
+    	
+    	android:layout_margin="10dp"
+    	android:textSize="22dp"
+    	  android:textColor="#f90452"
+        android:src="@drawable/rounded_button" />
+
+</RelativeLayout>

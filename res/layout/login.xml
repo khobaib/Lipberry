@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+      android:layoutDirection="rtl"
+      android:background="@drawable/splash"
+    	android:orientation="vertical" >
+				
+				
+				
+				<EditText
+                    android:id="@+id/e_uname"
+                 	android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                  	android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                  	android:background="@drawable/rounded_edittext"
+                  	android:textAlignment="viewStart"
+                  	android:gravity="right"
+                  		android:textColor="#000000"
+                  	android:textDirection="rtl"
+                  	android:layout_marginLeft="22dp"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginStart="22dp"
+                 	android:layout_marginTop="40dp"
+               		android:textSize="24dp"
+                    android:padding="7dp"
+                    android:hint="@string/et_signin_usernameoremail"
+                    android:ems="10" />
+				 	
+    			 <EditText
+        			android:id="@+id/e_pass"
+     				android:layout_below="@+id/e_uname"
+       				android:layout_width="match_parent"
+        			android:layout_height="wrap_content"
+         			android:layout_alignParentEnd="true"
+          		    android:layout_alignParentRight="true"
+                  	android:background="@drawable/rounded_edittext"
+                  	android:textAlignment="viewStart"
+                  	android:gravity="right"
+                  	android:textDirection="rtl"
+                  		android:textColor="#000000"
+                  	android:layout_marginLeft="22dp"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginStart="22dp"
+                 	android:layout_marginTop="12dp"
+               		android:textSize="24dp"
+                    android:padding="7dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/et_signup_password"
+                    android:ems="10"  />
+ 
+
+    			<Button
+       				android:id="@+id/b_signin"
+       				android:layout_below="@+id/e_pass"
+       				android:layout_width="match_parent"
+       				android:layout_height="wrap_content"
+        			android:gravity="right|center_vertical"
+                  	android:textDirection="rtl"
+      			   
+       				android:layout_marginLeft="22dp"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginStart="22dp"
+                 	android:layout_marginTop="12dp"
+                 	android:textColor="#ffffff"
+                 	android:paddingRight="12dp"
+                 	android:layout_centerVertical="true"
+       			    android:text="@string/bt_signin_sign"
+       			    android:background="@drawable/rounded_button" />
+
+   				 <Button
+       				 	android:id="@+id/b_signup"
+        				android:layout_below="@+id/b_signin"
+       					android:layout_width="match_parent"
+       					android:layout_height="wrap_content"
+        				android:gravity="right|center_vertical"
+                  		android:textDirection="rtl"
+       					android:layout_marginLeft="22dp"
+                    	android:layout_marginEnd="22dp"
+                    	android:layout_marginRight="22dp"
+                    	android:layout_marginStart="22dp"
+                 		android:layout_marginTop="12dp"
+                 		android:paddingRight="12dp"
+       			    	android:text="@string/bt_signup_signup"
+       			    	android:textColor="#ffffff"
+       			    	android:background="@drawable/rounded_button"
+       				/>
+
+   					 <Button
+   				    	android:id="@+id/bt_forgotpass"
+   				    	android:layout_below="@+id/b_signup"
+       					android:layout_width="match_parent"
+       					android:layout_height="wrap_content"
+        				android:gravity="right|center_vertical"
+                  		android:textDirection="rtl"
+       					android:layout_marginLeft="22dp"
+                    	android:layout_marginEnd="22dp"
+                    	android:layout_marginRight="22dp"
+                    	android:layout_marginStart="22dp"
+                 		android:layout_marginTop="12dp"
+                 		android:paddingRight="12dp"
+       			    	android:text="@string/bt_signin_forgetpass"
+       			    	android:textColor="#ffffff"
+       			    	android:background="@drawable/rounded_button" />
+
+</RelativeLayout>

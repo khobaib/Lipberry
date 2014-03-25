@@ -1,0 +1,77 @@
+<resources>
+
+    <string name="app_name">"Lipberry "</string>
+    
+     <!--
+     Sign up screen
+     -->
+	
+      
+      <string name="et_signup_name">"اسمك"</string>
+     <string name="et_signup_username">"اسم المستخدم"</string>
+     <string name="et_signup_nickname">"الاسم المستعار"</string>
+     <string name="et_signup_password">"كلمة السر"</string>
+     <string name="et_signup_confirmpass">"تأكيد كلمة السر"</string>
+     <string name="et_signup_email">"البريد الإلكتروني"</string>
+     <string name="et_signup_city">"المدينة"</string>
+     <string name="et_signup_country">"الدولة"</string>
+     <string name="et_signup_register">"اشتراك"</string>
+     <string name="et_signup_knowing">"كيف علمتي عن ليب بيري؟"</string>
+      <string name="bet_signup_register">"اشتراك"</string>
+        <string name="bt_signup_signup">"اشتراك"</string>
+        
+         <!--
+     Sign up screen
+     -->
+     
+     
+     
+      <!--
+     Sign in screen
+     -->
+        <string name="bt_signin_sign">"تسجيل دخول"</string>
+      <string name="bt_signin_forgetpass">"نسيت كلمة المرور؟"</string>
+       <string name="et_signin_usernameoremail"> "اسم المستخدم \ بريدك الإلكتروني"</string>
+    
+      <!--
+     Sign in screen
+     -->
+        
+        
+      
+        
+    <string name="et_signup_key">"Enter Key"</string>
+     <string name="txt_seen_by">"شاهدها"</string>
+      <string name="txt_following">"تتابع"</string>
+     <string name="txt_follower">"يتابعها"</string>
+       <string name="txt_follow_her">"تابعيها"</string>
+    
+       
+       
+       
+        <string name="Toast_enter_text">"Please enter comments "</string>
+   <string name="Toast_check_internet">"Please check your internet connection"</string>
+     <string name="Toast_nocat_found">"Failed to bring categories. Please try again."</string>
+     <string name="Toast_article_found">"Failed to bring Article. Please try again."</string>
+        <string name="Toast_member_found">"Failed to get Member. Please try again."</string>
+     <string name="Toast_comments_txt">"Your comments have been posted."</string>
+     <!--
+    memberscreen
+     -->
+   
+         <string name="back_string">"رجوع"</string>
+    <string name="topbar_cat">"الأقسام"</string>
+    <string name="topbar_new_article">"جديد المشاركات"</string>
+         
+         
+           <!--
+     post within cat in screen
+     -->
+     
+      <string name="txt_make_up">"المكياج"</string>
+      <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>
+       <string name="txt_comments">"تعليق"</string>
+    
+        
+   	
+</resources>
