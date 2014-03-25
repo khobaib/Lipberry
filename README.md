@@ -1,4 +1,4 @@
 Lipberry
 ========
 
-A faship app
+A fashion app
