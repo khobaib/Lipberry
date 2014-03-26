@@ -19,12 +19,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 
 import com.lipberry.R;
+import com.lipberry.customalertdilog.LisAlertDialog;
+import com.lipberry.fragment.FragmentTab1;
+import com.lipberry.fragment.FragmentTab3;
 import com.lipberry.model.Article;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
+import com.lipberry.widzet.PanningEditText;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -52,6 +56,7 @@ import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,20 +66,42 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	FragmentActivity activity;
 	LipberryApplication appInstance;	
 	ProgressDialog pd;
+	FragmentTab1 parent;
+	FragmentTab3 parent3;
 	String commentstext;
 	int a;
-	boolean stateoflike=false;
+boolean stateoflike=false;
 	JsonParser jsonParser;
 	int index;
 	ViewHolder holder2;
 	ProgressDialog mProgress;
 	ImageLoader imageLoader;
+	
 	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
-			ArrayList<Article> list) {
+			ArrayList<Article> list,FragmentTab3 parent3) {
 		super();
 		jsonParser=new JsonParser();
 		this.activity = activity;
 		this.list = list;
+		this.parent3=parent3;
+		appInstance = (LipberryApplication) activity.getApplication();
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+				.cacheInMemory(true).cacheOnDisc(true).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				activity.getApplicationContext()).defaultDisplayImageOptions(
+				defaultOptions).build();
+		imageLoader = ImageLoader.getInstance();
+		ImageLoader.getInstance().init(config);
+		
+		}
+	
+	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
+			ArrayList<Article> list,FragmentTab1 parent) {
+		super();
+		jsonParser=new JsonParser();
+		this.activity = activity;
+		this.list = list;
+		this.parent=parent;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 				.cacheInMemory(true).cacheOnDisc(true).build();
@@ -119,11 +146,11 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		TextView text_topic_text;
 		TextView txt_like;
 		TextView text_comment;
-		EditText et_comment;
+		PanningEditText et_comment;
 	}
 
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup viewgroup) {
 		// TODO Auto-generated method stub
 
 		// TODO Auto-generated method stub
@@ -140,7 +167,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
 			holder.image_comments=(ImageView) convertView.findViewById(R.id.image_comments);
 			holder.img_article_pro_pic=(ImageView) convertView.findViewById(R.id.img_article_pro_pic);
-			holder.et_comment=(EditText) convertView.findViewById(R.id.et_comment);
+			holder.et_comment=(PanningEditText) convertView.findViewById(R.id.et_comment);
 			holder.text_user_name=(TextView) convertView.findViewById(R.id.text_user_name);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
 			holder.txt_articl_ename=(TextView) convertView.findViewById(R.id.txt_articl_ename);
@@ -179,8 +206,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			imageLoader.displayImage(url, holder.img_pro_pic);
 			
 		}
-		
-		holder.text_user_name.setText("some cat");
+		holder.text_user_name.setText(list.get(position).getMember_username());
+	holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
 		holder.text_topic_text.setText(list.get(position).getArticle_description());
 		//holder.text_topic_text.setText(list.get(position).getArticle_title());
@@ -191,88 +218,36 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		
 		String liketext="";
 		
-		if(list.get(position).getLike_count()==null){
-			holder.txt_like.setText("");
-			if(list.get(position).getLikedmemberlist().size()>0){
-				for (int k=0;k<list.get(position).getLikedmemberlist().size();k++){
-					if(k<(list.get(position).getLikedmemberlist().size()-2)){
+		holder.txt_like.setText(list.get(position).getLikemember_text());
+		holder.txt_like.setOnClickListener(new OnClickListener() {
 			
-							liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-							liketext=liketext.concat(" ,");
-					}
-					else if((k<(list.get(position).getLikedmemberlist().size()-1))){
-						liketext=liketext.concat("&");
-						liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-			
-					}
-					else{
-						liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-					}
-	
-			}
-			
-				liketext=liketext.concat(" like this");
-			
-		
-			holder.txt_like.setText(liketext);
-			}
-		}
-		else if(Integer.parseInt(list.get(position).getLike_count())==0){
-			holder.txt_like.setText("");
-			if(list.get(position).getLikedmemberlist().size()>0){
-				for (int k=0;k<list.get(position).getLikedmemberlist().size();k++){
-					if(k<(list.get(position).getLikedmemberlist().size()-2)){
-			
-							liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-							liketext=liketext.concat(" ,");
-					}
-					else if((k<(list.get(position).getLikedmemberlist().size()-1))){
-						liketext=liketext.concat("&");
-						liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-			
-					}
-					else{
-						liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-					}
-	
-			}
-			
-				liketext=liketext.concat(" like this");
-			
-		
-			holder.txt_like.setText(liketext);
-			}
-		}else{
-			if(list.get(position).getLikedmemberlist().size()>0){
-				
-					for (int k=0;k<list.get(position).getLikedmemberlist().size();k++){
-								if(k<(list.get(position).getLikedmemberlist().size()-2)){
-						
-										liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-										liketext=liketext.concat(" ,");
-								}
-								else if((k<(list.get(position).getLikedmemberlist().size()-1))){
-									liketext=liketext.concat("&");
-									liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-						
-								}
-								else{
-									liketext=liketext.concat(list.get(position).getLikedmemberlist().get(k).getNickname());
-								}
-				
-						}
-						int likeremainingcount=Integer.parseInt(list.get(position).getLike_count())-list.get(position).getLikedmemberlist().size();
-						if(likeremainingcount>0){
-							liketext=liketext.concat("  " +likeremainingcount+" other like this");
-						}
-						else{
-							liketext=liketext.concat(" like this");
-						}
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				LisAlertDialog alert;
+				if(list.get(position).getLikedmemberlist().size()>0){
 					
-						holder.txt_like.setText(liketext);
-			
+					if(parent==null){
+						alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,null,parent3);
+						
+					}
+					else{
+						 alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,parent,null);
+						
+					}
+					
+					alert.show_alert();
+				}
+				else{
+					
+				}
+				
+				
+				
 			}
-		}
+		});
+		
+		//LisAlertDialog
 		
 		holder.img_article_pro_pic.setOnClickListener(new OnClickListener() {
 			
@@ -290,6 +265,15 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				imageviewcommentsclicked();
 			}
 		});
+		
+		if(list.get(position).getUserAlreadylikeThis().equals("No")){
+			stateoflike=false;
+		}
+		else{
+			stateoflike=true;
+		}
+		
+		
 		
 		if(stateoflike){
 			holder.img_like.setBackgroundResource(R.drawable.unlike);
@@ -371,6 +355,22 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			
 		}
 		
+		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(parent!=null){
+					parent.startMemberFragment();
+				}
+				else{
+					parent3.startFragmentMemberFromCategories();
+				}
+				
+			}
+		});
+				
+		
 		Log.i(" image loading", list.get(position).getArticle_photo());
 		return convertView;
 	}
@@ -383,7 +383,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		
 	}
 	public void imgeviewlikeclicked(){
-		
+		Log.i("before", ""+index);
 		if(stateoflike){
 			if(Constants.isOnline(activity)){
 				pd=ProgressDialog.show(activity, "Lipberry",
@@ -412,6 +412,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			
 			
 		}
+		
+
 	}
 	
 	public void setimageinimageview(int index){
@@ -519,15 +521,18 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 						stateoflike=true;
 						Toast.makeText(activity,description, 10000).show();
 						holder2.img_like.setBackgroundResource(R.drawable.unlike);
-						holder2.text_comment.setText("hgfcrjhflrhgf");
+						list.get(index).setUserAlreadylikeThis("Yes");
 					}
-					else{
+				else{
 						
-						Toast.makeText(activity,description, 10000).show();
 						
+					Toast.makeText(activity,description, 10000).show();
+					
 							if(description.equals("You presed like before")){
-								holder2.img_like.setBackgroundResource(R.drawable.unlike);
 								stateoflike=true;
+								holder2.img_like.setBackgroundResource(R.drawable.unlike);
+								list.get(index).setUserAlreadylikeThis("Yes");
+								
 								
 						}
 						
@@ -537,6 +542,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				Log.i("after like", ""+index);	
 				
 			}
 			
@@ -580,15 +586,16 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 						stateoflike=false;
 						Toast.makeText(activity,description, 10000).show();
 						holder2.img_like.setBackgroundResource(R.drawable.like);
-						
+						list.get(index).setUserAlreadylikeThis("No");
 					}
 					else{
-						
 						Toast.makeText(activity,description, 10000).show();
 						
-							if(description.equals("You presed unlike before")){
+						
+							if(description.equals("You pressed dislike before")){
 								holder2.img_like.setBackgroundResource(R.drawable.like);
 								stateoflike=false;
+								list.get(index).setUserAlreadylikeThis("No");
 						}
 						
 						
@@ -597,9 +604,9 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+				Log.i("after dis", ""+index);	
 			}
-			
+		
 			
 	}
 	

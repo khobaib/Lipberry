@@ -77,11 +77,16 @@ public class FragmentMenu extends Fragment {
 
 			List<Fragment> fragments=new ArrayList<Fragment>();
 			Log.i("crash", "2");
-			Fragment newfrag=new FragmentMyCountriesPost();
-			Log.i("crash", "3");
+			FragmentMyCountriesPost.parent=parent;
+			FragmentMyCountriesPost frag=new FragmentMyCountriesPost();
+			
+			Fragment newfrag=frag;
+			;
 			 fragments.add(newfrag);
-				Log.i("crash", "4");
-			 newfrag=new FragmentMyFollwerPost();
+			 FragmentMyFollwerPost.parent=parent;
+			 FragmentMyFollwerPost frag2=new FragmentMyFollwerPost();
+			
+			 newfrag=frag2;
 				Log.i("crash", "5");
 			 fragments.add(newfrag);
 				Log.i("crash", "6");

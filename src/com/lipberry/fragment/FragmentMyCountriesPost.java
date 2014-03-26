@@ -61,6 +61,8 @@ import com.viewpagerindicator.TabPageIndicator;
 public class FragmentMyCountriesPost extends Fragment {
 	LipberryApplication appInstance;	
 	 ProgressDialog pd;
+	 static FragmentTab1 parent;
+	
 	 TextView textView1;
 	 ArticleList articlelistinstance;
 	 JsonParser jsonParser;
@@ -75,6 +77,10 @@ public class FragmentMyCountriesPost extends Fragment {
 	            return f;
 	        }
 		
+		  
+	 public  void setParent(FragmentTab1 parent){
+			  this.parent=parent;
+	}
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -186,7 +192,7 @@ public class FragmentMyCountriesPost extends Fragment {
 
 				public void  loadlistview(List<Article>articlelist,boolean from){
 					FragmentActivity  activity=getActivity();
-					ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, (ArrayList<Article>)articlelist);
+					ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, (ArrayList<Article>)articlelist,parent);
 					list_view_latest_post.setAdapter(ladapter);
 					
 					if(from){

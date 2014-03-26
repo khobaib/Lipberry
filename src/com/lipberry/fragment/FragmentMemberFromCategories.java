@@ -49,19 +49,16 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 @SuppressLint("NewApi")
-public class FragmentMember extends Fragment {
+public class FragmentMemberFromCategories extends Fragment {
 	ImageLoader imageLoader;
 	 LipberryApplication appInstance;
 	  JsonParser jsonParser;
-	FragmentTab2 parent;
+	FragmentTab3 parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
-	
 	Button btn_follow_her,btn_send,btn_share;
 	 ProgressDialog pd;
-	 
 	 boolean followstate=false;
-	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,15 +92,6 @@ public class FragmentMember extends Fragment {
 			btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 			btn_send=(Button) v.findViewById(R.id.btn_send);
 			btn_share=(Button) v.findViewById(R.id.btn_share);
-			if(followstate){
-				btn_follow_her.setText("unfollow");
-			}
-			else{
-				btn_follow_her.setText("follow");
-			}
-			
-			
-			
 			if(Constants.isOnline(getActivity())){
 				pd=ProgressDialog.show(getActivity(), "Lipberry",
 					    "Retreving member", true);
@@ -115,6 +103,12 @@ public class FragmentMember extends Fragment {
 						10000).show();
 			}
 			
+			if(followstate){
+				btn_follow_her.setText("unfollow");
+			}
+			else{
+				btn_follow_her.setText("follow");
+			}
 			btn_follow_her.setOnClickListener(new OnClickListener() {
 				
   				@Override
@@ -141,6 +135,7 @@ public class FragmentMember extends Fragment {
 				}
 			});
 	}
+	
 	
 	
 	//03-24 16:44:19.674: I/System.out(21809): http://lipberry.com/API/account/findmemberbyid/8150/
@@ -202,16 +197,12 @@ public class FragmentMember extends Fragment {
 		  txt_name.setText(singleMember.getName());
 		  txt_nick_name.setText(singleMember.getNickname());
 		  txt_bio.setText(singleMember.getBrief());
-		  txt_num_seen.setText(singleMember.getPublicpage_visit());
 		  txt_num_follower.setText(singleMember.getNumber_of_followers());
 		  txt_num_following.setText(singleMember.getNumber_of_following());
+		  txt_num_seen.setText(singleMember.getPublicpage_visit());
 		  imageLoader.displayImage(singleMember.getAvatar(), img_member_pic);
 		  
-		  			
-		 }
-	  
-	 
-	  
+		}
 	  
 	  public void buttonfollowclicked(){
 			
@@ -228,12 +219,12 @@ public class FragmentMember extends Fragment {
 				}
 				
 			}
-				else{
+			else{
 					
 						if(Constants.isOnline(getActivity())){
 							pd=ProgressDialog.show(getActivity(), "Lipberry",
 							    "Please wait", true);
-							//new AsyncTaskSeLike().execute();
+							new AsyncTaskSendUnFollowReq().execute();
 						
 						}
 						else{
@@ -245,9 +236,60 @@ public class FragmentMember extends Fragment {
 			}
 		}
 	  
+	  private class AsyncTaskSendUnFollowReq extends AsyncTask<Void, Void, ServerResponse> {
+			@Override
+						protected ServerResponse doInBackground(Void... params) {
+
+						try {
+								JSONObject loginObj = new JSONObject();
+								loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+								String loginData = loginObj.toString();
+								String url =Constants.baseurl+"account/cancelFollowmember/"+Constants.userid+"/";
+								ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+										loginData, null);
+
+								Log.i("follow", response.getjObj().toString());
+						 return response;
+						} catch (JSONException e) {                
+							e.printStackTrace();
+							return null;
+						}
+				}
+
+				@Override
+				protected void onPostExecute(ServerResponse result) {
+					super.onPostExecute(result);
+					if((pd.isShowing())&&(pd!=null)){
+						pd.dismiss();
+					}
+					JSONObject jobj=result.getjObj();
+					try {
+						String status= jobj.getString("status");
+						String description=jobj.getString("description");
+						if(status.equals("success")){
+							
+							Toast.makeText(getActivity(),description, 10000).show();
+							btn_follow_her.setText("follow");
+							followstate=false;
+						}
+						else{
+							
+							Toast.makeText(getActivity(),description, 10000).show();
+							
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+				
+		}
 	  
 	  
-		private class AsyncTaskSendFollowReq extends AsyncTask<Void, Void, ServerResponse> {
+	  
+	  private class AsyncTaskSendFollowReq extends AsyncTask<Void, Void, ServerResponse> {
 			@Override
 						protected ServerResponse doInBackground(Void... params) {
 
@@ -273,24 +315,22 @@ public class FragmentMember extends Fragment {
 					if((pd.isShowing())&&(pd!=null)){
 						pd.dismiss();
 					}
-					/*JSONObject jobj=result.getjObj();
+					JSONObject jobj=result.getjObj();
 					try {
 						String status= jobj.getString("status");
 						String description=jobj.getString("description");
 						if(status.equals("success")){
-							stateoflike=true;
-							Toast.makeText(activity,description, 10000).show();
-							holder2.img_like.setBackgroundResource(R.drawable.unlike);
-							holder2.text_comment.setText("hgfcrjhflrhgf");
+							
+							Toast.makeText(getActivity(),description, 10000).show();
+							btn_follow_her.setText("unfollow");
+							followstate=true;
 						}
 						else{
 							
-							Toast.makeText(activity,description, 10000).show();
-							
-								if(description.equals("You presed like before")){
-									holder2.img_like.setBackgroundResource(R.drawable.unlike);
-									stateoflike=true;
-									
+							Toast.makeText(getActivity(),description, 10000).show();
+							if(description.equals("Already followed")){
+									btn_follow_her.setText("unfollow");
+									followstate=true;
 							}
 							
 							
@@ -298,16 +338,11 @@ public class FragmentMember extends Fragment {
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}*/
+					}
 					
 				}
 				
 				
 		}
 		
-		
-		
-	  
-	  
 }
-

@@ -235,7 +235,7 @@ public class FragmentSubCategoriesList extends Fragment {
 	 public void loadlistview(){
       FragmentActivity fragActivity=getActivity();	
       
-      	ListviewAdapterimageloadingforArticle adapter=new ListviewAdapterimageloadingforArticle(fragActivity, article.getArticlelist());
+      	ListviewAdapterimageloadingforArticle adapter=new ListviewAdapterimageloadingforArticle(fragActivity, article.getArticlelist(),parent);
      	list_categories.setAdapter(adapter);
      	
      	

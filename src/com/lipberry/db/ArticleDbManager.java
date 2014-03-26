@@ -40,6 +40,12 @@ public class ArticleDbManager {
     private static String member_id = "member_id";
     private static String member_photo = "member_photo";
     
+    private  static String userAlreadylikeThis="userAlreadylikeThis";
+    private static String likemember_text="likemember_text";
+    private static String created_at="created_at";
+
+	
+    
     private static final String CREATE_TABLE_EDUCATION_LIST = "create table " + TABLE_EDUCATION_LIST + " ( "
             + TABLE_PRIMARY_KEY + " integer primary key autoincrement, "
     		+ article_id + " text, " 
@@ -54,6 +60,10 @@ public class ArticleDbManager {
             + comment_url + " text, "
              + member_id + " text, "
             + member_photo + " text, "
+             + userAlreadylikeThis + " text, "
+             + likemember_text + " text, "
+            + created_at + " text, "
+            
             + category_name + " text);";
     
   
@@ -73,7 +83,10 @@ public class ArticleDbManager {
         cv.put(comment_url , article.getComment_url());
         cv.put(member_id , article.getMember_id());
         cv.put(member_photo , article.getMember_photo());
-     //   cv.put(category_name , article.getCategory_name());
+        
+        cv.put(userAlreadylikeThis , article.getUserAlreadylikeThis());
+        cv.put(likemember_text , article.getLikemember_text());
+        cv.put(created_at , article.getCreated_at());
         return db.insert(TABLE_EDUCATION_LIST, null, cv);
     }
     
@@ -109,11 +122,13 @@ public class ArticleDbManager {
             	String like_url_local = c.getString(c.getColumnIndex(like_url));
             	String dislike_url_local = c.getString(c.getColumnIndex(dislike_url));
             	String comment_url_local = c.getString(c.getColumnIndex(comment_url));
-            	
             	String member_id_local = c.getString(c.getColumnIndex(member_id));
             	String member_photo_local = c.getString(c.getColumnIndex(member_photo));
             	
             	
+            	String userAlreadylikeThis_local = c.getString(c.getColumnIndex(userAlreadylikeThis));
+            	String likemember_text_local = c.getString(c.getColumnIndex(likemember_text));
+            	String created_at_local = c.getString(c.getColumnIndex(created_at));
             	ArrayList<LikeMember>likedmemberlist=new ArrayList<LikeMember>();
             	likedmemberlist.clear();
             	for(int i=0;i<likeMemberslistAll.size();i++){
@@ -125,7 +140,8 @@ public class ArticleDbManager {
             	
                 Article article=new Article(likedmemberlist, article_id_local, article_photo_local, article_url_local, article_title_local,
                 		article_description_local, like_count_local, comment_count_local,like_url_local,dislike_url_local,
-                		comment_url_local,member_id_local,member_photo_local);
+                		comment_url_local,member_id_local,member_photo_local,userAlreadylikeThis_local
+                		,likemember_text_local,created_at_local);
             	articleList.add(article);
                 
                 c.moveToNext();
@@ -151,6 +167,9 @@ public class ArticleDbManager {
         cv.put(comment_url , article.getComment_url());
         cv.put(member_id , article.getMember_id());
         cv.put(member_photo , article.getMember_photo());
+        cv.put(userAlreadylikeThis , article.getUserAlreadylikeThis());
+        cv.put(likemember_text , article.getLikemember_text());
+        cv.put(created_at , article.getCreated_at());
      //   cv.put(category_name , article.getCategory_name());
         
         return db.update(TABLE_EDUCATION_LIST, cv, article_id + "=" + article.getArticle_id(), null); 

@@ -62,6 +62,8 @@ import com.viewpagerindicator.TabPageIndicator;
 public class FragmentMyFollwerPost extends Fragment {
 	LipberryApplication appInstance;
 	ListView list_view_latest_post;
+	 static FragmentTab1 parent;
+	 
 	ArrayList<Article>articlaList;
 	ArticleFromMyFollwing postofmyfollowing;
 	ArrayList<LikeMember>limemberlist;
@@ -79,34 +81,40 @@ public class FragmentMyFollwerPost extends Fragment {
 		articlaList=new ArrayList<Article>();
 		limemberlist=new ArrayList<LikeMember>();
 		}
+    
+	 public static  void setParent(FragmentTab1 parent2){
+		  	parent=parent;
+	 	}
 //03-20 00:27:17.638: D/JsonParser(6904): sb = {"status":"failure","description":"There is no followers"}
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-			appInstance = (LipberryApplication) getActivity().getApplication();
-			 Log.i("tag", "2");
-			ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_myfollowerpost,
-				container, false);
-			textView1=(TextView) v.findViewById(R.id.textView1);
-			list_view_latest_post=(ListView) v.findViewById(R.id.list_view_latest_post);
-			if(Constants.isOnline(getActivity())){
-									pd=ProgressDialog.show(getActivity(), "Lipberry",
-									"Retreving Post", true);
-									new AsyncTaskLoadPostFrommyFollowing().execute();
-			
-								}
-			
-			else{
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+				appInstance = (LipberryApplication) getActivity().getApplication();
+				 Log.i("tag", "2");
+				ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_myfollowerpost,
+					container, false);
+				textView1=(TextView) v.findViewById(R.id.textView1);
+				list_view_latest_post=(ListView) v.findViewById(R.id.list_view_latest_post);
+				if(Constants.isOnline(getActivity())){
+										pd=ProgressDialog.show(getActivity(), "Lipberry",
+										"Retreving Post", true);
+										new AsyncTaskLoadPostFrommyFollowing().execute();
+				
+									}
+				
+				else{
 
-					getfromdb();
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet), 10000).show();
-				}
-			textView1.setVisibility(View.GONE);
-			
-			
-		return v;
-	}
+						getfromdb();
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet), 10000).show();
+					}
+				textView1.setVisibility(View.GONE);
+				
+				
+			return v;
+		}
+		
+		
 	
 	
 	
@@ -199,7 +207,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			
 			public void  loadlistview(List<Article>articlelist,boolean from){
 				FragmentActivity  activity=getActivity();
-				ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, (ArrayList<Article>)articlelist);
+				ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, (ArrayList<Article>)articlelist,parent);
 				list_view_latest_post.setAdapter(ladapter);
 				
 				if(from){

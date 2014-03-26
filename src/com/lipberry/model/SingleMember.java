@@ -8,7 +8,8 @@ import com.google.gson.GsonBuilder;
 public class SingleMember {
 					String  id,name,nickname,username,email,password,country,city,fromwhere_uknow,marital_status,
 					birth_date,working_woman,beauty_money,tall,weight,avatar,created_at,administrator,blocked,points,
-					allow_follow,brief,siteurl,youtube,instagram,telephone;
+					allow_follow,brief,siteurl,youtube,instagram,telephone,number_of_followers,number_of_following,
+					publicpage_visit;
 
 					public SingleMember(){
 						
@@ -64,6 +65,18 @@ public class SingleMember {
 					        
 					        return singleMember;
 					    }
+					  
+					  public String getPublicpage_visit(){
+							return this.publicpage_visit;
+						}
+					  
+					  public String getNumber_of_following(){
+							return this.number_of_following;
+						}
+					  
+					  public String getNumber_of_followers(){
+							return this.number_of_followers;
+						}
 					    
 					
 					public String getId(){

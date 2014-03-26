@@ -21,11 +21,21 @@ public class Article {
 	private String comment_url;
 	String member_id="";
 	String member_photo="";
-	//private  String category_name;
+	String userAlreadylikeThis="";
+	String likemember_text="";
+	String created_at="";
+	
+	private String member_username;
+	private  String category_name;
+	private String article_category_url;
 	
 	public Article(ArrayList<LikeMember>likedmemberlist,String article_id,String article_photo,String article_url,
 			String article_title,String article_description,String like_count,String comment_count,String like_url
-			,String dislike_url,String comment_url,String member_id,String member_photo){
+			,String dislike_url,String comment_url,String member_id,String member_photo,String userAlreadylikeThis,
+			String likemember_text,String created_at){
+		this.userAlreadylikeThis=userAlreadylikeThis;
+		this.likemember_text=likemember_text;
+		this.created_at=created_at;
 		this.likemember_array=likedmemberlist;
 		this.article_id=article_id;
 		this.article_photo=article_photo;
@@ -41,6 +51,37 @@ public class Article {
 		this.member_photo=member_photo;
 		//this.category_name=category_name;
 	}
+	public String getArticle_category_url(){
+		return this.article_category_url;
+	}
+	
+	public String getMember_username(){
+		return this.member_username;
+	}
+	
+	public String getCategory_name(){
+		return this.category_name;
+	}
+	
+	
+	
+	public String getCreated_at(){
+		return this.created_at;
+	}
+	
+	public String getLikemember_text(){
+		return this.likemember_text;
+	}
+	
+	public void setUserAlreadylikeThis(String likestring){
+	 this.userAlreadylikeThis=likestring;
+	}
+	
+	public String getUserAlreadylikeThis(){
+		return this.userAlreadylikeThis;
+	}
+	
+	
 	
 	public String getMember_id(){
 		return this.member_id;

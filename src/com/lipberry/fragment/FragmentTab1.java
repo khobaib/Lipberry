@@ -94,6 +94,19 @@ public class FragmentTab1 extends TabFragment{
 	}
 	
 	
+	public void startMemberFragment() {
+		FragmentSingleMember newFragment = new FragmentSingleMember();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	
+	
 	
 	
 	public void clearr(){

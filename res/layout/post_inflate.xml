@@ -41,8 +41,9 @@
 
         <TextView
             android:id="@+id/text_date_other"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
+            android:gravity="right"
             android:layout_below="@+id/text_user_name"
              android:layout_toLeftOf="@+id/img_pro_pic"
               android:layout_marginRight="16dp"
@@ -50,7 +51,9 @@
             android:layout_marginBottom="8dp"
             android:textColor="#ffffff"
             android:textSize="17dp"
-            android:text="date will be here"/>
+           />
+
+        
 
     </RelativeLayout>
 
@@ -121,7 +124,7 @@
   
     
     
-     <EditText
+     <com.lipberry.widzet.PanningEditText
         android:id="@+id/et_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -135,7 +138,7 @@
         android:ems="10" >
        
 
-    </EditText>
+    </com.lipberry.widzet.PanningEditText>
     
     <RelativeLayout
           android:id="@+id/re_bottom"
@@ -174,7 +177,5 @@
             android:text="60 comments"/>
 
     </RelativeLayout>
-
-   
 
 </RelativeLayout>
