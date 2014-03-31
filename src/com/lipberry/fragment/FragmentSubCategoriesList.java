@@ -57,7 +57,7 @@ public class FragmentSubCategoriesList extends Fragment {
 	ProgressDialog pd;
 	ListView list_categories ;
 	ArticleList article;
-	FragmentTab3 parent;
+	CategoryTabFragment parent;
 	LipberryApplication appInstance;	
 	JsonParser jsonParser;
 	String catname;

@@ -62,7 +62,7 @@ import com.viewpagerindicator.TabPageIndicator;
 public class FragmentMyFollwerPost extends Fragment {
 	LipberryApplication appInstance;
 	ListView list_view_latest_post;
-	 static FragmentTab1 parent;
+	 static HomeTabFragment parent;
 	 
 	ArrayList<Article>articlaList;
 	ArticleFromMyFollwing postofmyfollowing;
@@ -82,7 +82,7 @@ public class FragmentMyFollwerPost extends Fragment {
 		limemberlist=new ArrayList<LikeMember>();
 		}
     
-	 public static  void setParent(FragmentTab1 parent2){
+	 public static  void setParent(HomeTabFragment parent2){
 		  	parent=parent;
 	 	}
 //03-20 00:27:17.638: D/JsonParser(6904): sb = {"status":"failure","description":"There is no followers"}

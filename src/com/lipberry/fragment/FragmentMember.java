@@ -53,7 +53,7 @@ public class FragmentMember extends Fragment {
 	ImageLoader imageLoader;
 	 LipberryApplication appInstance;
 	  JsonParser jsonParser;
-	FragmentTab2 parent;
+	UnknownTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
 	
@@ -177,7 +177,7 @@ public class FragmentMember extends Fragment {
 			  JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			  if(status.equals("success")){
-				  SingleMember SingleMember  =com.lipberry.model.SingleMember.parseUserCred(jobj);
+				  SingleMember SingleMember  =com.lipberry.model.SingleMember.parseSingleMember(jobj);
 				  setUserInterface(SingleMember);
 			  }
 			  else{

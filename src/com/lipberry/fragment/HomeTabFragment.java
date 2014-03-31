@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.model.Article;
 
 
 
@@ -22,22 +23,36 @@ import android.view.ViewParent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FragmentTab6 extends TabFragment{
+public class HomeTabFragment extends TabFragment{
 
+	
     protected Stack<Fragment> backEndStack;
-
+ Bundle sBundle;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		backEndStack = new Stack<Fragment>();
+	backEndStack = new Stack<Fragment>();
 		
-		FragmentTopic initialFragment = new FragmentTopic();
+		FragmentMenu initialFragment = new FragmentMenu();
 	
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
+		sBundle=savedInstanceState;
 		
 	}
+	
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		
+		
+		 
+	}
+
 
 	
 	@Override
@@ -54,6 +69,7 @@ public class FragmentTab6 extends TabFragment{
 		return v;
 	}
 	
+	
 	public void onStart( ) {
         Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -61,14 +77,40 @@ public class FragmentTab6 extends TabFragment{
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
 		fragmentTransaction.commitAllowingStateLoss();
-		
 		super.onStart();
 	}
 
-	public void startMenufragment() {
-
 	
-		FragmentTopic newFragment = new FragmentTopic();
+public void startFragmentArticleDetailsFromHome(Article article) {
+
+		
+		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();
+		newFragment.setArticle(article);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	
+	public void startMenufragment() {
+		FragmentMenu newFragment = new FragmentMenu ();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	
+	
+	public void startMemberFragment() {
+		FragmentSingleMember newFragment = new FragmentSingleMember();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

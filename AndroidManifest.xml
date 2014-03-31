@@ -15,11 +15,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         >
-        
-        
-            <activity
+         <activity
             android:name="com.lipberry.SplashActivity"
             android:label="@string/app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" 
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,10 +30,13 @@
             
          <activity android:name=".HomeActivity"
                android:theme="@style/HomeActivityTheme"
-                 android:screenOrientation="portrait" >
+               android:screenOrientation="portrait" >
          </activity>
          
-         
+           <activity android:name="com.lipberry.LoginActivity"
+               android:theme="@style/HomeActivityTheme"
+               android:screenOrientation="portrait" >
+         </activity>
           <activity android:name="com.lipberry.WebViewActtivity"
                  android:screenOrientation="portrait" >
          </activity>

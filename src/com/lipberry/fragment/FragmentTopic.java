@@ -43,7 +43,7 @@ import com.lipberry.R;
 public class FragmentTopic extends Fragment {
 	
 	TextView play_vedio;
-	FragmentTab6 parent;
+	MenuTabFragment parent;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

@@ -47,7 +47,7 @@ public class FragmentCategories extends Fragment {
 	ProgressDialog pd;
 	ListView list_categories ;
 	ArrayList< Categories>categorylist;
-	FragmentTab3 parent;
+	CategoryTabFragment parent;
 	LipberryApplication appInstance;	
 	JsonParser jsonParser;
 	@SuppressLint("NewApi")

@@ -39,7 +39,7 @@ import com.lipberry.R;
 public class FragmentInbox extends Fragment {
 	
 	
-	FragmentTab5 parent;
+	InboxTabFragment parent;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

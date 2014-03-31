@@ -20,8 +20,8 @@ import android.support.v4.app.FragmentTabHost;
 
 import com.lipberry.R;
 import com.lipberry.customalertdilog.LisAlertDialog;
-import com.lipberry.fragment.FragmentTab1;
-import com.lipberry.fragment.FragmentTab3;
+import com.lipberry.fragment.HomeTabFragment;
+import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.model.Article;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
@@ -62,12 +62,13 @@ import android.widget.Toast;
 
 public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ArrayList<Article> list;
+	
 	FragmentManager fragmentManager = null;
 	FragmentActivity activity;
 	LipberryApplication appInstance;	
 	ProgressDialog pd;
-	FragmentTab1 parent;
-	FragmentTab3 parent3;
+	HomeTabFragment parent;
+	CategoryTabFragment parent3;
 	String commentstext;
 	int a;
 boolean stateoflike=false;
@@ -78,7 +79,7 @@ boolean stateoflike=false;
 	ImageLoader imageLoader;
 	
 	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
-			ArrayList<Article> list,FragmentTab3 parent3) {
+			ArrayList<Article> list,CategoryTabFragment parent3) {
 		super();
 		jsonParser=new JsonParser();
 		this.activity = activity;
@@ -96,7 +97,7 @@ boolean stateoflike=false;
 		}
 	
 	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
-			ArrayList<Article> list,FragmentTab1 parent) {
+			ArrayList<Article> list,HomeTabFragment parent) {
 		super();
 		jsonParser=new JsonParser();
 		this.activity = activity;
@@ -129,11 +130,8 @@ boolean stateoflike=false;
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
-	}/*
-	03-19 23:43:36.661: D/rtes(6281): {"status":"success","article_list":[[{"article_id":"87"},{"article_title":"اريد حل سريع لانقاص الوزن وتبييض المناطق الحساسة"},{"article_url":"http:\/\/www.lipberry.com\/SharingExperience\/experiencePage\/87\/اريد-حل-سريع-لانقاص-الوزن-وتبييض-المناطق-الحساسة\/"},{"article_photo":"http:\/\/www.lipberry.com\/themes\/default\/images\/article_default_thumb.jpg"},{"article_description":"\r\n\tاريد حل سريع لانقاص الوزن ووصفات سريعة لتبييض المناطق"},{"like_count":"10"},{"likemember_array":[[{"likemember_nickname":"Princess Zozo"},{"likemember_url":"http:\/\/www.lipberry.com\/user\/u1039\/"}],[{"likemember_nickname":"لبني"},{"likemember_url":"http:\/\/www.lipberry.com\/user\/u2778\/"}],[{"likemember_nickname":"سيده بلون الذهب"},{"likemember_url":"http:\/\/www.lipberry.com\/user\/u2606\/"}]]},{"comment_count":"13"},{"category_name":"هل لديك سؤال للمجربات؟ اسئلي المشتركات"}]]}
-
-	*/
-
+	}
+	
 	private class ViewHolder {
 		ImageView img_pro_pic;
 		ImageView img_some_icon;
@@ -146,28 +144,23 @@ boolean stateoflike=false;
 		TextView text_topic_text;
 		TextView txt_like;
 		TextView text_comment;
-		PanningEditText et_comment;
+		EditText et_comment;
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup viewgroup) {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
-	
 		LayoutInflater inflater = activity.getLayoutInflater();
 		final ViewHolder holder ;
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.post_inflate,
 					null);
-		 holder = new ViewHolder();
-			
+			holder = new ViewHolder();
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.img_some_icon=(ImageView) convertView.findViewById(R.id.img_some_icon);
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
 			holder.image_comments=(ImageView) convertView.findViewById(R.id.image_comments);
 			holder.img_article_pro_pic=(ImageView) convertView.findViewById(R.id.img_article_pro_pic);
-			holder.et_comment=(PanningEditText) convertView.findViewById(R.id.et_comment);
+			holder.et_comment=(EditText) convertView.findViewById(R.id.et_comment);
 			holder.text_user_name=(TextView) convertView.findViewById(R.id.text_user_name);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
 			holder.txt_articl_ename=(TextView) convertView.findViewById(R.id.txt_articl_ename);
@@ -186,7 +179,6 @@ boolean stateoflike=false;
 				String comments=holder.et_comment.getText().toString();
 				if(comments.equals("")){
 					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_enter_text), 10000).show();
-					
 				}
 				
 				else{
@@ -210,23 +202,16 @@ boolean stateoflike=false;
 	holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
 		holder.text_topic_text.setText(list.get(position).getArticle_description());
-		//holder.text_topic_text.setText(list.get(position).getArticle_title());
-
-		
 		holder.text_comment.setText(list.get(position).getComment_count()+ " "+activity.getResources().
 				getString(R.string.txt_comments));
-		
 		String liketext="";
-		
 		holder.txt_like.setText(list.get(position).getLikemember_text());
 		holder.txt_like.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				LisAlertDialog alert;
 				if(list.get(position).getLikedmemberlist().size()>0){
-					
 					if(parent==null){
 						alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,null,parent3);
 						
@@ -241,20 +226,14 @@ boolean stateoflike=false;
 				else{
 					
 				}
-				
-				
-				
 			}
 		});
-		
-		//LisAlertDialog
-		
 		holder.img_article_pro_pic.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				imageviewarticlepicclicked();
+				imageviewarticlepicclicked(position);
 			}
 		});
 		holder.text_comment.setOnClickListener(new OnClickListener() {
@@ -272,10 +251,10 @@ boolean stateoflike=false;
 		else{
 			stateoflike=true;
 		}
+	
 		
 		
-		
-		if(stateoflike){
+		if(!list.get(position).getUserAlreadylikeThis().equals("No")){
 			holder.img_like.setBackgroundResource(R.drawable.unlike);
 		}
 		else{
@@ -329,10 +308,10 @@ boolean stateoflike=false;
 				int bitmapweight=bitmap.getWidth();
 				int deviceheight=Utility.getDeviceHeight(activity);
 				int devicewidth=Utility.getDeviceWidth(activity);
-				float ratio=devicewidth/bitmapweight;
-				int resizebitmapwidth=bitmapweight;
-				int resizebitmaphight=(int) (bitmapheight*ratio);
-			
+				float ratio=(float)devicewidth/(float)bitmapweight;
+				int resizebitmapwidth=devicewidth;
+				float a=(bitmapheight*ratio);
+				int resizebitmaphight=(int)a ;
 				bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
 				holder.img_article_pro_pic.setImageBitmap(bitmap);
 			}
@@ -375,16 +354,21 @@ boolean stateoflike=false;
 		return convertView;
 	}
 	
-	public void imageviewarticlepicclicked(){
-		
+	public void imageviewarticlepicclicked(int position){
+		if(parent3==null){
+			parent.startFragmentArticleDetailsFromHome(list.get(position));
+		}
+		else{
+			parent3.startFragmentArticleDetails(list.get(position));
+		}
 	}
 	
 	public void imageviewcommentsclicked(){
 		
 	}
 	public void imgeviewlikeclicked(){
-		Log.i("before", ""+index);
-		if(stateoflike){
+		Log.i("before", ""+stateoflike);
+		if(!list.get(index).getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(activity)){
 				pd=ProgressDialog.show(activity, "Lipberry",
 				    "Start dislike", true);
@@ -446,7 +430,7 @@ boolean stateoflike=false;
 							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 							loginObj.put("comment", commentstext);
 							String loginData = loginObj.toString();
-							String url =Constants.baseurl+list.get(index).getComment_url();
+							String url =list.get(index).getComment_url();
 							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 									loginData, null);
 
@@ -467,8 +451,15 @@ boolean stateoflike=false;
 				JSONObject jobj=result.getjObj();
 				try {
 					String status= jobj.getString("status");
-					String description=jobj.getString("description");
-					Toast.makeText(activity,description, 10000).show();
+					if(status.equals("success")){
+						Toast.makeText(activity,"You just commented! ", 10000).show();
+					}
+					else{
+						String description=jobj.getString("description");
+						Toast.makeText(activity,description, 10000).show();
+					}
+					
+					
 						
 					
 				} catch (JSONException e) {
@@ -495,10 +486,9 @@ boolean stateoflike=false;
 							JSONObject loginObj = new JSONObject();
 							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 							String loginData = loginObj.toString();
-							String url =Constants.baseurl+list.get(index).getLike_url();
+							String url =list.get(index).getLike_url();
 							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 									loginData, null);
-
 							Log.i("rtes", response.getjObj().toString());
 					 return response;
 					} catch (JSONException e) {                
@@ -542,7 +532,7 @@ boolean stateoflike=false;
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Log.i("after like", ""+index);	
+				Log.i("after like", ""+stateoflike);	
 				
 			}
 			
@@ -560,7 +550,8 @@ boolean stateoflike=false;
 							JSONObject loginObj = new JSONObject();
 							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 							String loginData = loginObj.toString();
-							String url =Constants.baseurl+list.get(index).getDislike_url();
+							String url =list.get(index).getDislike_url();
+							Log.i("url", url);
 							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 									loginData, null);
 
@@ -582,6 +573,8 @@ boolean stateoflike=false;
 				try {
 					String status= jobj.getString("status");
 					String description=jobj.getString("description");
+					
+					
 					if(status.equals("success")){
 						stateoflike=false;
 						Toast.makeText(activity,description, 10000).show();
@@ -604,7 +597,7 @@ boolean stateoflike=false;
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Log.i("after dis", ""+index);	
+				Log.i("after dis", ""+stateoflike);	
 			}
 		
 			

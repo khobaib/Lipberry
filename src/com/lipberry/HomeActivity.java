@@ -8,12 +8,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.lipberry.fragment.FragmentTab1;
-import com.lipberry.fragment.FragmentTab2;
-import com.lipberry.fragment.FragmentTab3;
-import com.lipberry.fragment.FragmentTab4;
-import com.lipberry.fragment.FragmentTab5;
-import com.lipberry.fragment.FragmentTab6;
+import com.lipberry.fragment.HomeTabFragment;
+import com.lipberry.fragment.UnknownTabFragment;
+import com.lipberry.fragment.CategoryTabFragment;
+import com.lipberry.fragment.IneractionTabFragment;
+import com.lipberry.fragment.InboxTabFragment;
+import com.lipberry.fragment.MenuTabFragment;
 import com.lipberry.fragment.TabFragment;
 
 import android.app.AlertDialog;
@@ -57,31 +57,30 @@ public class HomeActivity extends FragmentActivity {
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
 		setTabs();
-
+		mTabHost.setCurrentTab(4);
 			
 		}
-	
-	
-		private void setTabs() {
+	private void setTabs() {
 			mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 			mTabHost.setup(this, getSupportFragmentManager(),
 				android.R.id.tabcontent);
 			mTabsPlaceHoler = (TabWidget) findViewById(android.R.id.tabs);
-			addTab("Menu", R.drawable.menu, FragmentTab1.class);
-			addTab("Home", R.drawable.home, FragmentTab2.class);
-			addTab("Interaction", R.drawable.interaction, FragmentTab4.class);
-			addTab("Categories", R.drawable.categories, FragmentTab3.class);
-			
-			addTab("Inbox", R.drawable.inbox, FragmentTab5.class);
-			addTab("Topic", R.drawable.topic, FragmentTab6.class);
+			addTab("Unkknown", R.drawable.lunknown, UnknownTabFragment.class);
+			addTab("Interaction", R.drawable.linteraction, IneractionTabFragment.class);
+			addTab("Inbox", R.drawable.linbox, InboxTabFragment.class);
+			addTab("Categories", R.drawable.lcategory, CategoryTabFragment.class);
+			addTab("Home", R.drawable.lhome, HomeTabFragment.class);
+			addTab("Menu", R.drawable.lmenu, MenuTabFragment.class);
 		
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c) {
 
 		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
+		
 		View tabIndicator = LayoutInflater.from(this).inflate(
 				R.layout.tab_indicator, mTabsPlaceHoler, false);
+		
 		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
 		icon.setImageResource(drawableId);
 		spec.setIndicator(tabIndicator);
@@ -96,7 +95,7 @@ public class HomeActivity extends FragmentActivity {
 	
 	public void setTabSelection0() {
 		// TODO Auto-generated method stub
-		mTabHost.setCurrentTab(0);
+		mTabHost.setCurrentTab(4);
 	}
 
 	

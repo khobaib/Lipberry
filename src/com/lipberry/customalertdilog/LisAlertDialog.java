@@ -3,8 +3,8 @@ package com.lipberry.customalertdilog;
 import java.util.ArrayList;
 import com.lipberry.utility.Constants;
 import com.lipberry.R;
-import com.lipberry.fragment.FragmentTab1;
-import com.lipberry.fragment.FragmentTab3;
+import com.lipberry.fragment.HomeTabFragment;
+import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.model.LikeMember;
 
 import android.app.Activity;
@@ -24,14 +24,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 public class LisAlertDialog {
-	FragmentTab3 parent3;
+	CategoryTabFragment parent3;
 	Context context;
 	ArrayList< String>aList;
 	Activity activity;
-	FragmentTab1 parent;
+	HomeTabFragment parent;
 	ArrayList<LikeMember>likememberlist;
 	 
-	public LisAlertDialog(Context context,ArrayList< LikeMember>likememberlist,Activity activity,FragmentTab1 parent,FragmentTab3 parent3){
+	public LisAlertDialog(Context context,ArrayList< LikeMember>likememberlist,Activity activity,HomeTabFragment parent,CategoryTabFragment parent3){
 			
 			this.parent3=parent3;
 			this.parent=parent;

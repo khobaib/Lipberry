@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.utility.Constants;
 
 
 
@@ -22,25 +23,20 @@ import android.view.ViewParent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FragmentTab3 extends TabFragment{
+public class UnknownTabFragment extends TabFragment{
 
     protected Stack<Fragment> backEndStack;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		backEndStack = new Stack<Fragment>();
-		
-		FragmentCategories initialFragment = new FragmentCategories();
-	
+		FragmentMember initialFragment = new FragmentMember();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
 		
 	}
-	
-	
-	
+
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,29 +63,10 @@ public class FragmentTab3 extends TabFragment{
 		super.onStart();
 	}
 
-	public void startFragmentSubCategoriesList( String url,String catname) {
+	public void startfragmenthome() {
 
 	
-		FragmentSubCategoriesList newFragment = new FragmentSubCategoriesList ();
-		
-		newFragment.setUrl(url,catname);
-		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
-		fragmentTransaction.commitAllowingStateLoss();
-	}
-	
-	
-	public void startFragmentMemberFromCategories() {
-
-		
-		FragmentMemberFromCategories newFragment = new FragmentMemberFromCategories ();
-		
-	
+		FragmentMember newFragment = new FragmentMember ();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

@@ -26,6 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -52,11 +54,13 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class FragmentMemberFromCategories extends Fragment {
 	ImageLoader imageLoader;
 	 LipberryApplication appInstance;
+	 SingleMember singleMember;
 	  JsonParser jsonParser;
-	FragmentTab3 parent;
+	  WebView webview_member;
+	CategoryTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
-	Button btn_follow_her,btn_send,btn_share;
+	Button btn_follow_her,btn_send,btn_share,btn_connect;
 	 ProgressDialog pd;
 	 boolean followstate=false;
 	@SuppressLint("NewApi")
@@ -92,6 +96,9 @@ public class FragmentMemberFromCategories extends Fragment {
 			btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 			btn_send=(Button) v.findViewById(R.id.btn_send);
 			btn_share=(Button) v.findViewById(R.id.btn_share);
+			webview_member=(WebView) v.findViewById(R.id.webview_member);
+			btn_connect=(Button) v.findViewById(R.id.btn_connect);
+			
 			if(Constants.isOnline(getActivity())){
 				pd=ProgressDialog.show(getActivity(), "Lipberry",
 					    "Retreving member", true);
@@ -172,8 +179,8 @@ public class FragmentMemberFromCategories extends Fragment {
 			  JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			  if(status.equals("success")){
-				  SingleMember SingleMember  =com.lipberry.model.SingleMember.parseUserCred(jobj);
-				  setUserInterface(SingleMember);
+				  singleMember  =com.lipberry.model.SingleMember.parseSingleMember(jobj);
+				  setUserInterface();
 			  }
 			  else{
 				  Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
@@ -190,7 +197,7 @@ public class FragmentMemberFromCategories extends Fragment {
 	  
 	  
 	  
-	  public void setUserInterface(SingleMember singleMember){
+	  public void setUserInterface(){
 		  ((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		  ((HomeActivity)getActivity()).backbuttonoftab.setText(getActivity().getResources().getString(R.string.back_string));
 		  ((HomeActivity)getActivity()).welcome_title.setText(singleMember.getName());
@@ -201,6 +208,14 @@ public class FragmentMemberFromCategories extends Fragment {
 		  txt_num_following.setText(singleMember.getNumber_of_following());
 		  txt_num_seen.setText(singleMember.getPublicpage_visit());
 		  imageLoader.displayImage(singleMember.getAvatar(), img_member_pic);
+		  btn_connect.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					setwebviewclient(singleMember.getSiteurl());;
+				}
+			});
 		  
 		}
 	  
@@ -339,6 +354,56 @@ public class FragmentMemberFromCategories extends Fragment {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+				}
+				
+				
+		}
+	  
+	  
+	  public void setwebviewclient(String url){
+		 new  AsyncTaskGetmemberPost().execute();
+		  webview_member.setVisibility(View.VISIBLE);
+		  webview_member.setWebViewClient(new WebViewClient(){
+
+			    @Override
+			    public boolean shouldOverrideUrlLoading(WebView view, String url){
+			     view.loadUrl("https://www.google.com.bd/?gws_rd=cr&ei=BswzU7egMYmErAe0k4GoBA");
+			      return true;
+			    }
+			});
+		  
+	  }
+	  
+	  
+	  
+	  private class AsyncTaskGetmemberPost extends AsyncTask<Void, Void, ServerResponse> {
+			@Override
+						protected ServerResponse doInBackground(Void... params) {
+
+						try {
+								JSONObject loginObj = new JSONObject();
+								loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+								loginObj.put("startIndex", "0");
+								loginObj.put("endIndex" +
+										"", "5");
+								String loginData = loginObj.toString();
+								String url =Constants.baseurl+"account/memberposts/";
+								ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+										loginData, null);
+
+								Log.i("follow", response.getjObj().toString());
+						 return response;
+						} catch (JSONException e) {                
+							e.printStackTrace();
+							return null;
+						}
+				}
+
+				@Override
+				protected void onPostExecute(ServerResponse result) {
+					super.onPostExecute(result);
+					
 					
 				}
 				

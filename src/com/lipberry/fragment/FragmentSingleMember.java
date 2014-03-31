@@ -26,6 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -34,7 +37,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.ServerResponse;
@@ -53,10 +55,12 @@ public class FragmentSingleMember extends Fragment {
 	ImageLoader imageLoader;
 	 LipberryApplication appInstance;
 	  JsonParser jsonParser;
-	FragmentTab1 parent;
+	  WebView webview_member;
+	  SingleMember singleMember;
+	HomeTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
-	Button btn_follow_her,btn_send,btn_share;
+	Button btn_follow_her,btn_send,btn_share,btn_connect;
 	 ProgressDialog pd;
 	 boolean followstate=false;
 	@SuppressLint("NewApi")
@@ -92,6 +96,8 @@ public class FragmentSingleMember extends Fragment {
 			btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 			btn_send=(Button) v.findViewById(R.id.btn_send);
 			btn_share=(Button) v.findViewById(R.id.btn_share);
+			webview_member=(WebView) v.findViewById(R.id.webview_member);
+			btn_connect=(Button) v.findViewById(R.id.btn_connect);
 			if(Constants.isOnline(getActivity())){
 				pd=ProgressDialog.show(getActivity(), "Lipberry",
 					    "Retreving member", true);
@@ -172,8 +178,8 @@ public class FragmentSingleMember extends Fragment {
 			  JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			  if(status.equals("success")){
-				  SingleMember SingleMember  =com.lipberry.model.SingleMember.parseUserCred(jobj);
-				  setUserInterface(SingleMember);
+				  singleMember  =com.lipberry.model.SingleMember.parseSingleMember(jobj);
+				  setUserInterface();
 			  }
 			  else{
 				  Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
@@ -190,7 +196,7 @@ public class FragmentSingleMember extends Fragment {
 	  
 	  
 	  
-	  public void setUserInterface(SingleMember singleMember){
+	  public void setUserInterface(){
 		  ((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		  ((HomeActivity)getActivity()).backbuttonoftab.setText(getActivity().getResources().getString(R.string.back_string));
 		  ((HomeActivity)getActivity()).welcome_title.setText(singleMember.getName());
@@ -201,6 +207,21 @@ public class FragmentSingleMember extends Fragment {
 		  txt_num_following.setText(singleMember.getNumber_of_following());
 		  txt_num_seen.setText(singleMember.getPublicpage_visit());                                                                                                        
 		  imageLoader.displayImage(singleMember.getAvatar(), img_member_pic);
+		  btn_connect.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View arg0) {
+					// TODO Auto-generated method stub
+					webview_member.setVisibility(View.VISIBLE);
+					WebSettings webSettings = webview_member.getSettings();
+					webSettings.setJavaScriptEnabled(true);
+					
+					
+					webview_member.setWebViewClient(new Callback());
+					webview_member.loadUrl("https://www.facebook.com/");
+					
+				}
+			});
 		  
 		}
 	  
@@ -344,6 +365,16 @@ public class FragmentSingleMember extends Fragment {
 				
 				
 		}
+	  
+	  
+	  private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
+
+	        @Override
+	        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	            return (false);
+	        }
+
+	    }
 		
 }
 

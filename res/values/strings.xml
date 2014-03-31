@@ -46,7 +46,7 @@
      <string name="txt_follower">"يتابعها"</string>
        <string name="txt_follow_her">"تابعيها"</string>
     
-       
+       <string name="txt_photo_album">"ألبوم الصور"</string>
        
        
         <string name="Toast_enter_text">"Please enter comments "</string>
@@ -63,8 +63,8 @@
     <string name="topbar_cat">"الأقسام"</string>
     <string name="topbar_new_article">"جديد المشاركات"</string>
          
-         
-           <!--
+          <string name="et_type_your_comment_here">"Type your comment here"</string>
+           <!--Type your comment here
      post within cat in screen
      -->
      

@@ -22,7 +22,7 @@ import android.view.ViewParent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FragmentTab4 extends TabFragment{
+public class MenuTabFragment extends TabFragment{
 
     protected Stack<Fragment> backEndStack;
 
@@ -32,7 +32,7 @@ public class FragmentTab4 extends TabFragment{
 		
 		backEndStack = new Stack<Fragment>();
 		
-		FragmentInteraction initialFragment = new FragmentInteraction();
+		FragmentTopic initialFragment = new FragmentTopic();
 	
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
@@ -68,7 +68,7 @@ public class FragmentTab4 extends TabFragment{
 	public void startMenufragment() {
 
 	
-		FragmentInteraction newFragment = new FragmentInteraction() ;
+		FragmentTopic newFragment = new FragmentTopic();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/lsplash"
+    android:layoutDirection="rtl"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="170dp"
+            android:layout_height="140dp"
+             android:layout_centerHorizontal="true"
+           android:src="@drawable/llogo" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+       			android:layout_marginRight="10dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ltext" />
+        
+        <RelativeLayout
+              	android:id="@+id/re_loginholder"
+        		android:layout_width="match_parent"
+        		android:layout_height="60dp"
+     			 android:layout_marginLeft="10dp"
+       			android:layout_marginRight="10dp"
+       			android:onClick="goLoginpage"
+       			android:layout_marginTop="15dp"
+      			 android:background="@drawable/lbutton_back"
+        		android:layout_below="@+id/imageView2"
+        	>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_centerHorizontal="true"
+               android:layout_centerVertical="true"
+                android:src="@drawable/llogin_text" />
+
+            <ImageView
+                android:id="@+id/img_signin_click_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:src="@drawable/lsign_yes" />
+
+    </RelativeLayout>
+    
+         <RelativeLayout
+              	android:id="@+id/re_register_holder"
+        		android:layout_width="match_parent"
+        		android:layout_height="60dp"
+     			 android:layout_marginLeft="10dp"
+       			android:layout_marginRight="10dp"
+       			android:onClick="goRegisterscreen"
+       			android:layout_marginTop="15dp"
+      			 android:background="@drawable/lbackground_signup"
+        		android:layout_below="@+id/re_loginholder"
+        	>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+               android:layout_centerHorizontal="true"
+               android:layout_centerVertical="true"
+                android:src="@drawable/lregister_text" />
+
+            <ImageView
+                android:id="@+id/img_register_click_change"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="17dp"
+                android:src="@drawable/lregisteryes_yes" />
+
+    </RelativeLayout>
+        
+        
+          
+</RelativeLayout>
+
+  
+
+</RelativeLayout>

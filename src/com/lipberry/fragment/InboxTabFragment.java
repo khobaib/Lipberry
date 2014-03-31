@@ -22,36 +22,22 @@ import android.view.ViewParent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class FragmentTab1 extends TabFragment{
+public class InboxTabFragment extends TabFragment{
 
-	
     protected Stack<Fragment> backEndStack;
- Bundle sBundle;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-	backEndStack = new Stack<Fragment>();
+		backEndStack = new Stack<Fragment>();
 		
-		FragmentMenu initialFragment = new FragmentMenu();
+		FragmentInbox initialFragment = new FragmentInbox();
 	
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		sBundle=savedInstanceState;
 		
 	}
-	
-	
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		
-		
-		
-		 
-	}
-
 
 	
 	@Override
@@ -75,27 +61,14 @@ public class FragmentTab1 extends TabFragment{
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
 		fragmentTransaction.commitAllowingStateLoss();
+		
 		super.onStart();
 	}
 
-	
-	
-	
 	public void startMenufragment() {
-		FragmentMenu newFragment = new FragmentMenu ();
-		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
-		fragmentTransaction.commitAllowingStateLoss();
-	}
+
 	
-	
-	public void startMemberFragment() {
-		FragmentSingleMember newFragment = new FragmentSingleMember();
+		FragmentInbox newFragment = new FragmentInbox();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

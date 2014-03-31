@@ -54,7 +54,8 @@ int selectedcityposition=-1;
 ArrayList<Country>countrylist;
 ArrayList<String>allcountryname;
 boolean usernamecheck=false;
-EditText e_username,e_email,e_name,e_nickname,e_password,e_confirmpass,e_activiate_email,e_activiate_key;
+EditText e_username,e_email,e_name,e_nickname,e_password,e_confirmpass,
+			e_activiate_email,e_activiate_key;
 String username,email,password,confirmpass,name,nickname,acivitedemail,activiatedkey;
 ProgressDialog pd;
 ArrayAdapter<String> adapter ;
@@ -68,7 +69,6 @@ JsonParser jsonParser;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        
         jsonParser=new JsonParser();
         countrylist=new ArrayList<Country>();
         allcountryname=new ArrayList<String>();
@@ -96,13 +96,9 @@ JsonParser jsonParser;
         e_confirmpass=(EditText) findViewById(R.id.e_confirmpass);
         t_city=(TextView) findViewById(R.id.t_city);
       
- 
-        
         t_kowaboutus.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
-			
 				if(Constants.isOnline(SignupActivity.this)){
 					pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
 						    "Loading", true);
@@ -110,7 +106,8 @@ JsonParser jsonParser;
 					
 		        }
 		        else{
-		  			 Toast.makeText(SignupActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+		  			 Toast.makeText(SignupActivity.this, getResources().
+		  					 getString(R.string.Toast_check_internet), 10000).show();
 		  		 }
 			}
 		});
@@ -121,7 +118,8 @@ JsonParser jsonParser;
 			public void onClick(View arg0) {
 				if(Constants.isOnline(SignupActivity.this)){
 					 if(selectedcountryposition==-1){
-							Toast.makeText(SignupActivity.this, "Please select country first", 10000).show();
+							Toast.makeText(SignupActivity.this, "Please select country first",
+									10000).show();
 							
 						}else{
 							pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
@@ -130,7 +128,8 @@ JsonParser jsonParser;
 					  	}
 			        }
 			        else{
-			  			 Toast.makeText(SignupActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+			  			 Toast.makeText(SignupActivity.this, getResources().
+			  					 getString(R.string.Toast_check_internet), 10000).show();
 					   }
 			}
 		});
@@ -148,24 +147,12 @@ JsonParser jsonParser;
 			    	
 		        }
 		        else{
-		  			 Toast.makeText(SignupActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+		  			 Toast.makeText(SignupActivity.this, getResources().
+		  					 getString(R.string.Toast_check_internet), 10000).show();
 				  	}
-				
-			
 			}
 		});
-        
-        
-        
-        
-      
-       
-       
-        
-        
-        
-        
-        b_register.setOnClickListener(new OnClickListener() {
+       b_register.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
@@ -173,9 +160,9 @@ JsonParser jsonParser;
 					signup();
 		        }
 		        else{
-		  			 Toast.makeText(SignupActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+		  			 Toast.makeText(SignupActivity.this, getResources().
+		  					 getString(R.string.Toast_check_internet), 10000).show();
 				  	}
-			
 			}
 		});
         
@@ -193,21 +180,22 @@ JsonParser jsonParser;
     	if  (!Constants.namecheck(e_username.getText().toString())) {
     		
     		if(e_username.length()<3){
-    			Toast.makeText(SignupActivity.this, " Username  can't be less than 3 characcter",
+    			Toast.makeText(SignupActivity.this, " Username  can't be less than 3 " +
+    					"characcter",
     					10000).show();
     		}
     		
     		else if(e_username.length()>10){
-    			Toast.makeText(SignupActivity.this, " Username  can't be more than 10 characcter",
+    			Toast.makeText(SignupActivity.this, " Username  can't be more than 10 " +
+    					"characcter",
     					10000).show();
     		}
     		else{
-    			Toast.makeText(SignupActivity.this, " Username  must  start with later and continue with only later," +
+    			Toast.makeText(SignupActivity.this, " Username  must  start with later and" +
+    					" continue with only later," +
     					"number and dashes ",10000).show();
     		}
     		
-    		
-			
     	}
 		else if  (name.trim().equals("")) {
 			
@@ -219,12 +207,14 @@ JsonParser jsonParser;
     	
 		else if  ((nickname.length()<3)||(nickname.length()>10)) {
 						if(nickname.length()<3){
-							Toast.makeText(SignupActivity.this, " Nickname  can't be less than 3 characcter",
+							Toast.makeText(SignupActivity.this, " Nickname  can't be less " +
+									"than 3 characcter",
 									10000).show();
 						}
     		
 						else if(nickname.length()>10){
-								Toast.makeText(SignupActivity.this, "Nickname  can't be more than 10 characcter",
+								Toast.makeText(SignupActivity.this, "Nickname  can't be " +
+										"more than 10 characcter",
 										10000).show();
 						}
     	}
@@ -236,9 +226,6 @@ JsonParser jsonParser;
 			Toast.makeText(SignupActivity.this, "Password  can't be empty",
 					10000).show();
     	}
-		
-		
-
 		else if  (confirmpass.trim().equals("")) {
 			
 					Toast.makeText(SignupActivity.this, "ConfirmPass  can't be empty",
@@ -256,7 +243,8 @@ JsonParser jsonParser;
     	}
 		else if  (selectedknowposition==-1) {
 			
-					Toast.makeText(SignupActivity.this, "Please select  from how did you know about us list ",
+					Toast.makeText(SignupActivity.this, "Please select  from how did" +
+							" you know about us list ",
 					10000).show();
     	}
 		
@@ -270,9 +258,6 @@ JsonParser jsonParser;
 			
 			pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
 				    "Loading", true);
-			
-			
-			
 			new AsyncTaskSignUp().execute();
 		}
     }
@@ -289,19 +274,15 @@ JsonParser jsonParser;
                   android.R.layout.simple_spinner_dropdown_item, allcountryname);
           
           adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-         
-         
-
           s_country.setAdapter(
             new NothingSelectedSpinnerAdapter(
                   adapter,
                   R.drawable.contact_spinner_row_nothing_selected_country,
                   this));
-          
+           s_country.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-          s_country.setOnItemSelectedListener(new OnItemSelectedListener(){
-
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3){
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
+					long arg3){
 					
 				selectedcountryposition=position-1;
 				t_city.setVisibility(View.VISIBLE);
@@ -330,13 +311,10 @@ JsonParser jsonParser;
                            adapter2,
                            R.drawable.contact_spinner_row_nothing_selected_city,
                             this));
-             
-            
-                   
+              s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-             s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
-
-         			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3){
+         			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
+         					long arg3){
          				selectedcityposition=position-1;
          			}
 
@@ -365,11 +343,9 @@ JsonParser jsonParser;
 		
 		s_kowaboutus.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-				public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3){
-						
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
+						long arg3){
 					selectedknowposition=position-1;
-					
-				
 				}
 
 				@Override
@@ -385,10 +361,7 @@ JsonParser jsonParser;
 
         @Override
           protected ServerResponse doInBackground(Void... params) {
-      	 
-           
-                 	
-                  	String url =Constants.baseurl+"ajax/howyouknowaboutus.php?";
+        			String url =Constants.baseurl+"ajax/howyouknowaboutus.php?";
                   	ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_GET, url, null,
                          null, null);
 
@@ -529,12 +502,7 @@ JsonParser jsonParser;
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		
-    	
-    	
-    	
-    	
-    }
+	 }
     
     public void  loadcitylist(String result){
     	
@@ -591,7 +559,6 @@ JsonParser jsonParser;
                 loginObj.put("city_id", citylist.get(selectedcityposition).getId());
                 loginObj.put("email", email);
                 loginObj.put("how_to_know", knowList.get(selectedknowposition));
-                
                 String loginData = loginObj.toString();
                 String url = "http://lipberry.com/API/account/register";
                 ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -646,10 +613,7 @@ JsonParser jsonParser;
     public void showalerttoactiviateuser(String msz){
     	
     	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-		 
 		alertDialogBuilder.setTitle("Lipberry");
-
-		
 		alertDialogBuilder
 			.setMessage(msz+"./n" +"Do you want to activiate your account")
 			.setCancelable(false)

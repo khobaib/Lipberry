@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -45,96 +46,66 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        jsonParser=new JsonParser();
+      jsonParser=new JsonParser();
        appInstance = (LipberryApplication) getApplication();
      
-      if( appInstance.getUserCred().getUsername().equalsIgnoreCase("")){
-    	  initview();
-    	     
-      }
-      else{
-    	  initview();
-    	  if(Constants.isOnline(SplashActivity.this)){
-    			username=appInstance.getUserCred().getUsername();
-    			password=appInstance.getUserCred().getPassword(); 
-    		  signin();
-    	  }
-    	  else{
-    		     Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
-    	    		
-    		  	Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
-    		  	startActivity(intent);
-            	  		
-    	  }
-      }
-       
-       
-       
-      
-        
-    }
-
-    
-    
-    
-    
-    public void initview(){
-    	stateofbackpress=0;
-    	 setContentView(R.layout.login);
-    	 if(appInstance.getUserCred().getUsername().equals("")){
-    		 
-    	 }
-    	 
-    	 
-    	 
-    	 
-
-         e_pass=(EditText) findViewById(R.id.e_pass);
-         e_uname=(EditText) findViewById(R.id.e_uname);
-         b_signin=(Button) findViewById(R.id.b_signin);
-         b_signup=(Button) findViewById(R.id.b_signup);
-         bt_forgotpass=(Button) findViewById(R.id.bt_forgotpass);
-       
-         bt_forgotpass.setOnClickListener(new OnClickListener() {
+     	setContentView(R.layout.splash);
+    	Handler handler=new Handler();
+    	handler.postDelayed(new Runnable() {
 			
 			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				forgotpass();
+			public void run() {
+				  if( appInstance.getUserCred().getUsername().equalsIgnoreCase("")){
+					  gosplash2();
+			    	     
+			      }
+			      else{
+			    	  gosplash2();
+			    	  if(Constants.isOnline(SplashActivity.this)){
+			    			username=appInstance.getUserCred().getUsername();
+			    			password=appInstance.getUserCred().getPassword(); 
+			    		  signin();
+			    	  }
+			    	  else{
+			    		     Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+			    	    		
+			    		  	Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
+			    		  	startActivity(intent);
+			            	  		
+			    	  }
+			      }
+				
 			}
-		});
-         b_signin.setOnClickListener(new OnClickListener() {
+		},2000);
+     }
 
-             @Override
-             public void onClick(View arg0) {
-            		username=e_uname.getText().toString();
-            		password=e_pass.getText().toString(); 
-            	 signin();
-            	}
-         });
-         b_signup.setOnClickListener(new OnClickListener() {
- 			
- 			@Override
- 			public void onClick(View arg0) {
- 				// TODO Auto-generated method stub
- 				
- 				Intent intent=new Intent(SplashActivity.this, SignupActivity.class);
- 				startActivity(intent);		
- 				
- 			}
- 		});
-
+    
+ 
+    @Override
+    protected void onResume() {
+    	// TODO Auto-generated method stub
+    	super.onResume();
     }
     
+   
     
+    public void gosplash2(){
+     stateofbackpress=0;
+   	 setContentView(R.layout.splash2);
+   	 
+    }
+    
+    public void goLoginpage(View view){
+    	Intent  intent=new Intent(SplashActivity.this, LoginActivity.class);
+    	startActivity(intent);
+    }
+    public void goRegisterscreen(View view){
+    	Intent intent=new Intent(SplashActivity.this, SignupActivity.class);
+    	startActivity(intent);
+    }
     
     public void signin(){
-    	
-    	 
-   	 
-	
-	
-		if(Constants.isOnline(SplashActivity.this)){
+    	if(Constants.isOnline(SplashActivity.this)){
 			
 			
 			if  (!Constants.namecheck(username)) {
@@ -180,101 +151,6 @@ public class SplashActivity extends Activity {
     }
     
     
-    public void forgotpass(){
-    	stateofbackpress=1;
-    	setContentView(R.layout.forgotpass);
-    	//et_email,bt_enter,email
-    	bt_enter=(Button) findViewById(R.id.bt_enter);
-    	et_email=(EditText) findViewById(R.id.et_email);
-    	
-    	bt_enter.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
-				email=et_email.getText().toString();
-				
-				if(Constants.isOnline(SplashActivity.this)){
-
-					if  (!Constants.isValidEmail(email)) {
-						Toast.makeText(SplashActivity.this, "Please enter  email",
-								10000).show();
-			    	}
-					else{
-						pd=ProgressDialog.show(SplashActivity.this, "Lipberry",
-							    "Loading", true);
-						new  AsyncTaskForgotPass().execute();
-					}
-				 }
-       		 
-       		 else{
-       			 	Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
-       				Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
-    				startActivity(intent);	 
-       		 
-       		 }
-				
-				
-				
-				
-				
-			}
-		});
-    }
-    
-    
-    private class AsyncTaskForgotPass extends AsyncTask<Void, Void, ServerResponse> {
-    	@Override
-        protected ServerResponse doInBackground(Void... params) {
-
-            try {
-                JSONObject loginObj = new JSONObject();
-                loginObj.put("email", email);
-                String loginData = loginObj.toString();
-
-                //            String content = URLEncodedUtils.format(nameValuePairs, "utf-8");
-
-
-
-                String url = "http://lipberry.com/API/account/forgetpassword";
-                ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-                        loginData, null);
-
-                Log.d("rtes", response.getjObj().toString());
-                return response;
-            } catch (JSONException e) {                
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ServerResponse result) {
-            super.onPostExecute(result);
-
-            if(pd.isShowing()&&(pd!=null)){
-            	pd.dismiss();
-            }
-            
-            JSONObject job=result.getjObj();
-            try {
-				String msz=job.getString("message");
-				Toast.makeText(SplashActivity.this, msz, 10000).show();
-				
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-            
-        }
-    }
-    
-    
-    
-    
-
-
     private class AsyncTaskLogin extends AsyncTask<Void, Void, ServerResponse> {
 
 
@@ -286,23 +162,13 @@ public class SplashActivity extends Activity {
                 loginObj.put("username", username);
                 loginObj.put("password", password);
                 String loginData = loginObj.toString();
-
-                //            String content = URLEncodedUtils.format(nameValuePairs, "utf-8");
-
-
-
                 String url = "http://lipberry.com/API/account/login";
                 ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
                         loginData, null);
 
                 Log.d("rtes", response.getjObj().toString());
                 
-                
-                
-                //03-17 13:22:19.255: D/JsonParser(28968): sb = {"status":"success","id":"9683","name":"mahbub","username":"mahbub","nickname":"sumon","email":"mahbubsumon085@gmail.com","country":"3","city":"72","administrator":null,"brief":null,"siteurl":null,"twitter":null,"youtube":null,"instagram":null,"telephone":null,"countrycity_flag":null,"is_authorized":"0","session_id":"0e45c41drj9peoop521pmbugv3","description":"login success"}
-               // 03-17 13:22:19.255: D/rtes(28968): {"session_id":"0e45c41drj9peoop521pmbugv3","instagram":null,"nickname":"sumon","status":"success","countrycity_flag":null,"is_authorized":"0","siteurl":null,"city":"72","country":"3","id":"9683","twitter":null,"username":"mahbub","email":"mahbubsumon085@gmail.com","description":"login success","administrator":null,"name":"mahbub","youtube":null,"telephone":null,"brief":null}
-              
-
+          
                 return response;
             } catch (JSONException e) {                
                 e.printStackTrace();
@@ -329,19 +195,12 @@ public class SplashActivity extends Activity {
 			String descrip=job.getString("description");
 			String status=job.getString("status");
 			if(status.equals("success")){
-				//UserCred parseUserCred
 				usercred=usercred.parseUserCred(job);
 				usercred.checknull();
 				usercred.setPassword(password);
-				//Toast.makeText(SplashActivity.this,"pass "+usercred.getPassword(), 10000).show();
 				appInstance.setUserCred(usercred);
-				
-				
 				Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
 				startActivity(intent);
-				
-				
-				//instagram,countrycity_flag,siteurl,twitter,administrator,youtube,telephone,null
 			}
 			else{
 				Toast.makeText(SplashActivity.this,descrip, 10000).show();
@@ -357,15 +216,8 @@ public class SplashActivity extends Activity {
     
     @Override
     public void onBackPressed() {
-    	// TODO Auto-generated method stub
-    	
-    	if(stateofbackpress==0){
     		super.onBackPressed();
-    	}
-    	else{
-    		initview();
-    	}
-    	
+    
     }
 
 }

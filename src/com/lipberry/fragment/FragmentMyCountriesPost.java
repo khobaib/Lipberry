@@ -61,7 +61,7 @@ import com.viewpagerindicator.TabPageIndicator;
 public class FragmentMyCountriesPost extends Fragment {
 	LipberryApplication appInstance;	
 	 ProgressDialog pd;
-	 static FragmentTab1 parent;
+	 static HomeTabFragment parent;
 	
 	 TextView textView1;
 	 ArticleList articlelistinstance;
@@ -78,7 +78,7 @@ public class FragmentMyCountriesPost extends Fragment {
 	        }
 		
 		  
-	 public  void setParent(FragmentTab1 parent){
+	 public  void setParent(HomeTabFragment parent){
 			  this.parent=parent;
 	}
 	@SuppressLint("NewApi")

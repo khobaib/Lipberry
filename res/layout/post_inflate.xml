@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
      android:layoutDirection="rtl"
-    android:background="#000000" >
+    android:background="#ffffff" >
 
     <RelativeLayout
           android:id="@+id/re_top"
@@ -12,7 +12,7 @@
        android:layout_height="80dp"
         android:layout_alignParentLeft="true"
          android:layoutDirection="rtl"
-         android:background="#090452"
+         android:background="#ffffff"
         android:layout_alignParentTop="true"
        >
 
@@ -49,7 +49,7 @@
               android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:textColor="#ffffff"
+            android:textColor="#000000"
             android:textSize="17dp"
            />
 
@@ -65,7 +65,8 @@
             android:scaleType="fitXY"
             android:layout_alignParentLeft="true"
              android:layout_alignParentEnd="true"
-           android:src="@drawable/ic_launcher" />
+             android:background="@drawable/lcat_holder"
+           android:src="@drawable/lcat_icon" />
 
     <ImageView
         android:id="@+id/img_article_pro_pic"
@@ -83,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right|center_vertical"
-        android:background="#89C35C"
+        android:background="@drawable/ltopitext_holder"
      	android:text="Android Topic name. " 
      	android:textColor="#ffffff"
      	android:padding="5dp"
@@ -99,46 +100,55 @@
        android:background="#ffffff"
       android:gravity="right|center_vertical"
        android:textColor="#000000"
-        android:text=" dghfjhg"
         	android:textSize="24dp"/>
+    
+   		 <RelativeLayout
+          	android:id="@+id/re_like_holder"
+       	 	android:layout_width="match_parent"
+       		android:layout_height="wrap_content"
+       		android:layout_below="@+id/text_topic_text"
+       		android:layoutDirection="rtl"
+       		android:background="@drawable/llholder_for_likeandcomment"
+       	 >
+        
+   		      <ImageView
+       				 android:id="@+id/image_comments"
+        			 android:layout_width="wrap_content"
+       				 android:layout_height="wrap_content"
+       				 android:layout_margin="22dp"
+       				 android:layout_toLeftOf="@+id/img_like"
+       				 android:src="@drawable/comment" />
 
-    <ImageView
-        android:id="@+id/image_comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/img_like"
-        android:layout_marginRight="35dp"
-        android:layout_toLeftOf="@+id/img_like"
-        android:src="@drawable/comment" />
+    			<ImageView
+        			android:id="@+id/img_like"
+       				android:layout_width="wrap_content"
+      				android:layout_height="wrap_content"
+      				android:layout_centerVertical="true"
+      				android:layout_alignParentRight="true"
+        			android:layout_marginRight="12dp"
+        			android:background="@drawable/like"
+        			/>
+    </RelativeLayout>
+    
 
-    <ImageView
-        android:id="@+id/img_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/text_topic_text"
-        android:layout_below="@+id/text_topic_text"
-        android:layout_marginRight="19dp"
-        android:layout_marginTop="16dp"
-      
-        android:background="@drawable/like" />
+   
   
     
     
-     <com.lipberry.widzet.PanningEditText
+     <EditText
         android:id="@+id/et_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:padding="5dp"
         android:background="@drawable/rounded_edittext"
-         android:layout_below="@+id/img_like"
+         android:layout_below="@+id/re_like_holder"
          android:textColor="#000000"
          android:gravity="right"
-         android:hint="Type your comment here"
+        android:hint="@string/et_type_your_comment_here"
         android:ems="10" >
-       
-
-    </com.lipberry.widzet.PanningEditText>
+      
+    </EditText>
     
     <RelativeLayout
           android:id="@+id/re_bottom"
@@ -147,12 +157,9 @@
       
        android:layout_below="@+id/et_comment"
         android:layoutDirection="rtl"
-         android:background="#ffffff"
+        android:background="@drawable/llholder_for_likeandcomment"
       >
-
-      
-
-        <TextView
+	 <TextView
             android:id="@+id/txt_like"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -166,9 +173,9 @@
             android:textSize="17dp" />
           <TextView
             android:id="@+id/text_comment"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-         	android:layout_toEndOf="@+id/txt_like"
+         	android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:gravity="center_vertical"
             android:textColor="#000000"

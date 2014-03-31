@@ -51,7 +51,7 @@ public class SingleMember {
 						
 					}
 					
-					  public static SingleMember parseUserCred(JSONObject userObj){
+					  public static SingleMember parseSingleMember(JSONObject userObj){
 						  SingleMember singleMember = new SingleMember();
 					        
 					        GsonBuilder gsonb = new GsonBuilder();

@@ -44,7 +44,7 @@ public class FragmentMenu extends Fragment {
 	
 	 private static final String[] CONTENT = new String[] {"جديد الكل","جديد من أتابعهم"};
 	 LayoutInflater inflater1 ;
-	FragmentTab1 parent;
+	HomeTabFragment parent;
 	ViewGroup view;
 	 ViewPager pager;
 	 TabPageIndicator indicator;

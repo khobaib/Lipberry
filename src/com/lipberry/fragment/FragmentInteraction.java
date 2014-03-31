@@ -40,7 +40,7 @@ import com.lipberry.R;
 public class FragmentInteraction extends Fragment {
 	
 	
-	FragmentTab4 parent;
+	IneractionTabFragment parent;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

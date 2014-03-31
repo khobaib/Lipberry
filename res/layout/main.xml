@@ -13,8 +13,8 @@
 			 <RelativeLayout
               android:id="@+id/topBar"
               android:layout_width="match_parent"
-              android:layout_height="60dp"
-              android:background="@android:color/holo_green_dark"
+              android:layout_height="wrap_content"
+              android:background="@drawable/ltopbar"
               tools:ignore="NewApi" >
 
             <Button
@@ -24,22 +24,35 @@
                 android:layout_marginLeft="8dp"
                 android:layout_centerVertical="true"
               	android:text="@string/back_string"
-              	android:textColor="#000000"
+              	android:textColor="#ffffff"
+              	android:background="@drawable/lback"
                 android:layout_alignParentLeft="true"
               
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/welcome_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-              
-                android:layout_centerHorizontal="true"
-               	android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/img_icon_to_bar"
+                android:layout_toRightOf="@+id/backbuttonoftab"
+              	android:layout_centerVertical="true"
              	android:textColor="#ffffff"
+             	android:gravity="center"
                 android:textSize="23sp"
                 android:textStyle="bold" />
+             <ImageView
+                android:id="@+id/img_icon_to_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_centerVertical="true"
+              	android:layout_alignParentRight="true"
+              android:background="@drawable/licon_for_topbar"
+                android:textStyle="bold" />
+            
         </RelativeLayout>
 
+     
         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
@@ -49,10 +62,12 @@
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="#000000"
+            android:background="@drawable/lbackgound_bottombar"
             android:orientation="horizontal" />
     </LinearLayout>
+
+
 
 </android.support.v4.app.FragmentTabHost>
