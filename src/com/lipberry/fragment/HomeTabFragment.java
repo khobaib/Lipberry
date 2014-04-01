@@ -110,7 +110,7 @@ public void startFragmentArticleDetailsFromHome(Article article) {
 	
 	
 	public void startMemberFragment() {
-		FragmentSingleMember newFragment = new FragmentSingleMember();
+		FragmentMemberFromHome newFragment = new FragmentMemberFromHome();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

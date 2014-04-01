@@ -192,7 +192,7 @@ public class SplashActivity extends Activity {
     	usercred=new UserCred();
     	try {
 			JSONObject  job=new JSONObject (result);
-			String descrip=job.getString("description");
+			
 			String status=job.getString("status");
 			if(status.equals("success")){
 				usercred=usercred.parseUserCred(job);
@@ -203,6 +203,7 @@ public class SplashActivity extends Activity {
 				startActivity(intent);
 			}
 			else{
+				String descrip=job.getString("description");
 				Toast.makeText(SplashActivity.this,descrip, 10000).show();
 			}
 			

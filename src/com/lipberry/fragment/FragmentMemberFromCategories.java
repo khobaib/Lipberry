@@ -22,15 +22,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,6 +43,8 @@ import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.adapter.CustomAdapterFormemberPost;
+import com.lipberry.model.ArticleList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.SingleMember;
 import com.lipberry.parser.JsonParser;
@@ -57,6 +63,8 @@ public class FragmentMemberFromCategories extends Fragment {
 	 SingleMember singleMember;
 	  JsonParser jsonParser;
 	  WebView webview_member;
+	 ArticleList  articlelistinstance;
+ GridView grd_memberpost;
 	CategoryTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
@@ -98,7 +106,7 @@ public class FragmentMemberFromCategories extends Fragment {
 			btn_share=(Button) v.findViewById(R.id.btn_share);
 			webview_member=(WebView) v.findViewById(R.id.webview_member);
 			btn_connect=(Button) v.findViewById(R.id.btn_connect);
-			
+			grd_memberpost=(GridView) v.findViewById(R.id.grd_memberpost);
 			if(Constants.isOnline(getActivity())){
 				pd=ProgressDialog.show(getActivity(), "Lipberry",
 					    "Retreving member", true);
@@ -162,9 +170,7 @@ public class FragmentMemberFromCategories extends Fragment {
 	          protected void onPostExecute(ServerResponse result) {
 	              super.onPostExecute(result);
 	             
-	              if((pd!=null)&&(pd.isShowing())){
-	              	pd.dismiss();
-	              }
+	              
 	              
 	              setMemberObject(result.getjObj().toString());
 	              
@@ -179,8 +185,11 @@ public class FragmentMemberFromCategories extends Fragment {
 			  JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			  if(status.equals("success")){
+				  
 				  singleMember  =com.lipberry.model.SingleMember.parseSingleMember(jobj);
 				  setUserInterface();
+				  new AsyncTaskGetmemberPost().execute();
+				  
 			  }
 			  else{
 				  Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
@@ -212,8 +221,11 @@ public class FragmentMemberFromCategories extends Fragment {
 				
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					setwebviewclient(singleMember.getSiteurl());;
+					webview_member.setVisibility(View.VISIBLE);
+					WebSettings webSettings = webview_member.getSettings();
+					webSettings.setJavaScriptEnabled(true);
+					webview_member.setWebViewClient(new Callback());
+					webview_member.loadUrl(singleMember.getSiteurl());
 				}
 			});
 		  
@@ -274,6 +286,7 @@ public class FragmentMemberFromCategories extends Fragment {
 				@Override
 				protected void onPostExecute(ServerResponse result) {
 					super.onPostExecute(result);
+					
 					if((pd.isShowing())&&(pd!=null)){
 						pd.dismiss();
 					}
@@ -286,6 +299,7 @@ public class FragmentMemberFromCategories extends Fragment {
 							Toast.makeText(getActivity(),description, 10000).show();
 							btn_follow_her.setText("follow");
 							followstate=false;
+							
 						}
 						else{
 							
@@ -361,19 +375,15 @@ public class FragmentMemberFromCategories extends Fragment {
 		}
 	  
 	  
-	  public void setwebviewclient(String url){
-		 new  AsyncTaskGetmemberPost().execute();
-		  webview_member.setVisibility(View.VISIBLE);
-		  webview_member.setWebViewClient(new WebViewClient(){
+	  private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
 
-			    @Override
-			    public boolean shouldOverrideUrlLoading(WebView view, String url){
-			     view.loadUrl("https://www.google.com.bd/?gws_rd=cr&ei=BswzU7egMYmErAe0k4GoBA");
-			      return true;
-			    }
-			});
-		  
-	  }
+	        @Override
+	        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	            return (false);
+	        }
+
+	    }
+		
 	  
 	  
 	  
@@ -388,7 +398,7 @@ public class FragmentMemberFromCategories extends Fragment {
 								loginObj.put("endIndex" +
 										"", "5");
 								String loginData = loginObj.toString();
-								String url =Constants.baseurl+"account/memberposts/";
+								String url =Constants.baseurl+"account/memberpostsbyid/"+Constants.userid;
 								ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 										loginData, null);
 
@@ -403,11 +413,65 @@ public class FragmentMemberFromCategories extends Fragment {
 				@Override
 				protected void onPostExecute(ServerResponse result) {
 					super.onPostExecute(result);
+					if((pd!=null)&&(pd.isShowing())){
+		              	pd.dismiss();
+		              }
+					JSONObject jobj=result.getjObj();
+					try {
+						
+						String status=jobj.getString("status");
+						if(status.equals("success")){
+							articlelistinstance=ArticleList.getArticlelist(jobj);
+							//loadlistview(articlelistinstance.getArticlelist(),true);
+							if(articlelistinstance.getArticlelist().size()>0){
+								loadgridview();
+							}
+							
+						}
+						else{
+							String message=jobj.getString("description");
+							Toast.makeText(getActivity(), message, 10000).show();
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					
 					
 				}
 				
 				
 		}
+	  
+	  
+	  public void loadgridview(){
+		  CustomAdapterFormemberPost adapter=new CustomAdapterFormemberPost(getActivity(), articlelistinstance.getArticlelist());
+		  grd_memberpost.setAdapter(adapter);
+		  grd_memberpost.setOnTouchListener(new OnTouchListener() {
+			    // Setting on Touch Listener for handling the touch inside ScrollView
+			    @Override
+			    public boolean onTouch(View v, MotionEvent event) {
+			    // Disallow the touch request for parent scroll on touch of child view
+			    v.getParent().requestDisallowInterceptTouchEvent(true);
+			    return false;
+			    }
+
+			});
+		  grd_memberpost.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+				parent.startFragmentArticleDetails(articlelistinstance.getArticlelist().get(position));
+				
+			}
+		});
+	  }
+	  
+	  
+	  
 		
 }

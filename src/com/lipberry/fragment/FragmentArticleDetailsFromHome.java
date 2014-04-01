@@ -168,11 +168,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 						String status=jobj.getString("status");
 						if(status.equals("success")){
 							articledetails=ArticleDetails.getArticleDetails(jobj);
-							if(!articledetails.getFollow_flag().equals("Not a follower")){
-								followstate=true;
-							}
-							else{
-								followstate=false;
+							if(articledetails.getFollow_flag()!=null){
+								if(!articledetails.getFollow_flag().equals("Not a follower")){
+									followstate=true;
+								}
+								else{
+									followstate=false;
+								}
 							}
 							setview();
 							//Log.i("gallery", articledetails.getArticle_gallery().get);
@@ -325,15 +327,19 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 						}
 				    }
 				});
+				//04-01 15:25:38.755: D/JsonParser(5690): content body = {"session_id":"p7r08am4iedhighe01dab1c5b7","endIndex":"10","startIndex":"0"}
+
 			}
 		};
 		imageLoader.loadImage(articledetails.getPhoto(), imll);
 		
-		if(!article.getUserAlreadylikeThis().equals("No")){
-			img_like.setBackgroundResource(R.drawable.unlike);
-		}
-		else{
-			img_like.setBackgroundResource(R.drawable.like);
+		if(article.getUserAlreadylikeThis()!=null){
+			if(!article.getUserAlreadylikeThis().equals("No")){
+				img_like.setBackgroundResource(R.drawable.unlike);
+			}
+			else{
+				img_like.setBackgroundResource(R.drawable.like);
+			}
 		}
 		if(followstate){
 			btn_follow_her.setText("unfollow");

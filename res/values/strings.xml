@@ -72,6 +72,6 @@
       <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>
        <string name="txt_comments">"تعليق"</string>
     
-        
+           <string name="txt_article">"Article"</string>
    	
 </resources>

@@ -168,12 +168,15 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						String status=jobj.getString("status");
 						if(status.equals("success")){
 							articledetails=ArticleDetails.getArticleDetails(jobj);
-							if(!articledetails.getFollow_flag().equals("Not a follower")){
-								followstate=true;
+							if(articledetails.getFollow_flag()!=null){
+								if(!articledetails.getFollow_flag().equals("Not a follower")){
+									followstate=true;
+								}
+								else{
+									followstate=false;
+								}
 							}
-							else{
-								followstate=false;
-							}
+							
 							setview();
 							//Log.i("gallery", articledetails.getArticle_gallery().get);
 							Log.i("comment", articledetails.getCommentlist_url());
@@ -210,9 +213,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 		btn_photo_album=(Button) v.findViewById(R.id.btn_photo_album);
 		btn_report=(Button) v.findViewById(R.id.btn_report);
-		//articledetails
-		
-
 	}
 	
 	public void setview(){
@@ -333,12 +333,15 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		};
 		imageLoader.loadImage(articledetails.getPhoto(), imll);
 		
-		if(!article.getUserAlreadylikeThis().equals("No")){
-			img_like.setBackgroundResource(R.drawable.unlike);
+		if(article.getUserAlreadylikeThis()!=null){
+			if(!article.getUserAlreadylikeThis().equals("No")){
+				img_like.setBackgroundResource(R.drawable.unlike);
+			}
+			else{
+				img_like.setBackgroundResource(R.drawable.like);
+			}
 		}
-		else{
-			img_like.setBackgroundResource(R.drawable.like);
-		}
+		
 		if(followstate){
 			btn_follow_her.setText("unfollow");
 		}
@@ -379,25 +382,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 	});
   }
-	public static void updateListViewHeight(ListView myListView) {
-	     ListAdapter myListAdapter = myListView.getAdapter();
-	     if (myListAdapter == null) {            
-	              return;
-	     }
-	    //get listview height
-	    int totalHeight = 0;
-	    int adapterCount = myListAdapter.getCount();
-	    for (int size = 0; size < adapterCount ; size++) {
-	        View listItem = myListAdapter.getView(size, null, myListView);
-	        listItem.measure(0, 0);
-	        totalHeight += listItem.getMeasuredHeight();
-	    }
-	    //Change Height of ListView 
-	    ViewGroup.LayoutParams params = myListView.getLayoutParams();
-	    params.height = totalHeight + (myListView.getDividerHeight() * (adapterCount - 1));
-	    myListView.setLayoutParams(params);
-	}
-	
+
 	public void imgeviewlikeclicked(){
 		if(!article.getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(getActivity())){

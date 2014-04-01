@@ -22,16 +22,19 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -39,6 +42,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.adapter.CustomAdapterFormemberPost;
+import com.lipberry.model.ArticleList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.SingleMember;
 import com.lipberry.parser.JsonParser;
@@ -51,12 +56,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 @SuppressLint("NewApi")
-public class FragmentSingleMember extends Fragment {
+public class FragmentMemberFromHome extends Fragment {
 	ImageLoader imageLoader;
 	 LipberryApplication appInstance;
 	  JsonParser jsonParser;
 	  WebView webview_member;
+	 GridView grd_memberpost;
 	  SingleMember singleMember;
+	  ArticleList  articlelistinstance;
 	HomeTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
@@ -95,6 +102,7 @@ public class FragmentSingleMember extends Fragment {
 			img_member_pic=(ImageView) v.findViewById(R.id.img_member_pic);
 			btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 			btn_send=(Button) v.findViewById(R.id.btn_send);
+			grd_memberpost=(GridView) v.findViewById(R.id.grd_memberpost);
 			btn_share=(Button) v.findViewById(R.id.btn_share);
 			webview_member=(WebView) v.findViewById(R.id.webview_member);
 			btn_connect=(Button) v.findViewById(R.id.btn_connect);
@@ -161,10 +169,7 @@ public class FragmentSingleMember extends Fragment {
 	          protected void onPostExecute(ServerResponse result) {
 	              super.onPostExecute(result);
 	             
-	              if((pd!=null)&&(pd.isShowing())){
-	              	pd.dismiss();
-	              }
-	              
+	             
 	              setMemberObject(result.getjObj().toString());
 	              
 	           }
@@ -178,8 +183,11 @@ public class FragmentSingleMember extends Fragment {
 			  JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			  if(status.equals("success")){
+				  
 				  singleMember  =com.lipberry.model.SingleMember.parseSingleMember(jobj);
 				  setUserInterface();
+				  new AsyncTaskGetmemberPost().execute();
+				  
 			  }
 			  else{
 				  Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
@@ -191,6 +199,7 @@ public class FragmentSingleMember extends Fragment {
 						10000).show();
 			e.printStackTrace();
 		}
+		  
 		  
 	  }
 	  
@@ -218,7 +227,7 @@ public class FragmentSingleMember extends Fragment {
 					
 					
 					webview_member.setWebViewClient(new Callback());
-					webview_member.loadUrl("https://www.facebook.com/");
+					webview_member.loadUrl(singleMember.getSiteurl());
 					
 				}
 			});
@@ -375,6 +384,92 @@ public class FragmentSingleMember extends Fragment {
 	        }
 
 	    }
+	  
+	  private class AsyncTaskGetmemberPost extends AsyncTask<Void, Void, ServerResponse> {
+			@Override
+						protected ServerResponse doInBackground(Void... params) {
+
+						try {
+								JSONObject loginObj = new JSONObject();
+								loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+								loginObj.put("startIndex", "0");
+								loginObj.put("endIndex" +
+										"", "5");
+								String loginData = loginObj.toString();
+								String url =Constants.baseurl+"account/memberpostsbyid/"+Constants.userid;
+								ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+										loginData, null);
+
+								Log.i("follow", response.getjObj().toString());
+						 return response;
+						} catch (JSONException e) {                
+							e.printStackTrace();
+							return null;
+						}
+				}
+
+				@Override
+				protected void onPostExecute(ServerResponse result) {
+					super.onPostExecute(result);
+					if((pd!=null)&&(pd.isShowing())){
+		              	pd.dismiss();
+		              }
+					JSONObject jobj=result.getjObj();
+					try {
+						
+						String status=jobj.getString("status");
+						if(status.equals("success")){
+							articlelistinstance=ArticleList.getArticlelist(jobj);
+							//loadlistview(articlelistinstance.getArticlelist(),true);
+							if(articlelistinstance.getArticlelist().size()>0){
+								loadgridview();
+							}
+							
+						}
+						else{
+							String message=jobj.getString("description");
+							Toast.makeText(getActivity(), message, 10000).show();
+						}
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
+				}
+				
+				
+		}
+	  
+	  
+	  
+	  public void loadgridview(){
+		  CustomAdapterFormemberPost adapter=new CustomAdapterFormemberPost(getActivity(), articlelistinstance.getArticlelist());
+		  grd_memberpost.setAdapter(adapter);
+		  grd_memberpost.setOnTouchListener(new OnTouchListener() {
+			    // Setting on Touch Listener for handling the touch inside ScrollView
+			    @Override
+			    public boolean onTouch(View v, MotionEvent event) {
+			    // Disallow the touch request for parent scroll on touch of child view
+			    v.getParent().requestDisallowInterceptTouchEvent(true);
+			    return false;
+			    }
+
+			});
+		  grd_memberpost.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				
+				parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
+				
+			}
+		});
+	  }
+	  
 		
 }
 
