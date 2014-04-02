@@ -36,11 +36,7 @@
       <!--
      Sign in screen
      -->
-        
-        
-      
-        
-    <string name="et_signup_key">"Enter Key"</string>
+     <string name="et_signup_key">"Enter Key"</string>
      <string name="txt_seen_by">"شاهدها"</string>
       <string name="txt_following">"تتابع"</string>
      <string name="txt_follower">"يتابعها"</string>

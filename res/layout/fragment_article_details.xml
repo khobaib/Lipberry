@@ -82,6 +82,18 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/txt_follow_her" />
+
+        <Button
+            android:id="@+id/visit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/text_date_other"
+          android:layout_alignBottom="@+id/text_date_other"
+            android:layout_alignLeft="@+id/text_date_other"
+            android:textColor="#000000"
+            android:visibility="gone"
+            android:text="Vist" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -256,7 +268,26 @@
                 
             </RelativeLayout>
             
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+          android:layout_below="@+id/re_bottom"
+           android:background="@drawable/llholder_for_likeandcomment">
+
+           <ListView
+               android:id="@+id/list_comment"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_alignParentLeft="true"
+               android:layout_alignParentTop="true"
+               android:background="#ffffff" >
+           </ListView>
+
+    </RelativeLayout>
+   
+            
         </LinearLayout>
     </ScrollView>
+
    
 </RelativeLayout>

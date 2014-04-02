@@ -47,8 +47,10 @@ import com.lipberry.LoginActivity;
 import com.lipberry.R;
 import com.lipberry.SplashActivity;
 import com.lipberry.adapter.CustomAdapter;
+import com.lipberry.adapter.CustomAdapterForComment;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
+import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
@@ -62,22 +64,25 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 
 
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "ResourceAsColor" })
 public class FragmentArticleDetailsFromHome extends Fragment {
 	LipberryApplication appInstance;
 	ImageLoader imageLoader;
 	ProgressDialog pd;
 	ArticleDetails articledetails;
+	ListView list_comment;
 	ListView lst_imag;
 	 boolean followstate=false;
 	HomeTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
 	ImageView img_pro_pic,img_article,img_like,image_comments;
-	Button btn_follow_her,btn_photo_album,btn_report;
+	Button btn_photo_album,btn_report,btn_follow_her,visit;
+//	/btn_follow_her,
 	 JsonParser jsonParser;
 	 ImageLoadingListener imll;
 	 EditText et_comment;
 	 String commentstext;
+	 Commentslist commentslist;
 	@SuppressLint("NewApi")
 	Article article;
 	 public void setArticle(Article article){
@@ -122,6 +127,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
+
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 			((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 				
@@ -159,14 +166,15 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			@Override
 			protected void onPostExecute(ServerResponse result) {
 				super.onPostExecute(result);
-					if((pd.isShowing())&&(pd!=null)){
-						pd.dismiss();
-					}
+				if((pd!=null)&&(pd.isShowing())){
+					pd.dismiss();
+				}
 					
 					JSONObject jobj=result.getjObj();
 					try {
 						String status=jobj.getString("status");
 						if(status.equals("success")){
+							new AsyncTaskGetComments().execute();
 							articledetails=ArticleDetails.getArticleDetails(jobj);
 							if(articledetails.getFollow_flag()!=null){
 								if(!articledetails.getFollow_flag().equals("Not a follower")){
@@ -182,6 +190,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 							Log.i("comment count", articledetails.getComment_count());
 						}
 						else{
+							
 							String message=jobj.getString("message");
 							Toast.makeText(getActivity(),message, 10000).show();
 						}
@@ -195,6 +204,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	
 	
 	public void initview(ViewGroup v){
+		visit=(Button) v.findViewById(R.id.visit);
+		list_comment=(ListView) v.findViewById(R.id.list_comment);
 		lst_imag=(ListView) v.findViewById(R.id.lst_imag);
 		text_user_name=(TextView) v.findViewById(R.id.text_user_name);
 		text_date_other=(TextView) v.findViewById(R.id.text_date_other);
@@ -218,6 +229,14 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 	
 	public void setview(){
+		visit.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		text_user_name.setText(article.getMember_username());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());
@@ -342,10 +361,11 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 		if(followstate){
-			btn_follow_her.setText("unfollow");
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+			btn_follow_her.setBackgroundColor(android.R.color.transparent);
 		}
 		else{
-			btn_follow_her.setText("follow");
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follower));
 		}
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			
@@ -692,15 +712,17 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 						if(status.equals("success")){
 							
 							Toast.makeText(getActivity(),description, 10000).show();
-							btn_follow_her.setText("unfollow");
+							btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+							btn_follow_her.setBackgroundColor(android.R.color.transparent);
 							followstate=true;
 						}
 						else{
 							
 							Toast.makeText(getActivity(),description, 10000).show();
 							if(description.equals("Already followed")){
-									btn_follow_her.setText("unfollow");
-									followstate=true;
+								btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+								btn_follow_her.setBackgroundColor(android.R.color.transparent);
+								followstate=true;
 							}
 							
 							
@@ -731,21 +753,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 			
 		}
-		else{
-				
-					if(Constants.isOnline(getActivity())){
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-						    "Please wait", true);
-						new AsyncTaskSendUnFollowReq().execute();
-					
-					}
-					else{
-					
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet), 10000).show();
-					}
-			
-			
-		}
+		
 		
 	}
 	
@@ -870,6 +878,86 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			
 	}
 
+		/*public void updatecounter(){
+				
+				
+		}*/
+		private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+			@Override
+						protected ServerResponse doInBackground(Void... params) {
 
+						try {
+								JSONObject loginObj = new JSONObject();
+								loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+								loginObj.put("startIndex", "0");
+								loginObj.put("endIndex", "5");
+								String loginData = loginObj.toString();
+								//Log.i("url", articledetails.getCommentlist_url());
+								String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
+										//articledetails.getCommentlist_url();
+								ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+										loginData, null);
+
+								
+						 return response;
+						} catch (JSONException e) {                
+							e.printStackTrace();
+							return null;
+						}
+				}
+
+				@Override
+				protected void onPostExecute(ServerResponse result) {
+					super.onPostExecute(result);
+					Log.i("res",""+result.getjObj().toString());
+				
+					JSONObject jobj=result.getjObj();
+					try {
+						String status= jobj.getString("status");
+						if(status.equals("success")){
+							commentslist=Commentslist.getCommentsListInstance(jobj);
+							 if(commentslist.getCommentslist().size()>0){
+								 setmemberlist();
+							 }
+							
+						}
+						else{
+						
+							String description=jobj.getString("message");
+							Toast.makeText(getActivity(),description, 10000).show();
+						}
+						
+						//04-02 18:13:20.260: D/JsonParser(22970): url after param added =
+
+							
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+				
+				
+		}
+		
+		
+		public void setmemberlist(){
+			CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+			list_comment.setAdapter(adapter1);
+			list_comment.setOnTouchListener(new OnTouchListener() {
+			    // Setting on Touch Listener for handling the touch inside ScrollView
+			    @Override
+			    public boolean onTouch(View v, MotionEvent event) {
+			    // Disallow the touch request for parent scroll on touch of child view
+			    v.getParent().requestDisallowInterceptTouchEvent(true);
+			    return false;
+			    }
+
+			});
+			
+		}
+	
+	
 }
 

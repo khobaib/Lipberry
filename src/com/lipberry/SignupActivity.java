@@ -75,6 +75,8 @@ JsonParser jsonParser;
         citylist=new ArrayList<City>();
         allcityname=new ArrayList<String>();
         knowList=new ArrayList<String>();
+        
+        
        
         initview();
      }
@@ -95,7 +97,20 @@ JsonParser jsonParser;
         e_password=(EditText) findViewById(R.id.e_password);
         e_confirmpass=(EditText) findViewById(R.id.e_confirmpass);
         t_city=(TextView) findViewById(R.id.t_city);
-      
+        if(Constants.isOnline(SignupActivity.this)){
+			
+			pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
+				    "Retreving countrylist", true);
+			new AsyncTaskGetCountry().execute();
+			new AsyncTaskGetknowingReason().execute();
+	    	
+        }
+        else{
+  			 Toast.makeText(SignupActivity.this, getResources().
+  					 getString(R.string.Toast_check_internet), 10000).show();
+		  	}
+        
+       
         t_kowaboutus.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -466,10 +481,10 @@ JsonParser jsonParser;
         protected void onPostExecute(ServerResponse result) {
             super.onPostExecute(result);
             Log.d("serverreponse", result.getjObj().toString());
-            if((pd!=null)&&(pd.isShowing())){
-            	pd.dismiss();
-            }
+           
            try {
+        	   t_country.setVisibility(View.GONE);
+   			s_country.setVisibility(View.VISIBLE);
         	 String country=result.getjObj().getString("country_list");
         	 loadcountrylist(country);
          

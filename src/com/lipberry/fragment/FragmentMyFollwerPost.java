@@ -127,7 +127,7 @@ public class FragmentMyFollwerPost extends Fragment {
 									JSONObject loginObj = new JSONObject();
 									loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 									loginObj.put("startIndex", "0");
-									loginObj.put("endIndex", "10");
+									loginObj.put("endIndex", "25");
 									String loginData = loginObj.toString();
 									String url =Constants.baseurl+"home/myfollowerposts/";
 									ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -261,6 +261,10 @@ public class FragmentMyFollwerPost extends Fragment {
 		      
 		     
 		 }
+		 
+		 
+		 
+		 
 		 
 
 

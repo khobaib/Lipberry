@@ -47,8 +47,10 @@ import com.lipberry.LoginActivity;
 import com.lipberry.R;
 import com.lipberry.SplashActivity;
 import com.lipberry.adapter.CustomAdapter;
+import com.lipberry.adapter.CustomAdapterForComment;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
+import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
@@ -62,18 +64,22 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 
 
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "ResourceAsColor" })
 public class FragmentArticleDetailsFromCategory extends Fragment {
 	LipberryApplication appInstance;
 	ImageLoader imageLoader;
 	ProgressDialog pd;
 	ArticleDetails articledetails;
+	 Commentslist commentslist;
+	 ListView list_comment;
+	 
 	ListView lst_imag;
 	 boolean followstate=false;
 	CategoryTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
 	ImageView img_pro_pic,img_article,img_like,image_comments;
-	Button btn_follow_her,btn_photo_album,btn_report;
+	Button btn_photo_album,btn_follow_her,btn_report;
+	//btn_report
 	 JsonParser jsonParser;
 	 ImageLoadingListener imll;
 	 EditText et_comment;
@@ -122,6 +128,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 			((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 				
@@ -168,11 +175,15 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						String status=jobj.getString("status");
 						if(status.equals("success")){
 							articledetails=ArticleDetails.getArticleDetails(jobj);
+							new AsyncTaskGetComments().execute();
+							articledetails=ArticleDetails.getArticleDetails(jobj);
+							Log.e("vedio","null "+articledetails.getVideo());
 							if(articledetails.getFollow_flag()!=null){
 								if(!articledetails.getFollow_flag().equals("Not a follower")){
 									followstate=true;
 								}
 								else{
+									
 									followstate=false;
 								}
 							}
@@ -196,6 +207,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	
 	
 	public void initview(ViewGroup v){
+		list_comment=(ListView) v.findViewById(R.id.list_comment);
 		lst_imag=(ListView) v.findViewById(R.id.lst_imag);
 		text_user_name=(TextView) v.findViewById(R.id.text_user_name);
 		text_date_other=(TextView) v.findViewById(R.id.text_date_other);
@@ -343,10 +355,11 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 		
 		if(followstate){
-			btn_follow_her.setText("unfollow");
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+			btn_follow_her.setBackgroundColor(android.R.color.transparent);
 		}
 		else{
-			btn_follow_her.setText("follow");
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follower));
 		}
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			
@@ -624,7 +637,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						if(status.equals("success")){
 							
 							Toast.makeText(getActivity(),description, 10000).show();
-							btn_follow_her.setText("follow");
+							btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follower));
 							followstate=false;
 						}
 						else{
@@ -649,6 +662,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						try {
 								JSONObject loginObj = new JSONObject();
 								loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+								Log.i("member id", "id "+appInstance.getUserCred().getId());
 								String loginData = loginObj.toString();
 								String url =Constants.baseurl+"account/followmember/"+article.getMember_id()+"/";
 								ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -675,14 +689,16 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						if(status.equals("success")){
 							
 							Toast.makeText(getActivity(),description, 10000).show();
-							btn_follow_her.setText("unfollow");
+							btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+							btn_follow_her.setBackgroundColor(android.R.color.transparent);
 							followstate=true;
 						}
 						else{
 							
 							Toast.makeText(getActivity(),description, 10000).show();
 							if(description.equals("Already followed")){
-									btn_follow_her.setText("unfollow");
+								btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+								btn_follow_her.setBackgroundColor(android.R.color.transparent);
 									followstate=true;
 							}
 							
@@ -714,21 +730,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 			
 		}
-		else{
-				
-					if(Constants.isOnline(getActivity())){
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-						    "Please wait", true);
-						new AsyncTaskSendUnFollowReq().execute();
-					
-					}
-					else{
-					
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet), 10000).show();
-					}
-			
-			
-		}
+		
 		
 	}
 	
@@ -851,6 +853,82 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 			
 			
+	}
+	
+	
+	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+					protected ServerResponse doInBackground(Void... params) {
+
+					try {
+							JSONObject loginObj = new JSONObject();
+							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+							loginObj.put("startIndex", "0");
+							loginObj.put("endIndex", "5");
+							String loginData = loginObj.toString();
+							//Log.i("url", articledetails.getCommentlist_url());
+							String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
+									//articledetails.getCommentlist_url();
+							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+									loginData, null);
+
+							
+					 return response;
+					} catch (JSONException e) {                
+						e.printStackTrace();
+						return null;
+					}
+			}
+
+			@Override
+			protected void onPostExecute(ServerResponse result) {
+				super.onPostExecute(result);
+				Log.i("res",""+result.getjObj().toString());
+			
+				JSONObject jobj=result.getjObj();
+				try {
+					String status= jobj.getString("status");
+					if(status.equals("success")){
+						commentslist=Commentslist.getCommentsListInstance(jobj);
+						 if(commentslist.getCommentslist().size()>0){
+							 setmemberlist();
+						 }
+						
+					}
+					else{
+					
+						String description=jobj.getString("message");
+						Toast.makeText(getActivity(),description, 10000).show();
+					}
+					
+					//04-02 18:13:20.260: D/JsonParser(22970): url after param added =
+
+						
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			
+	}
+	
+	public void setmemberlist(){
+		CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+		list_comment.setAdapter(adapter1);
+		list_comment.setOnTouchListener(new OnTouchListener() {
+		    // Setting on Touch Listener for handling the touch inside ScrollView
+		    @Override
+		    public boolean onTouch(View v, MotionEvent event) {
+		    v.getParent().requestDisallowInterceptTouchEvent(true);
+		    return false;
+		    }
+
+		});
+		
+		
 	}
 
 
