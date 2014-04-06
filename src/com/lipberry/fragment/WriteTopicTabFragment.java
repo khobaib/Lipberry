@@ -23,50 +23,40 @@ import android.view.ViewParent;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UnknownTabFragment extends TabFragment{
-
-    protected Stack<Fragment> backEndStack;
-
+public class WriteTopicTabFragment extends TabFragment{
+	protected Stack<Fragment> backEndStack;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		backEndStack = new Stack<Fragment>();
-		FragmentMember initialFragment = new FragmentMember();
+		FragmentWriteTopic initialFragment = new FragmentWriteTopic();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		
 	}
-
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		ViewParent parent = (ViewParent) container.getParent();
 		if (parent instanceof View) {
 			((TextView) ((View) parent).findViewById(R.id.welcome_title))
-					.setText(this.getTag());
+			.setText(this.getTag());
 		}
-
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
-	
+
 	public void onStart( ) {
-        Fragment fragment = backEndStack.peek();
+		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
 		fragmentTransaction.commitAllowingStateLoss();
-		
 		super.onStart();
 	}
 
 	public void startfragmenthome() {
-
-	
-		FragmentMember newFragment = new FragmentMember ();
+		FragmentWriteTopic newFragment = new FragmentWriteTopic ();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -76,46 +66,26 @@ public class UnknownTabFragment extends TabFragment{
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
-	
-	
-	
 	public void clearr(){
 		backEndStack.pop();
 	}
-
-	
-
-	
-
 	@Override
 	public void onBackPressed() {
-
-	
 		if (backEndStack.size()==1) {
 			((HomeActivity) getActivity()).close();
-			
 		}
-		
-		
-		
 		else {
-			
-		
-            if (backEndStack.size()==1) {
-    			((HomeActivity) getActivity()).close();
-    			Log.d("1", "2");
-            } else {
-            	 backEndStack.pop();
-                    Fragment frg = backEndStack.peek();
-                    Log.d("1", "4");
-            		FragmentManager fragmentManager = getChildFragmentManager();
-            		FragmentTransaction fragmentTransaction = fragmentManager
-            				.beginTransaction();
-            		                      
-            		fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
-            }
-           
-    }
+			if (backEndStack.size()==1) {
+				((HomeActivity) getActivity()).close();
+			} else {
+				backEndStack.pop();
+				Fragment frg = backEndStack.peek();
+				Log.d("1", "4");
+				FragmentManager fragmentManager = getChildFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager
+						.beginTransaction();
+				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+			}
+		}
 	}
 }

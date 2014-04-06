@@ -61,18 +61,16 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 	public ListviewAdapterforCategory(FragmentActivity activity,
 			ArrayList<Categories> list) {
 		super();
-
 		this.activity = activity;
 		this.list = list;
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-				.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-				defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -94,18 +92,11 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 		ImageView img_app_icon;
 		ImageView img_category_pro_pic;
 		TextView txt_cat_name;
-	
-		
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
-	
 		LayoutInflater inflater = activity.getLayoutInflater();
-
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.categories_inflate,
 					null);
@@ -118,53 +109,47 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.txt_cat_name.setText(list.get(position).getName());
-		
-		
+
+
 		ImageLoadingListener imll=new ImageLoadingListener() {
-			
+
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
 				// TODO Auto-generated method stub
 				mProgress=new ProgressDialog(activity);
 				mProgress.setTitle("Image is  Loading");
-		}
-			
+			}
+
 			@Override
 			public void onLoadingFailed(String imageUri, View view,
 					FailReason failReason) {
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
-				
-				
 			}
-			
+
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 				// TODO Auto-generated method stub
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
 				Bitmap bitmap=loadedImage;
 				holder.img_category_pro_pic.setImageBitmap(bitmap);
 			}
-			
+
 			@Override
 			public void onLoadingCancelled(String imageUri, View view) {
 				// TODO Auto-generated method stub
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
 			}
 		};
-		
-		
+
 		return convertView;
 	}
-	
-	
-
 }

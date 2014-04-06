@@ -6,7 +6,7 @@
      Sign up screen
      -->
 	
-      
+       <string name="txt_write_topic">"اكتبي مشاركة"</string>
       <string name="et_signup_name">"اسمك"</string>
      <string name="et_signup_username">"اسم المستخدم"</string>
      <string name="et_signup_nickname">"الاسم المستعار"</string>

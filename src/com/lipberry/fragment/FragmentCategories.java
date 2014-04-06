@@ -53,13 +53,11 @@ public class FragmentCategories extends Fragment {
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-				super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
 		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_cat));
 		categorylist=new ArrayList<Categories>();
 		appInstance = (LipberryApplication) getActivity().getApplication();
@@ -67,110 +65,91 @@ public class FragmentCategories extends Fragment {
 				container, false);
 		list_categories=(ListView) v.findViewById(R.id.list_categories);
 		jsonParser=new JsonParser();
-		
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), "Lipberry",
-				    "Retreving categories", true);
+					"Retreving categories", true);
 			new AsyncTaskgetCategories().execute();
 		}
 		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet), 10000).show();
-			
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
 		}
-		
-		
 		return v;
 	}
-	
-	
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
-		
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 	}
-
 	private class AsyncTaskgetCategories extends AsyncTask<Void, Void, ServerResponse> {
-			@Override
-	        protected ServerResponse doInBackground(Void... params) {
-	            try {
-	                JSONObject loginObj = new JSONObject();
-	                loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-					String loginData = loginObj.toString();
-					String url =Constants.baseurl+"category/categorylist";
-					ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-							loginData, null);
-					Log.d("rtes", response.getjObj().toString());
-				 return response;
-	            } catch (JSONException e) { 
-	            	 if((pd.isShowing())&&(pd!=null)){
-	 	            	pd.dismiss();
-	 	            }
-	                e.printStackTrace();
-	                return null;
-	            }
-	        }
-
-	        @Override
-	        protected void onPostExecute(ServerResponse result) {
-	            super.onPostExecute(result);
-	            if((pd.isShowing())&&(pd!=null)){
-	            	pd.dismiss();
-	            }
-	           JSONObject res=result.getjObj();
-	            try {
-					String status=res.getString("status");
-					if(status.equals("success")){
-							JSONArray jarraArray=res.getJSONArray("categorylist");
-							categorylist.clear();
-							for(int i=0;i<jarraArray.length();i++){
-								JSONObject job=jarraArray.getJSONObject(i);
-								Categories cat=new Categories();
-								cat=cat.parsecaCategories(job);
-								categorylist.add(cat);
-							}
-							
-							if(categorylist.size()>0){
-								loadlistview();
-							}
-							else{
-								Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found), 10000).show();
-								
-							}
-							
-					 }
-					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found), 10000).show();
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found), 10000).show();
-					
-					e.printStackTrace();
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"category/categorylist";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) { 
+				if((pd.isShowing())&&(pd!=null)){
+					pd.dismiss();
 				}
-	            		
-	           
-	           
-	        }
-	    }
-	
-	 public void loadlistview(){
-     	 FragmentActivity facActivity=getActivity();	
-     	 ListviewAdapterforCategory adapter=new ListviewAdapterforCategory(facActivity, categorylist);
-     	list_categories.setAdapter(adapter);
-     	list_categories.setOnItemClickListener(new OnItemClickListener() {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject res=result.getjObj();
+			try {
+				String status=res.getString("status");
+				if(status.equals("success")){
+					JSONArray jarraArray=res.getJSONArray("categorylist");
+					categorylist.clear();
+					for(int i=0;i<jarraArray.length();i++){
+						JSONObject job=jarraArray.getJSONObject(i);
+						Categories cat=new Categories();
+						cat=cat.parsecaCategories(job);
+						categorylist.add(cat);
+					}
 
+					if(categorylist.size()>0){
+						loadlistview();
+					}
+					else{
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
+								Toast.LENGTH_SHORT).show();
+					}
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
+							Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
+						Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+		}
+	}
+	public void loadlistview(){
+		FragmentActivity facActivity=getActivity();	
+		ListviewAdapterforCategory adapter=new ListviewAdapterforCategory(facActivity, categorylist);
+		list_categories.setAdapter(adapter);
+		list_categories.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-					parent.startFragmentSubCategoriesList(categorylist.get(position).getUrl(),categorylist.get(position).getName());		
-				}
+				parent.startFragmentSubCategoriesList(categorylist.get(position).getUrl(),categorylist.get(position).getName());		
+			}
 		});
-     	
-     	
-     }
-     
-
+	}
 }
 

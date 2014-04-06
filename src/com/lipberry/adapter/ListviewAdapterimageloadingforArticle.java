@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 
 import com.lipberry.R;
+import com.lipberry.ShowHtmlText;
 import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
@@ -46,6 +47,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentManager.BackStackEntry;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -62,7 +65,7 @@ import android.widget.Toast;
 
 public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ArrayList<Article> list;
-	
+
 	FragmentManager fragmentManager = null;
 	FragmentActivity activity;
 	LipberryApplication appInstance;	
@@ -71,13 +74,13 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	CategoryTabFragment parent3;
 	String commentstext;
 	int a;
-boolean stateoflike=false;
+	boolean stateoflike=false;
 	JsonParser jsonParser;
 	int index;
 	ViewHolder holder2;
 	ProgressDialog mProgress;
 	ImageLoader imageLoader;
-	
+
 	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
 			ArrayList<Article> list,CategoryTabFragment parent3) {
 		super();
@@ -87,15 +90,14 @@ boolean stateoflike=false;
 		this.parent3=parent3;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-				.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-				defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-		
-		}
-	
+	}
+
 	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
 			ArrayList<Article> list,HomeTabFragment parent) {
 		super();
@@ -105,14 +107,13 @@ boolean stateoflike=false;
 		this.parent=parent;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-				.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-				defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-		
-		}
+	}
 
 	@Override
 	public int getCount() {
@@ -131,7 +132,7 @@ boolean stateoflike=false;
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	private class ViewHolder {
 		ImageView img_pro_pic;
 		ImageView img_some_icon;
@@ -169,39 +170,42 @@ boolean stateoflike=false;
 			holder.text_comment=(TextView) convertView.findViewById(R.id.text_comment);
 			convertView.setTag(holder);
 		} else {
-			 holder = (ViewHolder) convertView.getTag();
+			holder = (ViewHolder) convertView.getTag();
 		}
-		
+
 		holder.image_comments.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				String comments=holder.et_comment.getText().toString();
 				if(comments.equals("")){
 					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_enter_text), 10000).show();
 				}
-				
+
 				else{
 					commentstext=comments;
 					sendposttoserver();
 				}
-				
+
 			}
 		});
 		String url=list.get(position).getMember_photo();
 		if(url==null){
-			
+
 		}
 		else{
 			url=url.replace("..", "http://www.lipberry.com");
-		    Log.i("propicurl", url);
+			Log.i("propicurl", url);
 			imageLoader.displayImage(url, holder.img_pro_pic);
-			
+
 		}
 		holder.text_user_name.setText(list.get(position).getMember_username());
-	holder.text_date_other.setText(list.get(position).getCreated_at());
+		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
-		holder.text_topic_text.setText(list.get(position).getArticle_description());
+		holder.text_topic_text.setText(Html.fromHtml(list.get(position).getArticle_description()));
+		holder.text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
+		ShowHtmlText showtext=new ShowHtmlText(holder.text_topic_text, activity);
+		showtext.updateImages(true,list.get(position).getArticle_description());
 		holder.text_comment.setText(list.get(position).getComment_count()+ " "+activity.getResources().
 				getString(R.string.txt_comments));
 		String liketext="";
@@ -214,22 +218,22 @@ boolean stateoflike=false;
 				if(list.get(position).getLikedmemberlist().size()>0){
 					if(parent==null){
 						alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,null,parent3);
-						
+
 					}
 					else{
-						 alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,parent,null);
-						
+						alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,parent,null);
+
 					}
-					
+
 					alert.show_alert();
 				}
 				else{
-					
+
 				}
 			}
 		});
 		holder.img_article_pro_pic.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -237,32 +241,29 @@ boolean stateoflike=false;
 			}
 		});
 		holder.text_comment.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				imageviewcommentsclicked();
 			}
 		});
-		
+
 		if(list.get(position).getUserAlreadylikeThis().equals("No")){
 			stateoflike=false;
 		}
 		else{
 			stateoflike=true;
 		}
-	
-		
-		
 		if(!list.get(position).getUserAlreadylikeThis().equals("No")){
 			holder.img_like.setBackgroundResource(R.drawable.unlike);
 		}
 		else{
 			holder.img_like.setBackgroundResource(R.drawable.like);
 		}
-		
+
 		holder.img_like.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -271,39 +272,36 @@ boolean stateoflike=false;
 				imgeviewlikeclicked();
 			}
 		});
-		
+
 		ImageLoadingListener imll=new ImageLoadingListener() {
-			
+
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
 				// TODO Auto-generated method stub
 				mProgress=new ProgressDialog(activity);
 				mProgress.setTitle("Image is  Loading");
 				//mProgress.show();
-		}
-			
+			}
+
 			@Override
 			public void onLoadingFailed(String imageUri, View view,
 					FailReason failReason) {
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
-				
-				
+
+
 			}
-			
+
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 				// TODO Auto-generated method stub
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
-				
-				
 				Bitmap bitmap=loadedImage;
-				
 				int bitmapheight=bitmap.getHeight();
 				int bitmapweight=bitmap.getWidth();
 				int deviceheight=Utility.getDeviceHeight(activity);
@@ -315,27 +313,27 @@ boolean stateoflike=false;
 				bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
 				holder.img_article_pro_pic.setImageBitmap(bitmap);
 			}
-			
+
 			@Override
 			public void onLoadingCancelled(String imageUri, View view) {
 				// TODO Auto-generated method stub
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
 			}
 		};
 		if(list.get(position).getArticle_photo()==null){
-			
+
 		}
 		else{
 			imageLoader.loadImage(list.get(position).getArticle_photo(),imll);
-			
-			
+
+
 		}
-		
+
 		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -345,264 +343,222 @@ boolean stateoflike=false;
 				else{
 					parent3.startFragmentMemberFromCategories();
 				}
-				
+
 			}
 		});
-				
-		
+
+
 		Log.i(" image loading", list.get(position).getArticle_photo());
 		return convertView;
 	}
-	
+
 	public void imageviewarticlepicclicked(int position){
 		if(parent3==null){
-			parent.startFragmentArticleDetailsFromHome(list.get(position));
+			if(list.get(position)!=null){
+				parent.startFragmentArticleDetailsFromHome(list.get(position));
+			}
+			
 		}
 		else{
-			parent3.startFragmentArticleDetails(list.get(position));
+			if(list.get(position)!=null){
+				parent3.startFragmentArticleDetails(list.get(position));
+
+			}
 		}
 	}
-	
+
 	public void imageviewcommentsclicked(){
-		
+
 	}
 	public void imgeviewlikeclicked(){
 		Log.i("before", ""+stateoflike);
 		if(!list.get(index).getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(activity)){
 				pd=ProgressDialog.show(activity, "Lipberry",
-				    "Start dislike", true);
+						"Start dislike", true);
 				new AsyncTaskSetDislike().execute();
-			
-			}
-			else{
-			
-				Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet), 10000).show();
-			}
-			
-		}
-			else{
-				
-					if(Constants.isOnline(activity)){
-						pd=ProgressDialog.show(activity, "Lipberry",
-						    "Sending like", true);
-						new AsyncTaskSeLike().execute();
-					
-					}
-					else{
-					
-						Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet), 10000).show();
-					}
-			
-			
-		}
-		
 
+			}
+			else{
+
+				Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+						Toast.LENGTH_SHORT).show();
+			}
+
+		}
+		else{
+
+			if(Constants.isOnline(activity)){
+				pd=ProgressDialog.show(activity, "Lipberry",
+						"Sending like", true);
+				new AsyncTaskSeLike().execute();
+
+			}
+			else{
+
+				Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+						Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
-	
+
 	public void setimageinimageview(int index){
-		
-		
-		
 	}
-	
+
 	public void sendposttoserver(){
 		if(Constants.isOnline(activity)){
 			pd=ProgressDialog.show(activity, "Lipberry",
-			    "Posting comments", true);
+					"Posting comments", true);
 			new AsyncTaskPostComments().execute();
-		
 		}
 		else{
-		
-			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet), 10000).show();
+
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
 		}
 	}
-	
-	
-	
 	private class AsyncTaskPostComments extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
-					protected ServerResponse doInBackground(Void... params) {
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put("comment", commentstext);
+				String loginData = loginObj.toString();
+				String url =list.get(index).getComment_url();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
 
-					try {
-							JSONObject loginObj = new JSONObject();
-							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-							loginObj.put("comment", commentstext);
-							String loginData = loginObj.toString();
-							String url =list.get(index).getComment_url();
-							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-									loginData, null);
-
-							Log.i("rtes", response.getjObj().toString());
-					 return response;
-					} catch (JSONException e) {                
-						e.printStackTrace();
-						return null;
-					}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status= jobj.getString("status");
+				if(status.equals("success")){
+					Toast.makeText(activity,"You just commented! ", 10000).show();
+				}
+				else{
+					String description=jobj.getString("description");
+					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
-			@Override
-			protected void onPostExecute(ServerResponse result) {
-				super.onPostExecute(result);
-				if((pd.isShowing())&&(pd!=null)){
-					pd.dismiss();
-				}
-				JSONObject jobj=result.getjObj();
-				try {
-					String status= jobj.getString("status");
-					if(status.equals("success")){
-						Toast.makeText(activity,"You just commented! ", 10000).show();
-					}
-					else{
-						String description=jobj.getString("description");
-						Toast.makeText(activity,description, 10000).show();
-					}
-					
-					
-						
-					
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-			
-			
+		}
 	}
-	
-	
-	
-	
-	
-	
-	
 	private class AsyncTaskSeLike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
-					protected ServerResponse doInBackground(Void... params) {
+		protected ServerResponse doInBackground(Void... params) {
 
-					try {
-							JSONObject loginObj = new JSONObject();
-							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-							String loginData = loginObj.toString();
-							String url =list.get(index).getLike_url();
-							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-									loginData, null);
-							Log.i("rtes", response.getjObj().toString());
-					 return response;
-					} catch (JSONException e) {                
-						e.printStackTrace();
-						return null;
-					}
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =list.get(index).getLike_url();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				Log.i("rtes", response.getjObj().toString());
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
 			}
+		}
 
-			@Override
-			protected void onPostExecute(ServerResponse result) {
-				super.onPostExecute(result);
-				if((pd.isShowing())&&(pd!=null)){
-					pd.dismiss();
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status= jobj.getString("status");
+				String description=jobj.getString("description");
+				if(status.equals("success")){
+					stateoflike=true;
+					Toast.makeText(activity,description, 10000).show();
+					holder2.img_like.setBackgroundResource(R.drawable.unlike);
+					list.get(index).setUserAlreadylikeThis("Yes");
 				}
-				JSONObject jobj=result.getjObj();
-				try {
-					String status= jobj.getString("status");
-					String description=jobj.getString("description");
-					if(status.equals("success")){
+				else{
+					Toast.makeText(activity,description, 10000).show();
+					if(description.equals("You presed like before")){
 						stateoflike=true;
-						Toast.makeText(activity,description, 10000).show();
 						holder2.img_like.setBackgroundResource(R.drawable.unlike);
 						list.get(index).setUserAlreadylikeThis("Yes");
 					}
-				else{
-						
-						
-					Toast.makeText(activity,description, 10000).show();
-					
-							if(description.equals("You presed like before")){
-								stateoflike=true;
-								holder2.img_like.setBackgroundResource(R.drawable.unlike);
-								list.get(index).setUserAlreadylikeThis("Yes");
-								
-								
-						}
-						
-						
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Log.i("after like", ""+stateoflike);	
-				
-			}
-			
-			
-	}
-	
-	
 
-	
+
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Log.i("after like", ""+stateoflike);	
+
+		}
+
+
+	}
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
-					protected ServerResponse doInBackground(Void... params) {
-
-					try {
-							JSONObject loginObj = new JSONObject();
-							loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-							String loginData = loginObj.toString();
-							String url =list.get(index).getDislike_url();
-							Log.i("url", url);
-							ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-									loginData, null);
-
-							Log.i("rtes", response.getjObj().toString());
-					 return response;
-					} catch (JSONException e) {                
-						e.printStackTrace();
-						return null;
-					}
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =list.get(index).getDislike_url();
+				Log.i("url", url);
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
 			}
+		}
 
-			@Override
-			protected void onPostExecute(ServerResponse result) {
-				super.onPostExecute(result);
-				if((pd.isShowing())&&(pd!=null)){
-					pd.dismiss();
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status= jobj.getString("status");
+				String description=jobj.getString("description");
+				if(status.equals("success")){
+					stateoflike=false;
+					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+					holder2.img_like.setBackgroundResource(R.drawable.like);
+					list.get(index).setUserAlreadylikeThis("No");
 				}
-				JSONObject jobj=result.getjObj();
-				try {
-					String status= jobj.getString("status");
-					String description=jobj.getString("description");
-					
-					
-					if(status.equals("success")){
-						stateoflike=false;
-						Toast.makeText(activity,description, 10000).show();
+				else{
+					Toast.makeText(activity,description, 10000).show();
+					if(description.equals("You pressed dislike before")){
 						holder2.img_like.setBackgroundResource(R.drawable.like);
+						stateoflike=false;
 						list.get(index).setUserAlreadylikeThis("No");
 					}
-					else{
-						Toast.makeText(activity,description, 10000).show();
-						
-						
-							if(description.equals("You pressed dislike before")){
-								holder2.img_like.setBackgroundResource(R.drawable.like);
-								stateoflike=false;
-								list.get(index).setUserAlreadylikeThis("No");
-						}
-						
-						
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
-				Log.i("after dis", ""+stateoflike);	
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		
-			
+		}
 	}
-	
-
-
 }

@@ -68,15 +68,11 @@ public class ListviewAdapterMember extends BaseAdapter {
 		this.activity = activity;
 		this.list = list;
 		this.context=context;
-		
-		
-		
-		
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-				.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-				defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
@@ -103,7 +99,6 @@ public class ListviewAdapterMember extends BaseAdapter {
 		Button btn_follow;
 		TextView text_member_name;
 		TextView text_member_bio;
-		
 	}
 
 	@Override
@@ -116,52 +111,47 @@ public class ListviewAdapterMember extends BaseAdapter {
 			holder = new ViewHolder();
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.btn_follow= (Button) convertView.findViewById(R.id.btn_follow);
-			
 			holder.text_member_name=(TextView) convertView.findViewById(R.id.text_member_name);
 			holder.text_member_bio=(TextView) convertView.findViewById(R.id.text_member_bio);
-		
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.text_member_name.setText(list.get(position).getMember_nickname());
 		holder.text_member_bio.setText(list.get(position).getMember_bio());
-		
-		
+
+
 		setimageinimageview(position);
-		
+
 		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-			Constants.userid=list.get(position).getMember_id();
+				Constants.userid=list.get(position).getMember_id();
 				((HomeActivity)activity).setTabSelection();
-				
 			}
 		});
-		
+
 		ImageLoadingListener imll=new ImageLoadingListener() {
-			
+
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
 				// TODO Auto-generated method stub
 				mProgress=new ProgressDialog(activity);
 				mProgress.setTitle("Image is  Loading");
 				//mProgress.show();
-		}
-			
+			}
+
 			@Override
 			public void onLoadingFailed(String imageUri, View view,
 					FailReason failReason) {
-				
+
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
-				
-				
 			}
-			
+
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 				if((mProgress.isShowing())&&(mProgress!=null)){
@@ -170,41 +160,37 @@ public class ListviewAdapterMember extends BaseAdapter {
 				Bitmap bitmap=loadedImage;
 				holder.img_pro_pic.setImageBitmap(bitmap);
 			}
-			
+
 			@Override
 			public void onLoadingCancelled(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
 			}
 		};
 		if(list.get(position).getMember_photo()==null){
-			
+
 		}
 		else{
 			imageLoader.loadImage(list.get(position).getMember_photo(),imll);
-			
-			
 		}
-		
+
 		return convertView;
 	}
-	
+
 	public void imageviewarticlepicclicked(){
-		
+
 	}
-	
+
 	public void imageviewcommentsclicked(){
-		
+
 	}
 	public void imgeviewlikeclicked(){
-		
+
 	}
-	
+
 	public void setimageinimageview(int index){
-		
+
 	}
 
 }

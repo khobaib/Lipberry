@@ -24,55 +24,38 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class CategoryTabFragment extends TabFragment{
-
-    protected Stack<Fragment> backEndStack;
-
+	protected Stack<Fragment> backEndStack;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		backEndStack = new Stack<Fragment>();
-		
 		FragmentCategories initialFragment = new FragmentCategories();
-	
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		
 	}
-	
-	
-	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		ViewParent parent = (ViewParent) container.getParent();
 		if (parent instanceof View) {
 			((TextView) ((View) parent).findViewById(R.id.welcome_title))
-					.setText(this.getTag());
+			.setText(this.getTag());
 		}
-
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
-	
 	public void onStart( ) {
-        Fragment fragment = backEndStack.peek();
+		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
 		fragmentTransaction.commitAllowingStateLoss();
-		
 		super.onStart();
 	}
 
 	public void startFragmentSubCategoriesList( String url,String catname) {
-
-	
 		FragmentSubCategoriesList newFragment = new FragmentSubCategoriesList ();
-		
 		newFragment.setUrl(url,catname);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -83,11 +66,9 @@ public class CategoryTabFragment extends TabFragment{
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
-	
-	public void startFragmentArticleDetails(Article article) {
 
-		
+
+	public void startFragmentArticleDetails(Article article) {
 		FragmentArticleDetailsFromCategory newFragment = new FragmentArticleDetailsFromCategory ();
 		newFragment.setArticle(article);
 		newFragment.parent = this;
@@ -99,15 +80,8 @@ public class CategoryTabFragment extends TabFragment{
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
-	
-	
 	public void startFragmentMemberFromCategories() {
-
-		
 		FragmentMemberFromCategories newFragment = new FragmentMemberFromCategories ();
-		
-	
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -117,46 +91,28 @@ public class CategoryTabFragment extends TabFragment{
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
-	
-	
-	
 	public void clearr(){
 		backEndStack.pop();
 	}
-
-	
-
-	
-
 	@Override
 	public void onBackPressed() {
-
-	
 		if (backEndStack.size()==1) {
 			((HomeActivity) getActivity()).close();
-			
 		}
-		
-		
-		
 		else {
-			
-		
-            if (backEndStack.size()==1) {
-    			((HomeActivity) getActivity()).close();
-    			Log.d("1", "2");
-            } else {
-            	 backEndStack.pop();
-                    Fragment frg = backEndStack.peek();
-                    Log.d("1", "4");
-            		FragmentManager fragmentManager = getChildFragmentManager();
-            		FragmentTransaction fragmentTransaction = fragmentManager
-            				.beginTransaction();
-            		                      
-            		fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
-            }
-           
-    }
+			if (backEndStack.size()==1) {
+				((HomeActivity) getActivity()).close();
+				Log.d("1", "2");
+			} else {
+				backEndStack.pop();
+				Fragment frg = backEndStack.peek();
+				Log.d("1", "4");
+				FragmentManager fragmentManager = getChildFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager
+						.beginTransaction();
+				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+			}
+
+		}
 	}
 }

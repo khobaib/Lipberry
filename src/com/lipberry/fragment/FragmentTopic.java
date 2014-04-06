@@ -36,45 +36,29 @@ import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-
-
-
 @SuppressLint("NewApi")
 public class FragmentTopic extends Fragment {
-	
 	TextView play_vedio;
 	MenuTabFragment parent;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-
-		
-		
-		
-
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_topic,
 				container, false);
-
 		play_vedio=(TextView) v.findViewById(R.id.play_vedio);
 		play_vedio.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				  startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/watch?v=98WtmW-lfeE")));
-				  
+				startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/watch?v=98WtmW-lfeE")));
 			}
 		});
 		return v;
 	}
-
 }
 

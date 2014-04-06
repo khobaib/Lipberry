@@ -32,36 +32,21 @@ import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-
-
-
 @SuppressLint("NewApi")
 public class FragmentInbox extends Fragment {
-	
-	
 	InboxTabFragment parent;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-
-		
-		
-		
-
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_inbox,
 				container, false);
-
-	
 		return v;
 	}
-
 }
 

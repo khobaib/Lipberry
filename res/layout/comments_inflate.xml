@@ -8,7 +8,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#986767"
+       
         android:layout_alignParentTop="true" >
          <ImageView
         android:id="@+id/img_avatar"

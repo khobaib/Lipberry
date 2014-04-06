@@ -60,40 +60,34 @@ import com.viewpagerindicator.TabPageIndicator;
 @SuppressLint("NewApi")
 public class FragmentMyCountriesPost extends Fragment {
 	LipberryApplication appInstance;	
-	 ProgressDialog pd;
-	 static HomeTabFragment parent;
-	
-	 TextView textView1;
-	 ArticleList articlelistinstance;
-	 JsonParser jsonParser;
-	 ListView list_view_latest_post;
-	 ArrayList<Article>articlaList;
-		ArticleFromMyFollwing postofmycountries;
-		ArrayList<LikeMember>limemberlist;
-		 MemberList memberListobject;
-		
-		  public static FragmentMyCountriesPost newInstance() {
-			  FragmentMyCountriesPost f = new FragmentMyCountriesPost();
-	            return f;
-	        }
-		
-		  
-	 public  void setParent(HomeTabFragment parent){
-			  this.parent=parent;
+	ProgressDialog pd;
+	static HomeTabFragment parent;
+	TextView textView1;
+	ArticleList articlelistinstance;
+	JsonParser jsonParser;
+	ListView list_view_latest_post;
+	ArrayList<Article>articlaList;
+	ArticleFromMyFollwing postofmycountries;
+	ArrayList<LikeMember>limemberlist;
+	MemberList memberListobject;
+	public static FragmentMyCountriesPost newInstance() {
+		FragmentMyCountriesPost f = new FragmentMyCountriesPost();
+		return f;
+	}
+	public  void setParent(HomeTabFragment parent){
+		this.parent=parent;
 	}
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		 jsonParser=new JsonParser();
-		 articlaList=new ArrayList<Article>();
+		jsonParser=new JsonParser();
+		articlaList=new ArrayList<Article>();
 		limemberlist=new ArrayList<LikeMember>();
-			
-		}
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_from_my_country,
 				container, false);
@@ -102,147 +96,114 @@ public class FragmentMyCountriesPost extends Fragment {
 		textView1.setText("My country");
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), "Lipberry",
-				    "Retreving Post", true);
+					"Retreving Post", true);
 			new AsyncTaskLoadPostFrommyFollowing().execute();
-			
 		}
 		else{
 			getfromdb();
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet), 10000).show();
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
 		}
 		textView1.setVisibility(View.GONE);
-
 		return v;
 	}
 	private class AsyncTaskLoadPostFrommyFollowing extends AsyncTask<Void, Void, ServerResponse> {
-					@Override
-						protected ServerResponse doInBackground(Void... params) {
-
-							try {
-									JSONObject loginObj = new JSONObject();
-									loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-									loginObj.put("startIndex", "0");
-									loginObj.put("endIndex", "10");
-									String loginData = loginObj.toString();
-									String url =Constants.baseurl+"home/latestposts/";
-									ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-											loginData, null);
-
-									Log.d("rtes", response.getjObj().toString());
-							 return response;
-	            } catch (JSONException e) {                
-	                e.printStackTrace();
-	                return null;
-	            }
-	        }
-
-	        @Override
-	        protected void onPostExecute(ServerResponse result) {
-	            super.onPostExecute(result);
-	            if((pd.isShowing())&&(pd!=null)){
-	            	pd.dismiss();
-	            }
-	            loadarticlelistfrommyfollowing(result.getjObj().toString()); 
-	        }
-	    }
-			
-			
-				public void loadarticlelistfrommyfollowing(String  a){
-	
-						try {
-							JSONObject result=new JSONObject(a);
-							String status=result.getString("status");
-							if(status.equals("success")){
-								articlelistinstance=ArticleList.getArticlelist(result);
-								loadlistview(articlelistinstance.getArticlelist(),true);
-							}
-							else{
-								String message=result.getString("description");
-								Toast.makeText(getActivity(), message, 10000).show();
-								loadmemberlist( a);
-								
-							}
-						} catch (JSONException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put("startIndex", "0");
+				loginObj.put("endIndex", "10");
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"home/latestposts/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
 			}
-				
-				
-				public void loadmemberlist(String result){
-					try {
-						JSONObject jobj=new JSONObject(result);
-						memberListobject=MemberList.getMemberlist(jobj);
-						if(memberListobject.getMemberlist().size()>0){
-							setlistformember(memberListobject.getMemberlist());
-						}
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					
-				}
-				
-				public void setlistformember(ArrayList<Member>memberList){
-					FragmentActivity  activity=getActivity();
-					ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity());
-					list_view_latest_post.setAdapter(ladapter);
-				}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			loadarticlelistfrommyfollowing(result.getjObj().toString()); 
+		}
+	}
+	public void loadarticlelistfrommyfollowing(String  a){
+		try {
+			JSONObject result=new JSONObject(a);
+			String status=result.getString("status");
+			if(status.equals("success")){
+				articlelistinstance=ArticleList.getArticlelist(result);
+				loadlistview(articlelistinstance.getArticlelist(),true);
+			}
+			else{
+				String message=result.getString("description");
+				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+				loadmemberlist( a);
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void loadmemberlist(String result){
+		try {
+			JSONObject jobj=new JSONObject(result);
+			memberListobject=MemberList.getMemberlist(jobj);
+			if(memberListobject.getMemberlist().size()>0){
+				setlistformember(memberListobject.getMemberlist());
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+	public void setlistformember(ArrayList<Member>memberList){
+		FragmentActivity  activity=getActivity();
+		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity());
+		list_view_latest_post.setAdapter(ladapter);
+	}
+	public void  loadlistview(List<Article>articlelist,boolean from){
+		FragmentActivity  activity=getActivity();
+		ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, 
+				(ArrayList<Article>)articlelist,parent);
+		list_view_latest_post.setAdapter(ladapter);
 
-				public void  loadlistview(List<Article>articlelist,boolean from){
-					FragmentActivity  activity=getActivity();
-					ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, (ArrayList<Article>)articlelist,parent);
-					list_view_latest_post.setAdapter(ladapter);
-					
-					if(from){
-						saveindb((ArrayList<Article>)articlelist);
-					}
-					
-					
-			 }
- 
-				public void saveindb(ArrayList<Article>artarticlelist){
-	 
-					
-					for(int i=0;i<artarticlelist.size();i++){
-						for(int j=0;j<artarticlelist.get(i).getLikedmemberlist().size();j++){
-			 
-							String artid= artarticlelist.get(i).getArticle_id();
-							artarticlelist.get(i).getLikedmemberlist().get(j).setForeign_key_article_id(artid);
-						}
-					}
-	 
-	 
-					LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
-					dbInstance.open();
-      
-					for(int i=0;i<artarticlelist.size();i++){
-						dbInstance.insertOrUpdateArticle(artarticlelist.get(i));
-					}
-      
-						List<Article>artlist= dbInstance.retrieveArticleList();
-						dbInstance.close();
-				}
- 
- 
-				public void getfromdb(){
-						LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
-						dbInstance.open();
-						List<Article>artlist= dbInstance.retrieveArticleList();
-						dbInstance.close();
-						if(artlist.size()>0){
-							loadlistview(artlist,false);
-						}
-						else{
-   	  
-							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found), 10000).show();
-		       
-						}
-     
-    
-				}
- 
-
-
+		if(from){
+			saveindb((ArrayList<Article>)articlelist);
+		}
+	}
+	public void saveindb(ArrayList<Article>artarticlelist){
+		for(int i=0;i<artarticlelist.size();i++){
+			for(int j=0;j<artarticlelist.get(i).getLikedmemberlist().size();j++){
+				String artid= artarticlelist.get(i).getArticle_id();
+				artarticlelist.get(i).getLikedmemberlist().get(j).setForeign_key_article_id(artid);
+			}
+		}
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		for(int i=0;i<artarticlelist.size();i++){
+			dbInstance.insertOrUpdateArticle(artarticlelist.get(i));
+		}
+		List<Article>artlist= dbInstance.retrieveArticleList();
+		dbInstance.close();
+	}
+	public void getfromdb(){
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		List<Article>artlist= dbInstance.retrieveArticleList();
+		dbInstance.close();
+		if(artlist.size()>0){
+			loadlistview(artlist,false);
+		}
+		else{
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),
+					Toast.LENGTH_SHORT).show();
+		}
+	}
 }

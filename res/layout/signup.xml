@@ -50,7 +50,6 @@
                     android:padding="7dp"
                     android:hint="@string/et_signup_name"
                     android:ems="10" >
-				 	
 				 </EditText>
 				 
                 

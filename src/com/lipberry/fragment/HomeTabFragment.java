@@ -24,54 +24,34 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeTabFragment extends TabFragment{
-
-	
-    protected Stack<Fragment> backEndStack;
- Bundle sBundle;
+	protected Stack<Fragment> backEndStack;
+	Bundle sBundle;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-	backEndStack = new Stack<Fragment>();
-		
+		backEndStack = new Stack<Fragment>();
 		FragmentMenu initialFragment = new FragmentMenu();
-	
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
 		sBundle=savedInstanceState;
-		
 	}
-	
-	
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
-		
-		
-		
-		 
 	}
-
-
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
 		ViewParent parent = (ViewParent) container.getParent();
 		if (parent instanceof View) {
 			((TextView) ((View) parent).findViewById(R.id.welcome_title))
-					.setText(this.getTag());
+			.setText(this.getTag());
 		}
-
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
-	
-	
 	public void onStart( ) {
-        Fragment fragment = backEndStack.peek();
+		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
@@ -80,10 +60,8 @@ public class HomeTabFragment extends TabFragment{
 		super.onStart();
 	}
 
-	
-public void startFragmentArticleDetailsFromHome(Article article) {
 
-		
+	public void startFragmentArticleDetailsFromHome(Article article) {
 		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();
 		newFragment.setArticle(article);
 		newFragment.parent = this;
@@ -95,7 +73,6 @@ public void startFragmentArticleDetailsFromHome(Article article) {
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
 	public void startMenufragment() {
 		FragmentMenu newFragment = new FragmentMenu ();
 		newFragment.parent = this;
@@ -107,8 +84,6 @@ public void startFragmentArticleDetailsFromHome(Article article) {
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
-	
 	public void startMemberFragment() {
 		FragmentMemberFromHome newFragment = new FragmentMemberFromHome();
 		newFragment.parent = this;
@@ -120,46 +95,26 @@ public void startFragmentArticleDetailsFromHome(Article article) {
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	
-	
-	
-	
 	public void clearr(){
 		backEndStack.pop();
 	}
-
-	
-
-	
-
 	@Override
 	public void onBackPressed() {
-
-	
 		if (backEndStack.size()==1) {
 			((HomeActivity) getActivity()).close();
-			
 		}
-		
-		
-		
 		else {
-			
-		
-            if (backEndStack.size()==1) {
-    			((HomeActivity) getActivity()).close();
-    			Log.d("1", "2");
-            } else {
-            	 backEndStack.pop();
-                    Fragment frg = backEndStack.peek();
-                    Log.d("1", "4");
-            		FragmentManager fragmentManager = getChildFragmentManager();
-            		FragmentTransaction fragmentTransaction = fragmentManager
-            				.beginTransaction();
-            		                      
-            		fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
-            }
-           
-    }
+			if (backEndStack.size()==1) {
+				((HomeActivity) getActivity()).close();
+			} else {
+				backEndStack.pop();
+				Fragment frg = backEndStack.peek();
+				FragmentManager fragmentManager = getChildFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager
+						.beginTransaction();
+				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+			}
+
+		}
 	}
 }

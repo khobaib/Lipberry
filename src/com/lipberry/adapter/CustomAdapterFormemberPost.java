@@ -52,23 +52,19 @@ public class CustomAdapterFormemberPost extends BaseAdapter {
 		super();
 		this.list=list;
 		this.activity=activity;
-		
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-							defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return list.size();
 	}
-
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
@@ -84,19 +80,12 @@ public class CustomAdapterFormemberPost extends BaseAdapter {
 		ImageView img_thumb;
 		TextView txt_article_title;
 		TextView txt_article_created;
-		
-	
-		
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
 		ViewHolder holder;
 		LayoutInflater inflater = activity.getLayoutInflater();
-
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.image_inflate_member_post,
 					null);
@@ -108,19 +97,14 @@ public class CustomAdapterFormemberPost extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
-		
 		holder.txt_article_created.setText(list.get(position).getCreated_at());
 		holder.txt_article_title.setText(list.get(position).getArticle_title());
 		if(list.get(position).getArticle_photo()==null){
-			
+
 		}
 		else{
 			imageLoader.displayImage(list.get(position).getArticle_photo(), holder.img_thumb);
 		}
-	return convertView;
+		return convertView;
 	}
-	
-	
-
 }

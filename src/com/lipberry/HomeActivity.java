@@ -9,7 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.lipberry.fragment.HomeTabFragment;
-import com.lipberry.fragment.UnknownTabFragment;
+import com.lipberry.fragment.WriteTopicTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.fragment.IneractionTabFragment;
 import com.lipberry.fragment.InboxTabFragment;
@@ -47,40 +47,38 @@ public class HomeActivity extends FragmentActivity {
 	public Button backbuttonoftab;
 	public TextView welcome_title;
 	@Override
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		setContentView(R.layout.main);
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
 		setTabs();
 		mTabHost.setCurrentTab(4);
-			
-		}
+
+	}
 	private void setTabs() {
-			mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
-			mTabHost.setup(this, getSupportFragmentManager(),
+		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+		mTabHost.setup(this, getSupportFragmentManager(),
 				android.R.id.tabcontent);
-			mTabsPlaceHoler = (TabWidget) findViewById(android.R.id.tabs);
-			addTab("Unkknown", R.drawable.lunknown, UnknownTabFragment.class);
-			addTab("Interaction", R.drawable.linteraction, IneractionTabFragment.class);
-			addTab("Inbox", R.drawable.linbox, InboxTabFragment.class);
-			addTab("Categories", R.drawable.lcategory, CategoryTabFragment.class);
-			addTab("Home", R.drawable.lhome, HomeTabFragment.class);
-			addTab("Menu", R.drawable.lmenu, MenuTabFragment.class);
-		
+		mTabsPlaceHoler = (TabWidget) findViewById(android.R.id.tabs);
+		addTab("Unkknown", R.drawable.lunknown, WriteTopicTabFragment.class);
+		addTab("Interaction", R.drawable.linteraction, IneractionTabFragment.class);
+		addTab("Inbox", R.drawable.linbox, InboxTabFragment.class);
+		addTab("Categories", R.drawable.lcategory, CategoryTabFragment.class);
+		addTab("Home", R.drawable.lhome, HomeTabFragment.class);
+		addTab("Menu", R.drawable.lmenu, MenuTabFragment.class);
+
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c) {
 
 		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-		
 		View tabIndicator = LayoutInflater.from(this).inflate(
 				R.layout.tab_indicator, mTabsPlaceHoler, false);
-		
 		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
 		icon.setImageResource(drawableId);
 		spec.setIndicator(tabIndicator);
@@ -92,55 +90,41 @@ public class HomeActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		mTabHost.setCurrentTab(1);
 	}
-	
+
 	public void setTabSelection0() {
 		// TODO Auto-generated method stub
 		mTabHost.setCurrentTab(4);
 	}
-
-	
-	
-	
-	
-	
-	
-	
 	@Override
 	public void onBackPressed() {
 		activeFragment.onBackPressed();
 	}
-
-	// method for TabFragment to call when the user navigates out of the app
 	public void close() {
-		
+
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				HomeActivity.this);
-			alertDialogBuilder.setTitle("Lipberry");
-				alertDialogBuilder
-				.setMessage("Would you like to exit?")
-				.setCancelable(false)
-				.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						finisssh();
-					}
-				  })
-				.setNegativeButton("No",new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog,int id) {
-						dialog.cancel();
-					}
-				});
-				AlertDialog alertDialog = alertDialogBuilder.create();
-				alertDialog.show();
-    	
-    	
-		
-		
+		alertDialogBuilder.setTitle("Lipberry");
+		alertDialogBuilder
+		.setMessage("Would you like to exit?")
+		.setCancelable(false)
+		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				finisssh();
+			}
+		})
+		.setNegativeButton("No",new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+			}
+		});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 	}
-	
+
 	public void finisssh(){
 		super.onBackPressed();
 	}
-	
-	
+
+
 }
 

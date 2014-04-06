@@ -51,12 +51,11 @@ public class CustomAdapter extends BaseAdapter {
 		super();
 		this.list=list;
 		this.activity=activity;
-		
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-							defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 
@@ -81,39 +80,26 @@ public class CustomAdapter extends BaseAdapter {
 	}
 	private class ViewHolder {
 		ImageView img_thumb;
-		
-	
-		
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
 		ViewHolder holder;
 		LayoutInflater inflater = activity.getLayoutInflater();
-
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.image_inflate,
 					null);
 			holder = new ViewHolder();
 			holder.img_thumb=(ImageView) convertView.findViewById(R.id.img_thumb);
-			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
 		if(list.get(position).getImage_thumb_src()==null){
-			
 		}
 		else{
 			imageLoader.displayImage(list.get(position).getImage_thumb_src(), holder.img_thumb);
 		}
-	return convertView;
+		return convertView;
 	}
-	
-	
-
 }
