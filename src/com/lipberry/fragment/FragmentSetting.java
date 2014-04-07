@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,9 +38,10 @@ import android.widget.Toast;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 @SuppressLint("NewApi")
-public class FragmentTopic extends Fragment {
-	TextView play_vedio;
+public class FragmentSetting extends Fragment {
 	MenuTabFragment parent;
+	String[]menuarray;
+	ListView list_menu_item;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,16 +51,22 @@ public class FragmentTopic extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_topic,
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_setting,
 				container, false);
-		play_vedio=(TextView) v.findViewById(R.id.play_vedio);
-		play_vedio.setOnClickListener(new OnClickListener() {
+		return v;
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_setting));
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0) {
-				startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/watch?v=98WtmW-lfeE")));
+			public void onClick(View v) {
+				parent.onBackPressed();
 			}
 		});
-		return v;
 	}
 }
 

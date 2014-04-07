@@ -30,7 +30,7 @@ public class HomeTabFragment extends TabFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		backEndStack = new Stack<Fragment>();
-		FragmentMenu initialFragment = new FragmentMenu();
+		FragmentHomeHolder initialFragment = new FragmentHomeHolder();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
 		sBundle=savedInstanceState;
@@ -74,7 +74,7 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void startMenufragment() {
-		FragmentMenu newFragment = new FragmentMenu ();
+		FragmentHomeHolder newFragment = new FragmentHomeHolder ();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

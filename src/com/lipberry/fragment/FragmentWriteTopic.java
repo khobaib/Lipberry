@@ -58,11 +58,12 @@ import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 @SuppressLint("NewApi")
 public class FragmentWriteTopic extends Fragment {
-	TextView play_vedio;
-	Button btn_select_photo;
+    TextView txt_topic,txt_text,txt_tag;
+	Button btn_select_photo,btn_go;
 	WriteTopicTabFragment parent;
 	ArrayList< Categories>categorylist;
 	Spinner spinner_category;
+	int selsectedspinnerposition=-1;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
@@ -70,6 +71,7 @@ public class FragmentWriteTopic extends Fragment {
 	ImageScale bitmapimage;
 	public  String photofromcamera;
 	public  String drectory;
+	String title,category_id,category_prefix,body,photo,video;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,18 +81,30 @@ public class FragmentWriteTopic extends Fragment {
 		catnamelist=new ArrayList<String>();
 		appInstance = (LipberryApplication) getActivity().getApplication();
 	}
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		selsectedspinnerposition=-1;
+		super.onPause();
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 			ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_write_topic,
 				container, false);
+			btn_go=(Button) v.findViewById(R.id.btn_go);
+			btn_go.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startwritetopic();
+				}
+			});
 			btn_select_photo=(Button) v.findViewById(R.id.btn_select_photo);
 			btn_select_photo.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					captureimage();
 				}
 			});
@@ -133,8 +147,6 @@ public class FragmentWriteTopic extends Fragment {
 						pd.dismiss();
 					}
 				}
-				
-				e.printStackTrace();
 				return null;
 			}
 		}
@@ -144,7 +156,6 @@ public class FragmentWriteTopic extends Fragment {
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
-			Log.e("error", result.getjObj().toString());
 			JSONObject res=result.getjObj();
 			try {
 				String status=res.getString("status");
@@ -175,16 +186,13 @@ public class FragmentWriteTopic extends Fragment {
 							Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
 						Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
 			}
 		}
 	}
 	
-	
-	  private void generateSpinner() {
+	private void generateSpinner() {
 			ArrayAdapter< String>adapter = new ArrayAdapter<String>(getActivity(),
 					android.R.layout.simple_spinner_dropdown_item, catnamelist);
 			spinner_category.setAdapter(adapter);
@@ -314,8 +322,11 @@ public class FragmentWriteTopic extends Fragment {
             				}
             }
       }
- }   
-
+	} 
+	
+	public void startwritetopic(){
 		
+	}
+
 }
 

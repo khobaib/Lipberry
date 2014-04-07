@@ -2,67 +2,59 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-     >
+    android:background="#ffffff" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       
         android:layout_alignParentTop="true" >
-         <ImageView
-        android:id="@+id/img_avatar"
-        android:layout_width="60dp"
-        android:layout_margin="8dp"
-       
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-       
-        android:src="@drawable/ic_launcher" />
 
-		<ImageView
-		    android:id="@+id/img_comment"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_margin="10dp"
-		      android:layout_below="@+id/txt_title"
-		      
-		    android:layout_alignParentLeft="true"
-           
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_launcher" />
+
+        <ImageView
+            android:id="@+id/img_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/txt_title"
+            android:layout_margin="10dp"
             android:src="@drawable/comment" />
 
-		<ImageView
-		    android:id="@+id/img_like"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		  android:layout_below="@+id/txt_title"
-		    android:layout_toRightOf="@+id/img_comment"
-		     android:layout_margin="5dp"
-		    android:src="@drawable/like" />
+        <ImageView
+            android:id="@+id/img_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_title"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/img_comment"
+            android:src="@drawable/like" />
 
-		<TextView
-		    android:id="@+id/txt_name"
-		    android:layout_width="60dp"
-		    android:layout_height="wrap_content"
-		    android:layout_alignRight="@+id/img_avatar"
-		    android:layout_below="@+id/img_avatar"
-		    android:gravity="center"
-		    android:textColor="#000000" />
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/img_avatar"
+            android:layout_below="@+id/img_avatar"
+            android:gravity="center"
+            android:textColor="#000000" />
 
-		<TextView
-		    android:id="@+id/txt_title"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		  android:layout_marginLeft="85dp"
-		  android:gravity="right"
-		  android:layout_centerHorizontal="true"
-		  android:layout_centerVertical="true"
-		  android:padding="5dp"
-		  
-		  android:textColor="#000000"
-		  android:layout_marginRight="85dp"
-		  />
-        
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="85dp"
+            android:layout_marginRight="85dp"
+            android:gravity="right"
+            android:padding="5dp"
+            android:textColor="#000000" />
     </RelativeLayout>
 
 </RelativeLayout>

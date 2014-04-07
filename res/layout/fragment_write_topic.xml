@@ -60,8 +60,7 @@
                     android:textDirection="rtl"
                     android:textSize="24dp" >
                 </EditText>
-                
-                
+
                 <EditText
                     android:id="@+id/txt_tag"
                     android:layout_width="match_parent"
@@ -89,27 +88,40 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/txt_tag"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/rounded_edittext"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginStart="22dp"
-                     android:layout_marginEnd="22dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginTop="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_edittext" />
 
                 <Button
                     android:id="@+id/btn_select_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/spinner_category"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginStart="22dp"
-                     android:layout_marginEnd="22dp"
-                    android:layout_marginLeft="22dp"
-                    android:textColor="#000000"
-                    android:background="@drawable/rounded_edittext"
                     android:layout_marginTop="10dp"
-                    android:text="Select Photo" />
-
+                    android:background="@drawable/rounded_edittext"
+                    android:text="Select Photo"
+                    android:textColor="#000000" />
+                
+                <Button
+                    android:id="@+id/btn_go"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_select_photo"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:text="Enter"
+                    android:textColor="#000000" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

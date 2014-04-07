@@ -16,6 +16,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
+import android.net.MailTo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,6 +39,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.SignupActivity;
@@ -62,10 +67,13 @@ public class FragmentMyCountriesPost extends Fragment {
 	LipberryApplication appInstance;	
 	ProgressDialog pd;
 	static HomeTabFragment parent;
-	TextView textView1;
+	ListviewAdapterimageloadingforArticle ladapter;
 	ArticleList articlelistinstance;
 	JsonParser jsonParser;
-	ListView list_view_latest_post;
+	int startindex=0;
+	int endindex=3;
+	PullToRefreshListView list_view_latest_post2;
+	ListView listviewforarticle;
 	ArrayList<Article>articlaList;
 	ArticleFromMyFollwing postofmycountries;
 	ArrayList<LikeMember>limemberlist;
@@ -73,6 +81,18 @@ public class FragmentMyCountriesPost extends Fragment {
 	public static FragmentMyCountriesPost newInstance() {
 		FragmentMyCountriesPost f = new FragmentMyCountriesPost();
 		return f;
+	}
+	@Override
+	public void onResume() {
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		startindex=0;
+		endindex=3;
+		super.onPause();
 	}
 	public  void setParent(HomeTabFragment parent){
 		this.parent=parent;
@@ -91,30 +111,47 @@ public class FragmentMyCountriesPost extends Fragment {
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_from_my_country,
 				container, false);
-		textView1=(TextView) v.findViewById(R.id.textView1);
-		list_view_latest_post=(ListView) v.findViewById(R.id.list_view_latest_post);
-		textView1.setText("My country");
+		list_view_latest_post2=(PullToRefreshListView) v.findViewById(R.id.list_view_latest_post);
+		listviewforarticle=list_view_latest_post2.getRefreshableView();
+		list_view_latest_post2.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				if(Constants.isOnline(getActivity())){
+					pd=ProgressDialog.show(getActivity(), "Lipberry",
+							"Retreving more Post", true);
+					new AsyncTaskRefreashPostFrommyCountries().execute();
+				}
+				else{
+					getfromdb();
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		if(Constants.isOnline(getActivity())){
+
 			pd=ProgressDialog.show(getActivity(), "Lipberry",
 					"Retreving Post", true);
-			new AsyncTaskLoadPostFrommyFollowing().execute();
+			new AsyncTaskLoadPostFrommyCountries().execute();
 		}
 		else{
 			getfromdb();
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		textView1.setVisibility(View.GONE);
+
 		return v;
 	}
-	private class AsyncTaskLoadPostFrommyFollowing extends AsyncTask<Void, Void, ServerResponse> {
+	private class AsyncTaskLoadPostFrommyCountries extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("startIndex", "0");
-				loginObj.put("endIndex", "10");
+				loginObj.put("startIndex", ""+startindex);
+				loginObj.put("endIndex", ""+endindex);
+				startindex+=2;
+				endindex+=2;
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"home/latestposts/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -131,16 +168,68 @@ public class FragmentMyCountriesPost extends Fragment {
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
-			loadarticlelistfrommyfollowing(result.getjObj().toString()); 
+			loadarticlelistFrommyCountries(result.getjObj().toString()); 
 		}
 	}
-	public void loadarticlelistfrommyfollowing(String  a){
+
+	private class AsyncTaskRefreashPostFrommyCountries extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put("startIndex", ""+startindex);
+				loginObj.put("endIndex", ""+endindex);
+				startindex+=2;
+				endindex+=2;
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"home/latestposts/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			refreasharticlelistFrommyCountries(result.getjObj().toString()); 
+		}
+	}
+
+
+	public void refreasharticlelistFrommyCountries(String  a){
+		try {
+			JSONObject result=new JSONObject(a);
+			String status=result.getString("status");
+			if(status.equals("success")){
+				ArticleList articlelistinstance2=ArticleList.getArticlelist(result);
+				articlaList.addAll(articlelistinstance2.getArticlelist());
+				ladapter.notifyDataSetChanged();
+				list_view_latest_post2.onRefreshComplete();
+			}
+			else{
+				String message=result.getString("description");
+				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void loadarticlelistFrommyCountries(String  a){
 		try {
 			JSONObject result=new JSONObject(a);
 			String status=result.getString("status");
 			if(status.equals("success")){
 				articlelistinstance=ArticleList.getArticlelist(result);
-				loadlistview(articlelistinstance.getArticlelist(),true);
+				articlaList=articlelistinstance.getArticlelist();
+				loadlistview(true);
 			}
 			else{
 				String message=result.getString("description");
@@ -148,7 +237,6 @@ public class FragmentMyCountriesPost extends Fragment {
 				loadmemberlist( a);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -166,16 +254,15 @@ public class FragmentMyCountriesPost extends Fragment {
 	public void setlistformember(ArrayList<Member>memberList){
 		FragmentActivity  activity=getActivity();
 		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity());
-		list_view_latest_post.setAdapter(ladapter);
+		listviewforarticle.setAdapter(ladapter);
 	}
-	public void  loadlistview(List<Article>articlelist,boolean from){
+	public void  loadlistview(boolean from){
 		FragmentActivity  activity=getActivity();
-		ListviewAdapterimageloadingforArticle ladapter=new ListviewAdapterimageloadingforArticle(activity, 
-				(ArrayList<Article>)articlelist,parent);
-		list_view_latest_post.setAdapter(ladapter);
-
+		ladapter=new ListviewAdapterimageloadingforArticle(activity, 
+				articlaList,parent);
+		listviewforarticle.setAdapter(ladapter);
 		if(from){
-			saveindb((ArrayList<Article>)articlelist);
+			saveindb(articlaList);
 		}
 	}
 	public void saveindb(ArrayList<Article>artarticlelist){
@@ -196,10 +283,11 @@ public class FragmentMyCountriesPost extends Fragment {
 	public void getfromdb(){
 		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
 		dbInstance.open();
-		List<Article>artlist= dbInstance.retrieveArticleList();
+		articlaList=(ArrayList<Article>) dbInstance.retrieveArticleList();
 		dbInstance.close();
-		if(artlist.size()>0){
-			loadlistview(artlist,false);
+		if(articlaList.size()>0){
+
+			loadlistview(false);
 		}
 		else{
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),

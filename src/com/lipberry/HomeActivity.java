@@ -109,6 +109,7 @@ public class HomeActivity extends FragmentActivity {
 		.setCancelable(false)
 		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
+				Intent intent=new  Intent(HomeActivity.this, LoginActivity.class);
 				finisssh();
 			}
 		})

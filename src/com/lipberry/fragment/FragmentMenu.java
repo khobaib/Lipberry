@@ -1,3 +1,4 @@
+
 package com.lipberry.fragment;
 
 import java.util.ArrayList;
@@ -11,117 +12,95 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-import com.viewpagerindicator.TabPageIndicator;
-
-
-
 @SuppressLint("NewApi")
 public class FragmentMenu extends Fragment {
-
-	private static final String[] CONTENT = new String[] {"جديد الكل","جديد من أتابعهم"};
-	HomeTabFragment parent;
-	ViewGroup view;
-	ViewPager pager;
-	TabPageIndicator indicator;
+	MenuTabFragment parent;
+	String[]menuarray;
+	ListView list_menu_item;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_menu,
 				container, false);
-		view=container;
-		pager = (ViewPager) v.findViewById(R.id.pager);
-		indicator = (TabPageIndicator)v.findViewById(R.id.indicator);
-		FragmentPagerAdapter adapter = new PostRetreiveAdapter(getChildFragmentManager());
-		pager.setAdapter(adapter);
-		indicator.setViewPager(pager);
+		list_menu_item=(ListView) v.findViewById(R.id.list_menu_item);
+		menuarray = getActivity().getResources().getStringArray(R.array.menuarray);
+		ArrayAdapter adapter = new ArrayAdapter<String>(
+				getActivity(),
+				android.R.layout.simple_list_item_1,
+				menuarray);
+		list_menu_item.setAdapter(adapter);
+		setlistviewonitemclick();
 		return v;
 	}
 	@Override
 	public void onResume() {
-		super.onResume();
-		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
-		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-	}
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-	class PostRetreiveAdapter extends FragmentPagerAdapter {
-		@Override
-		public Parcelable saveState() {
-			return super.saveState();
-		}
-		public PostRetreiveAdapter(FragmentManager fm) {
-			super(fm);
-		}
-		@Override
-		public Fragment getItem(int position) {
-			if (position == 0) {
-				FragmentMyCountriesPost newfrag=new FragmentMyCountriesPost();
-				newfrag.parent=parent;
-				return newfrag;
-			} else if (position == 1) {
-				FragmentMyFollwerPost newfrag=new FragmentMyFollwerPost();
-				newfrag.parent=parent;
-				return newfrag;
-			} else
-				return null;
-
-		}
-		@Override
-		public CharSequence getPageTitle(int position) {
-			return CONTENT[position % CONTENT.length].toUpperCase();
-		}
-		@Override
-		public int getCount() {
-			return CONTENT.length;
-		}
-	}
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	public void onDestroyView() {
 		// TODO Auto-generated method stub
-		super.onDestroyView();
+		super.onResume();
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 	}
 
+	public void setlistviewonitemclick(){
+		list_menu_item.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				switch (position) {
+				case 0:
+
+					break;
+				case 1:
+					parent.startFragmentSetting();
+					break;
+				case 2:
+
+					break;
+				case 3:
+
+					break;
+				case 4:
+
+					break;
+				case 5:
+
+					break;
+
+				default:
+					break;
+				}
+			}
+		});
+	}
 }
+

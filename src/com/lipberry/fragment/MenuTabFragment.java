@@ -27,7 +27,7 @@ public class MenuTabFragment extends TabFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		backEndStack = new Stack<Fragment>();
-		FragmentTopic initialFragment = new FragmentTopic();
+		FragmentMenu initialFragment = new FragmentMenu();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
 	}
@@ -53,7 +53,19 @@ public class MenuTabFragment extends TabFragment{
 		super.onStart();
 	}
 	public void startMenufragment() {
-		FragmentTopic newFragment = new FragmentTopic();
+		FragmentMenu newFragment = new FragmentMenu();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	
+	public void startFragmentSetting() {
+		FragmentSetting newFragment = new FragmentSetting();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
