@@ -1,6 +1,7 @@
 
 package com.lipberry.fragment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -40,30 +41,37 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
 import com.lipberry.model.Categories;
+import com.lipberry.model.Commentslist;
 import com.lipberry.model.ImageScale;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+
 @SuppressLint("NewApi")
 public class FragmentWriteTopic extends Fragment {
-    TextView txt_topic,txt_text,txt_tag;
+    EditText txt_topic,txt_text,txt_tag;
 	Button btn_select_photo,btn_go;
 	WriteTopicTabFragment parent;
 	ArrayList< Categories>categorylist;
 	Spinner spinner_category;
 	int selsectedspinnerposition=-1;
+	Bitmap scaledBmp;
+	//04-07 21:13:52.159: E/write(13138): {"status":"success","description":"Success add article"}
+	Bitmap bitmap;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
@@ -93,10 +101,14 @@ public class FragmentWriteTopic extends Fragment {
 			Bundle savedInstanceState) {
 			ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_write_topic,
 				container, false);
+			txt_topic=(EditText) v.findViewById(R.id.txt_topic);
+			txt_text=(EditText) v.findViewById(R.id.txt_text);
+			txt_tag=(EditText) v.findViewById(R.id.txt_tag);
 			btn_go=(Button) v.findViewById(R.id.btn_go);
 			btn_go.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					
 					startwritetopic();
 				}
 			});
@@ -197,12 +209,24 @@ public class FragmentWriteTopic extends Fragment {
 					android.R.layout.simple_spinner_dropdown_item, catnamelist);
 			spinner_category.setAdapter(adapter);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner_category.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
+						long arg3){
+
+					selsectedspinnerposition=position-1;
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					selsectedspinnerposition=-1;
+				}
+			});
 	  }
 	  
 		public void captureimage(){
-			 
-			//	
-				final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+			
+			 	final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
 				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 				builder.setTitle("Add Photo!");
 				builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -268,7 +292,8 @@ public class FragmentWriteTopic extends Fragment {
             			try{
             					String filepath = drectory+"/"+photofromcamera;
             					bitmapimage =new ImageScale();
-            					Bitmap bitmap=bitmapimage.decodeImage(filepath);
+            					bitmap=bitmapimage.decodeImage(filepath);
+            					scaledBmp=bitmap;
             					String mBaseFolderPath =drectory+ "/";
             					String mFilePath = drectory+"/"+photofromcamera;
             					FileOutputStream stream = new FileOutputStream(mFilePath);
@@ -306,7 +331,8 @@ public class FragmentWriteTopic extends Fragment {
             											dst.close();
             											String filepath = drectory+"/"+photofromcamera;
             			        						bitmapimage =new ImageScale();
-            			        						Bitmap bitmap=bitmapimage.decodeImage(filepath);
+            			        						 bitmap=bitmapimage.decodeImage(filepath);
+            			        						scaledBmp=bitmap;
             			        						String mBaseFolderPath = drectory + "/";
             			        						String mFilePath = drectory+"/"+photofromcamera;
             			        						FileOutputStream stream = new FileOutputStream(mFilePath);
@@ -325,7 +351,99 @@ public class FragmentWriteTopic extends Fragment {
 	} 
 	
 	public void startwritetopic(){
+		//String title,category_id,category_prefix,body,photo,video;
+		title=txt_topic.getText().toString();
+		body=txt_text.getText().toString();
+		body=txt_text.getText().toString();
+		if(title.trim().equals("")){
+			Toast.makeText(getActivity(), "Please enter article title",Toast.LENGTH_SHORT).show();
+		}
+		else if(body.trim().equals("")){
+			Toast.makeText(getActivity(), "Please enter article text",Toast.LENGTH_SHORT).show();
+		}
+		else if(selsectedspinnerposition==-1){
+			Toast.makeText(getActivity(), "Please select category",Toast.LENGTH_SHORT).show();
+		}
 		
+		else{
+			
+			if(Constants.isOnline(getActivity())){
+				//pd=ProgressDialog.show(getActivity(),"Lipberry",
+					//	"Writing topic", true);
+				new AsyncTaskWriteTopic().execute();
+			}
+			else{
+				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+						Toast.LENGTH_SHORT).show();
+			}
+			
+		}
+		
+		
+		
+	}
+	
+	private class AsyncTaskWriteTopic extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put("title", title);
+				loginObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
+				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
+				loginObj.put("body", body);
+				if(bitmap!=null){
+					ByteArrayOutputStream bao = new ByteArrayOutputStream();
+					//scaledBmp.compress(Bitmap.CompressFormat.PNG, 90, bao);
+					bitmap.compress(CompressFormat.JPEG,90, bao);
+					byte[] ba = bao.toByteArray();
+					Log.e("BITMAP SIZE in asynctask", "bitmap size after compress = "
+							+ ba.length);
+
+					String base64Str = Base64.encodeBytes(ba);
+					loginObj.put("photo",  base64Str);
+				}
+				else{
+					Log.e("BITMAP SIZE in asynctask", "bitmap size after compress = "
+							);
+				}
+				
+				loginObj.put("video", "https://www.youtube.com/watch?v=u9L1QP6foCo");
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"article/addarticle/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("write", result.getjObj().toString());
+//			if((pd.isShowing())&&(pd!=null)){
+//				pd.dismiss();
+//			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status= jobj.getString("status");
+				String description=jobj.getString("description");
+				Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+//				if(status.equals("success")){
+//				//	04-07 21:13:52.159: E/write(13138): {"status":"success","description":"Success add article"}
+//
+//				}
+//				else{
+//					String description=jobj.getString("message");
+//					
+//				}
+			} catch (JSONException e) {
+			}
+		}
 	}
 
 }

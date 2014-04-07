@@ -212,11 +212,11 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			@Override
 			public void onClick(View arg0) {
 				vedioholder.setVisibility(View.VISIBLE);
-				if(articledetails.getVideo()==null){
+				if(articledetails.getVideo().equals("")){
 
 				}
 				else{
-					startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("https://www.youtube.com/watch?v=R1Z4PXNxUhk")));
+					startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(articledetails.getVideo())));
 
 				}
 			}

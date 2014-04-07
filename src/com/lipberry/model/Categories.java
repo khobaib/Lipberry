@@ -11,6 +11,8 @@ import com.google.gson.GsonBuilder;
 
 public class Categories {
 	ArrayList<Categories>arrayList;
+	private String id;
+	private String prefix;
 	private String URL;
 	private String name;
 	public Categories() {
@@ -30,10 +32,16 @@ public class Categories {
 		}
 		return categories;
 	}
+	public String getId() {
+		return this.id;
+	}
+	public String getPrefix() {
+		return this.prefix;
+	}
 	public String getUrl() {
 		return this.URL;
 	}
 	public String getName() {
-		return name;
+		return this.name;
 	}
 }
