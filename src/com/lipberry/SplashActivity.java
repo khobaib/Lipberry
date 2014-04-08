@@ -48,13 +48,15 @@ public class SplashActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
+		
+		
 		setContentView(R.layout.splash);
 		Handler handler=new Handler();
 		handler.postDelayed(new Runnable() {
 
 			@Override
 			public void run() {
-				if( appInstance.getUserCred().getUsername().equalsIgnoreCase("")){
+				if(!appInstance.isRememberMe()){
 					gosplash2();
 				}
 				else{
@@ -66,7 +68,6 @@ public class SplashActivity extends Activity {
 					}
 					else{
 						Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
-
 						Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
 						startActivity(intent);
 
@@ -183,6 +184,7 @@ public class SplashActivity extends Activity {
 				usercred.checknull();
 				usercred.setPassword(password);
 				appInstance.setUserCred(usercred);
+				appInstance.setRememberMe(true);
 				Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
 				startActivity(intent);
 			}

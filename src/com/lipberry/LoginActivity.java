@@ -229,6 +229,7 @@ public class LoginActivity extends Activity {
 				usercred.checknull();
 				usercred.setPassword(password);
 				appInstance.setUserCred(usercred);
+				appInstance.setRememberMe(true);
 				Intent intent=new Intent(LoginActivity.this, HomeActivity.class);
 				startActivity(intent);
 			}

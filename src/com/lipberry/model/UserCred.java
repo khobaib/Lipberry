@@ -7,6 +7,12 @@ import com.google.gson.GsonBuilder;
 
 
 public class UserCred {
+	private boolean system_notification=false;
+	private boolean weekly_newsletter=false;
+	private boolean direct_msz_mail=false;
+	private boolean allow_direct_msz=false;
+	private boolean stop_push_new_message=false;
+
 	private String administrator;
 	private String name;
 	private String youtube;
@@ -27,13 +33,62 @@ public class UserCred {
 	private String siteurl;
 	private String password="";
 	public UserCred() {
-		// TODO Auto-generated constructor stub
 	}
-	public UserCred( String administrator,String name, String youtube,String telephone,
+
+	public void setStop_push_new_message(boolean stop_push_new_message) {
+		this.stop_push_new_message=stop_push_new_message;
+	}
+
+	public boolean getStop_push_new_message() {
+		return stop_push_new_message;
+	}
+
+	public void setAllow_direct_msz(boolean allow_direct_msz) {
+		this.allow_direct_msz=allow_direct_msz;
+	}
+
+	public boolean getAllow_direct_msz() {
+		return allow_direct_msz;
+	}
+
+	public void setDirect_msz_mail(boolean direct_msz_mail) {
+		this.direct_msz_mail=direct_msz_mail;
+	}
+
+	public boolean getDirect_msz_mail() {
+		return direct_msz_mail;
+	}
+
+	public void setWeekly_newsletter(boolean weekly_newsletter) {
+		this.weekly_newsletter=weekly_newsletter;
+	}
+
+	public boolean getWeekly_newsletter() {
+		return weekly_newsletter;
+	}
+
+
+
+	public void setSystem_notification(boolean system_notification) {
+		this.system_notification=system_notification;
+	}
+
+	public boolean getSystem_notification() {
+		return system_notification;
+	}
+
+	public UserCred( boolean system_notification,boolean weekly_newsletter,
+			boolean direct_msz_mail, boolean allow_direct_msz,boolean stop_push_new_message,
+			String administrator,String name, String youtube,String telephone,
 			String brief, String city, String country, String id,String twitter,
 			String username, String email,String description,String session_id,
 			String instagram, String nickname,String countrycity_flag,
 			String is_authorized,String siteurl) {
+		this.system_notification=system_notification;
+		this.weekly_newsletter=weekly_newsletter;
+		this.direct_msz_mail=direct_msz_mail;
+		this.allow_direct_msz=allow_direct_msz;
+		this.stop_push_new_message=stop_push_new_message;
 		this.siteurl=siteurl;
 		this.is_authorized=is_authorized;
 		this.countrycity_flag=countrycity_flag;

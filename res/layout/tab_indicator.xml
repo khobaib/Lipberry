@@ -5,12 +5,13 @@
     android:layout_weight="1"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:contentDescription="nothing" />
+	<ImageView
+	    android:id="@+id/icon"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:layout_centerVertical="true"
+	    android:contentDescription="nothing"
+	    android:scaleType="fitXY"/>
 
 </RelativeLayout>

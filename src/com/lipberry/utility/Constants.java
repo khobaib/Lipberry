@@ -44,6 +44,12 @@ public class Constants {
 	public static final int REQUEST_TYPE_POST = 2;
 	public static final int REQUEST_TYPE_PUT = 3;
 	public static final int REQUEST_TYPE_DELETE = 4;
+	
+	public static final String SYSTEM_NOTIFICATION = "system_notification";
+	public static final String WEEKLY_NEWSLATER = "weeklynewsletter";
+	public static final String DIRECT_MSZ_TOMAIL = "direcmsztomail";
+	public static final String MEMBERALLOW_TO_SEND_MSZ= "allowmembertosendmessage";
+	public static final String STOP_PUSH_MESSAGE = "stoppushmessage";
 	public static final String REMEMBER_ME = "remember_me";
 	public static final String FIRST_TIME = "first_time_run";
 	public static final String DESCRIPTION = "description";

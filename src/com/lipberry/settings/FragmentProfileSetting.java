@@ -1,5 +1,5 @@
 
-package com.lipberry.fragment;
+package com.lipberry.settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,70 +31,36 @@ import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
-import com.lipberry.LoginActivity;
 import com.lipberry.R;
-import com.lipberry.SplashActivity;
-import com.lipberry.utility.LipberryApplication;
+import com.lipberry.fragment.MenuTabFragment;
 @SuppressLint("NewApi")
-public class FragmentSetting extends Fragment {
-	MenuTabFragment parent;
-	Button btn_body_details,btn_general_settings,btn_signout;
+public class FragmentProfileSetting extends Fragment {
+	public MenuTabFragment parent;
 	String[]menuarray;
 	ListView list_menu_item;
-	LipberryApplication appInstance;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		appInstance = (LipberryApplication) getActivity().getApplication();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_setting,
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_profile_setting,
 				container, false);
-		btn_signout=(Button) v.findViewById(R.id.btn_signout);
-		btn_body_details=(Button) v.findViewById(R.id.btn_body_details);
-		btn_general_settings=(Button) v.findViewById(R.id.btn_general_settings);
-		btn_signout.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-			 appInstance.setRememberMe(false);
-			 Intent intent=new Intent(getActivity(), SplashActivity.class);
-			 intent.putExtra("fromhome", true);
-			getActivity().finish();
-			}
-		});
-		btn_general_settings.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				parent.startFragmentProfileSetting();
-			}
-		});
-		btn_body_details.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				parent.startFragmentMessageSetting();
-			}
-		});
 		return v;
 	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_setting));
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_general_settings));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -103,7 +69,5 @@ public class FragmentSetting extends Fragment {
 			}
 		});
 	}
-	
-	
 }
 
