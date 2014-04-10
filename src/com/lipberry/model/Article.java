@@ -9,12 +9,13 @@ import com.google.gson.Gson;
 
 public class Article {
 	private ArrayList<LikeMember>likemember_array;
-	private String article_id;
+	private String article_id="";
 	private String article_title;
 	private String article_photo;
 	private String article_description;
 	private String article_url;
 	private String like_count;
+	String article_category="";
 	private String comment_count;
 	private String like_url;
 	private String dislike_url;
@@ -26,7 +27,7 @@ public class Article {
 	String created_at="";
 	private String member_username;
 	private  String category_name;
-	private String article_category_url;
+	private String article_category_url="";
 	public Article(ArrayList<LikeMember>likedmemberlist,String article_id,String article_photo,String article_url,
 			String article_title,String article_description,String like_count,String comment_count,String like_url
 			,String dislike_url,String comment_url,String member_id,String member_photo,String userAlreadylikeThis,
@@ -48,8 +49,15 @@ public class Article {
 		this.member_id=member_id;
 		this.member_photo=member_photo;
 	}
+	public String getcategory(){
+		return this.article_category;
+	}
 	public String getArticle_category_url(){
 		return this.article_category_url;
+	}
+	
+	public void setUserAlreadylikeThis(){
+		this.userAlreadylikeThis="No";
 	}
 
 	public String getMember_username(){

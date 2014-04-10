@@ -43,13 +43,12 @@ public class SplashActivity extends Activity {
 	JsonParser jsonParser;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
+	boolean system_notification,weekly_newsletter,direct_msz_mail,allow_direct_msz,stop_push_new_message;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
-		
-		
 		setContentView(R.layout.splash);
 		Handler handler=new Handler();
 		handler.postDelayed(new Runnable() {
@@ -64,12 +63,18 @@ public class SplashActivity extends Activity {
 					if(Constants.isOnline(SplashActivity.this)){
 						username=appInstance.getUserCred().getUsername();
 						password=appInstance.getUserCred().getPassword(); 
+						system_notification=appInstance.getUserCred().getSystem_notification();
+						weekly_newsletter=appInstance.getUserCred().getWeekly_newsletter();
+						direct_msz_mail=appInstance.getUserCred().getDirect_msz_mail();
+						allow_direct_msz=appInstance.getUserCred().getAllow_direct_msz();
+						stop_push_new_message=appInstance.getUserCred().getStop_push_new_message();
 						signin();
 					}
 					else{
 						Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
 						Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
 						startActivity(intent);
+						finish();
 
 					}
 				}
@@ -183,10 +188,16 @@ public class SplashActivity extends Activity {
 				usercred=usercred.parseUserCred(job);
 				usercred.checknull();
 				usercred.setPassword(password);
+				usercred.setSystem_notification(system_notification);
+				usercred.setWeekly_newsletter(weekly_newsletter);
+				usercred.setDirect_msz_mail(direct_msz_mail);
+				usercred.setAllow_direct_msz(allow_direct_msz);
+				usercred.setStop_push_new_message(stop_push_new_message);
 				appInstance.setUserCred(usercred);
 				appInstance.setRememberMe(true);
 				Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
 				startActivity(intent);
+				finish();
 			}
 			else{
 				String descrip=job.getString("description");

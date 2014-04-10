@@ -17,11 +17,18 @@ public class ArticleList {
 		this.article_list=article_list;
 		this.status=status;
 	}
-
 	public static  ArticleList getArticlelist(JSONObject joObject){
 		String res=joObject.toString();
 		Gson gson = new Gson();
 		ArticleList object = gson.fromJson(res, ArticleList.class);
+		for(int i=0;i<object.getArticlelist().size();i++){
+			if(object.getArticlelist().get(i).getUserAlreadylikeThis()==null){
+				object.getArticlelist().get(i).setUserAlreadylikeThis();
+			}
+			else if(object.getArticlelist().get(i).getUserAlreadylikeThis().equals("")){
+				object.getArticlelist().get(i).setUserAlreadylikeThis();
+			}
+		}
 		return object;
 	}
 	public ArrayList<Article> getArticlelist(){

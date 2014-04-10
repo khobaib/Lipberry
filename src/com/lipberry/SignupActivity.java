@@ -291,6 +291,10 @@ public class SignupActivity extends Activity {
 					long arg3){
 
 				selectedcountryposition=position-1;
+				if(selectedcountryposition!=-1){
+					Toast.makeText(SignupActivity.this, countrylist.get(selectedcountryposition).getId(), 1000).show();
+						
+				}
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
 			}

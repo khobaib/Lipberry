@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class LipberryApplication extends Application {
 	private static Context context;
@@ -40,6 +41,7 @@ public class LipberryApplication extends Application {
 		editor.commit();        
 	}
 	public void setUserCred(UserCred userCred){
+		Log.e("mail", "  "+userCred.getDirect_msz_mail());
 		Editor editor = User.edit();
 		editor.putBoolean(Constants.SYSTEM_NOTIFICATION, userCred.getSystem_notification());
 		editor.putBoolean(Constants.WEEKLY_NEWSLATER, userCred.getWeekly_newsletter());

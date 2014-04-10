@@ -195,6 +195,7 @@ public class FragmentMyCountriesPost extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Log.e("responses", result.getjObj().toString());
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}

@@ -10,7 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
-
+	public static int notificationcount;
 	public static String userid="8150";
 	public static String  baseurl="http://lipberry.com/API/";
 	public static boolean isOnline(Context context)
@@ -34,7 +34,7 @@ public class Constants {
 
 	public static  boolean namecheck(String name){
 
-		if((name.length()>10)||(name.length()<3)){
+		if(((name.length()>10)||(name.length()<3))){
 			return false;
 		}
 		Pattern p = Pattern.compile("[A-Za-z]+([_|A-Za-z|0-9])*");

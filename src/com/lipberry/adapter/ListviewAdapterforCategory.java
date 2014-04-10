@@ -89,7 +89,8 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 		return 0;
 	}
 	private class ViewHolder {
-		ImageView img_app_icon;
+		ImageView img_big_img;
+	 
 		ImageView img_category_pro_pic;
 		TextView txt_cat_name;
 	}
@@ -101,7 +102,7 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.categories_inflate,
 					null);
 			holder = new ViewHolder();
-			holder.img_app_icon=(ImageView) convertView.findViewById(R.id.img_app_icon);
+			holder.img_big_img=(ImageView) convertView.findViewById(R.id.img_big_img);
 			holder.img_category_pro_pic=(ImageView) convertView.findViewById(R.id.img_category_pro_pic);
 			holder.txt_cat_name=(TextView) convertView.findViewById(R.id.txt_cat_name);
 			convertView.setTag(holder);
@@ -109,46 +110,30 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.txt_cat_name.setText(list.get(position).getName());
-
-
-		ImageLoadingListener imll=new ImageLoadingListener() {
-
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				mProgress=new ProgressDialog(activity);
-				mProgress.setTitle("Image is  Loading");
+		if(list.get(position).getId().equals("2")){
+			if(list.get(position).getPrefix().equalsIgnoreCase("beauty")){
+				int id = activity.getResources().getIdentifier("bl"+list.get(position).getId(), "drawable", activity.getPackageName());
+				holder.img_category_pro_pic.setImageResource(id);
+				
+				id = activity.getResources().getIdentifier("bll"+list.get(position).getId(), "drawable", activity.getPackageName());
+				holder.img_big_img.setImageResource(id);
 			}
-
-			@Override
-			public void onLoadingFailed(String imageUri, View view,
-					FailReason failReason) {
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
+			else{
+				int id = activity.getResources().getIdentifier("l"+list.get(position).getId(), "drawable", activity.getPackageName());
+				holder.img_category_pro_pic.setImageResource(id);
+				id = activity.getResources().getIdentifier("ll"+list.get(position).getId(), "drawable", activity.getPackageName());
+				holder.img_big_img.setImageResource(id);
 			}
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// TODO Auto-generated method stub
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				Bitmap bitmap=loadedImage;
-				holder.img_category_pro_pic.setImageBitmap(bitmap);
-			}
-
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-				// TODO Auto-generated method stub
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-			}
-		};
+		}
+		else{
+			int id = activity.getResources().getIdentifier("l"+list.get(position).getId(), "drawable", activity.getPackageName());
+			holder.img_category_pro_pic.setImageResource(id);
+			
+			id = activity.getResources().getIdentifier("ll"+list.get(position).getId(), "drawable", activity.getPackageName());
+			holder.img_big_img.setImageResource(id);
+		}
+		
+		
 
 		return convertView;
 	}

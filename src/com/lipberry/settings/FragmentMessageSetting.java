@@ -72,57 +72,56 @@ public class FragmentMessageSetting extends Fragment {
 		check_push_new_msz.setChecked(appInstance.getUserCred().getStop_push_new_message());
 		system_notification.setChecked(appInstance.getUserCred().getWeekly_newsletter());
 		check_weekly_news_letter.setChecked(appInstance.getUserCred().getWeekly_newsletter());
-		Log.e("outside", "  "+appInstance.getUserCred().getDirect_msz_mail());
 		check_direct_msz_to_mail.setOnClickListener(new OnClickListener() {
-			 
-			  @Override
-			  public void onClick(View v) {
-				// TODO Auto-generated method stub
+
+			@Override
+			public void onClick(View v) {
 				boolean a=!appInstance.getUserCred().getDirect_msz_mail();
-				//appInstance.getUserCred().setDirect_msz_mail(a);
 				UserCred ucred=appInstance.getUserCred();
 				ucred.setDirect_msz_mail(a);
 				appInstance.setUserCred(ucred);
-				
-				Log.e("result", a+"  "+appInstance.getUserCred().getDirect_msz_mail());
 			}
 		});
-		check_direct_msz_to_mail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+		check_allow_member_directmsz.setOnClickListener(new OnClickListener() {
 
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				appInstance.getUserCred().setSystem_notification(check_direct_msz_to_mail.isChecked());
-				appInstance.setUserCred(appInstance.getUserCred());
+			public void onClick(View v) {
+				boolean a=!appInstance.getUserCred().getAllow_direct_msz();
+				UserCred ucred=appInstance.getUserCred();
+				ucred.setAllow_direct_msz(a);
+				appInstance.setUserCred(ucred);
 			}
 		});
-		check_direct_msz_to_mail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
+		check_push_new_msz.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				appInstance.getUserCred().setSystem_notification(check_direct_msz_to_mail.isChecked());
-				appInstance.setUserCred(appInstance.getUserCred());
-			}
-		});
-		check_direct_msz_to_mail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				appInstance.getUserCred().setSystem_notification(check_direct_msz_to_mail.isChecked());
-				appInstance.setUserCred(appInstance.getUserCred());
-			}
-		});check_direct_msz_to_mail.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
-				appInstance.getUserCred().setSystem_notification(check_direct_msz_to_mail.isChecked());
-				appInstance.setUserCred(appInstance.getUserCred());
+			public void onClick(View v) {
+				boolean a=!appInstance.getUserCred().getStop_push_new_message();
+				UserCred ucred=appInstance.getUserCred();
+				ucred.setStop_push_new_message(a);
+				appInstance.setUserCred(ucred);
 			}
 		});
 
+		system_notification.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				boolean a=!appInstance.getUserCred().getSystem_notification();
+				UserCred ucred=appInstance.getUserCred();
+				ucred.setSystem_notification(a);
+				appInstance.setUserCred(ucred);
+			}
+		});
+
+		check_weekly_news_letter.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				boolean a=!appInstance.getUserCred().getWeekly_newsletter();
+				UserCred ucred=appInstance.getUserCred();
+				ucred.setWeekly_newsletter(a);
+				appInstance.setUserCred(ucred);
+			}
+		});
 		return v;
 	}
 	@Override

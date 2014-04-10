@@ -79,6 +79,7 @@ public class LoginActivity extends Activity {
 	public void signin(){
 
 		if(Constants.isOnline(LoginActivity.this)){
+			
 			if  (!Constants.namecheck(username)) {
 
 				if(username.length()<3){
@@ -89,6 +90,12 @@ public class LoginActivity extends Activity {
 				else if(username.length()>10){
 					Toast.makeText(LoginActivity.this, " Username  can't be more than 10 characcter",
 							10000).show();
+					if(Constants.isValidEmail(username)){
+						pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
+								"Signing in", true);
+						new  AsyncTaskLogin().execute();
+						
+					}
 				}
 				else{
 					Toast.makeText(LoginActivity.this, " Username  must  start with later and continue with " +
@@ -105,6 +112,7 @@ public class LoginActivity extends Activity {
 				pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
 						"Signing in", true);
 				new  AsyncTaskLogin().execute();
+				
 			}
 
 		}
@@ -185,6 +193,7 @@ public class LoginActivity extends Activity {
 			}
 
 		}
+
 	}
 
 	private class AsyncTaskLogin extends AsyncTask<Void, Void, ServerResponse> {
@@ -232,6 +241,7 @@ public class LoginActivity extends Activity {
 				appInstance.setRememberMe(true);
 				Intent intent=new Intent(LoginActivity.this, HomeActivity.class);
 				startActivity(intent);
+				finish();
 			}
 			else{
 				Toast.makeText(LoginActivity.this,descrip, 10000).show();

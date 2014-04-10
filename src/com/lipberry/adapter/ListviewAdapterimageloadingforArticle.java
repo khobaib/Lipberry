@@ -199,6 +199,12 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			imageLoader.displayImage(url, holder.img_pro_pic);
 
 		}
+		
+	
+		int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
+		Log.e("category", "null"+list.get(position).getcategory());
+		holder.img_some_icon.setImageResource(id);
+		
 		holder.text_user_name.setText(list.get(position).getMember_username());
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());

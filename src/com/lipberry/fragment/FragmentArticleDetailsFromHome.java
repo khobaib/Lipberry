@@ -245,16 +245,19 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					}
 				});
 				Bitmap bitmap=loadedImage;
-				int bitmapheight=bitmap.getHeight();
-				int bitmapweight=bitmap.getWidth();
-				int deviceheight=Utility.getDeviceHeight(getActivity());
-				int devicewidth=Utility.getDeviceWidth(getActivity());
-				float ratio=(float)devicewidth/(float)bitmapweight;
-				int resizebitmapwidth=devicewidth;
-				float a=(bitmapheight*ratio);
-				int resizebitmaphight=(int)a ;
-				bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
-				img_article.setImageBitmap(bitmap);
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(getActivity());
+					int devicewidth=Utility.getDeviceWidth(getActivity());
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					img_article.setImageBitmap(bitmap);
+				}
+				
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);

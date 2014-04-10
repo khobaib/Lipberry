@@ -14,4 +14,16 @@
 	    android:contentDescription="nothing"
 	    android:scaleType="fitXY"/>
 
+	<TextView
+	    android:id="@+id/text_notification_no"
+	    android:layout_width="match_parent"
+	    android:layout_height="60dp"
+	    android:layout_centerHorizontal="true"
+	    android:background="#CC0000"
+	    android:layout_centerVertical="true"
+	    android:gravity="center"
+	    android:textColor="#ffffff"
+	    android:textSize="22dp"
+	    android:text="20" />
+
 </RelativeLayout>

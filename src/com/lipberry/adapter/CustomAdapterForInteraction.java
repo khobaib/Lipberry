@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.lipberry.R;
+import com.lipberry.ShowHtmlText;
 import com.lipberry.model.ArticleGallery;
+import com.lipberry.model.Notifications;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -42,12 +44,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomAdapter extends BaseAdapter {
-	ArrayList<ArticleGallery> list;
+public class CustomAdapterForInteraction extends BaseAdapter {
+	ArrayList<Notifications> list;
 	Activity activity;
 	ImageLoader imageLoader;
-	public CustomAdapter(Activity activity,
-			ArrayList<ArticleGallery>  list) {
+	public CustomAdapterForInteraction(Activity activity,
+			ArrayList<Notifications> list) {
 		super();
 		this.list=list;
 		this.activity=activity;
@@ -79,7 +81,8 @@ public class CustomAdapter extends BaseAdapter {
 		return 0;
 	}
 	private class ViewHolder {
-		ImageView img_thumb;
+		ImageView img_pro_pic;
+		TextView text_msz,text_date_other;
 	}
 
 	@Override
@@ -87,19 +90,29 @@ public class CustomAdapter extends BaseAdapter {
 		ViewHolder holder;
 		LayoutInflater inflater = activity.getLayoutInflater();
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.image_inflate,
+			convertView = inflater.inflate(R.layout.interaction_inflate,
 					null);
 			holder = new ViewHolder();
-			holder.img_thumb=(ImageView) convertView.findViewById(R.id.img_thumb);
+			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
+			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
+			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
+			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if(list.get(position).getImage_thumb_src()==null){
+		if(list.get(position).getFrom_avatar()==null){
 		}
 		else{
-			imageLoader.displayImage(list.get(position).getImage_thumb_src(), holder.img_thumb);
+			imageLoader.displayImage(list.get(position).getFrom_avatar(),holder.img_pro_pic);
 		}
+		holder.text_msz.setText(list.get(position).getMessage());
+		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
+		showtext.updateImages(true,list.get(position).getMessage());
+		
+		holder.text_date_other.setText(list.get(position).getCreated_at());
+		ShowHtmlText showtext1=new ShowHtmlText(holder.text_date_other,activity);
+		showtext1.updateImages(true,list.get(position).getCreated_at());
 		return convertView;
 	}
 }

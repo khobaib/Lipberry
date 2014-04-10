@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
@@ -46,6 +47,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -53,6 +55,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.adapter.CustomAdaptergrid;
 import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
 import com.lipberry.model.Categories;
 import com.lipberry.model.Commentslist;
@@ -68,13 +71,14 @@ public class FragmentWriteTopic extends Fragment {
     EditText txt_topic,txt_text,txt_tag;
 	Button btn_select_photo,btn_go;
 	WriteTopicTabFragment parent;
-	
+	ArrayList<String> imageuri;
+	int pos=0;
 	Spinner spinner_category;
 	Button btn_add_more_photo;
 	int selsectedspinnerposition=0;
 	FragmentActivity activity;
 	Bitmap scaledBmp;
-	//04-07 21:13:52.159: E/write(13138): {"status":"success","description":"Success add article"}
+	String catagoryid;
 	Bitmap bitmap;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
@@ -82,8 +86,10 @@ public class FragmentWriteTopic extends Fragment {
 	ArrayList<String>catnamelist;
 	ArrayList< Categories>categorylist;
 	ImageScale bitmapimage;
+	GridView grid_image;
 	public  String photofromcamera;
 	public  String drectory;
+	public  String drectoryforfile;
 	String title,category_id,category_prefix,body,photo,video;
 	@SuppressLint("NewApi")
 	
@@ -100,8 +106,6 @@ public class FragmentWriteTopic extends Fragment {
 	public void onPause() {
 		selsectedspinnerposition=0;
 		super.onPause();
-		
-	
 	}
 
 	@Override
@@ -109,9 +113,12 @@ public class FragmentWriteTopic extends Fragment {
 			Bundle savedInstanceState) {
 			ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_write_topic,
 				container, false);
+			
+			grid_image=(GridView) v.findViewById(R.id.grid_image);
 			txt_topic=(EditText) v.findViewById(R.id.txt_topic);
 			txt_text=(EditText) v.findViewById(R.id.txt_text);
 			btn_add_more_photo=(Button) v.findViewById(R.id.btn_add_more_photo);
+			btn_add_more_photo.setVisibility(View.GONE);
 			btn_add_more_photo.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
@@ -147,8 +154,24 @@ public class FragmentWriteTopic extends Fragment {
 						Toast.LENGTH_SHORT).show();
 			}
 			
-			
+			//loadGridview();
 		return v;
+	}
+	
+	public void loadGridview(){
+		
+		File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal");
+		 imageuri =getList(file); 
+		 Log.e("dir", Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal"+"  "+imageuri.size());
+		 if(imageuri.size()>0){
+			 Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
+					 "/Lipberryfinal/"+imageuri.get(0));
+			 Log.e("sizebitmap", Environment.getExternalStorageDirectory().toString()+
+					 "/Lipberryfinal/"+imageuri.get(0));
+			 CustomAdaptergrid adapter=new CustomAdaptergrid(activity, imageuri);
+				grid_image.setAdapter(adapter);
+		 }
+		
 	}
 	
 	public void loadphotoforgalary(){
@@ -204,6 +227,7 @@ public class FragmentWriteTopic extends Fragment {
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
+			Log.e("msz", result.getjObj().toString());
 			super.onPostExecute(result);
 			if(pd!=null){
 				if((pd.isShowing())){
@@ -309,16 +333,11 @@ public class FragmentWriteTopic extends Fragment {
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG,60, bao);
 					byte[] ba = bao.toByteArray();
-					Log.e("BITMAP SIZE in asynctask", "bitmap size after compress = "
-							+ ba.length);
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("photo",  base64Str);
 				}
 				else{
-					Log.e("BITMAP SIZE in asynctask", "bitmap size after compress = "
-							);
 				}
-				
 				loginObj.put("video", "https://www.youtube.com/watch?v=u9L1QP6foCo");
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"article/addarticle/";
@@ -341,17 +360,20 @@ public class FragmentWriteTopic extends Fragment {
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
-				String description=jobj.getString("description");
+				
 				bitmap=null;
-				Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
-//				if(status.equals("success")){
-//				//	04-07 21:13:52.159: E/write(13138): {"status":"success","description":"Success add article"}
-//
-//				}
-//				else{
-//					String description=jobj.getString("message");
-//					
-//				}
+				if(status.equals("success")){
+					Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
+					String article_info=jobj.getString("article_info");
+					article_info=article_info.replace("{", "");
+					article_info=article_info.replace("}", "");
+					catagoryid=article_info.substring(article_info.indexOf(":")+1);
+					btn_add_more_photo.setVisibility(View.VISIBLE);
+				}
+				else{
+					Toast.makeText(getActivity(),"Failed to write topic", Toast.LENGTH_SHORT).show();
+				}
+		
 			} catch (JSONException e) {
 			}
 		}
@@ -380,7 +402,7 @@ public class FragmentWriteTopic extends Fragment {
 							);
 				}
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/addgallery/"+"1169";
+				String url =Constants.baseurl+"article/addgallery/"+catagoryid;
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -407,6 +429,23 @@ public class FragmentWriteTopic extends Fragment {
 			} catch (JSONException e) {
 			}
 		}
+	}
+	
+	
+	private ArrayList<String> getList(File parentDir) {
+
+	    ArrayList<String> inFiles = new ArrayList<String>();
+	    String[] fileNames = parentDir.list();
+
+	    for (String fileName : fileNames) {
+	    	
+	        if (fileName.toLowerCase().endsWith(".jpg")) {
+	        	 inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal/"+fileName);
+	            
+	          } 
+	    }
+
+	    return inFiles;
 	}
 
 }

@@ -1,16 +1,16 @@
 package com.lipberry.adapter;
 
+import java.io.File;
 import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.lipberry.R;
-import com.lipberry.model.ArticleGallery;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -42,22 +42,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomAdapter extends BaseAdapter {
-	ArrayList<ArticleGallery> list;
+public class CustomAdaptergrid extends BaseAdapter {
+	ArrayList<String> list;
 	Activity activity;
-	ImageLoader imageLoader;
-	public CustomAdapter(Activity activity,
-			ArrayList<ArticleGallery>  list) {
+	
+	public CustomAdaptergrid(Activity activity,
+			ArrayList<String> list) {
 		super();
 		this.list=list;
 		this.activity=activity;
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				activity.getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
 
 	}
 
@@ -79,27 +72,77 @@ public class CustomAdapter extends BaseAdapter {
 		return 0;
 	}
 	private class ViewHolder {
-		ImageView img_thumb;
+		ImageView imag_inflate;
+		
+	
+		
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		// TODO Auto-generated method stub
+
+		// TODO Auto-generated method stub
 		ViewHolder holder;
 		LayoutInflater inflater = activity.getLayoutInflater();
+
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.image_inflate,
+			convertView = inflater.inflate(R.layout.grid_inflate,
 					null);
 			holder = new ViewHolder();
-			holder.img_thumb=(ImageView) convertView.findViewById(R.id.img_thumb);
+			holder.imag_inflate=(ImageView) convertView.findViewById(R.id.imag_inflate);
+			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if(list.get(position).getImage_thumb_src()==null){
-		}
-		else{
-			imageLoader.displayImage(list.get(position).getImage_thumb_src(), holder.img_thumb);
-		}
+	//	Bitmap.Cr
+		Bitmap bitmap = decodeFile(new File(list.get(position)), 50);
+		
+		holder.imag_inflate.setImageBitmap(bitmap);
 		return convertView;
 	}
+	
+	
+	private Bitmap decodeFile(File f, int imageQuality) {
+		try {
+			// decode image size
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			FileInputStream stream1 = new FileInputStream(f);
+			BitmapFactory.decodeStream(stream1, null, o);
+			stream1.close();
+
+			// Find the correct scale value. It should be the power of 2.
+			final int REQUIRED_SIZE = imageQuality;
+			int width_tmp = o.outWidth, height_tmp = o.outHeight;
+			int scale = 1;
+
+			while (true) {
+				if (width_tmp / 2 < REQUIRED_SIZE
+						|| height_tmp / 2 < REQUIRED_SIZE)
+					break;
+				width_tmp /= 2;
+				height_tmp /= 2;
+				scale *= 2;
+			}
+			Log.i("SCALE", "scale = " + scale);
+
+			// decode with inSampleSize
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			FileInputStream stream2 = new FileInputStream(f);
+			Bitmap bitmap = BitmapFactory.decodeStream(stream2, null, o2);
+			stream2.close();
+			return bitmap;
+		} catch (FileNotFoundException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	
+	
+
 }
