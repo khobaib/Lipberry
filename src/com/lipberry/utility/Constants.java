@@ -4,12 +4,18 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.lipberry.fragment.FragmentWriteTopic;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static boolean writetopicsuccess=false;
+	public static String drectory;
+	public static String photofromcamera;
+	public static FragmentWriteTopic writetopic;
 	public static int notificationcount;
 	public static String userid="8150";
 	public static String  baseurl="http://lipberry.com/API/";

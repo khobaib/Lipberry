@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.lipberry.fragment.FragmentInbox;
 import com.lipberry.fragment.FragmentWriteTopic;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.WriteTopicTabFragment;
@@ -29,7 +30,9 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +49,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,16 +59,21 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class HomeActivity extends FragmentActivity {
 	public static Typeface tp;
+	
 	public  String photofromcamera;
-	public TextView text_notification_no_fromactivity;
-	public  String drectory;
 	public  FragmentTabHost mTabHost;
+	public  String drectory;
+	
+	public TextView text_notification_no_fromactivity;
+	
+	
 	public TabFragment activeFragment;
 	FragmentWriteTopic writetopic;
 	public ViewGroup mTabsPlaceHoler;
@@ -79,6 +88,9 @@ TextView text_notification_no;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.e("onCreate", "onCreate");
+		
+		writetopic=new FragmentWriteTopic();
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
@@ -86,6 +98,7 @@ TextView text_notification_no;
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
+		
 		setTabs();
 		mTabHost.setCurrentTab(4);
 
@@ -96,7 +109,7 @@ TextView text_notification_no;
 				android.R.id.tabcontent);
 		mTabsPlaceHoler = (TabWidget) findViewById(android.R.id.tabs);
 		addTab("Write Topic", R.drawable.lunknown, WriteTopicTabFragment.class);
-		addTab("Inbox", R.drawable.linbox, InboxTabFragment.class);
+		addTab("Inbox", R.drawable.linbox,InboxTabFragment.class);
 		addTab("Interaction", R.drawable.linteraction, IneractionTabFragment.class);
 		addTab("Categories", R.drawable.lcategory, CategoryTabFragment.class);
 		addTab("Home", R.drawable.lhome, HomeTabFragment.class);
@@ -105,27 +118,82 @@ TextView text_notification_no;
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c) {
+		
+		
+	
+	//	if(labelId!="Inbox"){
+			FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
+			View tabIndicator = LayoutInflater.from(this).inflate(
+					R.layout.tab_indicator, mTabsPlaceHoler, false);
+			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
+			text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
 
-		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-		View tabIndicator = LayoutInflater.from(this).inflate(
-				R.layout.tab_indicator, mTabsPlaceHoler, false);
-		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-		text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
+			
+			
+			
+			if(labelId.equals("Interaction")){
 
-		if(labelId.equals("Interaction")){
+				text_notification_no_fromactivity=text_notification_no;
+				text_notification_no_fromactivity.setVisibility(View.GONE);
+				getnotificationcount();
 
-			text_notification_no_fromactivity=text_notification_no;
-			text_notification_no_fromactivity.setVisibility(View.GONE);
-			getnotificationcount();
+			}
+			else{
+				text_notification_no.setVisibility(View.GONE);
+			}
+			icon.setImageResource(drawableId);
+			spec.setIndicator(tabIndicator);
+		//	spec.setContent(intent)
+		//	mTabHost.addTab(spec, c, null);
+			
+//			if(labelId!="Inbox"){
+				spec.setIndicator(tabIndicator);
+				//	spec.setContent(intent)
+					mTabHost.addTab(spec, c, null);
+//			}
+//			else{
+//				Intent intent = new Intent().setClass(HomeActivity.this, LoginActivity.class);
+//				// LocalActivityManager mLocalActivityManager = new LocalActivityManager(HomeActivity.this, false);
+//				 //FragmentManager actvityManager = (ActivityManager) this.getSystemService( ACTIVITY_SERVICE );
+//			
+//					 mTabHost.setup(this,null ,
+//								android.R.id.tabcontent);
+//				spec.setContent(intent);
+//				mTabHost.addTab(spec);
+//			}
+//	//	}
+//		//04-11 19:12:03.771: E/AndroidRuntime(17512): 	at 
 
-		}
-		else{
-			text_notification_no.setVisibility(View.GONE);
-		}
-		icon.setImageResource(drawableId);
-		spec.setIndicator(tabIndicator);
-		mTabHost.addTab(spec, c, null);
-
+//	/*	else{
+//			/*
+//			
+//			FragmentTabHost.TabSpec spec = mTabHost
+//					.newTabSpec(labelId)
+//					.setIndicator("Videos",
+//							getResources().getDrawable(R.drawable.linbox))
+//							.setContent(intent);*/
+//			
+//			//tabHost.addTab(spec);
+//			
+//			
+//			Intent intent = new Intent().setClass(this, FragmentInbox.class);
+//		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
+//			View tabIndicator = LayoutInflater.from(this).inflate(
+//					R.layout.tab_indicator, mTabsPlaceHoler, false);
+//			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
+//			text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
+//			text_notification_no.setVisibility(View.GONE);
+//			icon.setImageResource(drawableId);
+//			spec.setIndicator(tabIndicator);
+//			//spec.setContent(intent);
+//			mTabHost.addTab(spec, c, null);
+//		//	mTabHost.addt
+//		//	mTabHost.addTab(spec);
+//			//mTabHost.addTab(tabSpec)
+//
+//		}*/
+		
+	
 
 	}
 	
@@ -139,6 +207,34 @@ TextView text_notification_no;
 							Toast.LENGTH_SHORT).show();
 				}
 				
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(outState);
+		Log.e("onSaveInstanceState", "onSaveInstanceState");
+	}
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		Log.e("onStart", "onStart");
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		Log.e("onResume", "onResume");
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.e("onStop", "onStop");
 	}
 
 
@@ -183,8 +279,7 @@ TextView text_notification_no;
 	}
 
 
-	public void captureimage(FragmentWriteTopic writetopic,boolean from){
-		this.writetopic=writetopic;
+	public void captureimage(boolean from){
 		galary=from;
 		createfolder();
 		final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
@@ -198,20 +293,34 @@ TextView text_notification_no;
 				{
 
 					photofromcamera=System.currentTimeMillis()+".jpg";
+					Constants.drectory=drectory;
+					Constants.photofromcamera=photofromcamera;
 					final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 					File f = new File(drectory, photofromcamera);
 					Log.i("pos", drectory+photofromcamera+" " +f.exists());
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+					getIntent().getSerializableExtra("MyClass");
 					startActivityForResult(intent, 1);
 				}
 				else if (options[item].equals("Choose from Gallery"))
 				{
 					photofromcamera=System.currentTimeMillis()+".jpg";
+					Constants.drectory=drectory;
+					Constants.photofromcamera=photofromcamera;
 					Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					startActivityForResult(intent, 3);
 
-					//	Constant.drectory=drectory;
-					//	Constant.photofromcamera=photofromcamera;
+						
+					
+				//	Intent intent = new Intent(Intent.ACTION_PICK);
+					//intent.setType("image/*");
+					// intent.setAction(Intent.ACTION_GET_CONTENT);
+					// Intent intent = new Intent(Intent.ACTION_PICK,
+					// android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+					// startActivityForResult(Intent.createChooser(intent,
+					//  TODO "Select Picture"),
+				//	startActivityForResult(intent, 3);
+					
 				}
 				else if (options[item].equals("Cancel")) {
 					dialog.dismiss();
@@ -221,15 +330,16 @@ TextView text_notification_no;
 		builder.show();
 
 	}
+//04-11 15:34:23.314: E/AndroidRuntime(19338): java.lang.RuntimeException: Unable to resume activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=3, result=-1, data=Intent { dat=content://media/external/images/media/484 }} to activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.NullPointerException
 
 
 	//04-08 16:49:31.972: E/AndroidRuntime(13691): Caused by: java.lang.RuntimeException: 
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		//		drectory=Constant.drectory;
-		//		photofromcamera=Constant.photofromcamera;
+	super.onActivityResult(requestCode, resultCode, data);
+			drectory=Constants.drectory;
+			photofromcamera=Constants.photofromcamera;
 
 		Log.e("error", ""+requestCode+" "+RESULT_OK);
 		if (resultCode == RESULT_OK) {
@@ -243,7 +353,7 @@ TextView text_notification_no;
 					if(file.exists()){
 						final BitmapFactory.Options options = new BitmapFactory.Options();
 						options.inSampleSize = 8;
-						Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+					Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath(),options);
 						file.delete();
 						ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 						photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -256,10 +366,10 @@ TextView text_notification_no;
 					}
 
 				}
-				catch(Exception e)
+			catch(Exception e)
 				{
 					Log.e("Could not save", e.toString());
-				}
+			}
 			}
 
 
@@ -269,10 +379,10 @@ TextView text_notification_no;
 					File data1 = Environment.getDataDirectory();
 
 					if (sd.canWrite()) {
-						Uri selectedImage = data.getData();
-						String[] filePath = { MediaStore.Images.Media.DATA };
-						Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-						c.moveToFirst();
+					Uri selectedImage = data.getData();
+					String[] filePath = { MediaStore.Images.Media.DATA };
+					Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+					c.moveToFirst();
 						int columnIndex = c.getColumnIndex(filePath[0]);
 						String picturePath = c.getString(columnIndex);
 						c.close();
@@ -280,7 +390,7 @@ TextView text_notification_no;
 						File source= new File(picturePath);
 						File destination= new File(dn,photofromcamera);
 						FileChannel src = new FileInputStream(source).getChannel();
-						FileChannel dst = new FileOutputStream(destination).getChannel();
+					FileChannel dst = new FileOutputStream(destination).getChannel();
 						dst.transferFrom(src, 0, src.size());
 
 						src.close();
@@ -311,14 +421,19 @@ TextView text_notification_no;
 
 
 			if(!galary){
-				writetopic.imagecapturesccessfull(drectory+"/"+photofromcamera);
+				Log.e("directory", "notnull "+drectory+"/"+photofromcamera+"   "+writetopic);
+				Toast.makeText(HomeActivity.this,"You have selected an image",
+						Toast.LENGTH_SHORT).show();
 			}
 			else{
-				writetopic.imagecapturesccessfullforgalry(drectory+"/"+photofromcamera);
+				Toast.makeText(HomeActivity.this,"You have selected an image",
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 		else{
-			writetopic.imagecapturefaillure(drectory+"/"+photofromcamera);
+			
+			Toast.makeText(HomeActivity.this,"Failed to select an image",
+					Toast.LENGTH_SHORT).show();
 		}
 	}   
 	public void createfolder(){
@@ -327,7 +442,7 @@ TextView text_notification_no;
 		drectory= extStorageDirectory + newFolder;
 		
 		File myNewFolder = new File(drectory);
-		deleteDirectory(myNewFolder);
+		//deleteDirectory(myNewFolder);
 		myNewFolder.mkdir();
 	}
 

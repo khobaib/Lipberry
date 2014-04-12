@@ -67,7 +67,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ArrayList<Article> list;
 
 	FragmentManager fragmentManager = null;
-	FragmentActivity activity;
+	Activity activity;
 	LipberryApplication appInstance;	
 	ProgressDialog pd;
 	HomeTabFragment parent;
@@ -81,7 +81,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ProgressDialog mProgress;
 	ImageLoader imageLoader;
 
-	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
+	public ListviewAdapterimageloadingforArticle(Activity activity,
 			ArrayList<Article> list,CategoryTabFragment parent3) {
 		super();
 		jsonParser=new JsonParser();
@@ -98,7 +98,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		ImageLoader.getInstance().init(config);
 	}
 
-	public ListviewAdapterimageloadingforArticle(FragmentActivity activity,
+	public ListviewAdapterimageloadingforArticle(Activity activity,
 			ArrayList<Article> list,HomeTabFragment parent) {
 		super();
 		jsonParser=new JsonParser();

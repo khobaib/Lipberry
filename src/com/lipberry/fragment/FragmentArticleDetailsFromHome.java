@@ -219,8 +219,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						pd=new ProgressDialog(getActivity());
-						pd.setTitle("Image is  Loading");
+						pd=ProgressDialog.show(getActivity(), "Lipberry",
+								"Image is loading", true);
 					}
 				});
 			}
@@ -231,21 +231,33 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					public void run(){
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
+							Log.e("pd", "3");
 						}
 					}
 				});
 			}
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+			
+				
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
+						Log.e("pd", "1"+pd.isShowing()+"  "+pd);
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
+							Log.e("pd", "3");
 						}
 					}
 				});
+				
+				//getActivity().runOnUiThread(action)
+				//if(pd.isShowing()){
+					//pd.cancel();
+			//	}
+				Log.e("pd", "2");
 				Bitmap bitmap=loadedImage;
 				if(bitmap!=null){
+					
 					int bitmapheight=bitmap.getHeight();
 					int bitmapweight=bitmap.getWidth();
 					int deviceheight=Utility.getDeviceHeight(getActivity());
@@ -272,6 +284,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 						@Override
 						public void onItemClick(AdapterView<?> arg0, View arg1,
 								int position, long arg3) {
+						
 							imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(), imll);
 						}
 					});
@@ -288,7 +301,14 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				});
 			}
 		};
-		imageLoader.loadImage(articledetails.getPhoto(), imll);
+		if((articledetails.getPhoto().equals("")||(articledetails.getPhoto()==null))){
+			
+		}
+		else{
+			
+			imageLoader.loadImage(articledetails.getPhoto(), imll);
+		}
+		
 		if(article.getUserAlreadylikeThis()!=null){
 			if(!article.getUserAlreadylikeThis().equals("No")){
 				img_like.setBackgroundResource(R.drawable.unlike);

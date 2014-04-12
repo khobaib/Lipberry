@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.lipberry.R;
+import com.lipberry.model.ImageScale;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -46,6 +47,9 @@ public class CustomAdaptergrid extends BaseAdapter {
 	ArrayList<String> list;
 	Activity activity;
 	
+	//File file = new File(selectedFilePath);
+	//boolean deleted = file.delete();
+	
 	public CustomAdaptergrid(Activity activity,
 			ArrayList<String> list) {
 		super();
@@ -73,6 +77,7 @@ public class CustomAdaptergrid extends BaseAdapter {
 	}
 	private class ViewHolder {
 		ImageView imag_inflate;
+		ImageView image_cut;
 		
 	
 		
@@ -91,14 +96,28 @@ public class CustomAdaptergrid extends BaseAdapter {
 					null);
 			holder = new ViewHolder();
 			holder.imag_inflate=(ImageView) convertView.findViewById(R.id.imag_inflate);
-			
+			holder.image_cut=(ImageView) convertView.findViewById(R.id.image_cut);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 	//	Bitmap.Cr
-		Bitmap bitmap = decodeFile(new File(list.get(position)), 50);
-		
+		ImageScale bitmapimage =new ImageScale();
+		Bitmap bitmap=bitmapimage.decodeImage(list.get(position));
+		//Bitmap bitmap = decodeFile(new File(list.get(position)), 100);
+		holder.image_cut.setOnClickListener(new  OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				File file = new File(list.get(position));
+				boolean deleted = file.delete();
+				Log.e("isdeleted", ""+deleted);
+			//	String deletedfile=list.get(position);
+				list.remove(position);
+				notifyDataSetChanged();
+				
+			}
+		});
 		holder.imag_inflate.setImageBitmap(bitmap);
 		return convertView;
 	}

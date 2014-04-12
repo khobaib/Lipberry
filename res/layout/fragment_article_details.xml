@@ -108,14 +108,15 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="10dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_launcher" />
+                        />
 
                     <ListView
                         android:id="@+id/lst_imag"
                         android:layout_width="60dp"
-                        android:layout_height="150dp"
+                        android:layout_height="200dp"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="5dp"
+                     
                         android:layout_marginTop="10dp"
                         android:background="@android:color/transparent" >
                     </ListView>

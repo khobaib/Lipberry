@@ -2,9 +2,10 @@ package com.lipberry;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.webkit.WebView;
 
-public class WebViewActtivity extends Activity {
+public class WebViewActtivity extends FragmentActivity   {
 	WebView web_view;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -67,6 +68,7 @@ public class FragmentMemberFromHome extends Fragment {
 	GridView grd_memberpost;
 	SingleMember singleMember;
 	ArticleList  articlelistinstance;
+	Activity activity;
 	HomeTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
 	ImageView img_member_pic;
@@ -105,13 +107,14 @@ public class FragmentMemberFromHome extends Fragment {
 		btn_share=(Button) v.findViewById(R.id.btn_share);
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
 		btn_connect=(Button) v.findViewById(R.id.btn_connect);
-		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
+		activity=getActivity();
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, "Lipberry",
 					"Retreving member", true);
 			new AsyncTaskGetSinleMember().execute();
 		}
 		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 		if(followstate){
@@ -167,19 +170,19 @@ public class FragmentMemberFromHome extends Fragment {
 				new AsyncTaskGetmemberPost().execute();
 			}
 			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
+				Toast.makeText(activity,activity.getResources().getString(R.string.Toast_member_found),
 						Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_member_found),
 					Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}
 	public void setUserInterface(){
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
-		((HomeActivity)getActivity()).backbuttonoftab.setText(getActivity().getResources().getString(R.string.back_string));
-		((HomeActivity)getActivity()).welcome_title.setText(singleMember.getName());
+		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)activity).backbuttonoftab.setText(getActivity().getResources().getString(R.string.back_string));
+		((HomeActivity)activity).welcome_title.setText(singleMember.getName());
 		txt_name.setText(singleMember.getName());
 		txt_nick_name.setText(singleMember.getNickname());
 		txt_bio.setText(singleMember.getBrief());
@@ -204,24 +207,24 @@ public class FragmentMemberFromHome extends Fragment {
 	}
 	public void buttonfollowclicked(){
 		if(!followstate){
-			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
+			if(Constants.isOnline(activity)){
+				pd=ProgressDialog.show(activity, "Lipberry",
 						"Please wait", true);
 				new AsyncTaskSendFollowReq().execute();
 			}
 			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+				Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
 		}
 		else{
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
+				pd=ProgressDialog.show(activity, "Lipberry",
 						"Please wait", true);
 				new AsyncTaskSendUnFollowReq().execute();
 			}
 			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+				Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
 		}

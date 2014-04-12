@@ -249,8 +249,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			public void onLoadingStarted(String imageUri, View view) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						pd=new ProgressDialog(getActivity());
-						pd.setTitle("Image is  Loading");
+						getActivity().runOnUiThread(new Runnable(){
+							public void run(){
+								pd=ProgressDialog.show(getActivity(), "Lipberry",
+										"Image is loading", true);
+							}
+						});
 					}
 				});
 			}
@@ -270,8 +274,10 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
+						Log.e("pd", "1"+pd.isShowing()+"  "+pd);
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
+							Log.e("pd", "3");
 						}
 					}
 				});

@@ -51,6 +51,7 @@ public class FragmentMenu extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.e("activity", "name  "+getActivity());
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_menu,
 				container, false);
 		list_menu_item=(ListView) v.findViewById(R.id.list_menu_item);

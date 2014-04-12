@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -68,6 +69,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	JsonParser jsonParser;
 	int startindex=0;
 	int endindex=3;
+	Activity activity;
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;
 	ArrayList<Article>articlaList;
@@ -120,15 +122,16 @@ public class FragmentMyFollwerPost extends Fragment {
 				}
 			}
 		});
-		if(Constants.isOnline(getActivity())){
+		activity=getActivity();
+		if(Constants.isOnline(activity)){
 
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
+			pd=ProgressDialog.show(activity, "Lipberry",
 					"Retreving Post", true);
 			new AsyncTaskLoadPostFrommyFollowing().execute();
 		}
 		else{
 			getfromdb();
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 
@@ -204,7 +207,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			}
 			else{
 				String message=result.getString("description");
-				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -222,7 +225,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			}
 			else{
 				String message=result.getString("description");
-				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
 				loadmemberlist( a);
 			}
 		} catch (JSONException e) {
@@ -246,7 +249,6 @@ public class FragmentMyFollwerPost extends Fragment {
 		listviewforarticle.setAdapter(ladapter);
 	}
 	public void  loadlistview(boolean from){
-		FragmentActivity  activity=getActivity();
 		ladapter=new ListviewAdapterimageloadingforArticle(activity, 
 				articlaList,parent);
 		listviewforarticle.setAdapter(ladapter);
@@ -261,7 +263,7 @@ public class FragmentMyFollwerPost extends Fragment {
 				artarticlelist.get(i).getLikedmemberlist().get(j).setForeign_key_article_id(artid);
 			}
 		}
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 		for(int i=0;i<artarticlelist.size();i++){
 			dbInstance.insertOrUpdateArticlefollowing(artarticlelist.get(i));
@@ -270,7 +272,7 @@ public class FragmentMyFollwerPost extends Fragment {
 		dbInstance.close();
 	}
 	public void getfromdb(){
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 		articlaList= (ArrayList<Article>) dbInstance.retrieveArticleListfollowing();
 		dbInstance.close();
@@ -278,7 +280,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			loadlistview(false);
 		}
 		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_article_found),
 					Toast.LENGTH_SHORT).show();
 		}
 	}

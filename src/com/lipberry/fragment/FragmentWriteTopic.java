@@ -37,8 +37,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
@@ -71,14 +73,16 @@ public class FragmentWriteTopic extends Fragment {
     EditText txt_topic,txt_text,txt_tag;
 	Button btn_select_photo,btn_go;
 	WriteTopicTabFragment parent;
-	ArrayList<String> imageuri;
+	//
 	int pos=0;
 	Spinner spinner_category;
 	Button btn_add_more_photo;
 	int selsectedspinnerposition=0;
-	FragmentActivity activity;
+	Activity activity;
+	boolean writetopicsuccess=false;
 	Bitmap scaledBmp;
 	String catagoryid;
+	ArrayList<String>galarylist=new ArrayList<String>();
 	Bitmap bitmap;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
@@ -87,9 +91,6 @@ public class FragmentWriteTopic extends Fragment {
 	ArrayList< Categories>categorylist;
 	ImageScale bitmapimage;
 	GridView grid_image;
-	public  String photofromcamera;
-	public  String drectory;
-	public  String drectoryforfile;
 	String title,category_id,category_prefix,body,photo,video;
 	@SuppressLint("NewApi")
 	
@@ -97,17 +98,52 @@ public class FragmentWriteTopic extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		activity=getActivity();
+ 
 		jsonParser=new JsonParser();
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
 		appInstance = (LipberryApplication) getActivity().getApplication();
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		activity=getActivity();
+		 
+		jsonParser=new JsonParser();
+		categorylist=new ArrayList<Categories>();
+		catnamelist=new ArrayList<String>();
+		appInstance = (LipberryApplication)activity.getApplication();
+		
+		
 	}
 	@Override
 	public void onPause() {
 		selsectedspinnerposition=0;
 		super.onPause();
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		grid_image.setVisibility(View.VISIBLE);
+		if(Constants.writetopicsuccess){
+			loadphotoforgalary();
+			btn_add_more_photo.setVisibility(View.VISIBLE);
+		}
+		else{
+			loadGridview();
+		}
+		
+		
+	}
 
+	
+	
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -123,7 +159,13 @@ public class FragmentWriteTopic extends Fragment {
 				@Override
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
-					loadphotoforgalary();
+					if(galarylist.size()>0){
+						addgalarytoserver();
+					}
+					else{
+						Toast.makeText(activity, "Please add photo", Toast.LENGTH_SHORT).show();
+					}
+					
 				}
 			});
 			txt_tag=(EditText) v.findViewById(R.id.txt_tag);
@@ -131,6 +173,9 @@ public class FragmentWriteTopic extends Fragment {
 			btn_go.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					String filepath = Constants.drectory+"/"+Constants.photofromcamera;
+					bitmapimage =new ImageScale();
+					bitmap=bitmapimage.decodeImage(filepath);
 					startwritetopic();
 				}
 			});
@@ -143,25 +188,30 @@ public class FragmentWriteTopic extends Fragment {
 				}
 			});
 			spinner_category=(Spinner) v.findViewById(R.id.spinner_category);
-			((HomeActivity)getActivity()).welcome_title.setText(R.string.txt_write_topic);
-			if(Constants.isOnline(getActivity())){
+			((HomeActivity)activity).welcome_title.setText(R.string.txt_write_topic);
+			if(Constants.isOnline(activity)){
 				pd=ProgressDialog.show(activity, "Lipberry",
 						"Retreving categories", true);
 				new AsyncTaskgetCategories().execute();
-			}
-			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-						Toast.LENGTH_SHORT).show();
-			}
+				}
+				else{
+					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
 			
-			//loadGridview();
+			
 		return v;
 	}
+
 	
 	public void loadGridview(){
 		
-		File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal");
-		 imageuri =getList(file); 
+		//File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal");
+		ArrayList<String> imageuri =new ArrayList<String>(); 
+		String filepath = Constants.drectory+"/"+Constants.photofromcamera;
+		if(filepath!=null){
+			imageuri.add(filepath);
+		}
 		 Log.e("dir", Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal"+"  "+imageuri.size());
 		 if(imageuri.size()>0){
 			 Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
@@ -170,17 +220,45 @@ public class FragmentWriteTopic extends Fragment {
 					 "/Lipberryfinal/"+imageuri.get(0));
 			 CustomAdaptergrid adapter=new CustomAdaptergrid(activity, imageuri);
 				grid_image.setAdapter(adapter);
+				grid_image.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						v.getParent().requestDisallowInterceptTouchEvent(true);
+						return false;
+					}
+
+				});
 		 }
 		
 	}
 	
 	public void loadphotoforgalary(){
-		((HomeActivity)getActivity()).captureimage(this,true);
+		File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal");
+		galarylist =getList(file); 
+		
+		 if(galarylist.size()>0){
+			 Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
+					 "/Lipberryfinal/"+galarylist.get(0));
+			 Log.e("sizebitmap", Environment.getExternalStorageDirectory().toString()+
+					 "/Lipberryfinal/"+galarylist.get(0));
+			 CustomAdaptergrid adapter=new CustomAdaptergrid(activity, galarylist);
+				grid_image.setAdapter(adapter);
+				grid_image.setOnTouchListener(new OnTouchListener() {
+					@Override
+					public boolean onTouch(View v, MotionEvent event) {
+						v.getParent().requestDisallowInterceptTouchEvent(true);
+						return false;
+					}
+
+				});
+		 }
+		
+		
 	}
 	public void loadphoto(){
-		((HomeActivity)getActivity()).captureimage(this,false);
+		((HomeActivity)activity).captureimage(false);
 	}
-	public void imagecapturesccessfullforgalry(String imageuri){
+	/*public void imagecapturesccessfullforgalry(String imageuri){
 		Toast.makeText(getActivity(),"You have selected an image for galary",
 				Toast.LENGTH_SHORT).show();
 		String filepath = imageuri;
@@ -195,19 +273,8 @@ public class FragmentWriteTopic extends Fragment {
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-	}
-	public void imagecapturesccessfull(String imageuri){
-		Toast.makeText(getActivity(),"You have selected an image",
-				Toast.LENGTH_SHORT).show();
-		String filepath = imageuri;
-		bitmapimage =new ImageScale();
-		bitmap=bitmapimage.decodeImage(filepath);
-	}
-	public void imagecapturefaillure(String imageuri){
-		Toast.makeText(getActivity(),"Failed to select an image",
-				Toast.LENGTH_SHORT).show();
-		drectory=imageuri;
-	}
+	}*/
+
 	
 	private class AsyncTaskgetCategories extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -254,16 +321,16 @@ public class FragmentWriteTopic extends Fragment {
 						generateSpinner();
 					}
 					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
+						Toast.makeText(activity, activity.getResources().getString(R.string.Toast_nocat_found),
 								Toast.LENGTH_SHORT).show();
 					}
 				}
 				else{
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
+					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_nocat_found),
 							Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_nocat_found),
+				Toast.makeText(activity, activity.getResources().getString(R.string.Toast_nocat_found),
 						Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -297,10 +364,10 @@ public class FragmentWriteTopic extends Fragment {
 			Toast.makeText(getActivity(), "Please enter article title",Toast.LENGTH_SHORT).show();
 		}
 		else if(body.trim().equals("")){
-			Toast.makeText(getActivity(), "Please enter article text",Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity, "Please enter article text",Toast.LENGTH_SHORT).show();
 		}
 		else if(selsectedspinnerposition==-1){
-			Toast.makeText(getActivity(), "Please select category",Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity, "Please select category",Toast.LENGTH_SHORT).show();
 		}
 		
 		else{
@@ -311,7 +378,7 @@ public class FragmentWriteTopic extends Fragment {
 				new AsyncTaskWriteTopic().execute();
 			}
 			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+				Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
 			
@@ -363,12 +430,25 @@ public class FragmentWriteTopic extends Fragment {
 				
 				bitmap=null;
 				if(status.equals("success")){
+					Constants.writetopicsuccess=true;
 					Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
 					String article_info=jobj.getString("article_info");
 					article_info=article_info.replace("{", "");
 					article_info=article_info.replace("}", "");
 					catagoryid=article_info.substring(article_info.indexOf(":")+1);
 					btn_add_more_photo.setVisibility(View.VISIBLE);
+					String newFolder = "/Lipberryfinal";
+					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+					String drectory= extStorageDirectory + newFolder;
+					
+					File myNewFolder = new File(drectory);
+					deleteDirectory(myNewFolder);
+					createfolder();
+					loadphotoforgalary();
+					btn_go.setVisibility(View.GONE);
+					btn_add_more_photo.setVisibility(View.VISIBLE);
+					grid_image.setVisibility(View.GONE);
+					
 				}
 				else{
 					Toast.makeText(getActivity(),"Failed to write topic", Toast.LENGTH_SHORT).show();
@@ -414,17 +494,78 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd!=null){
-				if((pd.isShowing())){
-						pd.dismiss();
-				}
-			}
+			
+			
+			
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
-				bitmap=null;
-				Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+				if(status.equals("success")){
+					if(pos<galarylist.size()){
+						if(Constants.isOnline(activity)){
+							String filepath = galarylist.get(pos);
+							pos++;
+							bitmapimage =new ImageScale();
+							bitmap=bitmapimage.decodeImage(filepath);
+							new AsyncTaskAddGalaryImage().execute();
+						}
+						else{
+							
+							Constants.writetopicsuccess=false;
+							Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+									Toast.LENGTH_SHORT).show();
+							((HomeActivity)activity).mTabHost.setCurrentTab(4);
+							String newFolder = "/Lipberryfinal";
+							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+							String drectory= extStorageDirectory + newFolder;
+							
+							File myNewFolder = new File(drectory);
+							deleteDirectory(myNewFolder);
+							createfolder();
+							if(pd!=null){
+								if((pd.isShowing())){
+										pd.dismiss();
+								}
+							}
+						}
+					}
+					else{
+						Constants.writetopicsuccess=false;
+						((HomeActivity)activity).mTabHost.setCurrentTab(4);
+						String newFolder = "/Lipberryfinal";
+						String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+						String drectory= extStorageDirectory + newFolder;
+						
+						File myNewFolder = new File(drectory);
+						deleteDirectory(myNewFolder);
+						createfolder();
+						if(pd!=null){
+							if((pd.isShowing())){
+									pd.dismiss();
+							}
+						}
+					}
+					
+				}
+				else{
+					((HomeActivity)activity).mTabHost.setCurrentTab(4);
+					String newFolder = "/Lipberryfinal";
+					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+					String drectory= extStorageDirectory + newFolder;
+					
+					File myNewFolder = new File(drectory);
+					deleteDirectory(myNewFolder);
+					createfolder();
+					Constants.writetopicsuccess=false;
+					if(pd!=null){
+						if((pd.isShowing())){
+								pd.dismiss();
+						}
+					}
+					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+				}
+				
 
 			} catch (JSONException e) {
 			}
@@ -435,18 +576,73 @@ public class FragmentWriteTopic extends Fragment {
 	private ArrayList<String> getList(File parentDir) {
 
 	    ArrayList<String> inFiles = new ArrayList<String>();
-	    String[] fileNames = parentDir.list();
+	    try {
+			String[] fileNames = parentDir.list();
 
-	    for (String fileName : fileNames) {
-	    	
-	        if (fileName.toLowerCase().endsWith(".jpg")) {
-	        	 inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal/"+fileName);
-	            
-	          } 
-	    }
+			for (String fileName : fileNames) {
+				
+			    if (fileName.toLowerCase().endsWith(".jpg")) {
+			    	 inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal/"+fileName);
+			        
+			      } 
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	    return inFiles;
 	}
+	
+	
+	public void addgalarytoserver(){
+		
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, "Lipberry",
+					"Uploading galary", true);
+			
+			String filepath = galarylist.get(pos);
+			pos++;
+			bitmapimage =new ImageScale();
+			bitmap=bitmapimage.decodeImage(filepath);
+			new AsyncTaskAddGalaryImage().execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		
+		
+	}
+	
+	
+	public static boolean deleteDirectory(File path) {
+		if( path.exists() ) {
+			File[] files = path.listFiles();
+			if (files == null) {
+				return true;
+			}
+			for(int i=0; i<files.length; i++) {
+				if(files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				}
+				else {
+					files[i].delete();
+				}
+			}
+		}
+		return( path.delete() );
+	}
 
+	
+	public void createfolder(){
+		String newFolder = "/Lipberryfinal";
+		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+		String drectory= extStorageDirectory + newFolder;
+		
+		File myNewFolder = new File(drectory);
+		//deleteDirectory(myNewFolder);
+		myNewFolder.mkdir();
+	}
 }
 

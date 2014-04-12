@@ -123,7 +123,23 @@
                     android:text="Enter"
                     android:textColor="#000000" />
 
-                <Button
+                
+                
+                 <GridView
+                     android:id="@+id/grid_image"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:background="#3B444B"
+                     android:layout_below="@+id/btn_add_more_photo"
+                     android:layout_marginLeft="5dp"
+                     android:layout_marginRight="5dp"
+                     android:verticalSpacing="5dp"
+                      android:horizontalSpacing="5dp"
+                     android:layout_marginTop="10dp"
+                     android:numColumns="2" >
+           </GridView>
+           
+                    <Button
                     android:id="@+id/btn_add_more_photo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,17 +152,6 @@
                     android:background="@drawable/rounded_edittext"
                     android:text="Add gallary"
                     android:textColor="#000000"/>
-                
-                 <GridView
-        android:id="@+id/grid_image"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_add_more_photo"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:numColumns="2" >
-    </GridView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
