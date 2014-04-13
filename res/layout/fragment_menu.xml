@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:divider="#8A3324"
+       
         android:dividerHeight="2dip" >
     </ListView>
 

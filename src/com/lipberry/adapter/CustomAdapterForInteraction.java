@@ -18,6 +18,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -29,6 +30,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.sax.StartElementListener;
+import android.text.method.LinkMovementMethod;
 
 
 import android.util.Log;
@@ -41,6 +43,7 @@ import android.webkit.WebView;
 import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +85,7 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 	}
 	private class ViewHolder {
 		ImageView img_pro_pic;
+		RelativeLayout re_top;
 		TextView text_msz,text_date_other;
 	}
 
@@ -93,6 +97,7 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.interaction_inflate,
 					null);
 			holder = new ViewHolder();
+			holder.re_top=(RelativeLayout) convertView.findViewById(R.id.re_top);
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
@@ -106,7 +111,15 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 		else{
 			imageLoader.displayImage(list.get(position).getFrom_avatar(),holder.img_pro_pic);
 		}
+		if(list.get(position).geTread_flag().equals("0")){
+			holder.text_msz.setTextColor(Color.parseColor("#ffffff"));
+			holder.re_top.setBackgroundColor(Color.parseColor("#720000"));
+		}else{
+			holder.text_msz.setTextColor(Color.parseColor("#000000"));
+			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
+		}
 		holder.text_msz.setText(list.get(position).getMessage());
+		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
 		showtext.updateImages(true,list.get(position).getMessage());
 		

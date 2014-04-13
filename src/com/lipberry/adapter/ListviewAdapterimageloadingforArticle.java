@@ -308,16 +308,20 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					mProgress.dismiss();
 				}
 				Bitmap bitmap=loadedImage;
-				int bitmapheight=bitmap.getHeight();
-				int bitmapweight=bitmap.getWidth();
-				int deviceheight=Utility.getDeviceHeight(activity);
-				int devicewidth=Utility.getDeviceWidth(activity);
-				float ratio=(float)devicewidth/(float)bitmapweight;
-				int resizebitmapwidth=devicewidth;
-				float a=(bitmapheight*ratio);
-				int resizebitmaphight=(int)a ;
-				bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
-				holder.img_article_pro_pic.setImageBitmap(bitmap);
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					//Toast.makeText(activity, ""+bitmapheight+"  "+bitmap.getWidth(), 10000).show();
+					int deviceheight=Utility.getDeviceHeight(activity);
+					int devicewidth=Utility.getDeviceWidth(activity);
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					holder.img_article_pro_pic.setImageBitmap(bitmap);
+				}
+				
 			}
 
 			@Override

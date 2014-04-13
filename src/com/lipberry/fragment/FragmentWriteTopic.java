@@ -70,13 +70,12 @@ import com.lipberry.utility.LipberryApplication;
 
 @SuppressLint("NewApi")
 public class FragmentWriteTopic extends Fragment {
+	//btn_add_more_photo
     EditText txt_topic,txt_text,txt_tag;
 	Button btn_select_photo,btn_go;
 	WriteTopicTabFragment parent;
-	//
-	int pos=0;
+	int pos=1;
 	Spinner spinner_category;
-	Button btn_add_more_photo;
 	int selsectedspinnerposition=0;
 	Activity activity;
 	boolean writetopicsuccess=false;
@@ -93,7 +92,6 @@ public class FragmentWriteTopic extends Fragment {
 	GridView grid_image;
 	String title,category_id,category_prefix,body,photo,video;
 	@SuppressLint("NewApi")
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -103,6 +101,15 @@ public class FragmentWriteTopic extends Fragment {
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
 		appInstance = (LipberryApplication) getActivity().getApplication();
+	/*	String newFolder = "/Lipberryfinal";
+		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+		String drectory= extStorageDirectory + newFolder;
+		File myNewFolder = new File(drectory);
+		String thumb="/Lipberrythumb";
+		File thumbFolder = new File(drectory);
+		deleteDirectory(thumbFolder);
+		deleteDirectory(myNewFolder);
+		createfolder();*/
 	}
 	
 	@Override
@@ -128,16 +135,7 @@ public class FragmentWriteTopic extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		grid_image.setVisibility(View.VISIBLE);
-		if(Constants.writetopicsuccess){
-			loadphotoforgalary();
-			btn_add_more_photo.setVisibility(View.VISIBLE);
-		}
-		else{
-			loadGridview();
-		}
-		
-		
+	loadGridview();
 	}
 
 	
@@ -153,29 +151,17 @@ public class FragmentWriteTopic extends Fragment {
 			grid_image=(GridView) v.findViewById(R.id.grid_image);
 			txt_topic=(EditText) v.findViewById(R.id.txt_topic);
 			txt_text=(EditText) v.findViewById(R.id.txt_text);
-			btn_add_more_photo=(Button) v.findViewById(R.id.btn_add_more_photo);
-			btn_add_more_photo.setVisibility(View.GONE);
-			btn_add_more_photo.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-					if(galarylist.size()>0){
-						addgalarytoserver();
-					}
-					else{
-						Toast.makeText(activity, "Please add photo", Toast.LENGTH_SHORT).show();
-					}
-					
-				}
-			});
+			//
 			txt_tag=(EditText) v.findViewById(R.id.txt_tag);
 			btn_go=(Button) v.findViewById(R.id.btn_go);
 			btn_go.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String filepath = Constants.drectory+"/"+Constants.photofromcamera;
-					bitmapimage =new ImageScale();
-					bitmap=bitmapimage.decodeImage(filepath);
+					String filepath = galarylist.get(0);
+					filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
+			//	bitmapimage =new ImageScale();
+//					bitmap=bitmapimage.decodeImage(filepath);
+					bitmap=BitmapFactory.decodeFile(filepath);
 					startwritetopic();
 				}
 			});
@@ -206,37 +192,12 @@ public class FragmentWriteTopic extends Fragment {
 	
 	public void loadGridview(){
 		
-		//File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal");
-		ArrayList<String> imageuri =new ArrayList<String>(); 
-		String filepath = Constants.drectory+"/"+Constants.photofromcamera;
-		if(filepath!=null){
-			imageuri.add(filepath);
-		}
-		 Log.e("dir", Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal"+"  "+imageuri.size());
-		 if(imageuri.size()>0){
-			 Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
-					 "/Lipberryfinal/"+imageuri.get(0));
-			 Log.e("sizebitmap", Environment.getExternalStorageDirectory().toString()+
-					 "/Lipberryfinal/"+imageuri.get(0));
-			 CustomAdaptergrid adapter=new CustomAdaptergrid(activity, imageuri);
-				grid_image.setAdapter(adapter);
-				grid_image.setOnTouchListener(new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						v.getParent().requestDisallowInterceptTouchEvent(true);
-						return false;
-					}
-
-				});
-		 }
-		
-	}
-	
-	public void loadphotoforgalary(){
-		File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal");
+		File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberrythumb");
 		galarylist =getList(file); 
 		
 		 if(galarylist.size()>0){
+			 btn_select_photo.setText("Add more photo for gallery");
+			 grid_image.setVisibility(View.VISIBLE);
 			 Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
 					 "/Lipberryfinal/"+galarylist.get(0));
 			 Log.e("sizebitmap", Environment.getExternalStorageDirectory().toString()+
@@ -251,30 +212,27 @@ public class FragmentWriteTopic extends Fragment {
 					}
 
 				});
+				grid_image.setOnItemClickListener(new OnItemClickListener() {
+
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1,
+							int arg2, long arg3) {
+						// TODO Auto-generated method stub
+						Log.e("name", galarylist.get(arg2));
+						
+					}
+				});
+		 }
+		 else{
+			 btn_select_photo.setText("Select photo");
+			 grid_image.setVisibility(View.GONE);
 		 }
 		
-		
 	}
+
 	public void loadphoto(){
 		((HomeActivity)activity).captureimage(false);
 	}
-	/*public void imagecapturesccessfullforgalry(String imageuri){
-		Toast.makeText(getActivity(),"You have selected an image for galary",
-				Toast.LENGTH_SHORT).show();
-		String filepath = imageuri;
-		bitmapimage =new ImageScale();
-		bitmap=bitmapimage.decodeImage(filepath);
-		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(activity,"Lipberry",
-					"Uploading photo", true);
-			new AsyncTaskAddGalaryImage().execute();
-		}
-		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-	}*/
-
 	
 	private class AsyncTaskgetCategories extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -398,7 +356,7 @@ public class FragmentWriteTopic extends Fragment {
 				loginObj.put("body", body);
 				if(bitmap!=null){
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
-					bitmap.compress(CompressFormat.JPEG,60, bao);
+					bitmap.compress(CompressFormat.JPEG,100, bao);
 					byte[] ba = bao.toByteArray();
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("photo",  base64Str);
@@ -419,11 +377,6 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd!=null){
-				if((pd.isShowing())){
-						pd.dismiss();
-				}
-			}
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
@@ -431,30 +384,39 @@ public class FragmentWriteTopic extends Fragment {
 				bitmap=null;
 				if(status.equals("success")){
 					Constants.writetopicsuccess=true;
-					Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
+				//	Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
 					String article_info=jobj.getString("article_info");
 					article_info=article_info.replace("{", "");
 					article_info=article_info.replace("}", "");
 					catagoryid=article_info.substring(article_info.indexOf(":")+1);
-					btn_add_more_photo.setVisibility(View.VISIBLE);
-					String newFolder = "/Lipberryfinal";
-					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-					String drectory= extStorageDirectory + newFolder;
+					if(galarylist.size()>1){
+						addgalarytoserver();
+					}
+					else{
+						if(pd!=null){
+							if((pd.isShowing())){
+									pd.dismiss();
+							}
+						}
+					}
 					
-					File myNewFolder = new File(drectory);
-					deleteDirectory(myNewFolder);
-					createfolder();
-					loadphotoforgalary();
-					btn_go.setVisibility(View.GONE);
-					btn_add_more_photo.setVisibility(View.VISIBLE);
-					grid_image.setVisibility(View.GONE);
 					
 				}
 				else{
+					if(pd!=null){
+						if((pd.isShowing())){
+								pd.dismiss();
+						}
+					}
 					Toast.makeText(getActivity(),"Failed to write topic", Toast.LENGTH_SHORT).show();
 				}
 		
 			} catch (JSONException e) {
+				if(pd!=null){
+					if((pd.isShowing())){
+							pd.dismiss();
+					}
+				}
 			}
 		}
 	}
@@ -472,14 +434,11 @@ public class FragmentWriteTopic extends Fragment {
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG,60, bao);
 					byte[] ba = bao.toByteArray();
-					Log.e("BITMAP SIZE in asynctask", "bitmap size after compress = "
-							+ ba.length);
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("pic_data",  base64Str);
 				}
 				else{
-					Log.e("BITMAP SIZE in asynctask", "bitmap size after compress = "
-							);
+				
 				}
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"article/addgallery/"+catagoryid;
@@ -494,9 +453,7 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			
-			
-			
+			Log.e("response", result.getjObj().toString());
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
@@ -505,22 +462,25 @@ public class FragmentWriteTopic extends Fragment {
 					if(pos<galarylist.size()){
 						if(Constants.isOnline(activity)){
 							String filepath = galarylist.get(pos);
-							pos++;
-							bitmapimage =new ImageScale();
-							bitmap=bitmapimage.decodeImage(filepath);
+							filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
+//							bitmapimage =new ImageScale();
+//							bitmap=bitmapimage.decodeImage(filepath);
+							bitmap=BitmapFactory.decodeFile(filepath);
 							new AsyncTaskAddGalaryImage().execute();
+							pos++;
 						}
 						else{
-							
-							Constants.writetopicsuccess=false;
 							Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 									Toast.LENGTH_SHORT).show();
 							((HomeActivity)activity).mTabHost.setCurrentTab(4);
 							String newFolder = "/Lipberryfinal";
 							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 							String drectory= extStorageDirectory + newFolder;
-							
 							File myNewFolder = new File(drectory);
+						
+							String thumb=extStorageDirectory+"/Lipberrythumb";
+							File thumbFolder = new File(thumb);
+							deleteDirectory(thumbFolder);
 							deleteDirectory(myNewFolder);
 							createfolder();
 							if(pd!=null){
@@ -531,6 +491,8 @@ public class FragmentWriteTopic extends Fragment {
 						}
 					}
 					else{
+					
+						Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 						Constants.writetopicsuccess=false;
 						((HomeActivity)activity).mTabHost.setCurrentTab(4);
 						String newFolder = "/Lipberryfinal";
@@ -538,6 +500,10 @@ public class FragmentWriteTopic extends Fragment {
 						String drectory= extStorageDirectory + newFolder;
 						
 						File myNewFolder = new File(drectory);
+						
+						String thumb=extStorageDirectory+"/Lipberrythumb";
+						File thumbFolder = new File(thumb);
+						deleteDirectory(thumbFolder);
 						deleteDirectory(myNewFolder);
 						createfolder();
 						if(pd!=null){
@@ -553,8 +519,11 @@ public class FragmentWriteTopic extends Fragment {
 					String newFolder = "/Lipberryfinal";
 					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 					String drectory= extStorageDirectory + newFolder;
-					
 					File myNewFolder = new File(drectory);
+					
+					String thumb=extStorageDirectory+"/Lipberrythumb";
+					File thumbFolder = new File(thumb);
+					deleteDirectory(thumbFolder);
 					deleteDirectory(myNewFolder);
 					createfolder();
 					Constants.writetopicsuccess=false;
@@ -563,6 +532,7 @@ public class FragmentWriteTopic extends Fragment {
 								pd.dismiss();
 						}
 					}
+					
 					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 				}
 				
@@ -581,8 +551,8 @@ public class FragmentWriteTopic extends Fragment {
 
 			for (String fileName : fileNames) {
 				
-			    if (fileName.toLowerCase().endsWith(".jpg")) {
-			    	 inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberryfinal/"+fileName);
+			    if ((fileName.toLowerCase().endsWith(".jpg"))||(fileName.toLowerCase().endsWith(".png"))) {
+			    	 inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberrythumb/"+fileName);
 			        
 			      } 
 			}
@@ -596,16 +566,18 @@ public class FragmentWriteTopic extends Fragment {
 	
 	
 	public void addgalarytoserver(){
-		
+		pos=0;
 		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry",
-					"Uploading galary", true);
-			
 			String filepath = galarylist.get(pos);
-			pos++;
-			bitmapimage =new ImageScale();
-			bitmap=bitmapimage.decodeImage(filepath);
+			filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
+			//
+			//
+//			bitmapimage =new ImageScale();
+//			bitmap=bitmapimage.decodeImage(filepath);
+			bitmap=BitmapFactory.decodeFile(filepath);
 			new AsyncTaskAddGalaryImage().execute();
+		
+			pos++;
 		}
 		else{
 			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
@@ -637,12 +609,15 @@ public class FragmentWriteTopic extends Fragment {
 	
 	public void createfolder(){
 		String newFolder = "/Lipberryfinal";
+		String thumb="/Lipberrythumb";
+		
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		String drectory= extStorageDirectory + newFolder;
-		
+		String drectorythumb=extStorageDirectory + thumb;
 		File myNewFolder = new File(drectory);
-		//deleteDirectory(myNewFolder);
 		myNewFolder.mkdir();
+		File myNewFolderthumb = new File(drectorythumb);
+		myNewFolderthumb.mkdir();
 	}
 }
 

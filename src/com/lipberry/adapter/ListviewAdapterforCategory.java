@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -116,21 +117,58 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 				holder.img_category_pro_pic.setImageResource(id);
 				
 				id = activity.getResources().getIdentifier("bll"+list.get(position).getId(), "drawable", activity.getPackageName());
-				holder.img_big_img.setImageResource(id);
+				Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),id);
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(activity);
+					int devicewidth=Utility.getDeviceWidth(activity);
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					holder.img_big_img.setImageBitmap(bitmap);
+				}
 			}
 			else{
 				int id = activity.getResources().getIdentifier("l"+list.get(position).getId(), "drawable", activity.getPackageName());
 				holder.img_category_pro_pic.setImageResource(id);
 				id = activity.getResources().getIdentifier("ll"+list.get(position).getId(), "drawable", activity.getPackageName());
-				holder.img_big_img.setImageResource(id);
+				Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),id);
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(activity);
+					int devicewidth=Utility.getDeviceWidth(activity);
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					holder.img_big_img.setImageBitmap(bitmap);
+				}
 			}
 		}
 		else{
 			int id = activity.getResources().getIdentifier("l"+list.get(position).getId(), "drawable", activity.getPackageName());
 			holder.img_category_pro_pic.setImageResource(id);
-			
 			id = activity.getResources().getIdentifier("ll"+list.get(position).getId(), "drawable", activity.getPackageName());
-			holder.img_big_img.setImageResource(id);
+			
+			Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),id);
+			if(bitmap!=null){
+				int bitmapheight=bitmap.getHeight();
+				int bitmapweight=bitmap.getWidth();
+				int deviceheight=Utility.getDeviceHeight(activity);
+				int devicewidth=Utility.getDeviceWidth(activity);
+				float ratio=(float)devicewidth/(float)bitmapweight;
+				int resizebitmapwidth=devicewidth;
+				float a=(bitmapheight*ratio);
+				int resizebitmaphight=(int)a ;
+				bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+				holder.img_big_img.setImageBitmap(bitmap);
+			}
+			//holder.img_big_img.setImageResource(id);
 		}
 		
 		

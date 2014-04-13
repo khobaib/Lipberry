@@ -105,6 +105,7 @@ public class FragmentInteraction extends Fragment {
 				loginObj.put("endIndex","53");
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"account/notifications/";
+				
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;

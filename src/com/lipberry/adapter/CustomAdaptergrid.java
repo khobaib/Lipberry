@@ -104,6 +104,12 @@ public class CustomAdaptergrid extends BaseAdapter {
 	//	Bitmap.Cr
 		ImageScale bitmapimage =new ImageScale();
 		Bitmap bitmap=bitmapimage.decodeImage(list.get(position));
+		if(bitmap!=null){
+			float ratio=(float) (90.0/(float)bitmap.getHeight());
+			float newwidth=ratio*bitmap.getWidth();
+			bitmap=bitmapimage.getResizedBitmap(bitmap,bitmap.getHeight()*6,bitmap.getWidth()*6);
+			
+		}
 		//Bitmap bitmap = decodeFile(new File(list.get(position)), 100);
 		holder.image_cut.setOnClickListener(new  OnClickListener() {
 			
@@ -115,7 +121,6 @@ public class CustomAdaptergrid extends BaseAdapter {
 			//	String deletedfile=list.get(position);
 				list.remove(position);
 				notifyDataSetChanged();
-				
 			}
 		});
 		holder.imag_inflate.setImageBitmap(bitmap);

@@ -25,6 +25,7 @@ import com.lipberry.fragment.IneractionTabFragment;
 import com.lipberry.fragment.InboxTabFragment;
 import com.lipberry.fragment.MenuTabFragment;
 import com.lipberry.fragment.TabFragment;
+import com.lipberry.model.ImageScale;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
@@ -70,6 +71,7 @@ public class HomeActivity extends FragmentActivity {
 	public  String photofromcamera;
 	public  FragmentTabHost mTabHost;
 	public  String drectory;
+	public  String drectorythumb;
 	
 	public TextView text_notification_no_fromactivity;
 	
@@ -297,9 +299,9 @@ TextView text_notification_no;
 					Constants.photofromcamera=photofromcamera;
 					final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 					File f = new File(drectory, photofromcamera);
-					Log.i("pos", drectory+photofromcamera+" " +f.exists());
+					Log.e("pos", drectory+photofromcamera+" " +f.exists());
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-					getIntent().getSerializableExtra("MyClass");
+					//getIntent().getSerializableExtra("MyClass");
 					startActivityForResult(intent, 1);
 				}
 				else if (options[item].equals("Choose from Gallery"))
@@ -348,21 +350,40 @@ TextView text_notification_no;
 				{
 
 					String filepath = drectory+"/"+photofromcamera;
+					
 					File file=new File(filepath);
 
 					if(file.exists()){
-						final BitmapFactory.Options options = new BitmapFactory.Options();
-						options.inSampleSize = 8;
-					Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+						ImageScale scaleimage=new ImageScale();
+						Bitmap photo = scaleimage.decodeImagetoUpload(file.getAbsolutePath());
+					Log.e("bitmap ", ""+photo.getHeight()+"   "+photo.getWidth());
+					Bitmap p=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/6,true);
 						file.delete();
 						ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-						photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+						photo.compress(Bitmap.CompressFormat.PNG, 80, bytes);
+						
+						
 						File f = new File(filepath);
 						f.createNewFile();
 						FileOutputStream fo = new FileOutputStream(f);
 						fo.write(bytes.toByteArray());
 						fo.close();
-
+						
+						
+						String thumnilpath=drectorythumb+"/"+photofromcamera;
+						Log.e("path", thumnilpath);
+					//	photo=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/600,true);
+						Log.e("path", "a  "+ p);
+						bytes = new ByteArrayOutputStream();
+						 p.compress(Bitmap.CompressFormat.PNG, 80, bytes);
+						
+						File filethumb = new File(thumnilpath);
+						filethumb.createNewFile();
+						FileOutputStream fothumb = new FileOutputStream(filethumb);
+						fothumb.write(bytes.toByteArray());
+						fothumb.close();
+						
+					
 					}
 
 				}
@@ -399,9 +420,10 @@ TextView text_notification_no;
 						String filepath = drectory+"/"+photofromcamera;
 						File file=new File(filepath);
 						if(file.exists()){
-							final BitmapFactory.Options options = new BitmapFactory.Options();
-							options.inSampleSize = 8;
-							Bitmap photo = BitmapFactory.decodeFile(file.getAbsolutePath(),options);
+							ImageScale scaleimage=new ImageScale();
+							Bitmap photo = scaleimage.decodeImagetoUpload(file.getAbsolutePath());
+						Log.e("bitmap ", ""+photo.getHeight()+"   "+photo.getWidth());
+						
 							file.delete();
 							ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 							photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -410,6 +432,17 @@ TextView text_notification_no;
 							FileOutputStream fo = new FileOutputStream(f);
 							fo.write(bytes.toByteArray());
 							fo.close();
+							
+							
+							String thumnilpath=drectorythumb+"/"+photofromcamera;
+							photo=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/6,false);
+							bytes = new ByteArrayOutputStream();
+							photo.compress(Bitmap.CompressFormat.PNG, 80, bytes);
+							File filethumb = new File(thumnilpath);
+							filethumb.createNewFile();
+							FileOutputStream fothumb = new FileOutputStream(filethumb);
+							fothumb.write(bytes.toByteArray());
+							fothumb.close();
 
 						}
 
@@ -438,12 +471,14 @@ TextView text_notification_no;
 	}   
 	public void createfolder(){
 		String newFolder = "/Lipberryfinal";
+		String thumb="/Lipberrythumb";
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		drectory= extStorageDirectory + newFolder;
-		
+		drectorythumb=extStorageDirectory + thumb;
 		File myNewFolder = new File(drectory);
-		//deleteDirectory(myNewFolder);
 		myNewFolder.mkdir();
+		File myNewFolderthumb = new File(drectorythumb);
+		myNewFolderthumb.mkdir();
 	}
 
 
