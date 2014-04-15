@@ -59,13 +59,9 @@ public class FragmentSubCategoriesList extends Fragment {
 	Button btn_go_another_category;
 	TextView txt_make_up;
 	public void setUrl(String url,String catname){
-		this.url=url;
-		if(url.contains("category/postslist")){
-		}
-		else{
-			this.url=this.url.replace("category","category/postslist");
-		}
-		this.catname=catname;
+		this.url=Constants.caturl;
+		
+		this.catname=Constants.caname;
 	}
 	@SuppressLint("NewApi")
 	@Override
@@ -75,7 +71,7 @@ public class FragmentSubCategoriesList extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+		
 		((HomeActivity)getActivity()).welcome_title.setText(catname);
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sub_categories,
@@ -117,12 +113,21 @@ public class FragmentSubCategoriesList extends Fragment {
 	public void onResume() {
 		super.onResume();
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+//		if(Constants.catgeory){
+//			
+//			((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+//		}
+//		else{
+//			((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+//		}
+//		
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				parent.onBackPressed();
 			}
 		});
+		Constants.catgeory=false;
 	}
 	@Override
 	public void onPause() {

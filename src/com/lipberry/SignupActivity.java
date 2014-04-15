@@ -277,7 +277,7 @@ public class SignupActivity extends Activity {
 	private void setcountry(){
 
 		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_dropdown_item, allcountryname);
+				R.layout.spinner_item, allcountryname);
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s_country.setAdapter(

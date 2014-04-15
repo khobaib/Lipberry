@@ -80,6 +80,11 @@ public class FragmentCategories extends Fragment {
 	public void onResume() {
 		super.onResume();
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		if(Constants.catgeory){
+		
+			parent.startFragmentSubCategoriesList(Constants.caturl,Constants.caname);
+		
+		}
 	}
 	private class AsyncTaskgetCategories extends AsyncTask<Void, Void, ServerResponse> {
 		@Override

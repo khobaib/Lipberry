@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 
+import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.customalertdilog.LisAlertDialog;
@@ -74,6 +75,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	CategoryTabFragment parent3;
 	String commentstext;
 	int a;
+	
 	boolean stateoflike=false;
 	JsonParser jsonParser;
 	int index;
@@ -172,7 +174,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-
 		holder.image_comments.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -200,10 +201,23 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 
 		}
 		
-	
-		int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-		Log.e("category", "null"+list.get(position).getcategory());
-		holder.img_some_icon.setImageResource(id);
+		
+		if(list.get(position).getcategory().equals("2")){
+			if(list.get(position).getArticle_category_url().contains("shexp")){
+				int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
+				Log.e("category", "null"+list.get(position).getcategory());
+				holder.img_some_icon.setImageResource(id);
+			}
+			else{
+				int id = activity.getResources().getIdentifier("bl"+list.get(position).getcategory(), "drawable", activity.getPackageName());
+				Log.e("category", "null"+list.get(position).getcategory());
+				holder.img_some_icon.setImageResource(id);
+			}
+		}else{
+			int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
+			Log.e("category", "null"+list.get(position).getcategory());
+			holder.img_some_icon.setImageResource(id);
+		}
 		
 		holder.text_user_name.setText(list.get(position).getMember_username());
 		holder.text_date_other.setText(list.get(position).getCreated_at());
@@ -286,7 +300,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				// TODO Auto-generated method stub
 				mProgress=new ProgressDialog(activity);
 				mProgress.setTitle("Image is  Loading");
-				//mProgress.show();
+			//	mProgress.show();
 			}
 
 			@Override
@@ -311,7 +325,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				if(bitmap!=null){
 					int bitmapheight=bitmap.getHeight();
 					int bitmapweight=bitmap.getWidth();
-					//Toast.makeText(activity, ""+bitmapheight+"  "+bitmap.getWidth(), 10000).show();
 					int deviceheight=Utility.getDeviceHeight(activity);
 					int devicewidth=Utility.getDeviceWidth(activity);
 					float ratio=(float)devicewidth/(float)bitmapweight;
@@ -342,12 +355,13 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 
 		}
 
-		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
+		holder.text_user_name.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(parent!=null){
+					Constants.userid=list.get(position).getMember_id();
 					parent.startMemberFragment();
 				}
 				else{
@@ -357,6 +371,38 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			}
 		});
 
+		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(parent!=null){
+					Constants.userid=list.get(position).getMember_id();
+					parent.startMemberFragment();
+				}
+				else{
+					parent3.startFragmentMemberFromCategories();
+				}
+
+			}
+		});
+		holder.img_some_icon.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				if(parent!=null){
+					
+					Constants.catgeory=true;
+					Constants.caturl=list.get(position).getArticle_category_url();
+					Constants.caname=list.get(position).getCategory_name();
+							
+					((HomeActivity)activity).mTabHost.setCurrentTab(3);
+					
+				}
+				
+				
+			}
+		});
 
 		Log.i(" image loading", list.get(position).getArticle_photo());
 		return convertView;

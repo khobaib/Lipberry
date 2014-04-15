@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.Article;
+import com.lipberry.utility.Constants;
 
 
 
@@ -29,6 +30,13 @@ public class CategoryTabFragment extends TabFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		backEndStack = new Stack<Fragment>();
+//		if(Constants.catgeory){
+//			backEndStack.clear();
+//			FragmentSubCategoriesList initialFragment = new FragmentSubCategoriesList();
+//			initialFragment.setUrl(Constants.caturl,Constants.caname);
+//			initialFragment.parent = this;
+//			backEndStack.push(initialFragment);
+//		}
 		FragmentCategories initialFragment = new FragmentCategories();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
@@ -56,6 +64,8 @@ public class CategoryTabFragment extends TabFragment{
 
 	public void startFragmentSubCategoriesList( String url,String catname) {
 		FragmentSubCategoriesList newFragment = new FragmentSubCategoriesList ();
+		Constants.caturl=url;
+		Constants.caname=catname;
 		newFragment.setUrl(url,catname);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -63,7 +73,9 @@ public class CategoryTabFragment extends TabFragment{
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
+		
+			backEndStack.push(newFragment);
+		
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 

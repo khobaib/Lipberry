@@ -75,8 +75,10 @@ public class FragmentInteraction extends Fragment {
 					"Please wait", true);
 			new AsyncTaskGetNotification().execute();
 			if(Constants.notificationcount>0){
-				new AsyncTasksetNotificationToggle().execute();
+//				new AsyncTasksetNotificationToggle().execute();
 			}
+			
+				
 			
 		}
 		else{
@@ -102,7 +104,7 @@ public class FragmentInteraction extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex","0");
-				loginObj.put("endIndex","53");
+				loginObj.put("endIndex","10");
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"account/notifications/";
 				

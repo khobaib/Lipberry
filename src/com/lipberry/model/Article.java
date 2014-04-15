@@ -14,6 +14,7 @@ public class Article {
 	private String article_photo;
 	private String article_description;
 	private String article_url;
+	
 	private String like_count;
 	String article_category="";
 	private String comment_count;
@@ -27,6 +28,7 @@ public class Article {
 	String created_at="";
 	private String member_username;
 	private  String category_name;
+	
 	private String article_category_url="";
 	public Article(ArrayList<LikeMember>likedmemberlist,String article_id,String article_photo,String article_url,
 			String article_title,String article_description,String like_count,String comment_count,String like_url

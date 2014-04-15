@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -9,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/re_top"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="65dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="#ffffff"
@@ -17,8 +18,8 @@
 
         <ImageView
             android:id="@+id/img_pro_pic"
-            android:layout_width="70dp"
-            android:layout_height="74dp"
+            android:layout_width="57dp"
+            android:layout_height="61dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
             android:padding="2dp"
@@ -40,7 +41,7 @@
 
         <TextView
             android:id="@+id/text_date_other"
-            android:layout_width="140dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_user_name"
             android:layout_marginBottom="8dp"
@@ -48,19 +49,19 @@
             android:layout_marginStart="16dp"
             android:layout_toLeftOf="@+id/img_pro_pic"
             android:gravity="right"
-            android:textColor="#000000"
-            android:textSize="17dp" />
-    </RelativeLayout>
+           android:textColor="#000000"
+            android:textSize="13dp" />
 
-    <ImageView
-        android:id="@+id/img_some_icon"
-        android:layout_width="70dp"
-        android:layout_height="74dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-       android:padding="2dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/lcat_icon" />
+        <ImageView
+            android:id="@+id/img_some_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="2dp"
+            android:src="@drawable/lcat_icon" />
+
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/img_article_pro_pic"

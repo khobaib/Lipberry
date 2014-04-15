@@ -12,6 +12,10 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static boolean catgeory=false;
+	public static String caturl="-1";
+	public static String caname=""; 
+	
 	public static boolean writetopicsuccess=false;
 	public static String drectory;
 	public static String photofromcamera;
