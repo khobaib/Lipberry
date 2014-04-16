@@ -16,32 +16,32 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="170dp"
-            android:layout_height="140dp"
+           android:layout_width="85dp"
+        android:layout_height="130dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/llogo" />
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="240dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageView1"
             android:layout_centerHorizontal="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
             android:layout_marginTop="13dp"
             android:src="@drawable/ltext" />
 
         <RelativeLayout
-            android:id="@+id/re_loginholder"
+            android:id="@+id/re_register_holder"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_below="@+id/imageView2"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginTop="35dp"
             android:background="@drawable/lbutton_back"
-            android:onClick="goLoginpage" >
+            android:onClick= "goRegisterscreen">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -53,8 +53,8 @@
 
             <ImageView
                 android:id="@+id/img_signin_click_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="17dp"
@@ -62,15 +62,15 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/re_register_holder"
+            android:id="@+id/re_loginholder"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_below="@+id/re_loginholder"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/re_register_holder"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/lbackground_signup"
-            android:onClick="goRegisterscreen" >
+            android:onClick="goLoginpage" >
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -82,8 +82,8 @@
 
             <ImageView
                 android:id="@+id/img_register_click_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+               android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="17dp"

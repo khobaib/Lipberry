@@ -19,12 +19,13 @@
         <ImageView
             android:id="@+id/img_pro_pic"
             android:layout_width="57dp"
-            android:layout_height="61dp"
+            android:layout_height="65dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_launcher" />
+            android:padding="3dp"
+             android:src="@drawable/ic_launcher" 
+             android:scaleType="fitXY"
+            android:background="@color/gray70"/>
 
         <TextView
             android:id="@+id/text_user_name"
@@ -51,6 +52,9 @@
             android:gravity="right"
            android:textColor="#000000"
             android:textSize="13dp" />
+        
+           
+        
 
         <ImageView
             android:id="@+id/img_some_icon"
@@ -59,7 +63,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:padding="2dp"
-            android:src="@drawable/lcat_icon" />
+			 android:src="@drawable/lcat_icon" />
 
     </RelativeLayout>
 
@@ -68,7 +72,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_top"
-        android:layout_margin="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+
         android:scaleType="fitXY"
         android:src="@drawable/ic_launcher" />
 

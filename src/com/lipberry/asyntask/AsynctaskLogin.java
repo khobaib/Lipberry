@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.lipberry.SplashActivity;
+import com.lipberry.Splash2Activity;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -22,9 +22,9 @@ import android.widget.Toast;
 
 public class AsynctaskLogin extends AsyncTask<Void, Void, String> {
 	Activity activity;
-	SplashActivity  lisenar;
+	Splash2Activity  lisenar;
     String username,password;
-    public AsynctaskLogin(Activity activity,SplashActivity  lisenar, String  username, String password) {
+    public AsynctaskLogin(Activity activity,Splash2Activity  lisenar, String  username, String password) {
 		this.activity = activity;
 		this.lisenar=lisenar;
 		this.username=username;

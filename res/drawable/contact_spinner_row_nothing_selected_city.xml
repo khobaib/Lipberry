@@ -7,6 +7,6 @@
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
     android:textSize="22sp"
-   android:textColor="#ffffff"
+   android:textColor="#808080"
    
     android:text="@string/et_signup_city" />

@@ -25,17 +25,28 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl" >
 
+                <ImageView
+                    android:id="@+id/img_icon_to_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                     android:layout_marginTop="12dp"
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/licon_for_topbar"
+                    android:textStyle="bold" />
+
                 <EditText
                     android:id="@+id/e_name"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/img_icon_to_bar"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="22dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginStart="22dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
                     android:gravity="right"
@@ -59,7 +70,7 @@
                     <EditText
                         android:id="@+id/e_username"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
@@ -74,7 +85,7 @@
                 <EditText
                     android:id="@+id/e_nickname"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/re_username"
                     android:layout_marginLeft="22dp"
@@ -92,7 +103,7 @@
                 <EditText
                     android:id="@+id/e_password"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/e_nickname"
                     android:layout_marginLeft="22dp"
@@ -110,7 +121,7 @@
                 <EditText
                     android:id="@+id/e_confirmpass"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/e_password"
                     android:layout_marginLeft="22dp"
@@ -138,7 +149,7 @@
                     <EditText
                         android:id="@+id/e_email"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
@@ -153,7 +164,7 @@
                 <RelativeLayout
                     android:id="@+id/re_cityandcountry"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="55dp"
                     android:layout_below="@+id/re_email"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
@@ -169,54 +180,65 @@
 
                     <RelativeLayout
                         android:id="@+id/re_city"
-                        android:layout_width="200dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@+id/t_dummy"
-                        android:background="@drawable/rounded_edittext" >
+                         >
 
                         <Spinner
                             android:id="@+id/s_city"
-                            android:layout_width="200dp"
-                            android:layout_height="52dp"
-                            android:background="@drawable/lbackgound_bottombar"
-                            android:padding="7dp"
-                            android:textSize="22dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:gravity="right" 
+                            android:paddingLeft="42dp"
+							android:textSize="22dp"
                             android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/t_city"
-                            android:layout_width="200dp"
-                            android:layout_height="52dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
                             android:padding="7dp"
+                            android:background="@drawable/rounded_edittext"
                             android:text="@string/et_signup_city"
+                            android:textColor="#808080"
                             android:textSize="20dp" >
                         </TextView>
+                        
+                        <ImageView
+                            android:id="@+id/img_link"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                          android:layout_marginLeft="5dp"
+                            android:src="@drawable/lknowus" />
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="200dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_toRightOf="@+id/t_dummy"
-                         >
+                        android:layout_toRightOf="@+id/t_dummy" >
 
                         <Spinner
                             android:id="@+id/s_country"
-                            android:layout_width="200dp"
-                            android:layout_height="52dp"
-                            android:background="#ffffff"
-                            android:padding="7dp"
-                           android:textSize="24dp"
-                             />
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:paddingLeft="42dp"
+                          android:gravity="right"  
+                            android:background="@drawable/rounded_edittext"
+                            android:textSize="24dp" />
 
                         <TextView
                             android:id="@+id/t_country"
                             android:layout_width="200dp"
                             android:layout_height="52dp"
                             android:padding="7dp"
-                          
                             android:text="@string/et_signup_country"
+                            android:visibility="gone"
                             android:textColor="#000000"
                             android:textSize="20dp" >
                         </TextView>
@@ -230,13 +252,23 @@
                             android:padding="7dp"
                             android:textSize="24dp"
                             android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                          android:layout_marginLeft="5dp"
+                            android:src="@drawable/lknowus" />
+
                     </RelativeLayout>
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/re_kowaboutus"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="55dp"
                     android:layout_below="@+id/re_cityandcountry"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
@@ -246,23 +278,26 @@
                     <Spinner
                         android:id="@+id/s_kowaboutus"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="@drawable/lbackgound_bottombar"
-                        android:padding="7dp"
+                        android:layout_height="55dp"
+                        android:gravity="right" 
+                        android:background="@drawable/rounded_edittext"
+                        android:paddingRight="50dp"
                         android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/t_kowaboutus"
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
+                        android:layout_height="wrap_content"
                         android:padding="7dp"
+                        android:visibility="gone"
                         android:text="@string/et_signup_knowing"
                         android:textSize="18dp" />
 
                     <ImageView
                         android:id="@+id/imageView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="37dp"
+                        android:layout_height="37dp"
+                        android:paddingLeft="5dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/lknowus" />
@@ -271,7 +306,7 @@
                 <Button
                     android:id="@+id/b_register"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="55dp"
                     android:layout_below="@+id/re_kowaboutus"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -286,13 +321,22 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignLeft="@+id/b_register"
                     android:layout_alignTop="@+id/b_register"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="12dp"
                     android:src="@drawable/lsign_yes" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                  android:layout_marginTop="33dp"
+                    android:src="@drawable/lsignupmsz" />
+
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

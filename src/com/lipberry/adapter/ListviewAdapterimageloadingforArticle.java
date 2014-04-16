@@ -322,6 +322,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					mProgress.dismiss();
 				}
 				Bitmap bitmap=loadedImage;
+				
 				if(bitmap!=null){
 					int bitmapheight=bitmap.getHeight();
 					int bitmapweight=bitmap.getWidth();
@@ -331,6 +332,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					int resizebitmapwidth=devicewidth;
 					float a=(bitmapheight*ratio);
 					int resizebitmaphight=(int)a ;
+					Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
 					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
 					holder.img_article_pro_pic.setImageBitmap(bitmap);
 				}
@@ -365,6 +367,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					parent.startMemberFragment();
 				}
 				else{
+					Constants.userid=list.get(position).getMember_id();
 					parent3.startFragmentMemberFromCategories();
 				}
 
@@ -381,6 +384,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					parent.startMemberFragment();
 				}
 				else{
+					Constants.userid=list.get(position).getMember_id();
 					parent3.startFragmentMemberFromCategories();
 				}
 

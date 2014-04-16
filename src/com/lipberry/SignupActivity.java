@@ -98,7 +98,7 @@ public class SignupActivity extends Activity {
 		if(Constants.isOnline(SignupActivity.this)){
 
 			pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
-					"Retreving countrylist", true);
+					"Please wait", true);
 			new AsyncTaskGetCountry().execute();
 			new AsyncTaskGetknowingReason().execute();
 
@@ -291,10 +291,6 @@ public class SignupActivity extends Activity {
 					long arg3){
 
 				selectedcountryposition=position-1;
-				if(selectedcountryposition!=-1){
-					Toast.makeText(SignupActivity.this, countrylist.get(selectedcountryposition).getId(), 1000).show();
-						
-				}
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
 			}
@@ -562,7 +558,7 @@ public class SignupActivity extends Activity {
 			String msz=response.getString("message");
 			if(status.equals("success")){
 				Toast.makeText(SignupActivity.this, msz, 10000).show();
-				Intent intent=new Intent(SignupActivity.this, SplashActivity.class);
+				Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
 				startActivity(intent);
 				finish();
 
@@ -620,7 +616,7 @@ public class SignupActivity extends Activity {
 				}
 
 				else{
-					Intent intent=new Intent(SignupActivity.this, SplashActivity.class);
+					Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
 					startActivity(intent);
 					finish();
 				}

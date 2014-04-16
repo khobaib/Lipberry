@@ -17,6 +17,7 @@
     <string name="et_signup_knowing">"كيف علمتي عن ليب بيري؟"</string>
     <string name="bet_signup_register">"اشتراك"</string>
     <string name="bt_signup_signup">"اشتراك"</string>
+    
 
 <!--      Sign up screen -->
 
@@ -40,7 +41,7 @@
     <string name="Toast_member_found">"Failed to get Member. Please try again."</string>
     <string name="Toast_comments_txt">"Your comments have been posted."</string>
 <!--     memberscreen -->
-
+ <string name="txt_interaction">"التفاعلات"</string>
     <string name="back_string">"رجوع"</string>
     <string name="topbar_cat">"الأقسام"</string>
     <string name="topbar_new_article">"جديد المشاركات"</string>

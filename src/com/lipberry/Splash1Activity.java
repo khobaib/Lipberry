@@ -34,7 +34,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class SplashActivity extends Activity {
+public class Splash1Activity extends Activity {
 	int stateofbackpress=0;
 	UserCred usercred;
 	EditText e_uname,e_pass,et_email;
@@ -56,11 +56,12 @@ public class SplashActivity extends Activity {
 			@Override
 			public void run() {
 				if(!appInstance.isRememberMe()){
-					gosplash2();
+					Intent intent=new Intent(Splash1Activity.this,Splash2Activity.class);
+					startActivity(intent);
+					finish();
 				}
 				else{
-					gosplash2();
-					if(Constants.isOnline(SplashActivity.this)){
+					if(Constants.isOnline(Splash1Activity.this)){
 						username=appInstance.getUserCred().getUsername();
 						password=appInstance.getUserCred().getPassword(); 
 						system_notification=appInstance.getUserCred().getSystem_notification();
@@ -71,8 +72,8 @@ public class SplashActivity extends Activity {
 						signin();
 					}
 					else{
-						Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
-						Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
+						Toast.makeText(Splash1Activity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+						Intent intent=new Intent(Splash1Activity.this, HomeActivity.class);
 						startActivity(intent);
 						finish();
 
@@ -80,7 +81,7 @@ public class SplashActivity extends Activity {
 				}
 
 			}
-		},2000);
+		},4000);
 	}
 
 
@@ -98,30 +99,20 @@ public class SplashActivity extends Activity {
 		setContentView(R.layout.splash2);
 
 	}
-
-	public void goLoginpage(View view){
-		Intent  intent=new Intent(SplashActivity.this, LoginActivity.class);
-		startActivity(intent);
-	}
-	public void goRegisterscreen(View view){
-		Intent intent=new Intent(SplashActivity.this, SignupActivity.class);
-		startActivity(intent);
-	}
-
 	public void signin(){
-		if(Constants.isOnline(SplashActivity.this)){
+		if(Constants.isOnline(Splash1Activity.this)){
 			if  (!Constants.namecheck(username)) {
 				if(username.length()<3){
-					Toast.makeText(SplashActivity.this, " Username  can't be less than 3 characcter",
+					Toast.makeText(Splash1Activity.this, " Username  can't be less than 3 characcter",
 							10000).show();
 				}
 
 				else if(username.length()>10){
-					Toast.makeText(SplashActivity.this, " Username  can't be more than 10 characcter",
+					Toast.makeText(Splash1Activity.this, " Username  can't be more than 10 characcter",
 							10000).show();
 				}
 				else{
-					Toast.makeText(SplashActivity.this, " Username  must  start with later and continue with" +
+					Toast.makeText(Splash1Activity.this, " Username  must  start with later and continue with" +
 							" only later,number and dashes ",
 							10000).show();
 				}
@@ -129,12 +120,12 @@ public class SplashActivity extends Activity {
 			}
 
 			else if(password.trim().equals("")){
-				Toast.makeText(SplashActivity.this, "Please enter password",
+				Toast.makeText(Splash1Activity.this, "Please enter password",
 						10000).show();
 			}
 			// TODO Auto-generated method stub
 			else{
-				pd=ProgressDialog.show(SplashActivity.this, "Lipberry",
+				pd=ProgressDialog.show(Splash1Activity.this, "Lipberry",
 						"Signing in", true);
 				new  AsyncTaskLogin().execute();
 			}
@@ -142,7 +133,7 @@ public class SplashActivity extends Activity {
 		}
 
 		else{
-			Toast.makeText(SplashActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+			Toast.makeText(Splash1Activity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
 		}
 
 	}
@@ -195,13 +186,13 @@ public class SplashActivity extends Activity {
 				usercred.setStop_push_new_message(stop_push_new_message);
 				appInstance.setUserCred(usercred);
 				appInstance.setRememberMe(true);
-				Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
+				Intent intent=new Intent(Splash1Activity.this, HomeActivity.class);
 				startActivity(intent);
 				finish();
 			}
 			else{
 				String descrip=job.getString("description");
-				Toast.makeText(SplashActivity.this,descrip, 10000).show();
+				Toast.makeText(Splash1Activity.this,descrip, 10000).show();
 			}
 
 

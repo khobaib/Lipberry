@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -75,7 +76,7 @@ public class FragmentInteraction extends Fragment {
 					"Please wait", true);
 			new AsyncTaskGetNotification().execute();
 			if(Constants.notificationcount>0){
-//				new AsyncTasksetNotificationToggle().execute();
+			new AsyncTasksetNotificationToggle().execute();
 			}
 			
 				
@@ -95,6 +96,20 @@ public class FragmentInteraction extends Fragment {
 		spec.setIndicator(tabIndicator);
 		((HomeActivity)getActivity()).mTabHost.addTab(spec, IneractionTabFragment.class, null);*/
 		return v;
+	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(R.string.txt_interaction);
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				parent.onBackPressed();
+			}
+		});
 	}
 	private class AsyncTaskGetNotification extends AsyncTask<Void, Void, ServerResponse> {
 		@Override

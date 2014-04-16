@@ -45,7 +45,7 @@ import android.widget.Toast;
 import com.lipberry.HomeActivity;
 import com.lipberry.LoginActivity;
 import com.lipberry.R;
-import com.lipberry.SplashActivity;
+import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.CustomAdapter;
 import com.lipberry.adapter.CustomAdapterForComment;
 import com.lipberry.model.Article;

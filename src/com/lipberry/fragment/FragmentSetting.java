@@ -39,7 +39,7 @@ import android.widget.Toast;
 import com.lipberry.HomeActivity;
 import com.lipberry.LoginActivity;
 import com.lipberry.R;
-import com.lipberry.SplashActivity;
+import com.lipberry.Splash2Activity;
 import com.lipberry.utility.LipberryApplication;
 @SuppressLint("NewApi")
 public class FragmentSetting extends Fragment {
@@ -67,7 +67,7 @@ public class FragmentSetting extends Fragment {
 			@Override
 			public void onClick(View v) {
 			 appInstance.setRememberMe(false);
-			 Intent intent=new Intent(getActivity(), SplashActivity.class);
+			 Intent intent=new Intent(getActivity(), Splash2Activity.class);
 			 intent.putExtra("fromhome", true);
 			getActivity().finish();
 			}
