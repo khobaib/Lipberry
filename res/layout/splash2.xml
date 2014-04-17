@@ -74,9 +74,10 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:paddingLeft="30dp"
+                android:layout_toLeftOf="@+id/img_register_click_change"
                 android:layout_centerVertical="true"
                 android:src="@drawable/lregister_text" />
 
@@ -84,6 +85,7 @@
                 android:id="@+id/img_register_click_change"
                android:layout_width="35dp"
                 android:layout_height="35dp"
+                android:layout_marginLeft="12dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="17dp"

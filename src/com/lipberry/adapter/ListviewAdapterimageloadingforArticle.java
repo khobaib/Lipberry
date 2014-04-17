@@ -75,7 +75,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	CategoryTabFragment parent3;
 	String commentstext;
 	int a;
-	
+	int positionforcomments;
 	boolean stateoflike=false;
 	JsonParser jsonParser;
 	int index;
@@ -178,6 +178,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 
 			@Override
 			public void onClick(View arg0) {
+				positionforcomments=position;
+				index=position;
 				String comments=holder.et_comment.getText().toString();
 				if(comments.equals("")){
 					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_enter_text), 10000).show();
@@ -265,6 +267,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				
 				imageviewcommentsclicked();
 			}
 		});
@@ -506,6 +509,18 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					Toast.makeText(activity,"You just commented! ", 10000).show();
+					if(parent3==null){
+						if(list.get(positionforcomments)!=null){
+							parent.startFragmentArticleDetailsFromHome(list.get(positionforcomments));
+						}
+						
+					}
+					else{
+						if(list.get(positionforcomments)!=null){
+							parent3.startFragmentArticleDetails(list.get(positionforcomments));
+
+						}
+					}
 				}
 				else{
 					String description=jobj.getString("description");

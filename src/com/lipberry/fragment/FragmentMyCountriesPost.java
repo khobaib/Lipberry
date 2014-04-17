@@ -15,10 +15,12 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.MailTo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -45,6 +47,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.SignupActivity;
+import com.lipberry.Splash1Activity;
+import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.ListviewAdapterMember;
 import com.lipberry.adapter.ListviewAdapterimageloadingforArticle;
 import com.lipberry.db.LipberryDatabase;
@@ -72,10 +76,12 @@ public class FragmentMyCountriesPost extends Fragment {
 	JsonParser jsonParser;
 	Activity activity;
 	int startindex=0;
-	int endindex=3;
+	int endindex=2;
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;
 	ArrayList<Article>articlaList;
+	ArrayList<Article>articlaList2;
+
 	ArticleFromMyFollwing postofmycountries;
 	ArrayList<LikeMember>limemberlist;
 	MemberList memberListobject;
@@ -91,8 +97,6 @@ public class FragmentMyCountriesPost extends Fragment {
 
 	@Override
 	public void onPause() {
-		startindex=0;
-		endindex=3;
 		super.onPause();
 	}
 	public  void setParent(HomeTabFragment parent){
@@ -104,11 +108,26 @@ public class FragmentMyCountriesPost extends Fragment {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
 		articlaList=new ArrayList<Article>();
+		articlaList2=new ArrayList<Article>();
 		limemberlist=new ArrayList<LikeMember>();
+		activity=getActivity();
+		memberListobject=new MemberList();
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, "Lipberry",
+					"Retreving Post", true);
+			new AsyncTaskLoadPostFrommyCountries().execute();
+		}
+
+
+
+
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		startindex=0;
+		endindex=2;
+
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_from_my_country,
 				container, false);
@@ -118,8 +137,8 @@ public class FragmentMyCountriesPost extends Fragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				if(Constants.isOnline(getActivity())){
-//					pd=ProgressDialog.show(getActivity(), "Lipberry",
-//							"Retreving more Post", true);
+					//					pd=ProgressDialog.show(getActivity(), "Lipberry",
+					//							"Retreving more Post", true);
 					new AsyncTaskRefreashPostFrommyCountries().execute();
 				}
 				else{
@@ -129,19 +148,48 @@ public class FragmentMyCountriesPost extends Fragment {
 				}
 			}
 		});
-		activity=getActivity();
-		if(Constants.isOnline(activity)){
 
-			pd=ProgressDialog.show(activity, "Lipberry",
-					"Retreving Post", true);
-			new AsyncTaskLoadPostFrommyCountries().execute();
+
+
+		if(Constants.isOnline(activity)){
+			if(articlaList.size()>0){
+				loadlistview(true);
+			}
+			else{
+				if(memberListobject.getMemberlist().size()>0){
+					setlistformember(memberListobject.getMemberlist());
+				}
+			}
+
 		}
+
 		else{
 			getfromdb();
 			Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 
+
+		if(Constants.isOnline(getActivity())){
+//					pd=ProgressDialog.show(getActivity(), "Lipberry",
+//								"Refreashing", true);
+			Log.e("Artice befor", ""+articlaList.size());
+			//articlaList.clear();
+			Log.e("Artice befor", ""+articlaList.size());
+			
+			
+			
+								new AsyncTaskRefreashPostFrommyCountries().execute();
+			
+			
+
+		}
+		else{
+			getfromdb();
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		//		
 		return v;
 	}
 	private class AsyncTaskLoadPostFrommyCountries extends AsyncTask<Void, Void, ServerResponse> {
@@ -152,8 +200,6 @@ public class FragmentMyCountriesPost extends Fragment {
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", ""+startindex);
 				loginObj.put("endIndex", ""+endindex);
-				startindex+=2;
-				endindex+=2;
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"home/latestposts/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -182,8 +228,6 @@ public class FragmentMyCountriesPost extends Fragment {
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", ""+startindex);
 				loginObj.put("endIndex", ""+endindex);
-				startindex+=2;
-				endindex+=2;
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"home/latestposts/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -211,8 +255,14 @@ public class FragmentMyCountriesPost extends Fragment {
 			JSONObject result=new JSONObject(a);
 			String status=result.getString("status");
 			if(status.equals("success")){
+				startindex=endindex+1;
+				endindex+=2;
+
 				ArticleList articlelistinstance2=ArticleList.getArticlelist(result);
-				articlaList.addAll(articlelistinstance2.getArticlelist());
+			//	articlaList.addAll(articlelistinstance2.getArticlelist());
+				articlaList2.addAll(articlelistinstance2.getArticlelist());
+				articlaList.clear();
+				articlaList.addAll(articlaList2);
 				ladapter.notifyDataSetChanged();
 				list_view_latest_post2.onRefreshComplete();
 			}
@@ -225,13 +275,16 @@ public class FragmentMyCountriesPost extends Fragment {
 		}
 	}
 
-	public void loadarticlelistFrommyCountries(String  a){
+	public void loadarticlelistFrommyCountries(String a){
 		try {
 			JSONObject result=new JSONObject(a);
 			String status=result.getString("status");
 			if(status.equals("success")){
+
 				articlelistinstance=ArticleList.getArticlelist(result);
 				articlaList=articlelistinstance.getArticlelist();
+				articlaList2.clear();
+				articlaList2.addAll(articlelistinstance.getArticlelist());
 				loadlistview(true);
 			}
 			else{
@@ -260,14 +313,14 @@ public class FragmentMyCountriesPost extends Fragment {
 		listviewforarticle.setAdapter(ladapter);
 	}
 	public void  loadlistview(boolean from){
-	
-		Log.e("error 2", activity+"  "+parent+"  "+articlaList.size());
 		ladapter=new ListviewAdapterimageloadingforArticle(activity, 
 				articlaList,parent);
 		listviewforarticle.setAdapter(ladapter);
+		articlaList2.clear();
 		if(from){
 			saveindb(articlaList);
 		}
+
 	}
 	public void saveindb(ArrayList<Article>artarticlelist){
 		for(int i=0;i<artarticlelist.size();i++){
@@ -298,4 +351,5 @@ public class FragmentMyCountriesPost extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
+
 }

@@ -51,6 +51,7 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.e("onCreate", "onCreate");
 
 	}
 	@Override
@@ -64,6 +65,8 @@ public class FragmentHomeHolder extends Fragment {
 		FragmentPagerAdapter adapter = new PostRetreiveAdapter(getChildFragmentManager());
 		pager.setAdapter(adapter);
 		indicator.setViewPager(pager);
+		Log.e("onCreateView", "onCreateView");
+
 		return v;
 	}
 	@Override
@@ -71,15 +74,19 @@ public class FragmentHomeHolder extends Fragment {
 		super.onResume();
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
+		Log.e("onResume", "onResume");
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+		Log.e("onStart", "onStart");
+
 	}
 	@Override
 	public void onPause() {
 		super.onPause();
+		Log.e("onPause", "onPause");
 	}
 	class PostRetreiveAdapter extends FragmentPagerAdapter {
 		@Override

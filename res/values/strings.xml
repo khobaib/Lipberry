@@ -1,6 +1,19 @@
 <resources>
 
+ 
+     
+     
+    
+    
     <string name="app_name">"Lipberry "</string>
+    
+    
+        <string name="txt_cat1">"مكياج"</string>
+     <string name="txt_cat2">"البشرة"</string>
+      <string name="txt_cat5">"أزياء و موضة"</string>
+      <string name="txt_cat3">"الشعر"</string>
+     <string name="txt_cat8">"الغذاء الصحي والرشاقة"</string>
+      <string name="txt_cat2_shpx">"هل لديك سؤال للمجربات؟"</string>
 
 <!--      Sign up screen -->
 

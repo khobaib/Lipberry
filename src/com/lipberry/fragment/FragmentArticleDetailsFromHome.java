@@ -119,8 +119,52 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 	@Override
 	public void onResume() {
+		// TODO Auto-generated method stub
 		super.onResume();
-		((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
+		if(article.getCategory_name()!=null){
+			((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
+
+		}
+		else{
+			if(article.getcategory().equals("1")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat1));
+			}
+			if(article.getcategory().equals("2")){
+				if(article.getArticle_category_url().contains("shexp")){
+					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
+				}
+				else{
+					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
+
+				}
+			}
+			if(article.getcategory().equals("3")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat3));
+			}
+			if(article.getcategory().equals("5")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat5));
+			}
+			if(article.getcategory().equals("8")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat8));
+			}
+		}
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
+		
+		
+		
+		if(article.getcategory().equals("2")){
+			if(article.getArticle_category_url().contains("shexp")){
+				int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
+				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
+			}
+			else{
+				int id = getActivity().getResources().getIdentifier("bl"+article.getcategory(), "drawable", getActivity().getPackageName());
+				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
+			}
+		}else{
+			int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
+			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
+		}
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -128,6 +172,15 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				parent.onBackPressed();
 			}
 		});
+	}
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
+
+		super.onPause();
 	}
 	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -668,14 +721,25 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
-				pd.dismiss();
-			}
+//			if((pd.isShowing())&&(pd!=null)){
+//				pd.dismiss();
+//			}
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
-					Toast.makeText(getActivity(),"You just commented! ", Toast.LENGTH_SHORT).show();
+					if(status.equals("success")){
+						if(Constants.isOnline(getActivity())){
+							
+							new AsyncTaskGetComments().execute();
+							Toast.makeText(getActivity(),"You just commented! ", Toast.LENGTH_SHORT).show();
+						}
+						else{
+							Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
+									Toast.LENGTH_SHORT).show();
+						}
+						
+					}
 				}
 				else{
 					String description=jobj.getString("description");
@@ -708,6 +772,11 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+			}
 			JSONObject jobj=result.getjObj();
 			new AsyncTaskUpdatePageVisit().execute();
 			try {

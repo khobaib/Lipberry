@@ -157,11 +157,14 @@ public class FragmentWriteTopic extends Fragment {
 			btn_go.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String filepath = galarylist.get(0);
-					filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
-			//	bitmapimage =new ImageScale();
-//					bitmap=bitmapimage.decodeImage(filepath);
-					bitmap=BitmapFactory.decodeFile(filepath);
+					if(galarylist.size()>0){
+						String filepath = galarylist.get(0);
+						filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
+				//	bitmapimage =new ImageScale();
+//						bitmap=bitmapimage.decodeImage(filepath);
+						bitmap=BitmapFactory.decodeFile(filepath);
+					}
+					
 					startwritetopic();
 				}
 			});

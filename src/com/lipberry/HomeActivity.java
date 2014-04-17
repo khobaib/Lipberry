@@ -74,7 +74,7 @@ public class HomeActivity extends FragmentActivity {
 	public  String drectorythumb;
 	
 	public TextView text_notification_no_fromactivity;
-	
+	public ImageView img_cat_icon;
 	
 	public TabFragment activeFragment;
 	FragmentWriteTopic writetopic;
@@ -90,13 +90,13 @@ TextView text_notification_no;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e("onCreate", "onCreate");
 		
 		writetopic=new FragmentWriteTopic();
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.main);
+		img_cat_icon=(ImageView) findViewById(R.id.img_cat_icon);
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
@@ -215,28 +215,24 @@ TextView text_notification_no;
 	protected void onSaveInstanceState(Bundle outState) {
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(outState);
-		Log.e("onSaveInstanceState", "onSaveInstanceState");
 	}
 	
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
-		Log.e("onStart", "onStart");
 	}
 	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.e("onResume", "onResume");
 	}
 	
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		Log.e("onStop", "onStop");
 	}
 
 
