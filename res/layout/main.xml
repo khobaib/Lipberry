@@ -30,47 +30,43 @@
                 android:textColor="#ffffff"
                 android:textSize="14dp"
                 android:textStyle="bold" />
-            
+
             <RelativeLayout
                 android:id="@+id/re_la_mid"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="70dp"
-                android:layout_marginRight="70dp">
-                
-                 <TextView
-                android:id="@+id/welcome_title"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:gravity="center"
-                android:layout_toLeftOf="@+id/img_cat_icon"
-                android:layout_marginRight="1dp"
-                android:textColor="#ffffff"
-                android:textSize="16sp"
-                android:text="hjvbfjhdvb asdffk dxc"
-                android:textStyle="bold" />
-                
-              
+                android:layout_marginRight="70dp" >
+
+                <TextView
+                    android:id="@+id/welcome_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginRight="1dp"
+                    android:gravity="center"
+                    android:layout_toLeftOf="@+id/img_cat_icon"
+                    android:text="hjvbfjhdvb asdffkreytryt dxc"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/img_cat_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                      android:layout_alignParentRight="true"
-                      android:visibility="gone"
-                     android:layout_centerVertical="true"
-                    android:src="@drawable/l2" />
-                
-             </RelativeLayout>
-
-           
+                    android:visibility="gone"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/l2"
+                     />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/img_icon_to_bar"
                 android:layout_width="50dp"
-               
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

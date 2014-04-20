@@ -1,11 +1,17 @@
 
 package com.lipberry.fragment;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -147,7 +153,6 @@ public class FragmentWriteTopic extends Fragment {
 			Bundle savedInstanceState) {
 			ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_write_topic,
 				container, false);
-			
 			grid_image=(GridView) v.findViewById(R.id.grid_image);
 			txt_topic=(EditText) v.findViewById(R.id.txt_topic);
 			txt_text=(EditText) v.findViewById(R.id.txt_text);
@@ -298,7 +303,8 @@ public class FragmentWriteTopic extends Fragment {
 	}
 	
 	private void generateSpinner() {
-			ArrayAdapter< String>adapter = new ArrayAdapter<String>(activity,
+		
+	 	ArrayAdapter< String>adapter = new ArrayAdapter<String>(activity,
 					android.R.layout.simple_spinner_dropdown_item, catnamelist);
 			spinner_category.setAdapter(adapter);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -334,8 +340,12 @@ public class FragmentWriteTopic extends Fragment {
 		else{
 			
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(activity,"Lipberry",
-						"Writing topic", true);
+				
+				pd=new ProgressDialog(getActivity());
+				pd.setMessage("Writing topic");
+				pd.show();
+				
+				
 				new AsyncTaskWriteTopic().execute();
 			}
 			else{
@@ -353,15 +363,59 @@ public class FragmentWriteTopic extends Fragment {
 				
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+//				title="أعج بهذه المشاركة";
+//				body="\r\n\tهل استغربتي في فترة من الفترات بأن شعرك جاف في بعض الأوقات و دهني في أوقات أخرى؟\r\n\r\n\tالتلوث البيئي، التدخين ، عدم التوازن الهرموني ، قلة النوم تؤدي";
+//				try {
+//					byte[] body1=body.getBytes("UTF-8");
+//					body=body1.toString();
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				
+//				try {
+//					byte[] batarray =  body.getBytes("UTF-8");//bao.toByteArray();
+//					 body =batarray.toString();
+//				} catch (UnsupportedEncodingException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				
+			//	txt_topic.setText(body);
+				byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
+				
+				// byte[] utf8 =body.getBytes();
+			    String str = new String(bytes, Charset.forName("UTF-8"));
+			    body="";
+			    for(int a=0;a<bytes.length;a++){
+			    	body=body.concat(""+bytes[a]);
+			    }
+			    Log.e("result","abc" +body);
+			  //  body=str;
+//				byte[] basstring = body.getBytes();
+				
+				String base64String = Base64.encodeBytes(body.getBytes());
+				try {
+					byte[]  k=Base64.decode(base64String);
+				
+					Log.e("decode", "aa "+k.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//txt_topic.setText(str);
+				
 				loginObj.put("title", title);
 				loginObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
 				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
-				loginObj.put("body", body);
+				loginObj.put("body", base64String);
 				if(bitmap!=null){
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG,100, bao);
 					byte[] ba = bao.toByteArray();
 					String base64Str = Base64.encodeBytes(ba);
+					
+					Log.e("body", base64Str);
 					loginObj.put("photo",  base64Str);
 				}
 				else{
@@ -401,6 +455,8 @@ public class FragmentWriteTopic extends Fragment {
 									pd.dismiss();
 							}
 						}
+						((HomeActivity)activity).mTabHost.setCurrentTab(4);
+						Toast.makeText(getActivity(),"Write topic successfull", Toast.LENGTH_SHORT).show();
 					}
 					
 					

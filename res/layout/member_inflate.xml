@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/splash"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
     android:layoutDirection="rtl"
     android:orientation="vertical" >
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_top"
         android:layout_marginTop="5dp"
-        android:background="@drawable/rounded_edittext"
+        android:background="@android:color/darker_gray"
         android:gravity="right|center_vertical"
         android:padding="5dp"
         android:text="Bio data"
@@ -60,9 +60,9 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/text_member_bio"
         android:layout_margin="10dp"
-        android:src="@drawable/rounded_button"
+        android:background="@drawable/rounded_follow_btn"
         android:text="@string/txt_follow_her"
-        android:textColor="#f90452"
+        android:textColor="#ffffff"
         android:textSize="22dp" />
 
 </RelativeLayout>

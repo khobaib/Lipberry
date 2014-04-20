@@ -50,6 +50,7 @@
             android:layout_marginStart="16dp"
             android:layout_toLeftOf="@+id/img_pro_pic"
             android:gravity="right"
+            android:visibility="gone"
            android:textColor="#000000"
             android:textSize="13dp" />
         

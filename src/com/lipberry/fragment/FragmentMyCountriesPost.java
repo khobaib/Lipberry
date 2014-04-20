@@ -242,9 +242,13 @@ public class FragmentMyCountriesPost extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("responses", result.getjObj().toString());
-			if((pd.isShowing())&&(pd!=null)){
-				pd.dismiss();
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+				
 			}
+			
 			refreasharticlelistFrommyCountries(result.getjObj().toString()); 
 		}
 	}

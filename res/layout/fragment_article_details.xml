@@ -66,6 +66,7 @@
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/img_pro_pic"
                         android:layout_toRightOf="@+id/btn_follow_her"
+                        android:visibility="gone"
                         android:gravity="right"
                         android:textColor="#000000"
                         android:textSize="12dp" />
@@ -76,10 +77,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="7dp"
-                        android:background="@drawable/lfollowher_button"
+                        android:layout_marginLeft="17dp"
+                        android:background="@drawable/rounded_follow_btn"
                         android:gravity="center"
-                        android:padding="5dp"
+                        android:padding="1dp"
+                       
                         android:text="@string/txt_follow_her" />
 
                     <Button
@@ -117,7 +119,7 @@
                         android:layout_width="60dp"
                         android:layout_height="200dp"
                         android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                      
                         android:layout_marginTop="10dp"
                         android:background="@android:color/transparent" >
@@ -129,7 +131,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/img_article"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:background="@drawable/lback"
                         android:text="@string/txt_photo_album" />
@@ -178,11 +180,12 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/text_topic_text"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
+                    android:padding="3dp"
                     android:background="@drawable/lreport_button"
                     android:onClick="callreport"
-                    android:text="@string/txt_photo_album" />
+                    android:text="أبلغ عن اساءة" />
 
                 <RelativeLayout
                     android:id="@+id/re_like_holder"
@@ -226,6 +229,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/image_report"
                         android:layout_alignParentLeft="true"
+                        android:paddingLeft="17dp"
                         android:text="200"
                         android:textColor="#000000" />
 
@@ -267,6 +271,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
+                        android:paddingLeft="10dp"
                         android:gravity="center_vertical"
                         android:text="60 comments"
                         android:textColor="#000000"

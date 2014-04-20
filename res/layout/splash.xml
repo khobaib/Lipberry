@@ -12,15 +12,18 @@
         android:layout_centerInParent="true"
         android:src="@drawable/llogo" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="match_parent"
+
+  <TextView
+        android:id="@+id/textView1"
+         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView1"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="45dp"
         android:layout_marginRight="45dp"
-        android:layout_marginTop="13dp"
-        android:src="@drawable/ltext" />
-
+        android:text="منصة الجمال و الأزياء"
+        android:gravity="center"
+        android:textSize="17dp"
+        android:textColor="#ffffff"
+        android:layout_marginTop="3dp" />
 </RelativeLayout>

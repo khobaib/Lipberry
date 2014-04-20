@@ -187,7 +187,10 @@ public class FragmentMemberFromCategories extends Fragment {
 		((HomeActivity)getActivity()).welcome_title.setText(singleMember.getName());
 		txt_name.setText(singleMember.getName());
 		txt_nick_name.setText(singleMember.getNickname());
-		txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
+		if(singleMember.getBrief()!=null){
+			txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
+		}
+		
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(txt_bio, getActivity());

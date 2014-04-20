@@ -202,8 +202,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			imageLoader.displayImage(url, holder.img_pro_pic);
 
 		}
-		
-		
 		if(list.get(position).getcategory().equals("2")){
 			if(list.get(position).getArticle_category_url().contains("shexp")){
 				int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
@@ -244,7 +242,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					}
 					else{
 						alert=new LisAlertDialog(activity, list.get(position).getLikedmemberlist(),activity,parent,null);
-
 					}
 
 					alert.show_alert();
@@ -368,6 +365,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				if(parent!=null){
 					Constants.userid=list.get(position).getMember_id();
 					parent.startMemberFragment();
+					
 				}
 				else{
 					Constants.userid=list.get(position).getMember_id();
