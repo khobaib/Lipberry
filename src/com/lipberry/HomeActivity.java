@@ -47,6 +47,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -60,6 +61,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -72,7 +74,9 @@ public class HomeActivity extends FragmentActivity {
 	public  FragmentTabHost mTabHost;
 	public  String drectory;
 	public  String drectorythumb;
-	
+	private static final String LIST_STATE = "listState";
+	 private Parcelable mListState = null;
+		ProgressDialog pd;
 	public TextView text_notification_no_fromactivity;
 	public ImageView img_cat_icon;
 	
@@ -80,13 +84,28 @@ public class HomeActivity extends FragmentActivity {
 	FragmentWriteTopic writetopic;
 	public ViewGroup mTabsPlaceHoler;
 	int count=0;
+	public ListView ProductList;
 	JsonParser jsonParser;
 	LipberryApplication appInstance;
 TextView text_notification_no;
 	boolean galary;
 	public Button backbuttonoftab;
 	public TextView welcome_title;
-	@Override
+	
+//	
+//	 @Override
+//	    protected void onRestoreInstanceState(Bundle state) {
+//	        super.onRestoreInstanceState(state);
+//	        mListState = state.getParcelable(LIST_STATE);
+//	    }
+//	 
+//	 @Override
+//	    protected void onSaveInstanceState(Bundle state) {
+//	        super.onSaveInstanceState(state);
+//	        mListState = ProductList.onSaveInstanceState();
+//	        state.putParcelable(LIST_STATE, mListState);
+//	    }
+//	@Override
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -211,11 +230,7 @@ TextView text_notification_no;
 				
 	}
 	
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		super.onSaveInstanceState(outState);
-	}
+	
 	
 	@Override
 	protected void onStart() {

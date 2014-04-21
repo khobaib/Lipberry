@@ -36,6 +36,7 @@
 
 
 <!--      Sign in screen -->
+  <string name="btn_signin_sign">"دخول"</string>
     <string name="bt_signin_sign">"تسجيل دخول"</string>
     <string name="bt_signin_forgetpass">"نسيت كلمة المرور؟"</string>
     <string name="et_signin_usernameoremail"> "اسم المستخدم \ بريدك الإلكتروني"</string>

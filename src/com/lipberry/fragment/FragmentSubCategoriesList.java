@@ -14,10 +14,12 @@ import android.app.ProgressDialog;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,11 +50,13 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 @SuppressLint("NewApi")
-public class FragmentSubCategoriesList extends Fragment {
+public class FragmentSubCategoriesList extends ListFragment {
 	String url;
 	int startindex=0;
 	int endindex=2;
 	ProgressDialog pd;
+	   private int index = -1;
+       private int top = 0;
 	PullToRefreshListView list_categories ;
 	ListView listviewforarticle;
 	ArticleList article;
@@ -69,11 +73,15 @@ public class FragmentSubCategoriesList extends Fragment {
 		this.catname=Constants.caname;
 	}
 	
+	
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -84,6 +92,7 @@ public class FragmentSubCategoriesList extends Fragment {
 				container, false);
 		list_categories=(PullToRefreshListView) v.findViewById(R.id.list_categories);
 		listviewforarticle=list_categories.getRefreshableView();
+		((HomeActivity)getActivity()).ProductList=listviewforarticle;
 		list_categories.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -124,6 +133,11 @@ public class FragmentSubCategoriesList extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		 setListAdapter(adapter);
+	      if(index!=-1){
+	         this.getListView().setSelectionFromTop(index, top);
+	      }
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 //		if(Constants.catgeory){
 //			

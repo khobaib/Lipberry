@@ -127,6 +127,7 @@ public class JsonParser {
 
 		try {
 			Log.d(TAG, "trying to read input stream.");
+//			new InputStreamReader
 			BufferedReader reader = new BufferedReader(new InputStreamReader(is, "iso-8859-1"), 8);
 			sb = new StringBuilder();
 			String line = null;

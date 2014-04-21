@@ -87,7 +87,7 @@
         android:background="@drawable/rounded_signin"
    		android:paddingRight="12dp"
         android:gravity="center"
-        android:text="@string/bt_signin_sign"
+        android:text="@string/btn_signin_sign"
         android:textColor="#ffffff"
         android:textDirection="rtl" />
 
@@ -95,9 +95,10 @@
         android:id="@+id/bt_forgotpass"
         android:layout_width="wrap_content"
         android:layout_height="43dp"
-        android:layout_alignLeft="@+id/e_pass"
+         android:layout_marginLeft="30dp"
+        android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/e_pass"
-        android:layout_marginLeft="4dp"
+       
         android:layout_marginTop="6dp"
         android:paddingLeft="9dp"
                 android:paddingRight="9dp"
@@ -107,5 +108,15 @@
         android:text="@string/bt_signin_forgetpass"
         android:textColor="#ffffff"
         android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="34dp"
+       android:layout_alignParentLeft="true"
+        android:layout_below="@+id/e_pass"
+        android:src="@drawable/llog_in_1_arrow" />
 
 </RelativeLayout>

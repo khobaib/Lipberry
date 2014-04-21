@@ -73,11 +73,12 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.UTF8Text;
 
 @SuppressLint("NewApi")
 public class FragmentWriteTopic extends Fragment {
 	//btn_add_more_photo
-    EditText txt_topic,txt_text,txt_tag;
+	EditText txt_topic,txt_text,txt_tag;
 	Button btn_select_photo,btn_go;
 	WriteTopicTabFragment parent;
 	int pos=1;
@@ -102,159 +103,150 @@ public class FragmentWriteTopic extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		activity=getActivity();
- 
+
 		jsonParser=new JsonParser();
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
-		appInstance = (LipberryApplication) getActivity().getApplication();
-	/*	String newFolder = "/Lipberryfinal";
-		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-		String drectory= extStorageDirectory + newFolder;
-		File myNewFolder = new File(drectory);
-		String thumb="/Lipberrythumb";
-		File thumbFolder = new File(drectory);
-		deleteDirectory(thumbFolder);
-		deleteDirectory(myNewFolder);
-		createfolder();*/
+
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		activity=getActivity();
-		 
+
 		jsonParser=new JsonParser();
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
-		appInstance = (LipberryApplication)activity.getApplication();
 		
-		
+
+
 	}
 	@Override
 	public void onPause() {
 		selsectedspinnerposition=0;
 		super.onPause();
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-	loadGridview();
+		loadGridview();
 	}
 
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-			ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_write_topic,
+		appInstance = (LipberryApplication)activity.getApplication();
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_write_topic,
 				container, false);
-			grid_image=(GridView) v.findViewById(R.id.grid_image);
-			txt_topic=(EditText) v.findViewById(R.id.txt_topic);
-			txt_text=(EditText) v.findViewById(R.id.txt_text);
-			//
-			txt_tag=(EditText) v.findViewById(R.id.txt_tag);
-			btn_go=(Button) v.findViewById(R.id.btn_go);
-			btn_go.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if(galarylist.size()>0){
-						String filepath = galarylist.get(0);
-						filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
-				//	bitmapimage =new ImageScale();
-//						bitmap=bitmapimage.decodeImage(filepath);
-						bitmap=BitmapFactory.decodeFile(filepath);
-					}
-					
-					startwritetopic();
+		grid_image=(GridView) v.findViewById(R.id.grid_image);
+		txt_topic=(EditText) v.findViewById(R.id.txt_topic);
+		txt_text=(EditText) v.findViewById(R.id.txt_text);
+		//
+		txt_tag=(EditText) v.findViewById(R.id.txt_tag);
+		btn_go=(Button) v.findViewById(R.id.btn_go);
+		btn_go.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(galarylist.size()>0){
+					String filepath = galarylist.get(0);
+					filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
+					bitmap=BitmapFactory.decodeFile(filepath);
 				}
-			});
-			btn_select_photo=(Button) v.findViewById(R.id.btn_select_photo);
-			btn_select_photo.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					loadphoto();
-				}
-			});
-			spinner_category=(Spinner) v.findViewById(R.id.spinner_category);
-			((HomeActivity)activity).welcome_title.setText(R.string.txt_write_topic);
-			if(Constants.isOnline(activity)){
-				pd=ProgressDialog.show(activity, "Lipberry",
-						"Retreving categories", true);
-				new AsyncTaskgetCategories().execute();
-				}
-				else{
-					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
-							Toast.LENGTH_SHORT).show();
-				}
-			
-			
+
+				startwritetopic();
+			}
+		});
+		btn_select_photo=(Button) v.findViewById(R.id.btn_select_photo);
+		btn_select_photo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				loadphoto();
+			}
+		});
+		spinner_category=(Spinner) v.findViewById(R.id.spinner_category);
+		((HomeActivity)activity).welcome_title.setText(R.string.txt_write_topic);
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, "Lipberry",
+					"Retreving categories", true);
+			new AsyncTaskgetCategories().execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+
+
 		return v;
 	}
 
-	
+
 	public void loadGridview(){
-		
+
 		File file=new File(Environment.getExternalStorageDirectory().toString()+"/Lipberrythumb");
 		galarylist =getList(file); 
-		
-		 if(galarylist.size()>0){
-			 btn_select_photo.setText("Add more photo for gallery");
-			 grid_image.setVisibility(View.VISIBLE);
-			 Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
-					 "/Lipberryfinal/"+galarylist.get(0));
-			 Log.e("sizebitmap", Environment.getExternalStorageDirectory().toString()+
-					 "/Lipberryfinal/"+galarylist.get(0));
-			 CustomAdaptergrid adapter=new CustomAdaptergrid(activity, galarylist);
-				grid_image.setAdapter(adapter);
-				grid_image.setOnTouchListener(new OnTouchListener() {
-					@Override
-					public boolean onTouch(View v, MotionEvent event) {
-						v.getParent().requestDisallowInterceptTouchEvent(true);
-						return false;
-					}
 
-				});
-				grid_image.setOnItemClickListener(new OnItemClickListener() {
+		if(galarylist.size()>0){
+			btn_select_photo.setText("Add more photo for gallery");
+			grid_image.setVisibility(View.VISIBLE);
+			Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
+					"/Lipberryfinal/"+galarylist.get(0));
+			Log.e("sizebitmap", Environment.getExternalStorageDirectory().toString()+
+					"/Lipberryfinal/"+galarylist.get(0));
+			CustomAdaptergrid adapter=new CustomAdaptergrid(activity, galarylist);
+			grid_image.setAdapter(adapter);
+			grid_image.setOnTouchListener(new OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					v.getParent().requestDisallowInterceptTouchEvent(true);
+					return false;
+				}
 
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						// TODO Auto-generated method stub
-						Log.e("name", galarylist.get(arg2));
-						
-					}
-				});
-		 }
-		 else{
-			 btn_select_photo.setText("Select photo");
-			 grid_image.setVisibility(View.GONE);
-		 }
-		
+			});
+			grid_image.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					Log.e("name", galarylist.get(arg2));
+
+				}
+			});
+		}
+		else{
+			btn_select_photo.setText("Select photo");
+			grid_image.setVisibility(View.GONE);
+		}
+
 	}
 
 	public void loadphoto(){
 		((HomeActivity)activity).captureimage(false);
 	}
-	
+
 	private class AsyncTaskgetCategories extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				Log.e("session id","a  " +appInstance.getUserCred().getSession_id());
+				loginObj.put("session_id", appInstance. getUserCred().getSession_id());
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"category/categorylist";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
 			} catch (JSONException e) { 
-			
+
 				return null;
 			}
 		}
@@ -264,7 +256,7 @@ public class FragmentWriteTopic extends Fragment {
 			super.onPostExecute(result);
 			if(pd!=null){
 				if((pd.isShowing())){
-						pd.dismiss();
+					pd.dismiss();
 				}
 			}
 			JSONObject res=result.getjObj();
@@ -301,27 +293,27 @@ public class FragmentWriteTopic extends Fragment {
 			}
 		}
 	}
-	
+
 	private void generateSpinner() {
-		
-	 	ArrayAdapter< String>adapter = new ArrayAdapter<String>(activity,
-					android.R.layout.simple_spinner_dropdown_item, catnamelist);
-			spinner_category.setAdapter(adapter);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			spinner_category.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-				public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
-						long arg3){
-					selsectedspinnerposition=position;
-				}
+		ArrayAdapter< String>adapter = new ArrayAdapter<String>(activity,
+				android.R.layout.simple_spinner_dropdown_item, catnamelist);
+		spinner_category.setAdapter(adapter);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner_category.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-				@Override
-				public void onNothingSelected(AdapterView<?> arg0) {
-					selsectedspinnerposition=0;
-				}
-			});
-	  }
-	  
+			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
+					long arg3){
+				selsectedspinnerposition=position;
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				selsectedspinnerposition=0;
+			}
+		});
+	}
+
 	public void startwritetopic(){
 		//String title,category_id,category_prefix,body,photo,video;
 		title=txt_topic.getText().toString();
@@ -336,75 +328,62 @@ public class FragmentWriteTopic extends Fragment {
 		else if(selsectedspinnerposition==-1){
 			Toast.makeText(activity, "Please select category",Toast.LENGTH_SHORT).show();
 		}
-		
+
 		else{
-			
+
 			if(Constants.isOnline(getActivity())){
-				
+
 				pd=new ProgressDialog(getActivity());
 				pd.setMessage("Writing topic");
 				pd.show();
-				
-				
+
+
 				new AsyncTaskWriteTopic().execute();
 			}
 			else{
 				Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
-			
+
 		}
 	}
-	
+
 	private class AsyncTaskWriteTopic extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				
+
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-//				title="أعج بهذه المشاركة";
-//				body="\r\n\tهل استغربتي في فترة من الفترات بأن شعرك جاف في بعض الأوقات و دهني في أوقات أخرى؟\r\n\r\n\tالتلوث البيئي، التدخين ، عدم التوازن الهرموني ، قلة النوم تؤدي";
+//				
+//				byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
+//
+//				// byte[] utf8 =body.getBytes();
+//				String str = new String(bytes, Charset.forName("UTF-8"));
+//				body="";
+//				for(int a=0;a<bytes.length;a++){
+//					body=body.concat(""+bytes[a]);
+//				}
+//				Log.e("result","abc" +body);
+//				//  body=str;
+//				//				byte[] basstring = body.getBytes();
+//
+//				String base64String = Base64.encodeBytes(body.getBytes());
 //				try {
-//					byte[] body1=body.getBytes("UTF-8");
-//					body=body1.toString();
-//				} catch (UnsupportedEncodingException e) {
+//					byte[]  k=Base64.decode(base64String);
+//
+//					Log.e("decode", "aa "+k.toString());
+//				} catch (IOException e) {
 //					// TODO Auto-generated catch block
 //					e.printStackTrace();
 //				}
-				
-//				try {
-//					byte[] batarray =  body.getBytes("UTF-8");//bao.toByteArray();
-//					 body =batarray.toString();
-//				} catch (UnsupportedEncodingException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-				
-			//	txt_topic.setText(body);
-				byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
-				
-				// byte[] utf8 =body.getBytes();
-			    String str = new String(bytes, Charset.forName("UTF-8"));
-			    body="";
-			    for(int a=0;a<bytes.length;a++){
-			    	body=body.concat(""+bytes[a]);
-			    }
-			    Log.e("result","abc" +body);
-			  //  body=str;
-//				byte[] basstring = body.getBytes();
-				
-				String base64String = Base64.encodeBytes(body.getBytes());
-				try {
-					byte[]  k=Base64.decode(base64String);
-				
-					Log.e("decode", "aa "+k.toString());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//txt_topic.setText(str);
-				
+//				//txt_topic.setText(str);
+				//04-21 12:44:36.201: E/base 64(27490): amZ1aWZ1aGYgZ2d0aWcgaXRnamZmIGpndGlnCg==
+
+//04-21 12:40:27.751: E/base 64(27490): 2KfYs9mFINin2YTZhdiz2KrYrtiv2YUg2KjYsdmK2K/ZgyDYp9mE2KXZhNmD2KrYsdmI2YbZig==
+				//Log.e("", msg)
+				UTF8Text bodytext=new UTF8Text(body,true);
+				String base64String=bodytext.getStringencripted();
 				loginObj.put("title", title);
 				loginObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
 				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
@@ -414,7 +393,7 @@ public class FragmentWriteTopic extends Fragment {
 					bitmap.compress(CompressFormat.JPEG,100, bao);
 					byte[] ba = bao.toByteArray();
 					String base64Str = Base64.encodeBytes(ba);
-					
+
 					Log.e("body", base64Str);
 					loginObj.put("photo",  base64Str);
 				}
@@ -437,11 +416,11 @@ public class FragmentWriteTopic extends Fragment {
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
-				
+
 				bitmap=null;
 				if(status.equals("success")){
 					Constants.writetopicsuccess=true;
-				//	Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
+					//	Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
 					String article_info=jobj.getString("article_info");
 					article_info=article_info.replace("{", "");
 					article_info=article_info.replace("}", "");
@@ -452,43 +431,43 @@ public class FragmentWriteTopic extends Fragment {
 					else{
 						if(pd!=null){
 							if((pd.isShowing())){
-									pd.dismiss();
+								pd.dismiss();
 							}
 						}
 						((HomeActivity)activity).mTabHost.setCurrentTab(4);
 						Toast.makeText(getActivity(),"Write topic successfull", Toast.LENGTH_SHORT).show();
 					}
-					
-					
+
+
 				}
 				else{
 					if(pd!=null){
 						if((pd.isShowing())){
-								pd.dismiss();
+							pd.dismiss();
 						}
 					}
 					Toast.makeText(getActivity(),"Failed to write topic", Toast.LENGTH_SHORT).show();
 				}
-		
+
 			} catch (JSONException e) {
 				if(pd!=null){
 					if((pd.isShowing())){
-							pd.dismiss();
+						pd.dismiss();
 					}
 				}
 			}
 		}
 	}
-	
+
 	private class AsyncTaskAddGalaryImage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				
+
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
-				
+
 				if(bitmap!=null){
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG,60, bao);
@@ -497,7 +476,7 @@ public class FragmentWriteTopic extends Fragment {
 					loginObj.put("pic_data",  base64Str);
 				}
 				else{
-				
+
 				}
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"article/addgallery/"+catagoryid;
@@ -522,8 +501,8 @@ public class FragmentWriteTopic extends Fragment {
 						if(Constants.isOnline(activity)){
 							String filepath = galarylist.get(pos);
 							filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
-//							bitmapimage =new ImageScale();
-//							bitmap=bitmapimage.decodeImage(filepath);
+							//							bitmapimage =new ImageScale();
+							//							bitmap=bitmapimage.decodeImage(filepath);
 							bitmap=BitmapFactory.decodeFile(filepath);
 							new AsyncTaskAddGalaryImage().execute();
 							pos++;
@@ -536,7 +515,7 @@ public class FragmentWriteTopic extends Fragment {
 							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 							String drectory= extStorageDirectory + newFolder;
 							File myNewFolder = new File(drectory);
-						
+
 							String thumb=extStorageDirectory+"/Lipberrythumb";
 							File thumbFolder = new File(thumb);
 							deleteDirectory(thumbFolder);
@@ -544,22 +523,22 @@ public class FragmentWriteTopic extends Fragment {
 							createfolder();
 							if(pd!=null){
 								if((pd.isShowing())){
-										pd.dismiss();
+									pd.dismiss();
 								}
 							}
 						}
 					}
 					else{
-					
+
 						Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 						Constants.writetopicsuccess=false;
 						((HomeActivity)activity).mTabHost.setCurrentTab(4);
 						String newFolder = "/Lipberryfinal";
 						String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 						String drectory= extStorageDirectory + newFolder;
-						
+
 						File myNewFolder = new File(drectory);
-						
+
 						String thumb=extStorageDirectory+"/Lipberrythumb";
 						File thumbFolder = new File(thumb);
 						deleteDirectory(thumbFolder);
@@ -567,11 +546,11 @@ public class FragmentWriteTopic extends Fragment {
 						createfolder();
 						if(pd!=null){
 							if((pd.isShowing())){
-									pd.dismiss();
+								pd.dismiss();
 							}
 						}
 					}
-					
+
 				}
 				else{
 					((HomeActivity)activity).mTabHost.setCurrentTab(4);
@@ -579,7 +558,7 @@ public class FragmentWriteTopic extends Fragment {
 					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 					String drectory= extStorageDirectory + newFolder;
 					File myNewFolder = new File(drectory);
-					
+
 					String thumb=extStorageDirectory+"/Lipberrythumb";
 					File thumbFolder = new File(thumb);
 					deleteDirectory(thumbFolder);
@@ -588,42 +567,42 @@ public class FragmentWriteTopic extends Fragment {
 					Constants.writetopicsuccess=false;
 					if(pd!=null){
 						if((pd.isShowing())){
-								pd.dismiss();
+							pd.dismiss();
 						}
 					}
-					
+
 					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 				}
-				
+
 
 			} catch (JSONException e) {
 			}
 		}
 	}
-	
-	
+
+
 	private ArrayList<String> getList(File parentDir) {
 
-	    ArrayList<String> inFiles = new ArrayList<String>();
-	    try {
+		ArrayList<String> inFiles = new ArrayList<String>();
+		try {
 			String[] fileNames = parentDir.list();
 
 			for (String fileName : fileNames) {
-				
-			    if ((fileName.toLowerCase().endsWith(".jpg"))||(fileName.toLowerCase().endsWith(".png"))) {
-			    	 inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberrythumb/"+fileName);
-			        
-			      } 
+
+				if ((fileName.toLowerCase().endsWith(".jpg"))||(fileName.toLowerCase().endsWith(".png"))) {
+					inFiles.add(Environment.getExternalStorageDirectory().toString()+"/Lipberrythumb/"+fileName);
+
+				} 
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-	    return inFiles;
+		return inFiles;
 	}
-	
-	
+
+
 	public void addgalarytoserver(){
 		pos=0;
 		if(Constants.isOnline(activity)){
@@ -631,22 +610,22 @@ public class FragmentWriteTopic extends Fragment {
 			filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
 			//
 			//
-//			bitmapimage =new ImageScale();
-//			bitmap=bitmapimage.decodeImage(filepath);
+			//			bitmapimage =new ImageScale();
+			//			bitmap=bitmapimage.decodeImage(filepath);
 			bitmap=BitmapFactory.decodeFile(filepath);
 			new AsyncTaskAddGalaryImage().execute();
-		
+
 			pos++;
 		}
 		else{
 			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	public static boolean deleteDirectory(File path) {
 		if( path.exists() ) {
 			File[] files = path.listFiles();
@@ -665,11 +644,11 @@ public class FragmentWriteTopic extends Fragment {
 		return( path.delete() );
 	}
 
-	
+
 	public void createfolder(){
 		String newFolder = "/Lipberryfinal";
 		String thumb="/Lipberrythumb";
-		
+
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		String drectory= extStorageDirectory + newFolder;
 		String drectorythumb=extStorageDirectory + thumb;

@@ -296,7 +296,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		
 		
 		
-		text_user_name.setText(article.getMember_username());
+		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){

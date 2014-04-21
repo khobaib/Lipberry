@@ -14,7 +14,7 @@ public class Article {
 	private String article_photo;
 	private String article_description;
 	private String article_url;
-	
+	String member_nickname="";	
 	private String like_count;
 	String article_category="";
 	private String comment_count;
@@ -50,6 +50,9 @@ public class Article {
 		this.comment_url=comment_url;
 		this.member_id=member_id;
 		this.member_photo=member_photo;
+	}
+	public String getMember_nickname(){
+		return this.member_nickname;
 	}
 	public String getcategory(){
 		return this.article_category;

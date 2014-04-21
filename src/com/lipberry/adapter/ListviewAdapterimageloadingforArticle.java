@@ -219,7 +219,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			holder.img_some_icon.setImageResource(id);
 		}
 		
-		holder.text_user_name.setText(list.get(position).getMember_username());
+		holder.text_user_name.setText(list.get(position).getMember_nickname());
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
 		holder.text_topic_text.setText(Html.fromHtml(list.get(position).getArticle_description()));
