@@ -73,8 +73,6 @@ public class FragmentMyFollwerPost extends Fragment {
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;
 	ArrayList<Article>articlaList;
-	ArrayList<Article>articlaList2;
-
 	ArticleFromMyFollwing postofmycountries;
 	ArrayList<LikeMember>limemberlist;
 	MemberList memberListobject;
@@ -84,15 +82,17 @@ public class FragmentMyFollwerPost extends Fragment {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
 		articlaList=new ArrayList<Article>();
-		articlaList2=new ArrayList<Article>();
-
 		limemberlist=new ArrayList<LikeMember>();
 		activity=getActivity();
 		memberListobject=new MemberList();
 		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry",
+			pd=ProgressDialog.show(activity, "Lipberry2",
 					"Retreving Post", true);
 			new AsyncTaskLoadPostFrommyFollowing().execute();
+		}
+		else{
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
 		}
 
 		
@@ -108,8 +108,8 @@ public class FragmentMyFollwerPost extends Fragment {
 
 	@Override
 	public void onPause() {
-		startindex=0;
-		endindex=2;
+//		startindex=0;
+//		endindex=2;
 		super.onPause();
 	}
 	@Override
@@ -157,20 +157,20 @@ public class FragmentMyFollwerPost extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 		
-
-		if(Constants.isOnline(getActivity())){
-//			pd=ProgressDialog.show(getActivity(), "Lipberry",
-//					"Retreving more Post", true);
-			new AsyncTaskRefreashPostFrommyFollowing().execute();
-		}
-		else{
-			getfromdb();
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		
-		
+//
+//		if(Constants.isOnline(getActivity())){
+////			pd=ProgressDialog.show(getActivity(), "Lipberry",
+////					"Retreving more Post", true);
+//			new AsyncTaskRefreashPostFrommyFollowing().execute();
+//		}
+//		else{
+//			getfromdb();
+//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+//					Toast.LENGTH_SHORT).show();
+//		}
+//
+//		
+//		
 		
 //		
 //		if(Constants.isOnline(activity)){
@@ -199,6 +199,7 @@ public class FragmentMyFollwerPost extends Fragment {
 				String url =Constants.baseurl+"home/myfollowerposts/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
+				//getActivity().getl
 				return response;
 			} catch (JSONException e) {                
 				e.printStackTrace();
@@ -208,9 +209,9 @@ public class FragmentMyFollwerPost extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-//			if((pd.isShowing())&&(pd!=null)){
-//				pd.dismiss();
-//			}
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
 			loadarticlelistfrommyfollowing(result.getjObj().toString());
 		}
 	}
@@ -253,12 +254,8 @@ public class FragmentMyFollwerPost extends Fragment {
 			if(status.equals("success")){
 				startindex=endindex+1;
 				endindex+=2;
-
 				ArticleList articlelistinstance2=ArticleList.getArticlelist(result);
-			//	articlaList.addAll(articlelistinstance2.getArticlelist());
-				articlaList2.addAll(articlelistinstance2.getArticlelist());
-				articlaList.clear();
-				articlaList.addAll(articlaList2);
+				articlaList.addAll(articlelistinstance2.getArticlelist());
 				ladapter.notifyDataSetChanged();
 				list_view_latest_post2.onRefreshComplete();
 			}
@@ -279,8 +276,9 @@ public class FragmentMyFollwerPost extends Fragment {
 
 				articlelistinstance=ArticleList.getArticlelist(result);
 				articlaList=articlelistinstance.getArticlelist();
-				articlaList2.clear();
-				articlaList2.addAll(articlelistinstance.getArticlelist());
+				startindex=endindex+1;
+				endindex+=2;
+
 				loadlistview(true);
 			}
 			else{
@@ -312,7 +310,6 @@ public class FragmentMyFollwerPost extends Fragment {
 		ladapter=new ListviewAdapterimageloadingforArticle(activity, 
 				articlaList,parent);
 		listviewforarticle.setAdapter(ladapter);
-		articlaList2.clear();
 		if(from){
 			saveindb(articlaList);
 		}

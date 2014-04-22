@@ -15,7 +15,7 @@
             android:id="@+id/topBar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/ltopbar"
+            android:background="#d22843"
             tools:ignore="NewApi" >
 
             <Button
@@ -80,15 +80,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="-4dp"
-             android:layout_marginBottom="-6dp"
+            
             android:layout_weight="1" />
 
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="@drawable/lbackgound_bottombar"
+            android:background="#7f1325"
             android:orientation="horizontal" />
     </LinearLayout>
 

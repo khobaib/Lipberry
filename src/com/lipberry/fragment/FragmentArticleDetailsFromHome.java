@@ -34,6 +34,7 @@ import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,6 +73,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	ArticleDetails articledetails;
 	ListView list_comment;
 	ListView lst_imag;
+	CustomAdapterForComment adapter1;
 	boolean followstate=false;
 	HomeTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
@@ -98,6 +100,63 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+
+		int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			if (listItem instanceof ViewGroup) {
+				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			}
+			listItem.measure(0, 0);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+	}
+
+	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+
+		int totalHeight = height;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			if (listItem instanceof ViewGroup) {
+				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			}
+			listItem.measure(0, 0);
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+	}
+
+	public void setmemberlist(){
+		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+
+		list_comment.setAdapter(adapter1);
+		setListViewHeightBasedOnChildren(list_comment);
+		//			list_comment.setOnTouchListener(new OnTouchListener() {
+		//				@Override
+		//				public boolean onTouch(View v, MotionEvent event) {
+		//					v.getParent().requestDisallowInterceptTouchEvent(true);
+		//					return false;
+		//				}
+		//			});
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -149,9 +208,9 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
-		
-		
-		
+
+
+
 		if(article.getcategory().equals("2")){
 			if(article.getArticle_category_url().contains("shexp")){
 				int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
@@ -173,11 +232,11 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		});
 	}
-	
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-		
+
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -266,14 +325,16 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				getString(R.string.txt_comments));
 		imageLoader.displayImage(articledetails.getMember_avatar(), img_pro_pic);
 		imll=new ImageLoadingListener() {
-
 			@Override
 			public void onLoadingStarted(String imageUri, View view) {
-
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Image is loading", true);
+						getActivity().runOnUiThread(new Runnable(){
+							public void run(){
+								pd=ProgressDialog.show(getActivity(), "Lipberry",
+										"Image is loading", true);
+							}
+						});
 					}
 				});
 			}
@@ -284,45 +345,10 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					public void run(){
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
-							Log.e("pd", "3");
 						}
 					}
 				});
-			}
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-			
-				
-				getActivity().runOnUiThread(new Runnable(){
-					public void run(){
-						Log.e("pd", "1"+pd.isShowing()+"  "+pd);
-						if((pd.isShowing())&&(pd!=null)){
-							pd.dismiss();
-							Log.e("pd", "3");
-						}
-					}
-				});
-				
-				//getActivity().runOnUiThread(action)
-				//if(pd.isShowing()){
-					//pd.cancel();
-			//	}
-				Log.e("pd", "2");
-				Bitmap bitmap=loadedImage;
-				if(bitmap!=null){
-					
-					int bitmapheight=bitmap.getHeight();
-					int bitmapweight=bitmap.getWidth();
-					int deviceheight=Utility.getDeviceHeight(getActivity());
-					int devicewidth=Utility.getDeviceWidth(getActivity());
-					float ratio=(float)devicewidth/(float)bitmapweight;
-					int resizebitmapwidth=devicewidth;
-					float a=(bitmapheight*ratio);
-					int resizebitmaphight=(int)a ;
-					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
-					img_article.setImageBitmap(bitmap);
-				}
-				
+
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);
@@ -332,17 +358,78 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 							v.getParent().requestDisallowInterceptTouchEvent(true);
 							return false;
 						}
+
 					});
 					lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
 						@Override
 						public void onItemClick(AdapterView<?> arg0, View arg1,
 								int position, long arg3) {
-						
 							imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(), imll);
 						}
 					});
 				}
 			}
+
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				getActivity().runOnUiThread(new Runnable(){
+					public void run(){
+
+						if((pd.isShowing())&&(pd!=null)){
+							pd.dismiss();
+							Log.e("pd", "3");
+						}
+					}
+				});
+				int imageheight=Utility.getDeviceHeight(getActivity())/8;
+				Bitmap bitmap=loadedImage;
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(getActivity());
+					int devicewidth=Utility.getDeviceWidth(getActivity());
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					imageheight=resizebitmaphight-00;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					img_article.setImageBitmap(bitmap);
+					int x=img_article.getLeft();
+					int y=img_article.getTop();
+					int h=img_article.getHeight();
+					int w=img_article.getWidth();
+
+
+				}
+
+
+
+				if(articledetails.getArticle_gallery().size()>0){
+					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
+					lst_imag.setAdapter(adapter);
+					setListViewHeightBasedOnChildrenImage(lst_imag, imageheight);
+					lst_imag.setOnTouchListener(new OnTouchListener() {
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							v.getParent().requestDisallowInterceptTouchEvent(true);
+							return false;
+						}
+
+					});
+
+					lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int position, long arg3) {
+							imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(), imll);
+						}
+					});
+				}
+			}
+
 			@Override
 			public void onLoadingCancelled(String imageUri, View view) {
 				getActivity().runOnUiThread(new Runnable(){
@@ -350,18 +437,39 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
 						}
+
+						if(articledetails.getArticle_gallery().size()>0){
+							CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
+							lst_imag.setAdapter(adapter);
+							lst_imag.setOnTouchListener(new OnTouchListener() {
+								@Override
+								public boolean onTouch(View v, MotionEvent event) {
+									v.getParent().requestDisallowInterceptTouchEvent(true);
+									return false;
+								}
+
+							});
+							lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+								@Override
+								public void onItemClick(AdapterView<?> arg0, View arg1,
+										int position, long arg3) {
+									imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(), imll);
+								}
+							});
+						}
 					}
 				});
 			}
 		};
 		if((articledetails.getPhoto().equals("")||(articledetails.getPhoto()==null))){
-			
+
 		}
 		else{
-			
+
 			imageLoader.loadImage(articledetails.getPhoto(), imll);
 		}
-		
+
 		if(article.getUserAlreadylikeThis()!=null){
 			if(!article.getUserAlreadylikeThis().equals("No")){
 				img_like.setBackgroundResource(R.drawable.unlike);
@@ -721,16 +829,16 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-//			if((pd.isShowing())&&(pd!=null)){
-//				pd.dismiss();
-//			}
+			//			if((pd.isShowing())&&(pd!=null)){
+			//				pd.dismiss();
+			//			}
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					if(status.equals("success")){
 						if(Constants.isOnline(getActivity())){
-							
+
 							new AsyncTaskGetComments().execute();
 							Toast.makeText(getActivity(),"You just commented! ", Toast.LENGTH_SHORT).show();
 						}
@@ -738,7 +846,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 							Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
 									Toast.LENGTH_SHORT).show();
 						}
-						
+
 					}
 				}
 				else{
@@ -755,10 +863,21 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
+				int endindex;
+				Log.i("error",  "a "+article.getComment_count());
+
+				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
+					endindex=Integer.parseInt(article.getComment_count());
+				}
+				else{
+					endindex=20;
+				}
+
+
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", "0");
-				loginObj.put("endIndex", "20");
+				loginObj.put("endIndex", ""+endindex);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -783,7 +902,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					commentslist=Commentslist.getCommentsListInstance(jobj);
-					
+
 					if(commentslist.getCommentslist().size()>0){
 						setmemberlist();
 					}
@@ -796,29 +915,29 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 	}
-	public void setmemberlist(){
-		CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
-		list_comment.setAdapter(adapter1);
-		list_comment.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				// Disallow the touch request for parent scroll on touch of child view
-				v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-		});
-	}
-	
+	//	public void setmemberlist(){
+	//		CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+	//		list_comment.setAdapter(adapter1);
+	//		list_comment.setOnTouchListener(new OnTouchListener() {
+	//			@Override
+	//			public boolean onTouch(View v, MotionEvent event) {
+	//				// Disallow the touch request for parent scroll on touch of child view
+	//				v.getParent().requestDisallowInterceptTouchEvent(true);
+	//				return false;
+	//			}
+	//		});
+	//	}
+	//	
 	private class AsyncTaskUpdatePageVisit extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-				JSONObject loginObj = new JSONObject();
-				String loginData = loginObj.toString();
-				String url =articledetails.getUpdate_visitcounter_url();
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-						loginData, null);
-				return response;
-			
+			JSONObject loginObj = new JSONObject();
+			String loginData = loginObj.toString();
+			String url =articledetails.getUpdate_visitcounter_url();
+			ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+					loginData, null);
+			return response;
+
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
@@ -837,7 +956,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 	}
-	
-	
+
+
 }
 

@@ -34,6 +34,7 @@ import com.google.gson.JsonObject;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.ListviewAdapterforCategory;
+import com.lipberry.model.ArticleList;
 import com.lipberry.model.Categories;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
@@ -50,6 +51,8 @@ public class FragmentCategories extends Fragment {
 	CategoryTabFragment parent;
 	LipberryApplication appInstance;	
 	JsonParser jsonParser;
+	ArticleList article;
+	int index;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,7 +85,7 @@ public class FragmentCategories extends Fragment {
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		if(Constants.catgeory){
 		
-			parent.startFragmentSubCategoriesList(Constants.caturl,Constants.caname);
+		//	parent.startFragmentSubCategoriesList(Constants.caturl,Constants.caname);
 		
 		}
 	}
@@ -152,9 +155,85 @@ public class FragmentCategories extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				parent.startFragmentSubCategoriesList(categorylist.get(position).getUrl(),categorylist.get(position).getName());		
+				index=position;
+				
+				if(Constants.isOnline(getActivity())){
+					pd=ProgressDialog.show(getActivity(), "Lipberry",
+							"Retreving Post", true);
+					new AsyncTaskgetSubCategories().execute();
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
+						
 			}
 		});
 	}
+	
+	
+	private class AsyncTaskgetSubCategories extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put( "startIndex","0");
+				loginObj.put( "endIndex","2");
+				String loginData = loginObj.toString();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, categorylist.get(index).getUrl(), null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) { 
+				if((pd.isShowing())&&(pd!=null)){
+					pd.dismiss();
+				}
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("response", result.getjObj().toString());
+			
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject res=result.getjObj();
+			if(result.getjObj().toString().equals("[]")){
+				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),
+						Toast.LENGTH_SHORT).show();
+			}
+			else{
+				try {
+					String status=res.getString("status");
+					if(status.equals("success")){
+						article=new ArticleList();
+						article=article.getArticlelist(res);
+						if(article.getArticlelist().size()>0){
+							loadlistview(); 
+							parent.startFragmentSubCategoriesList(categorylist.get(index).getUrl(),categorylist.get(index).getName(),article);
+						}
+						else{
+							Toast.makeText(getActivity(), getActivity().getResources().
+									getString(R.string.Toast_article_found)
+									, Toast.LENGTH_SHORT).show(); 
+						}
+					}
+					else{
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found), 
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),
+							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
 }
 

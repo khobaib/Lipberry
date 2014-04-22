@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleList;
 import com.lipberry.utility.Constants;
 
 
@@ -62,11 +63,11 @@ public class CategoryTabFragment extends TabFragment{
 		super.onStart();
 	}
 
-	public void startFragmentSubCategoriesList( String url,String catname) {
+	public void startFragmentSubCategoriesList( String url,String catname,ArticleList article) {
 		FragmentSubCategoriesList newFragment = new FragmentSubCategoriesList ();
 		Constants.caturl=url;
 		Constants.caname=catname;
-		newFragment.setUrl(url,catname);
+		newFragment.setUrl(url,catname,article);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

@@ -15,7 +15,7 @@ public class ArticleDetails {
 	private String invalid_email;
 	private String created_at;
 	private String video;
-	private String comment_count;
+	private String comment_count="0";
 	private String member;
 	private String follow_flag;
 	private String member_email;

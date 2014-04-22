@@ -15,8 +15,6 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/rounded_edittext"
         android:layoutDirection="rtl" >
-
-     
     </RelativeLayout>
 
     <ImageView
@@ -27,31 +25,38 @@
         android:layout_centerInParent="true"
         android:layout_margin="2dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ll1" />
 
-    <ImageView
-        android:id="@+id/img_category_pro_pic"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/re_mid"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/img_big_img"
         android:layout_below="@+id/img_big_img"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="9dp"
-        android:paddingBottom="10dp"
-       android:src="@drawable/l1" />
+        android:background="@drawable/rounded_edittext"
+        android:layoutDirection="rtl" >
 
-    <TextView
-        android:id="@+id/txt_cat_name"
-        android:layout_width="wrap_content"
-        android:textColor="#f90452"
-        android:layout_height="wrap_content"
-        android:textSize="18dp"
-        android:text="hjfvefvfv"
-         android:layout_marginTop="12dp"
-         android:layout_marginBottom="12dp"
-  		 android:layout_below="@+id/img_big_img"
-    android:layout_marginRight="15dp"
-        android:layout_toLeftOf="@+id/img_category_pro_pic"
-         />
+        <ImageView
+            android:id="@+id/img_category_pro_pic"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="6dp"
+            android:src="@drawable/l1" />
+
+        <TextView
+            android:id="@+id/txt_cat_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+          
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/img_category_pro_pic"
+            android:text="hjfvefvfv"
+            android:textColor="#f90452"
+            android:textSize="18dp" />
+    </RelativeLayout>
 
 </RelativeLayout>

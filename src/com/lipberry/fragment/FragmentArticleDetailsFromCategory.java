@@ -40,8 +40,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -82,8 +84,10 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	LinearLayout vedioholder;
 	VideoView video_view;
 	JsonParser jsonParser;
+	CustomAdapterForComment adapter1;
 	ImageLoadingListener imll;
 	EditText et_comment;
+	RelativeLayout re_mid2;
 	String commentstext;
 	@SuppressLint("NewApi")
 	Article article;
@@ -100,6 +104,67 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
+
+
+	public static void setListViewHeightBasedOnChildren(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+
+		int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			if (listItem instanceof ViewGroup) {
+				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			}
+			listItem.measure(0, 0);
+			totalHeight += listItem.getMeasuredHeight();
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+	}
+	
+	
+	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null) {
+			// pre-condition
+			return;
+		}
+
+		int totalHeight = height;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			View listItem = listAdapter.getView(i, null, listView);
+			if (listItem instanceof ViewGroup) {
+				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			}
+			listItem.measure(0, 0);
+		}
+
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+	}
+
+
+	public void setmemberlist(){
+		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+
+		list_comment.setAdapter(adapter1);
+		setListViewHeightBasedOnChildren(list_comment);
+		//		list_comment.setOnTouchListener(new OnTouchListener() {
+		//			@Override
+		//			public boolean onTouch(View v, MotionEvent event) {
+		//				v.getParent().requestDisallowInterceptTouchEvent(true);
+		//				return false;
+		//			}
+		//		});
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -107,6 +172,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		jsonParser=new JsonParser();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details,
 				container, false);
+		re_mid2=(RelativeLayout) v.findViewById(R.id.re_mid2);
 		initview(v);
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), "Lipberry",
@@ -117,6 +183,16 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
 					Toast.LENGTH_SHORT).show();
 		}
+
+		TextView tv = new TextView(getActivity());
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+		params.leftMargin = 107;
+		params.topMargin=100;
+		re_mid2.addView(tv, params);
+		re_mid2.removeView(tv);
+		tv.setText("dgh fgv hjfdhg hjgfjehgf hgvhj");
+
 		return v;
 	}
 	@Override
@@ -150,14 +226,14 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat8));
 			}
 		}
-		
-		
-		
-		
+
+
+
+
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
-		
-		
-		
+
+
+
 		if(article.getcategory().equals("2")){
 			if(article.getArticle_category_url().contains("shexp")){
 				int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
@@ -179,11 +255,11 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		});
 	}
-	
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-		
+
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -229,17 +305,17 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 					setview();
 				}
 				else{
-//					if((pd.isShowing())&&(pd!=null)){
-//						pd.dismiss();
-//					}
+					//					if((pd.isShowing())&&(pd!=null)){
+					//						pd.dismiss();
+					//					}
 					String message=jobj.getString("message");
 					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
 				}
 			} 
 			catch (JSONException e) {
-//				if((pd.isShowing())&&(pd!=null)){
-//					pd.dismiss();
-//				}
+				//				if((pd.isShowing())&&(pd!=null)){
+				//					pd.dismiss();
+				//				}
 			}
 		}
 	}
@@ -291,11 +367,11 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				vedioholder.setVisibility(View.GONE);
 			}
 		});
-		
-		
-		
-		
-		
+
+
+
+
+
 		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());
@@ -334,33 +410,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						}
 					}
 				});
-			}
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				getActivity().runOnUiThread(new Runnable(){
-					public void run(){
-						Log.e("pd", "1"+pd.isShowing()+"  "+pd);
-						if((pd.isShowing())&&(pd!=null)){
-							pd.dismiss();
-							Log.e("pd", "3");
-						}
-					}
-				});
-				Bitmap bitmap=loadedImage;
-				if(bitmap!=null){
-					int bitmapheight=bitmap.getHeight();
-					int bitmapweight=bitmap.getWidth();
-					int deviceheight=Utility.getDeviceHeight(getActivity());
-					int devicewidth=Utility.getDeviceWidth(getActivity());
-					float ratio=(float)devicewidth/(float)bitmapweight;
-					int resizebitmapwidth=devicewidth;
-					float a=(bitmapheight*ratio);
-					int resizebitmaphight=(int)a ;
-					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
-					img_article.setImageBitmap(bitmap);
-
-				}
+				
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);
@@ -384,17 +434,100 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 
 			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				getActivity().runOnUiThread(new Runnable(){
+					public void run(){
+						
+						if((pd.isShowing())&&(pd!=null)){
+							pd.dismiss();
+							Log.e("pd", "3");
+						}
+					}
+				});
+				int imageheight=Utility.getDeviceHeight(getActivity())/8;
+				Bitmap bitmap=loadedImage;
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(getActivity());
+					int devicewidth=Utility.getDeviceWidth(getActivity());
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					imageheight=resizebitmaphight-00;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					img_article.setImageBitmap(bitmap);
+					int x=img_article.getLeft();
+					int y=img_article.getTop();
+					int h=img_article.getHeight();
+					int w=img_article.getWidth();
+					
+
+				}
+				
+				
+				
+				if(articledetails.getArticle_gallery().size()>0){
+					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
+					lst_imag.setAdapter(adapter);
+					setListViewHeightBasedOnChildrenImage(lst_imag, imageheight);
+					lst_imag.setOnTouchListener(new OnTouchListener() {
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							v.getParent().requestDisallowInterceptTouchEvent(true);
+							return false;
+						}
+
+					});
+					
+					lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int position, long arg3) {
+							imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(), imll);
+						}
+					});
+				}
+			}
+
+			@Override
 			public void onLoadingCancelled(String imageUri, View view) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
 						}
+						
+						if(articledetails.getArticle_gallery().size()>0){
+							CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
+							lst_imag.setAdapter(adapter);
+							lst_imag.setOnTouchListener(new OnTouchListener() {
+								@Override
+								public boolean onTouch(View v, MotionEvent event) {
+									v.getParent().requestDisallowInterceptTouchEvent(true);
+									return false;
+								}
+
+							});
+							lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+								@Override
+								public void onItemClick(AdapterView<?> arg0, View arg1,
+										int position, long arg3) {
+									imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(), imll);
+								}
+							});
+						}
 					}
 				});
 			}
 		};
-		imageLoader.loadImage(articledetails.getPhoto(), imll);
+		if((articledetails.getPhoto()!=null)||(!articledetails.getPhoto().equals(""))){
+			imageLoader.loadImage(articledetails.getPhoto(), imll);
+		}
+
 
 		if(article.getUserAlreadylikeThis()!=null){
 			if(!article.getUserAlreadylikeThis().equals("No")){
@@ -467,7 +600,19 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		}
 	}
-
+	private int getRelativeTop(View myView) {
+	    if (myView.getParent() == myView.getRootView())
+	        return myView.getTop();
+	    else
+	        return myView.getTop() + getRelativeTop((View) myView.getParent());
+	}
+	
+	private int getRelativeBottom(View myView) {
+	    if (myView.getParent() == myView.getRootView())
+	        return myView.getBottom();
+	    else
+	        return myView.getBottom() + getRelativeBottom((View) myView.getParent());
+	}
 
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -738,15 +883,15 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-//			if((pd.isShowing())&&(pd!=null)){
-//				pd.dismiss();
-//			}
+			//			if((pd.isShowing())&&(pd!=null)){
+			//				pd.dismiss();
+			//			}
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					if(Constants.isOnline(getActivity())){
-						
+
 						new AsyncTaskGetComments().execute();
 						Toast.makeText(getActivity(),"You just commented! ", Toast.LENGTH_SHORT).show();
 					}
@@ -754,7 +899,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
 								Toast.LENGTH_SHORT).show();
 					}
-					
+
 				}
 				else{
 					String description=jobj.getString("description");
@@ -770,11 +915,21 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
+				int endindex;
+				Log.i("error",  "a "+article.getComment_count());
+
+				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
+					endindex=Integer.parseInt(article.getComment_count());
+				}
+				else{
+					endindex=20;
+				}
+
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", "0");
-				loginObj.put("endIndex", ""+article.getComment_count());
-				
+				loginObj.put("endIndex", ""+endindex);
+
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -789,10 +944,10 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			JSONObject jobj=result.getjObj();
-//			if((pd.isShowing())&&(pd!=null)){
-//				pd.dismiss();
-////			}
-			
+			//			if((pd.isShowing())&&(pd!=null)){
+			//				pd.dismiss();
+			////			}
+
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();
@@ -816,17 +971,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		}
 	}
-	public void setmemberlist(){
-		CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
-		list_comment.setAdapter(adapter1);
-		list_comment.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				v.getParent().requestDisallowInterceptTouchEvent(true);
-				return false;
-			}
-		});
-	}
+
 	public void showCustomDialog(){
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.setContentView(R.layout.custom_dilog);

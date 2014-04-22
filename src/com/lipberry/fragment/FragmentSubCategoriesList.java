@@ -30,6 +30,7 @@ import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,8 +53,8 @@ import com.lipberry.utility.LipberryApplication;
 @SuppressLint("NewApi")
 public class FragmentSubCategoriesList extends ListFragment {
 	String url;
-	int startindex=0;
-	int endindex=2;
+	int startindex=3;
+	int endindex=4;
 	ProgressDialog pd;
 	   private int index = -1;
        private int top = 0;
@@ -67,9 +68,9 @@ public class FragmentSubCategoriesList extends ListFragment {
 	Button btn_go_another_category;
 	TextView txt_make_up;
 	ListviewAdapterimageloadingforArticle adapter;
-	public void setUrl(String url,String catname){
+	public void setUrl(String url,String catname,ArticleList article){
 		this.url=Constants.caturl;
-		
+		this.article=article;
 		this.catname=Constants.caname;
 	}
 	
@@ -109,15 +110,15 @@ public class FragmentSubCategoriesList extends ListFragment {
 		});
 		
 		jsonParser=new JsonParser();
-		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Retreving Post", true);
-			new AsyncTaskgetSubCategories().execute();
-		}
-		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
+//		if(Constants.isOnline(getActivity())){
+//			pd=ProgressDialog.show(getActivity(), "Lipberry",
+//					"Retreving Post", true);
+//			new AsyncTaskgetSubCategories().execute();
+//		}
+//		else{
+//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+//					Toast.LENGTH_SHORT).show();
+//		}
 		btn_go_another_category=(Button) v.findViewById(R.id.btn_go_another_category);
 		btn_go_another_category.setOnClickListener(new OnClickListener() {
 			@Override
@@ -128,16 +129,19 @@ public class FragmentSubCategoriesList extends ListFragment {
 
 		txt_make_up=(TextView) v.findViewById(R.id.txt_make_up);
 		txt_make_up.setText(catname);
+		loadlistview();
+
+	      if(index!=-1){
+	    	  listviewforarticle.setSelection(index);
+	    	
+	      }
 		return v;
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
 		
-		 setListAdapter(adapter);
-	      if(index!=-1){
-	         this.getListView().setSelectionFromTop(index, top);
-	      }
+		
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 //		if(Constants.catgeory){
 //			
@@ -158,71 +162,11 @@ public class FragmentSubCategoriesList extends ListFragment {
 	@Override
 	public void onPause() {
 		super.onPause();
-		startindex=0;
-		endindex=2;
+		index=listviewforarticle.getSelectedItemPosition();
+//		startindex=0;
+//		endindex=2;
 	}
-	private class AsyncTaskgetSubCategories extends AsyncTask<Void, Void, ServerResponse> {
-		@Override
-		protected ServerResponse doInBackground(Void... params) {
-			try {
-				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put( "startIndex",""+startindex);
-				loginObj.put( "endIndex",""+endindex);
-				String loginData = loginObj.toString();
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-						loginData, null);
-				startindex=endindex+1;
-				endindex+=2;
-				return response;
-			} catch (JSONException e) { 
-				if((pd.isShowing())&&(pd!=null)){
-					pd.dismiss();
-				}
-				e.printStackTrace();
-				return null;
-			}
-		}
-		@Override
-		protected void onPostExecute(ServerResponse result) {
-			super.onPostExecute(result);
-			Log.e("response", result.getjObj().toString());
-			
-			if((pd.isShowing())&&(pd!=null)){
-				pd.dismiss();
-			}
-			JSONObject res=result.getjObj();
-			if(result.getjObj().toString().equals("[]")){
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),
-						Toast.LENGTH_SHORT).show();
-			}
-			else{
-				try {
-					String status=res.getString("status");
-					if(status.equals("success")){
-						article=new ArticleList();
-						article=article.getArticlelist(res);
-						if(article.getArticlelist().size()>0){
-							loadlistview(); 
-						}
-						else{
-							Toast.makeText(getActivity(), getActivity().getResources().
-									getString(R.string.Toast_article_found)
-									, Toast.LENGTH_SHORT).show(); 
-						}
-					}
-					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found), 
-								Toast.LENGTH_SHORT).show();
-					}
-				} catch (JSONException e) {
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_article_found),
-							Toast.LENGTH_SHORT).show();
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	
 	
 	
 	
@@ -276,6 +220,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 						if(article.getArticlelist().size()>0){
 							adapter.notifyDataSetChanged();
 							list_categories.onRefreshComplete(); 
+							
 						}
 						else{
 							Toast.makeText(getActivity(), getActivity().getResources().
@@ -306,6 +251,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 			Log.e("erroe", "3");
 
 		 listviewforarticle.setAdapter(adapter);
+		
 			Log.e("erroe", "24");
 
 	}

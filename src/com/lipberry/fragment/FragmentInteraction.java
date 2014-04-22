@@ -116,10 +116,11 @@ public class FragmentInteraction extends Fragment {
 		protected ServerResponse doInBackground(Void... params) {
 
 			try {
+				int i=Constants.notificationcount+20;
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex","0");
-				loginObj.put("endIndex","10");
+				loginObj.put("endIndex",""+i);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"account/notifications/";
 				
