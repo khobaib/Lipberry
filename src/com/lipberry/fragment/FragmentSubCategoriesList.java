@@ -30,6 +30,7 @@ import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,14 +51,16 @@ import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 @SuppressLint("NewApi")
 public class FragmentSubCategoriesList extends ListFragment {
 	String url;
 	int startindex=3;
 	int endindex=4;
 	ProgressDialog pd;
-	   private int index = -1;
-       private int top = 0;
+	private int index = -1;
+    private int top = 0;
+    ImageView img_cat;
 	PullToRefreshListView list_categories ;
 	ListView listviewforarticle;
 	ArticleList article;
@@ -91,6 +94,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sub_categories,
 				container, false);
+		img_cat=(ImageView) v.findViewById(R.id.img_cat);
 		list_categories=(PullToRefreshListView) v.findViewById(R.id.list_categories);
 		listviewforarticle=list_categories.getRefreshableView();
 		((HomeActivity)getActivity()).ProductList=listviewforarticle;
@@ -129,12 +133,27 @@ public class FragmentSubCategoriesList extends ListFragment {
 
 		txt_make_up=(TextView) v.findViewById(R.id.txt_make_up);
 		txt_make_up.setText(catname);
+		txt_make_up.setTypeface(Utility.getTypeface1(getActivity()));
 		loadlistview();
 
 	      if(index!=-1){
 	    	  listviewforarticle.setSelection(index);
 	    	
 	      }
+
+			if(article.getArticlelist().get(0).getcategory().equals("2")){
+				if(article.getArticlelist().get(0).getArticle_category_url().contains("shexp")){
+					int id = getActivity().getResources().getIdentifier("l"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
+					img_cat.setImageResource(id);
+				}
+				else{
+					int id = getActivity().getResources().getIdentifier("bl"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
+					img_cat.setImageResource(id);
+				}
+			}else{
+				int id = getActivity().getResources().getIdentifier("l"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
+				img_cat.setImageResource(id);
+			}
 		return v;
 	}
 	@Override

@@ -114,7 +114,7 @@ public class FragmentMyCountriesPost extends Fragment {
 		activity=getActivity();
 		memberListobject=new MemberList();
 		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry2",
+			pd=ProgressDialog.show(activity, "Lipberry",
 					"Retreving Post", true);
 			new AsyncTaskLoadPostFrommyCountries().execute();
 		}

@@ -43,6 +43,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lipberry.ActivityVideoViewDemo;
 import com.lipberry.HomeActivity;
 import com.lipberry.LoginActivity;
 import com.lipberry.R;
@@ -83,6 +84,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	ImageLoadingListener imll;
 	EditText et_comment;
 	String commentstext;
+	ImageView play_vedio;
 	Commentslist commentslist;
 	@SuppressLint("NewApi")
 	Article article;
@@ -306,6 +308,16 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 		btn_photo_album=(Button) v.findViewById(R.id.btn_photo_album);
 		btn_report=(Button) v.findViewById(R.id.btn_report);
+		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
+		play_vedio.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				Intent intent=new Intent(getActivity(), ActivityVideoViewDemo.class);
+//				startActivity(intent);
+			}
+		});
 	}
 
 	public void setview(){

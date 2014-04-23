@@ -191,7 +191,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:background="@drawable/rounded_edittext"
-                            android:gravity="right" 
+                            android:gravity="center" 
                             android:paddingLeft="42dp"
 							android:textSize="22dp"
                             android:visibility="gone" />
@@ -201,6 +201,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:padding="7dp"
+                            android:gravity="center"
                             android:background="@drawable/rounded_edittext"
                             android:text="@string/et_signup_city"
                             android:textColor="#808080"
@@ -228,7 +229,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="55dp"
                             android:paddingLeft="42dp"
-                          android:gravity="right"  
+                          android:gravity="center"  
                             android:background="@drawable/rounded_edittext"
                             android:textSize="24dp" />
 
@@ -279,9 +280,10 @@
                         android:id="@+id/s_kowaboutus"
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:gravity="right" 
+                        android:gravity="center" 
                         android:background="@drawable/rounded_edittext"
                         android:paddingRight="50dp"
+                        android:paddingLeft="50dp"
                         android:visibility="gone" />
 
                     <TextView
@@ -312,6 +314,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="12dp"
                     android:layout_marginLeft="22dp"
+                    android:textSize="25dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rounded_button"

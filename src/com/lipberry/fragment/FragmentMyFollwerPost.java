@@ -86,7 +86,7 @@ public class FragmentMyFollwerPost extends Fragment {
 		activity=getActivity();
 		memberListobject=new MemberList();
 		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry2",
+			pd=ProgressDialog.show(activity, "Lipberry",
 					"Retreving Post", true);
 			new AsyncTaskLoadPostFrommyFollowing().execute();
 		}

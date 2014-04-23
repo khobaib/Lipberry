@@ -55,7 +55,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/img_category_pro_pic"
             android:text="hjfvefvfv"
-            android:textColor="#f90452"
+           android:textColor="#c13468"
             android:textSize="18dp" />
     </RelativeLayout>
 

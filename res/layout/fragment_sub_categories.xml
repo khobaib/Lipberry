@@ -17,12 +17,14 @@
             android:id="@+id/txt_make_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/img_cat"
             android:layout_toRightOf="@+id/btn_go_another_category"
+            android:gravity="right"
             android:padding="5dp"
-            android:text="@string/txt_make_up"
-            android:textColor="#f90452" />
+            android:textColor="#c13468"
+            android:textStyle="bold"
+            android:textSize="20dp" />
 
         <Button
             android:id="@+id/btn_go_another_category"
@@ -31,22 +33,18 @@
             android:layout_alignBaseline="@+id/txt_make_up"
             android:layout_alignBottom="@+id/txt_make_up"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/lrefrsh"
-            android:paddingBottom="3dp"
-            android:paddingLeft="37dp"
-            android:paddingRight="5dp"
-            android:paddingTop="3dp"
-            android:text="@string/txt_another_cat"
+            android:background="@drawable/lselector"
             android:textColor="#000000" />
 
         <ImageView
-            android:id="@+id/ima_icon_refresh"
+            android:id="@+id/img_cat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/btn_go_another_category"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="16dp"
-            android:src="@drawable/lrefreshicon" />
+            android:layout_alignParentRight="true"
+           android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/l1" />
     </RelativeLayout>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView

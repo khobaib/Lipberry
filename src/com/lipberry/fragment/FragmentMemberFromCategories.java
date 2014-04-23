@@ -183,7 +183,6 @@ public class FragmentMemberFromCategories extends Fragment {
 	}
 	public void setUserInterface(){
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
-		((HomeActivity)getActivity()).backbuttonoftab.setText(getActivity().getResources().getString(R.string.back_string));
 		((HomeActivity)getActivity()).welcome_title.setText(singleMember.getName());
 		txt_name.setText(singleMember.getName());
 		txt_nick_name.setText(singleMember.getNickname());

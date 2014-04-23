@@ -1,21 +1,23 @@
 <resources>
 
- 
-     
-     
-    
-    
     <string name="app_name">"Lipberry "</string>
-    
-    
-        <string name="txt_cat1">"مكياج"</string>
-     <string name="txt_cat2">"البشرة"</string>
-      <string name="txt_cat5">"أزياء و موضة"</string>
-      <string name="txt_cat3">"الشعر"</string>
-     <string name="txt_cat8">"الغذاء الصحي والرشاقة"</string>
-      <string name="txt_cat2_shpx">"هل لديك سؤال للمجربات؟"</string>
 
-<!--      Sign up screen -->
+<!--       Inbox -->
+ <string name="inbox_msz">"الرسائل"</string>
+<string name="inbox_new_msz">"رساله جديده"</string>
+<string name="inbox_sent_msz">"الرسائل المرسله"</string>
+<string name="inbox_setting">"الاعدادات"</string>
+
+<!--       Inbox -->
+
+    <string name="txt_cat1">"مكياج"</string>
+    <string name="txt_cat2">"البشرة"</string>
+    <string name="txt_cat5">"أزياء و موضة"</string>
+    <string name="txt_cat3">"الشعر"</string>
+    <string name="txt_cat8">"الغذاء الصحي والرشاقة"</string>
+    <string name="txt_cat2_shpx">"هل لديك سؤال للمجربات؟"</string>
+
+    <!-- Sign up screen -->
 
     <string name="txt_write_topic">"اكتبي مشاركة"</string>
     <string name="et_signup_name">"اسمك"</string>
@@ -30,18 +32,17 @@
     <string name="et_signup_knowing">"كيف علمتي عن ليب بيري؟"</string>
     <string name="bet_signup_register">"اشتراك"</string>
     <string name="bt_signup_signup">"اشتراك"</string>
-    
 
-<!--      Sign up screen -->
+    <!-- Sign up screen -->
 
 
-<!--      Sign in screen -->
-  <string name="btn_signin_sign">"دخول"</string>
+    <!-- Sign in screen -->
+    <string name="btn_signin_sign">"دخول"</string>
     <string name="bt_signin_sign">"تسجيل دخول"</string>
     <string name="bt_signin_forgetpass">"نسيت كلمة المرور؟"</string>
     <string name="et_signin_usernameoremail"> "اسم المستخدم \ بريدك الإلكتروني"</string>
 
-<!--      Sign in screen -->
+    <!-- Sign in screen -->
     <string name="et_signup_key">"Enter Key"</string>
     <string name="txt_seen_by">"شاهدها"</string>
     <string name="txt_following">"تتابع"</string>
@@ -54,28 +55,25 @@
     <string name="Toast_article_found">"Failed to bring Article. Please try again."</string>
     <string name="Toast_member_found">"Failed to get Member. Please try again."</string>
     <string name="Toast_comments_txt">"Your comments have been posted."</string>
-<!--     memberscreen -->
- <string name="txt_interaction">"التفاعلات"</string>
+    <!-- memberscreen -->
+    <string name="txt_interaction">"التفاعلات"</string>
     <string name="back_string">"رجوع"</string>
     <string name="topbar_cat">"الأقسام"</string>
     <string name="topbar_new_article">"جديد المشاركات"</string>
     <string name="et_type_your_comment_here">"Type your comment here"</string>
     <!--
      Type your comment here
-     post within cat in screen
+     post within cat in screen
     -->
-  <string name="txt_make_up">"المكياج"</string>
+    <string name="txt_make_up">"المكياج"</string>
     <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>
     <string name="txt_comments">"تعليق"</string>
     <string name="txt_article">"Article"</string>
-    
-    <!--     memberscreen
- -->
-     <string name="txt_setting">"الإعدادات"</string>
-     <string name="txt_body_details">"معلومات جسمك"</string>
-     <string name="txt_signout">"تسجيل خروج"</string>
-     <string name="txt_general_settings">"الاعدادات العامه"</string>
-     
-     
+
+<!--      memberscreen -->
+    <string name="txt_setting">"الإعدادات"</string>
+    <string name="txt_body_details">"معلومات جسمك"</string>
+    <string name="txt_signout">"تسجيل خروج"</string>
+    <string name="txt_general_settings">"الاعدادات العامه"</string>
 
 </resources>

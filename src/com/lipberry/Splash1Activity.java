@@ -101,41 +101,50 @@ public class Splash1Activity extends Activity {
 	}
 	public void signin(){
 		if(Constants.isOnline(Splash1Activity.this)){
-			if  (!Constants.namecheck(username)) {
-				if(username.length()<3){
-					Toast.makeText(Splash1Activity.this, " Username  can't be less than 3 characcter",
-							10000).show();
-				}
-
-				else if(username.length()>10){
-					Toast.makeText(Splash1Activity.this, " Username  can't be more than 10 characcter",
-							10000).show();
-				}
-				else{
-					Toast.makeText(Splash1Activity.this, " Username  must  start with later and continue with" +
-							" only later,number and dashes ",
-							10000).show();
-				}
-
-			}
-
-			else if(password.trim().equals("")){
-				Toast.makeText(Splash1Activity.this, "Please enter password",
-						10000).show();
-			}
-			// TODO Auto-generated method stub
-			else{
+			if(Constants.isValidEmail(username)){
 				pd=ProgressDialog.show(Splash1Activity.this, "Lipberry",
 						"Signing in", true);
 				new  AsyncTaskLogin().execute();
+				
 			}
+			else{
+				if  (!Constants.namecheck(username)) {
+					 
 
+					if(username.length()<3){
+						Toast.makeText(Splash1Activity.this, " Username  can't be less than 3 characcter",
+								10000).show();
+					}
+
+					else if(username.length()>10){
+						Toast.makeText(Splash1Activity.this, " Username  can't be more than 10 characcter",
+								10000).show();
+						
+					}
+					else{
+						Toast.makeText(Splash1Activity.this, " Username  must  start with later and continue with " +
+								"only later,number and dashes ",
+								10000).show();
+					}
+				}
+
+				else if(password.trim().equals("")){
+					Toast.makeText(Splash1Activity.this, "Please enter password",
+							10000).show();
+				}
+				else{
+					pd=ProgressDialog.show(Splash1Activity.this, "Lipberry",
+							"Signing in", true);
+					new  AsyncTaskLogin().execute();
+					
+				}
+				
+			}
 		}
 
 		else{
 			Toast.makeText(Splash1Activity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
 		}
-
 	}
 
 

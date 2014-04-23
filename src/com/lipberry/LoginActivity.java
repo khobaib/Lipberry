@@ -79,42 +79,45 @@ public class LoginActivity extends Activity {
 	public void signin(){
 
 		if(Constants.isOnline(LoginActivity.this)){
-			
-			if  (!Constants.namecheck(username)) {
-
-				if(username.length()<3){
-					Toast.makeText(LoginActivity.this, " Username  can't be less than 3 characcter",
-							10000).show();
-				}
-
-				else if(username.length()>10){
-					Toast.makeText(LoginActivity.this, " Username  can't be more than 10 characcter",
-							10000).show();
-					if(Constants.isValidEmail(username)){
-						pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
-								"Signing in", true);
-						new  AsyncTaskLogin().execute();
-						
-					}
-				}
-				else{
-					Toast.makeText(LoginActivity.this, " Username  must  start with later and continue with " +
-							"only later,number and dashes ",
-							10000).show();
-				}
-			}
-
-			else if(password.trim().equals("")){
-				Toast.makeText(LoginActivity.this, "Please enter password",
-						10000).show();
-			}
-			else{
+			if(Constants.isValidEmail(username)){
 				pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
 						"Signing in", true);
 				new  AsyncTaskLogin().execute();
 				
 			}
+			else{
+				if  (!Constants.namecheck(username)) {
+					 
 
+					if(username.length()<3){
+						Toast.makeText(LoginActivity.this, " Username  can't be less than 3 characcter",
+								10000).show();
+					}
+
+					else if(username.length()>10){
+						Toast.makeText(LoginActivity.this, " Username  can't be more than 10 characcter",
+								10000).show();
+						
+					}
+					else{
+						Toast.makeText(LoginActivity.this, " Username  must  start with later and continue with " +
+								"only later,number and dashes ",
+								10000).show();
+					}
+				}
+
+				else if(password.trim().equals("")){
+					Toast.makeText(LoginActivity.this, "Please enter password",
+							10000).show();
+				}
+				else{
+					pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
+							"Signing in", true);
+					new  AsyncTaskLogin().execute();
+					
+				}
+				
+			}
 		}
 
 		else{

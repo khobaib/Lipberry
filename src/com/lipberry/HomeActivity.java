@@ -30,6 +30,7 @@ import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 
 import android.app.ActivityManager;
 import android.app.AlertDialog;
@@ -69,17 +70,17 @@ import android.widget.Toast;
 
 public class HomeActivity extends FragmentActivity {
 	public static Typeface tp;
-	
+
 	public  String photofromcamera;
 	public  FragmentTabHost mTabHost;
 	public  String drectory;
 	public  String drectorythumb;
 	private static final String LIST_STATE = "listState";
-	 private Parcelable mListState = null;
-		ProgressDialog pd;
+	private Parcelable mListState = null;
+	ProgressDialog pd;
 	public TextView text_notification_no_fromactivity;
 	public ImageView img_cat_icon;
-	
+
 	public TabFragment activeFragment;
 	FragmentWriteTopic writetopic;
 	public ViewGroup mTabsPlaceHoler;
@@ -87,29 +88,29 @@ public class HomeActivity extends FragmentActivity {
 	public ListView ProductList;
 	JsonParser jsonParser;
 	LipberryApplication appInstance;
-TextView text_notification_no;
+	TextView text_notification_no;
 	boolean galary;
 	public Button backbuttonoftab;
 	public TextView welcome_title;
-	
-//	
-//	 @Override
-//	    protected void onRestoreInstanceState(Bundle state) {
-//	        super.onRestoreInstanceState(state);
-//	        mListState = state.getParcelable(LIST_STATE);
-//	    }
-//	 
-//	 @Override
-//	    protected void onSaveInstanceState(Bundle state) {
-//	        super.onSaveInstanceState(state);
-//	        mListState = ProductList.onSaveInstanceState();
-//	        state.putParcelable(LIST_STATE, mListState);
-//	    }
-//	@Override
+
+	//	
+	//	 @Override
+	//	    protected void onRestoreInstanceState(Bundle state) {
+	//	        super.onRestoreInstanceState(state);
+	//	        mListState = state.getParcelable(LIST_STATE);
+	//	    }
+	//	 
+	//	 @Override
+	//	    protected void onSaveInstanceState(Bundle state) {
+	//	        super.onSaveInstanceState(state);
+	//	        mListState = ProductList.onSaveInstanceState();
+	//	        state.putParcelable(LIST_STATE, mListState);
+	//	    }
+	//	@Override
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		writetopic=new FragmentWriteTopic();
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jsonParser=new JsonParser();
@@ -119,7 +120,7 @@ TextView text_notification_no;
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
-		
+		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
 		setTabs();
 		mTabHost.setCurrentTab(4);
 
@@ -139,111 +140,111 @@ TextView text_notification_no;
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c) {
-		
-		
-	
-	//	if(labelId!="Inbox"){
-			FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-			View tabIndicator = LayoutInflater.from(this).inflate(
-					R.layout.tab_indicator, mTabsPlaceHoler, false);
-			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-			text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
 
-			
-			
-			
-			if(labelId.equals("Interaction")){
 
-				text_notification_no_fromactivity=text_notification_no;
-				text_notification_no_fromactivity.setVisibility(View.GONE);
-				getnotificationcount();
 
-			}
-			else{
-				text_notification_no.setVisibility(View.GONE);
-			}
-			icon.setImageResource(drawableId);
-			spec.setIndicator(tabIndicator);
+		//	if(labelId!="Inbox"){
+		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
+		View tabIndicator = LayoutInflater.from(this).inflate(
+				R.layout.tab_indicator, mTabsPlaceHoler, false);
+		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
+		text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
+
+
+
+
+		if(labelId.equals("Interaction")){
+
+			text_notification_no_fromactivity=text_notification_no;
+			text_notification_no_fromactivity.setVisibility(View.GONE);
+			getnotificationcount();
+
+		}
+		else{
+			text_notification_no.setVisibility(View.GONE);
+		}
+		icon.setImageResource(drawableId);
+		spec.setIndicator(tabIndicator);
 		//	spec.setContent(intent)
 		//	mTabHost.addTab(spec, c, null);
-			
-//			if(labelId!="Inbox"){
-				spec.setIndicator(tabIndicator);
-				//	spec.setContent(intent)
-					mTabHost.addTab(spec, c, null);
-//			}
-//			else{
-//				Intent intent = new Intent().setClass(HomeActivity.this, LoginActivity.class);
-//				// LocalActivityManager mLocalActivityManager = new LocalActivityManager(HomeActivity.this, false);
-//				 //FragmentManager actvityManager = (ActivityManager) this.getSystemService( ACTIVITY_SERVICE );
-//			
-//					 mTabHost.setup(this,null ,
-//								android.R.id.tabcontent);
-//				spec.setContent(intent);
-//				mTabHost.addTab(spec);
-//			}
-//	//	}
-//		//04-11 19:12:03.771: E/AndroidRuntime(17512): 	at 
 
-//	/*	else{
-//			/*
-//			
-//			FragmentTabHost.TabSpec spec = mTabHost
-//					.newTabSpec(labelId)
-//					.setIndicator("Videos",
-//							getResources().getDrawable(R.drawable.linbox))
-//							.setContent(intent);*/
-//			
-//			//tabHost.addTab(spec);
-//			
-//			
-//			Intent intent = new Intent().setClass(this, FragmentInbox.class);
-//		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-//			View tabIndicator = LayoutInflater.from(this).inflate(
-//					R.layout.tab_indicator, mTabsPlaceHoler, false);
-//			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-//			text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
-//			text_notification_no.setVisibility(View.GONE);
-//			icon.setImageResource(drawableId);
-//			spec.setIndicator(tabIndicator);
-//			//spec.setContent(intent);
-//			mTabHost.addTab(spec, c, null);
-//		//	mTabHost.addt
-//		//	mTabHost.addTab(spec);
-//			//mTabHost.addTab(tabSpec)
-//
-//		}*/
-		
-	
+		//			if(labelId!="Inbox"){
+		spec.setIndicator(tabIndicator);
+		//	spec.setContent(intent)
+		mTabHost.addTab(spec, c, null);
+		//			}
+		//			else{
+		//				Intent intent = new Intent().setClass(HomeActivity.this, LoginActivity.class);
+		//				// LocalActivityManager mLocalActivityManager = new LocalActivityManager(HomeActivity.this, false);
+		//				 //FragmentManager actvityManager = (ActivityManager) this.getSystemService( ACTIVITY_SERVICE );
+		//			
+		//					 mTabHost.setup(this,null ,
+		//								android.R.id.tabcontent);
+		//				spec.setContent(intent);
+		//				mTabHost.addTab(spec);
+		//			}
+		//	//	}
+		//		//04-11 19:12:03.771: E/AndroidRuntime(17512): 	at 
+
+		//	/*	else{
+		//			/*
+		//			
+		//			FragmentTabHost.TabSpec spec = mTabHost
+		//					.newTabSpec(labelId)
+		//					.setIndicator("Videos",
+		//							getResources().getDrawable(R.drawable.linbox))
+		//							.setContent(intent);*/
+		//			
+		//			//tabHost.addTab(spec);
+		//			
+		//			
+		//			Intent intent = new Intent().setClass(this, FragmentInbox.class);
+		//		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
+		//			View tabIndicator = LayoutInflater.from(this).inflate(
+		//					R.layout.tab_indicator, mTabsPlaceHoler, false);
+		//			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
+		//			text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
+		//			text_notification_no.setVisibility(View.GONE);
+		//			icon.setImageResource(drawableId);
+		//			spec.setIndicator(tabIndicator);
+		//			//spec.setContent(intent);
+		//			mTabHost.addTab(spec, c, null);
+		//		//	mTabHost.addt
+		//		//	mTabHost.addTab(spec);
+		//			//mTabHost.addTab(tabSpec)
+		//
+		//		}*/
+
+
 
 	}
-	
+
 	public void getnotificationcount(){
-		
-				if(Constants.isOnline(HomeActivity.this)){
-					new AsyncTaskGetNotificationCount().execute();
-				}
-				else{
-					Toast.makeText(HomeActivity.this, getResources().getString(R.string.Toast_check_internet),
-							Toast.LENGTH_SHORT).show();
-				}
-				
+
+		if(Constants.isOnline(HomeActivity.this)){
+			new AsyncTaskGetNotificationCount().execute();
+		}
+		else{
+			Toast.makeText(HomeActivity.this, getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+
 	}
-	
-	
-	
+
+
+
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 	}
-	
+
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
@@ -323,17 +324,17 @@ TextView text_notification_no;
 					Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					startActivityForResult(intent, 3);
 
-						
-					
-				//	Intent intent = new Intent(Intent.ACTION_PICK);
+
+
+					//	Intent intent = new Intent(Intent.ACTION_PICK);
 					//intent.setType("image/*");
 					// intent.setAction(Intent.ACTION_GET_CONTENT);
 					// Intent intent = new Intent(Intent.ACTION_PICK,
 					// android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					// startActivityForResult(Intent.createChooser(intent,
 					//  TODO "Select Picture"),
-				//	startActivityForResult(intent, 3);
-					
+					//	startActivityForResult(intent, 3);
+
 				}
 				else if (options[item].equals("Cancel")) {
 					dialog.dismiss();
@@ -343,16 +344,16 @@ TextView text_notification_no;
 		builder.show();
 
 	}
-//04-11 15:34:23.314: E/AndroidRuntime(19338): java.lang.RuntimeException: Unable to resume activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=3, result=-1, data=Intent { dat=content://media/external/images/media/484 }} to activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.NullPointerException
+	//04-11 15:34:23.314: E/AndroidRuntime(19338): java.lang.RuntimeException: Unable to resume activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=3, result=-1, data=Intent { dat=content://media/external/images/media/484 }} to activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.NullPointerException
 
 
 	//04-08 16:49:31.972: E/AndroidRuntime(13691): Caused by: java.lang.RuntimeException: 
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-	super.onActivityResult(requestCode, resultCode, data);
-			drectory=Constants.drectory;
-			photofromcamera=Constants.photofromcamera;
+		super.onActivityResult(requestCode, resultCode, data);
+		drectory=Constants.drectory;
+		photofromcamera=Constants.photofromcamera;
 
 		Log.e("error", ""+requestCode+" "+RESULT_OK);
 		if (resultCode == RESULT_OK) {
@@ -361,47 +362,47 @@ TextView text_notification_no;
 				{
 
 					String filepath = drectory+"/"+photofromcamera;
-					
+
 					File file=new File(filepath);
 
 					if(file.exists()){
 						ImageScale scaleimage=new ImageScale();
 						Bitmap photo = scaleimage.decodeImagetoUpload(file.getAbsolutePath());
-					Log.e("bitmap ", ""+photo.getHeight()+"   "+photo.getWidth());
-					Bitmap p=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/6,true);
+						Log.e("bitmap ", ""+photo.getHeight()+"   "+photo.getWidth());
+						Bitmap p=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/6,true);
 						file.delete();
 						ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 						photo.compress(Bitmap.CompressFormat.PNG, 80, bytes);
-						
-						
+
+
 						File f = new File(filepath);
 						f.createNewFile();
 						FileOutputStream fo = new FileOutputStream(f);
 						fo.write(bytes.toByteArray());
 						fo.close();
-						
-						
+
+
 						String thumnilpath=drectorythumb+"/"+photofromcamera;
 						Log.e("path", thumnilpath);
-					//	photo=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/600,true);
+						//	photo=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/600,true);
 						Log.e("path", "a  "+ p);
 						bytes = new ByteArrayOutputStream();
-						 p.compress(Bitmap.CompressFormat.PNG, 80, bytes);
-						
+						p.compress(Bitmap.CompressFormat.PNG, 80, bytes);
+
 						File filethumb = new File(thumnilpath);
 						filethumb.createNewFile();
 						FileOutputStream fothumb = new FileOutputStream(filethumb);
 						fothumb.write(bytes.toByteArray());
 						fothumb.close();
-						
-					
+
+
 					}
 
 				}
-			catch(Exception e)
+				catch(Exception e)
 				{
 					Log.e("Could not save", e.toString());
-			}
+				}
 			}
 
 
@@ -411,10 +412,10 @@ TextView text_notification_no;
 					File data1 = Environment.getDataDirectory();
 
 					if (sd.canWrite()) {
-					Uri selectedImage = data.getData();
-					String[] filePath = { MediaStore.Images.Media.DATA };
-					Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
-					c.moveToFirst();
+						Uri selectedImage = data.getData();
+						String[] filePath = { MediaStore.Images.Media.DATA };
+						Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+						c.moveToFirst();
 						int columnIndex = c.getColumnIndex(filePath[0]);
 						String picturePath = c.getString(columnIndex);
 						c.close();
@@ -422,7 +423,7 @@ TextView text_notification_no;
 						File source= new File(picturePath);
 						File destination= new File(dn,photofromcamera);
 						FileChannel src = new FileInputStream(source).getChannel();
-					FileChannel dst = new FileOutputStream(destination).getChannel();
+						FileChannel dst = new FileOutputStream(destination).getChannel();
 						dst.transferFrom(src, 0, src.size());
 
 						src.close();
@@ -433,8 +434,8 @@ TextView text_notification_no;
 						if(file.exists()){
 							ImageScale scaleimage=new ImageScale();
 							Bitmap photo = scaleimage.decodeImagetoUpload(file.getAbsolutePath());
-						Log.e("bitmap ", ""+photo.getHeight()+"   "+photo.getWidth());
-						
+							Log.e("bitmap ", ""+photo.getHeight()+"   "+photo.getWidth());
+
 							file.delete();
 							ByteArrayOutputStream bytes = new ByteArrayOutputStream();
 							photo.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -443,8 +444,8 @@ TextView text_notification_no;
 							FileOutputStream fo = new FileOutputStream(f);
 							fo.write(bytes.toByteArray());
 							fo.close();
-							
-							
+
+
 							String thumnilpath=drectorythumb+"/"+photofromcamera;
 							photo=Bitmap.createScaledBitmap(photo, photo.getWidth()/6, photo.getHeight()/6,false);
 							bytes = new ByteArrayOutputStream();
@@ -475,7 +476,7 @@ TextView text_notification_no;
 			}
 		}
 		else{
-			
+
 			Toast.makeText(HomeActivity.this,"Failed to select an image",
 					Toast.LENGTH_SHORT).show();
 		}
@@ -536,7 +537,7 @@ TextView text_notification_no;
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("count", result.getjObj().toString());
-			
+
 			if(Constants.isOnline(HomeActivity.this)){
 				ScheduledExecutorService scheduler =
 						Executors.newSingleThreadScheduledExecutor();
@@ -573,7 +574,7 @@ TextView text_notification_no;
 			}
 		}
 	}
-	
+
 
 	public void runonUI(){
 		HomeActivity.this.runOnUiThread(new Runnable(){

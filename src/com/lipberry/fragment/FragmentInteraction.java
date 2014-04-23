@@ -76,7 +76,7 @@ public class FragmentInteraction extends Fragment {
 					"Please wait", true);
 			new AsyncTaskGetNotification().execute();
 			if(Constants.notificationcount>0){
-//			new AsyncTasksetNotificationToggle().execute();
+			new AsyncTasksetNotificationToggle().execute();
 			}
 			
 				
