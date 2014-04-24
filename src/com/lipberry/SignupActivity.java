@@ -18,6 +18,7 @@ import com.lipberry.model.Country;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
+import com.lipberry.utility.Utility;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -95,6 +96,7 @@ public class SignupActivity extends Activity {
 		e_password=(EditText) findViewById(R.id.e_password);
 		e_confirmpass=(EditText) findViewById(R.id.e_confirmpass);
 		t_city=(TextView) findViewById(R.id.t_city);
+		b_register.setTypeface(Utility.getTypeface1(SignupActivity.this));
 		if(Constants.isOnline(SignupActivity.this)){
 
 			pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
@@ -312,7 +314,7 @@ public class SignupActivity extends Activity {
 		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
 				adapter2, R.drawable.contact_spinner_row_nothing_selected_city, this));
 		s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
-
+			
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
 				selectedcityposition=position-1;

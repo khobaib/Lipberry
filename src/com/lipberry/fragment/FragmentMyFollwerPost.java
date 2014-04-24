@@ -68,7 +68,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	ArticleList articlelistinstance;
 	JsonParser jsonParser;
 	int startindex=0;
-	int endindex=2;
+	int endindex=10;
 	Activity activity;
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;

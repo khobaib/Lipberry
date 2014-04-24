@@ -75,14 +75,12 @@ public class FragmentMyCountriesPost extends Fragment {
 	
 	JsonParser jsonParser;
 	Activity activity;
-	
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;
-	
 	ArrayList<Article>articlaList;
 	ArticleList articlelistinstance;
 	int startindex=0;
-	int endindex=2;
+	int endindex=10;
 	
 	ArticleFromMyFollwing postofmycountries;
 	ArrayList<LikeMember>limemberlist;
@@ -149,9 +147,6 @@ public class FragmentMyCountriesPost extends Fragment {
 				}
 			}
 		});
-
-
-
 		if(Constants.isOnline(activity)){
 			if(articlaList.size()>0){
 				loadlistview(true);

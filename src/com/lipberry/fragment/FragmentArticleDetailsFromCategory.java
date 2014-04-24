@@ -540,10 +540,10 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
-			btn_follow_her.setBackgroundColor(android.R.color.transparent);
+			
 		}
 		else{
-			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follower));
+			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
 		}
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 

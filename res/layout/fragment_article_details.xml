@@ -20,14 +20,13 @@
             android:orientation="vertical" >
 
             <RelativeLayout
-                
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" >
 
                 <RelativeLayout
                     android:id="@+id/re_top"
                     android:layout_width="match_parent"
-        			android:layout_height="65dp"
+                    android:layout_height="65dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:background="#ffffff"
@@ -36,13 +35,13 @@
                     <ImageView
                         android:id="@+id/img_pro_pic"
                         android:layout_width="65dp"
-            			android:layout_height="65dp"
+                        android:layout_height="65dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentStart="true"
-                           android:padding="1.5dp"
+                        android:background="@color/gray70"
+                        android:padding="1.5dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_launcher"
-                        android:background="@color/gray70" />
+                        android:src="@drawable/ic_launcher" />
 
                     <TextView
                         android:id="@+id/text_user_name"
@@ -67,10 +66,10 @@
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/img_pro_pic"
                         android:layout_toRightOf="@+id/btn_follow_her"
-                        android:visibility="gone"
                         android:gravity="right"
                         android:textColor="#000000"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/btn_follow_her"
@@ -79,11 +78,10 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
-                        android:background="@drawable/rounded_follow_btn"
+                        android:background="@android:color/transparent"
                         android:gravity="center"
                         android:padding="1dp"
-                       
-                        android:text="@string/txt_follow_her" />
+                        android:textSize="20dp" />
 
                     <Button
                         android:id="@+id/visit"
@@ -111,9 +109,8 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:layout_marginTop="5dp"
-                        android:scaleType="fitXY"
                         android:background="@drawable/noimage"
-                        />
+                        android:scaleType="fitXY" />
 
                     <ListView
                         android:id="@+id/lst_imag"
@@ -121,7 +118,6 @@
                         android:layout_height="250dp"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="10dp"
-                     
                         android:layout_marginTop="10dp"
                         android:background="@android:color/transparent" >
                     </ListView>
@@ -134,8 +130,7 @@
                         android:layout_below="@+id/img_article"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/lback"
-                        android:text="@string/txt_photo_album" />
+                        android:background="@drawable/lbtn_photo_album" />
 
                     <ImageView
                         android:id="@+id/play_vedio"
@@ -183,10 +178,8 @@
                     android:layout_below="@+id/text_topic_text"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="5dp"
-                    android:padding="3dp"
-                    android:background="@drawable/lreport_button"
-                    android:onClick="callreport"
-                    android:text="أبلغ عن اساءة" />
+                    android:background="@drawable/lbtn_reportabuse"
+                   android:padding="3dp" />
 
                 <RelativeLayout
                     android:id="@+id/re_like_holder"
@@ -272,8 +265,8 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
-                        android:paddingLeft="10dp"
                         android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
                         android:text="60 comments"
                         android:textColor="#000000"
                         android:textSize="17dp" />

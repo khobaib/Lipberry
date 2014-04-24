@@ -55,8 +55,8 @@ import com.lipberry.utility.Utility;
 @SuppressLint("NewApi")
 public class FragmentSubCategoriesList extends ListFragment {
 	String url;
-	int startindex=3;
-	int endindex=4;
+	int startindex=11;
+	int endindex=12;
 	ProgressDialog pd;
 	private int index = -1;
     private int top = 0;

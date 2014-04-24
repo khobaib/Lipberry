@@ -15,6 +15,7 @@ import com.lipberry.model.UserCred;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,6 +32,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -42,6 +44,7 @@ public class Splash2Activity extends Activity {
 	String username,password,email;
 	JsonParser jsonParser;
 	ProgressDialog pd;
+	TextView txt_title;
 	LipberryApplication appInstance;
 	boolean system_notification,weekly_newsletter,direct_msz_mail,allow_direct_msz,stop_push_new_message;
 	@Override
@@ -50,6 +53,8 @@ public class Splash2Activity extends Activity {
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.splash2);
+		txt_title=(TextView) findViewById(R.id.txt_title);
+		txt_title.setTypeface(Utility.getTypeface1(Splash2Activity.this));
 //		Handler handler=new Handler();
 //		handler.postDelayed(new Runnable() {
 //

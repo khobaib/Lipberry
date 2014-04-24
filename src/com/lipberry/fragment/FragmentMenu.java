@@ -79,7 +79,7 @@ public class FragmentMenu extends Fragment {
 					long arg3) {
 				switch (position) {
 				case 0:
-
+						((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 					break;
 				case 1:
 					parent.startFragmentSetting();
@@ -88,7 +88,7 @@ public class FragmentMenu extends Fragment {
 
 					break;
 				case 3:
-
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(0);
 					break;
 				case 4:
 

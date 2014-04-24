@@ -282,8 +282,7 @@
                         android:layout_height="55dp"
                         android:gravity="center" 
                         android:background="@drawable/rounded_edittext"
-                        android:paddingRight="50dp"
-                        android:paddingLeft="50dp"
+                       
                         android:visibility="gone" />
 
                     <TextView
