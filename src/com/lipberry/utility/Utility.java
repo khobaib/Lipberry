@@ -1,5 +1,9 @@
 package com.lipberry.utility;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import com.lipberry.html.AppUtil;
@@ -19,6 +23,72 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class Utility {
+	public static String getFormattedTime(String dateTime) {
+		if (dateTime == null)
+			return null;
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat(
+				"yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		try {
+			date = dateFormat.parse(dateTime);
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			long millis = c.getTimeInMillis();
+			if (isToday(millis)) {
+				return formatTOdayTime(millis);
+			} 
+			else if (getDaysago(millis)<3){
+				if(getDaysago(millis)==1)return "yesterday";
+				return getDaysago(millis)+" days ago";
+			}
+			
+			else {
+				return "more than 3 days ago";
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+	public static int getDaysago(long millis) {
+		Calendar today = Calendar.getInstance();
+		today = clearTimes(today);
+		
+		float daysago=((today.getTimeInMillis()-millis)/(24*60*60*1000));
+		int dayagoinint=(int) daysago;
+		if(daysago>(float)dayagoinint){
+			dayagoinint++;
+		}
+
+		return dayagoinint;
+	}
+	public static String formatTOdayTime(long millis) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(millis);
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm a");
+		dateFormat.setCalendar(cal);
+		return dateFormat.format(cal.getTime());
+	}
+	public static Boolean isToday(long millis) {
+		Calendar today = Calendar.getInstance();
+		today = clearTimes(today);
+
+		if (millis > today.getTimeInMillis())
+			return true;
+		return false;
+	}
+	
+	private static Calendar clearTimes(Calendar c) {
+		c.set(Calendar.HOUR_OF_DAY, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c;
+	}
+
 	
     public static Typeface getTypeface1(Activity activity){
     	Typeface tp = Typeface.createFromAsset(activity.getAssets(), "InsanBold.ttf");

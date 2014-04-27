@@ -9,6 +9,7 @@ import java.util.List;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.fragment.FragmentInbox;
+import com.lipberry.fragment.FragmentSentMessage;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.Notifications;
@@ -51,13 +52,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomAdapterForIInboxMessage extends BaseAdapter {
+public class CustomAdapterForISentMessage extends BaseAdapter {
 	ArrayList<InboxMessage> list;
 	Activity activity;
-	FragmentInbox inbox;
+	FragmentSentMessage inbox;
 	ImageLoader imageLoader;
-	public CustomAdapterForIInboxMessage(Activity activity,
-			ArrayList<InboxMessage> list,FragmentInbox inbox) {
+	public CustomAdapterForISentMessage(Activity activity,
+			ArrayList<InboxMessage> list,FragmentSentMessage inbox) {
 		super();
 		this.list=list;
 		this.activity=activity;
@@ -140,10 +141,8 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
 		showtext.updateImages(true,list.get(position).getMessage());
-		
-		holder.text_name.setText(list.get(position).getFrom_nickname());
+		holder.text_name.setText(list.get(position).getTo_nickname());
 		holder.text_name.setTypeface(Utility.getTypeface1(activity));
-		
 		return convertView;
 	}
 }

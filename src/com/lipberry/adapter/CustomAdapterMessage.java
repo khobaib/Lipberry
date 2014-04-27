@@ -8,10 +8,12 @@ import java.util.List;
 
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
-import com.lipberry.fragment.FragmentInbox;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.Notifications;
+import com.lipberry.model.TndividualThreadMessage;
+import com.lipberry.utility.Constants;
+import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -44,24 +46,23 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebView.FindListener;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomAdapterForIInboxMessage extends BaseAdapter {
-	ArrayList<InboxMessage> list;
+public class CustomAdapterMessage extends BaseAdapter {
+	ArrayList<TndividualThreadMessage>list;
 	Activity activity;
-	FragmentInbox inbox;
 	ImageLoader imageLoader;
-	public CustomAdapterForIInboxMessage(Activity activity,
-			ArrayList<InboxMessage> list,FragmentInbox inbox) {
+	LipberryApplication appInstance;
+	public CustomAdapterMessage(Activity activity,
+		ArrayList<TndividualThreadMessage>list) {
 		super();
 		this.list=list;
 		this.activity=activity;
-		this.inbox=inbox;
+		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
@@ -90,9 +91,9 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 		return 0;
 	}
 	private class ViewHolder {
-		ImageView img_pro_pic;
+		ImageView iv_pic,iv_pic_own;
 		RelativeLayout re_top;
-		TextView text_name,text_msz,text_time;
+		TextView tv_name,tv_timestamp,tv_conv_desc;
 	}
 
 	@Override
@@ -100,50 +101,42 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 		ViewHolder holder;
 		LayoutInflater inflater = activity.getLayoutInflater();
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.inbox_inflate,
+			convertView = inflater.inflate(R.layout.row_conversation,
 					null);
 			holder = new ViewHolder();
 			holder.re_top=(RelativeLayout) convertView.findViewById(R.id.re_top);
-			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
-			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
-			holder.text_name=(TextView) convertView.findViewById(R.id.text_name);
-			holder.text_time=(TextView) convertView.findViewById(R.id.text_time);
-			
+			holder.iv_pic=(ImageView) convertView.findViewById(R.id.iv_pic);
+			holder.iv_pic_own=(ImageView) convertView.findViewById(R.id.iv_pic_own);
+			holder.tv_name=(TextView) convertView.findViewById(R.id.tv_name);
+			holder.tv_timestamp=(TextView) convertView.findViewById(R.id.tv_timestamp);
+			holder.tv_conv_desc=(TextView) convertView.findViewById(R.id.tv_conv_desc);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		convertView.setOnClickListener(new OnClickListener() {
 
-             @Override
-             public void onClick(View arg0) {
-                inbox.loadthreadmessage(position) ;   
-               
-               }
-         });
-//		if(list.get(position).getFrom_avatar()==null){
-//		}
-//		else{
-//			imageLoader.displayImage(list.get(position).getFrom_avatar(),holder.img_pro_pic);
-//		}
-		if(list.get(position).getRead_flag().equals("0")){
-			holder.text_msz.setTextColor(Color.parseColor("#ffffff"));
-			holder.text_time.setTextColor(Color.parseColor("#ffffff"));
-			holder.re_top.setBackgroundColor(Color.parseColor("#F0E68C"));
-		}else{
-			holder.text_msz.setTextColor(Color.parseColor("#000000"));
-			holder.text_time.setTextColor(Color.parseColor("#000000"));
-			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
+		if(list.get(position).getFrom_id().equals(appInstance.getUserCred().getId())){
+			holder.iv_pic.setVisibility(View.GONE);
+			holder.iv_pic_own.setVisibility(View.VISIBLE);
+			holder.tv_conv_desc.setBackgroundResource(R.drawable.blue);
 		}
-		holder.text_msz.setText(list.get(position).getMessage());
-		holder.text_msz.setTypeface(Utility.getTypeface1(activity));
-		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());
-		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
+		else{
+			holder.iv_pic_own.setVisibility(View.GONE);
+			holder.iv_pic.setVisibility(View.VISIBLE);
+			holder.tv_conv_desc.setBackgroundResource(R.drawable.yellow);
+		}
+		
+		holder.tv_name.setText(list.get(position).getFrom_nickname());
+		holder.tv_timestamp.setText(Utility.getFormattedTime(list.get(position).getCreated_at()));
+		holder.tv_conv_desc.setText(list.get(position).getMessage());
+		holder.tv_name.setTypeface(Utility.getTypeface1(activity));
+		holder.tv_timestamp.setTypeface(Utility.getTypeface1(activity));
+		holder.tv_conv_desc.setTypeface(Utility.getTypeface1(activity));
+		holder.tv_name.setTypeface(Utility.getTypeface1(activity));
+		holder.tv_timestamp.setTypeface(Utility.getTypeface1(activity));
+		holder.tv_conv_desc.setMovementMethod(LinkMovementMethod.getInstance());
+		ShowHtmlText showtext=new ShowHtmlText(holder.tv_conv_desc,activity);
 		showtext.updateImages(true,list.get(position).getMessage());
-		
-		holder.text_name.setText(list.get(position).getFrom_nickname());
-		holder.text_name.setTypeface(Utility.getTypeface1(activity));
-		
 		return convertView;
 	}
 }

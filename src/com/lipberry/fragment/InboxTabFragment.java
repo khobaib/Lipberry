@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.model.ThreadMessageList;
 
 
 
@@ -54,9 +55,32 @@ public class InboxTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
+	
+	public void startMessagefragment(ThreadMessageList messagelist,String messageid) {
+		FragmentMessage newFragment = new FragmentMessage(messagelist,messageid);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 
-	public void startMenufragment() {
+	public void startInboxfragment() {
 		FragmentInbox newFragment = new FragmentInbox();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	public void startFragmentNewMessage() {
+		FragmentSentMessage newFragment = new FragmentSentMessage();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

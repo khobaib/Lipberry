@@ -35,10 +35,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -49,6 +51,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.CustomAdapterForIInboxMessage;
+import com.lipberry.adapter.CustomAdapterMessage;
 import com.lipberry.model.Article;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.InboxMessgaeList;
@@ -56,10 +59,11 @@ import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.ThreadMessageList;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
-@SuppressLint("NewApi")
-public class FragmentInbox extends Fragment{
+@SuppressLint({ "NewApi", "ValidFragment" })
+public class FragmentMessage extends Fragment{
 	int threadposition;
 	InboxTabFragment parent;
 	ProgressDialog pd;
@@ -69,15 +73,24 @@ public class FragmentInbox extends Fragment{
 	private ArrayAdapter<String> mAdapter;
 	RelativeLayout re_sent_msz,re_new_msz,re_setting;
 	CustomAdapterForIInboxMessage adapter;
-	public static boolean oncreatecalledstate=false;
+	String messageid;
+	boolean oncreatecalledstate=false;
 	JsonParser jsonParser;
 	ListView actualListView;
 	int screenmessagestate=0;
 	LipberryApplication appInstance;
 	ArrayList<InboxMessage>inboxlist;
 	PullToRefreshListView list_view_inbox;
-	ListView listviewforinbbox;
+	ListView lv_thread_messages;
+	Button b_reply,b_delete;
+	String replymessage;
+	EditText et_msg_body;
 	@SuppressLint("NewApi")
+
+	public FragmentMessage(ThreadMessageList messagelist,String messageid){
+		this.messagelist=messagelist;
+		this.messageid=messageid;
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,38 +104,36 @@ public class FragmentInbox extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_inbox,
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.thread_message,
 				container, false);
-		re_setting=(RelativeLayout) v.findViewById(R.id.re_setting);
-		list_view_inbox=(PullToRefreshListView) v.findViewById(R.id.list_view_inbox);
-		listviewforinbbox=list_view_inbox.getRefreshableView();
-		actualListView = list_view_inbox.getRefreshableView();
-		re_sent_msz=(RelativeLayout) v.findViewById(R.id.re_sent_msz);
-		registerForContextMenu(actualListView);
-		registerForContextMenu(listviewforinbbox);
-		re_sent_msz.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				parent.startFragmentNewMessage();
+		lv_thread_messages=(ListView) v.findViewById(R.id.lv_thread_messages);
+		CustomAdapterMessage adapter=new CustomAdapterMessage(getActivity(), messagelist.getIndividualThreadlist());
+		lv_thread_messages.setAdapter(adapter);
+		b_reply=(Button) v.findViewById(R.id.b_reply);
+		b_delete=(Button) v.findViewById(R.id.b_delete);
+		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
+		
+		if(Constants.isOnline(getActivity())){
+			if(messagelist.getIndividualThreadlist().get(0).equals("0")){
+				pd=ProgressDialog.show(getActivity(), "Lipberry",
+						"Please Wait", true);
+				new AsyncTaskSetasReadMessage().execute();
 			}
-		});
-		re_setting.setOnClickListener(new OnClickListener() {
+				
+		}
+		b_reply.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				((HomeActivity)getActivity()).mTabHost.setCurrentTab(5);
-			}
-		});
-		list_view_inbox.setOnRefreshListener(new OnRefreshListener<ListView>() {
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				replymessage=et_msg_body.getText().toString();
 				if(Constants.isOnline(getActivity())){
-					//					pd=ProgressDialog.show(getActivity(), "Lipberry",
-					//							"Retreving more Post", true);
-					new AsyncTaskRefreshMessage().execute();
+					if(!replymessage.equalsIgnoreCase("")){
+						pd=ProgressDialog.show(getActivity(), "Lipberry",
+								"Please Wait", true);
+						new AsyncTaskReplyMessage().execute();
+					}
+
 				}
 				else{
 					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
@@ -130,100 +141,62 @@ public class FragmentInbox extends Fragment{
 				}
 			}
 		});
-		if(oncreatecalledstate){
-			if(Constants.isOnline(getActivity())){
-				startindex=0;
-				endex=10;
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Please wait", true);
-				new AsyncTaskGetMessage().execute();
+		b_delete.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				
+				if(Constants.isOnline(getActivity())){
+					
+						pd=ProgressDialog.show(getActivity(), "Lipberry",
+								"Please Wait", true);
+						new AsyncTaskDeleteMessage().execute();
+				
+
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
 			}
-			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-						Toast.LENGTH_SHORT).show();
-			}
-		}
-		else{
-			if(inboxlist.size()>0){
-				LoadListView();
-			}
-		}
-		oncreatecalledstate=false;
+		});
 		return v;
 	}
-
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				parent.onBackPressed();
+			}
+		});
 	}
-	private class AsyncTaskGetMessage extends AsyncTask<Void, Void, ServerResponse> {
+
+	private class AsyncTaskReplyMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("startIndex",""+startindex);
-				loginObj.put("endIndex",""+endex);
-				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"inbox/inbox/";
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-						loginData, null);
-				return response;
-			} catch (JSONException e) {                
-				e.printStackTrace();
-				return null;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(ServerResponse result) {
-			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
-				pd.dismiss();
-			}
-			JSONObject job=result.getjObj();
-
-			try {
-				String status=job.getString("status");
-				if(status.equals("success")){
-					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					inboxlist=messagelist.getinboxlist();
-					if(inboxlist.size()>0){
-						startindex=endex+1;
-						endex=endex+6;
-						LoadListView();
-					}
-					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
-					}
-
+				loginObj.put("message",replymessage);
+				String toid;
+				if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equalsIgnoreCase(appInstance.getUserCred().getId())){
+					toid=messagelist.getIndividualThreadlist().get(0).getTo_id();
 				}
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
 				}
-
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
-		@Override
-		protected ServerResponse doInBackground(Void... params) {
-
-			try {
-				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("startIndex",""+startindex);
-				loginObj.put("endIndex",""+endex);
+//				byte[] ba =toid.getBytes();
+//				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("tomember",toid);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"inbox/inbox/";
+				
+				String url =Constants.baseurl+"inbox/replyTo/"+messagelist.getIndividualThreadlist().get(0).getId();
 
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
@@ -247,17 +220,15 @@ public class FragmentInbox extends Fragment{
 				String status=job.getString("status");
 				if(status.equals("success")){
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					if(messagelist.getinboxlist().size()>0){
-						inboxlist.addAll(messagelist.getinboxlist());
-						startindex=endex+1;
-						endex=endex+6;
-						adapter.notifyDataSetChanged();
-
-					}
-					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
-					}
-					list_view_inbox.onRefreshComplete();
+					Toast.makeText(getActivity(),"Message is sent", Toast.LENGTH_SHORT).show();
+					parent.onBackPressed();
+//					if(messagelist.getinboxlist().size()>0){
+//						
+//					}
+//					else{
+//						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+//					}
+//					list_view_inbox.onRefreshComplete();
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -269,61 +240,32 @@ public class FragmentInbox extends Fragment{
 			}
 		}
 	}
-	public void LoadListView(){
-		LinkedList<String> mListItems = new LinkedList<String>();
-		mListItems.add("dhjfgg");
-		mListItems.add("dhjfgg");
-		adapter=new CustomAdapterForIInboxMessage(getActivity(), inboxlist,FragmentInbox.this);
-		actualListView.setAdapter(adapter);
-
-		//		actualListView.setOnItemClickListener(new OnItemClickListener() {
-		//
-		//			@Override
-		//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-		//					long arg3) {
-		//				// TODO Auto-generated method stub
-		//				Toast.makeText(getActivity(), "10000", 1000).show();
-		//
-		//			}
-		//		});
-
-
-	}
-
-
-	//	public void onitemclickclicked(int position){
-	//		Toast.makeText(getActivity(), ""+position, 1000).show();
-	//	}
-
-	public void loadthreadmessage(int position){
-		if(Constants.isOnline(getActivity())){
-
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Please wait", true);
-			LoadThreadMessage individualmessage=new LoadThreadMessage(position); 
-			individualmessage.execute();
-		}
-		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
-		int position;
-		public  LoadThreadMessage(int postion){
-			this.position=postion;
-		}
+	
+	
+	
+	private class AsyncTaskDeleteMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+//				loginObj.put("message",replymessage);
+//				String toid;
+//				if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equalsIgnoreCase(appInstance.getUserCred().getId())){
+//					toid=messagelist.getIndividualThreadlist().get(0).getTo_id();
+//				}
+//				else{
+//					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
+//				}
+////				byte[] ba =toid.getBytes();
+////				String base64Str = Base64.encodeBytes(ba);
+//				loginObj.put("tomember",toid);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"inbox/inbox/";
+//				
+				String url =Constants.baseurl+"inbox/deletemessage/"+messageid;
 
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, inboxlist.get(position).getMessage_url(), null,
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
 			} catch (JSONException e) {                
@@ -344,15 +286,17 @@ public class FragmentInbox extends Fragment{
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
-					messagelist=ThreadMessageList.getList(job);
-
-					if(messagelist.getIndividualThreadlist().size()>0){
-						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id()); 
-					}
-					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
-					}
-
+					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+					Toast.makeText(getActivity(),"Message is deleted successfully", Toast.LENGTH_SHORT).show();
+					FragmentInbox.oncreatecalledstate=true;
+					parent.onBackPressed();
+//					if(messagelist.getinboxlist().size()>0){
+//						
+//					}
+//					else{
+//						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+//					}
+//					list_view_inbox.onRefreshComplete();
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -365,5 +309,61 @@ public class FragmentInbox extends Fragment{
 		}
 	}
 
+	private class AsyncTaskSetasReadMessage extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+//				loginObj.put("message",replymessage);
+//				String toid;
+//				if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equalsIgnoreCase(appInstance.getUserCred().getId())){
+//					toid=messagelist.getIndividualThreadlist().get(0).getTo_id();
+//				}
+//				else{
+//					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
+//				}
+////				byte[] ba =toid.getBytes();
+////				String base64Str = Base64.encodeBytes(ba);
+//				loginObj.put("tomember",toid);
+				String loginData = loginObj.toString();
+//				
+				String url =Constants.baseurl+"inbox/markmessageAsread/"+messageid;
+
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("res", result.getjObj().toString());
+			if(pd.isShowing()&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject job=result.getjObj();
+
+			try {
+				String status=job.getString("status");
+				if(status.equals("success")){
+					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+					FragmentInbox.oncreatecalledstate=true;
+				}
+				else{
+					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
 

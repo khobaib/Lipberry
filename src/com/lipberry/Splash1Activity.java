@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.UserCred;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
@@ -159,8 +160,12 @@ public class Splash1Activity extends Activity {
 
 			try {
 				JSONObject loginObj = new JSONObject();
-				loginObj.put("username", username);
-				loginObj.put("password", password);
+				byte[] ba = username.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("username", base64Str);
+				ba=password.getBytes();
+				base64Str=Base64.encodeBytes(ba);
+				loginObj.put("password", base64Str);
 				String loginData = loginObj.toString();
 				String url = Constants.baseurl+"account/login";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, 

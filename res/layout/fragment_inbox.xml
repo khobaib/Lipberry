@@ -13,6 +13,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/re_holder"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="#f5f5f5"
@@ -29,6 +30,7 @@
            >
 
             <RelativeLayout
+                android:id="@+id/re_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
               >
@@ -52,12 +54,14 @@
         </LinearLayout>
 
         <LinearLayout
+              
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_weight="1"
             android:gravity="center" >
 
             <RelativeLayout
+                android:id="@+id/re_sent_msz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
               >
@@ -85,7 +89,8 @@
             android:gravity="center" >
             
              <RelativeLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/re_new_msz"
+				android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
               >
                <ImageView
@@ -110,6 +115,23 @@
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list_view_inbox"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        ptr:ptrMode="both" />
+       	android:layout_height="fill_parent"
+       	  android:dividerHeight="4dp"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true"
+      />
+   <ListView
+       android:id="@+id/list_thread_msz"
+       android:layout_width="match_parent"
+        android:visibility="gone"
+      
+       android:layout_height="wrap_content" >
+   </ListView>
+   
+
+   
+   
 </LinearLayout>
