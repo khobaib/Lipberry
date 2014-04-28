@@ -183,7 +183,9 @@ public class FragmentMessage extends Fragment{
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("message",replymessage);
+				byte[] ba =replymessage.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("message",base64Str);
 				String toid;
 				if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equalsIgnoreCase(appInstance.getUserCred().getId())){
 					toid=messagelist.getIndividualThreadlist().get(0).getTo_id();
@@ -191,8 +193,7 @@ public class FragmentMessage extends Fragment{
 				else{
 					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
 				}
-//				byte[] ba =toid.getBytes();
-//				String base64Str = Base64.encodeBytes(ba);
+				
 				loginObj.put("tomember",toid);
 				String loginData = loginObj.toString();
 				
@@ -222,13 +223,6 @@ public class FragmentMessage extends Fragment{
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
 					Toast.makeText(getActivity(),"Message is sent", Toast.LENGTH_SHORT).show();
 					parent.onBackPressed();
-//					if(messagelist.getinboxlist().size()>0){
-//						
-//					}
-//					else{
-//						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
-//					}
-//					list_view_inbox.onRefreshComplete();
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -250,21 +244,8 @@ public class FragmentMessage extends Fragment{
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-//				loginObj.put("message",replymessage);
-//				String toid;
-//				if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equalsIgnoreCase(appInstance.getUserCred().getId())){
-//					toid=messagelist.getIndividualThreadlist().get(0).getTo_id();
-//				}
-//				else{
-//					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
-//				}
-////				byte[] ba =toid.getBytes();
-////				String base64Str = Base64.encodeBytes(ba);
-//				loginObj.put("tomember",toid);
 				String loginData = loginObj.toString();
-//				
 				String url =Constants.baseurl+"inbox/deletemessage/"+messageid;
-
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -290,13 +271,7 @@ public class FragmentMessage extends Fragment{
 					Toast.makeText(getActivity(),"Message is deleted successfully", Toast.LENGTH_SHORT).show();
 					FragmentInbox.oncreatecalledstate=true;
 					parent.onBackPressed();
-//					if(messagelist.getinboxlist().size()>0){
-//						
-//					}
-//					else{
-//						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
-//					}
-//					list_view_inbox.onRefreshComplete();
+				//list_view_inbox.onRefreshComplete();
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -316,21 +291,8 @@ public class FragmentMessage extends Fragment{
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-//				loginObj.put("message",replymessage);
-//				String toid;
-//				if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equalsIgnoreCase(appInstance.getUserCred().getId())){
-//					toid=messagelist.getIndividualThreadlist().get(0).getTo_id();
-//				}
-//				else{
-//					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
-//				}
-////				byte[] ba =toid.getBytes();
-////				String base64Str = Base64.encodeBytes(ba);
-//				loginObj.put("tomember",toid);
 				String loginData = loginObj.toString();
-//				
 				String url =Constants.baseurl+"inbox/markmessageAsread/"+messageid;
-
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;

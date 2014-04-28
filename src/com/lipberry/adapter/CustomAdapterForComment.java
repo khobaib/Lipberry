@@ -118,7 +118,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.comments_inflate,
 					null);
 			holder = new ViewHolder();
-			holder.img_avatar=(ImageView) convertView.findViewById(R.id.img_avatar);
+			//holder.img_avatar=(ImageView) convertView.findViewById(R.id.img_avatar);
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
 			holder.img_comment=(ImageView) convertView.findViewById(R.id.img_comment);
 			holder.txt_name=(TextView) convertView.findViewById(R.id.txt_name);

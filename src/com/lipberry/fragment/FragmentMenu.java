@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.utility.Constants;
 @SuppressLint("NewApi")
 public class FragmentMenu extends Fragment {
 	MenuTabFragment parent;
@@ -62,6 +63,9 @@ public class FragmentMenu extends Fragment {
 				menuarray);
 		list_menu_item.setAdapter(adapter);
 		setlistviewonitemclick();
+		if(	Constants.MESSAGESETTINGSTATE){
+			parent.startFragmentSetting();
+		}
 		return v;
 	}
 	@Override

@@ -103,7 +103,7 @@ public class FragmentInteraction extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		((HomeActivity)getActivity()).welcome_title.setText(R.string.txt_interaction);
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

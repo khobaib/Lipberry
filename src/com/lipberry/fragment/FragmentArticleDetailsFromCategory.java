@@ -59,6 +59,7 @@ import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
@@ -869,7 +870,9 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("comment", commentstext);
+				byte[] ba = commentstext.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("comment", base64Str);
 				String loginData = loginObj.toString();
 				String url =articledetails.getComment_url();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,

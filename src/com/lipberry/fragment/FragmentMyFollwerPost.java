@@ -76,6 +76,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	ArticleFromMyFollwing postofmycountries;
 	ArrayList<LikeMember>limemberlist;
 	MemberList memberListobject;
+	public static boolean oncreatecallsate1=false;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -85,17 +86,7 @@ public class FragmentMyFollwerPost extends Fragment {
 		limemberlist=new ArrayList<LikeMember>();
 		activity=getActivity();
 		memberListobject=new MemberList();
-		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry",
-					"Retreving Post", true);
-			new AsyncTaskLoadPostFrommyFollowing().execute();
-		}
-		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		
+		oncreatecallsate1=true;
 	}
 	public static  void setParent(HomeTabFragment parent2){
 		parent=parent;
@@ -115,6 +106,21 @@ public class FragmentMyFollwerPost extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		if(oncreatecallsate1){
+			startindex=0;
+			 endindex=10;
+			 if(Constants.isOnline(activity)){
+					pd=ProgressDialog.show(activity, "Lipberry",
+							"Retreving Post", true);
+					new AsyncTaskLoadPostFrommyFollowing().execute();
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
+
+		}
+		oncreatecallsate1=false;
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_myfollowerpost,
 				container, false);

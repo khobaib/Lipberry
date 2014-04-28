@@ -17,6 +17,7 @@ import com.lipberry.model.City;
 import com.lipberry.model.Country;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
 
@@ -46,7 +47,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class SignupActivity extends Activity {
-	Spinner  s_city,s_country,s_kowaboutus;
+	Spinner  s_city,s_country,s_kowaboutus;//
 	ArrayList<City>citylist;
 	ArrayList<String>allcityname;
 	int selectedcountryposition=-1;
@@ -65,7 +66,6 @@ public class SignupActivity extends Activity {
 	TextView t_country,t_city,t_kowaboutus;
 	Button b_register,bt_activiate_user;
 	int stateofbackpressed=0;
-
 	JsonParser jsonParser;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -520,13 +520,21 @@ public class SignupActivity extends Activity {
 	private class AsyncTaskSignUp extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-
+			
 			try {
 				JSONObject loginObj = new JSONObject();
-				loginObj.put("name",name);
-				loginObj.put("username",username);
-				loginObj.put("nickname",nickname);
-				loginObj.put("password", password);
+				byte[] ba = name.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("name",base64Str);
+				ba = username.getBytes();
+				base64Str = Base64.encodeBytes(ba);
+				loginObj.put("username",base64Str);
+				ba = nickname.getBytes();
+				base64Str = Base64.encodeBytes(ba);
+				loginObj.put("nickname",base64Str);
+				ba = password.getBytes();
+				base64Str = Base64.encodeBytes(ba);
+				loginObj.put("password",base64Str);
 				loginObj.put("country_id", countrylist.get(selectedcountryposition).getId());
 				loginObj.put("city_id", citylist.get(selectedcityposition).getId());
 				loginObj.put("email", email);

@@ -53,6 +53,7 @@ public class Splash1Activity extends Activity {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
+		Log.e("password", appInstance.getUserCred().getPassword());
 		setContentView(R.layout.splash);
 		txt_title=(TextView) findViewById(R.id.txt_title);
 		txt_title.setTypeface(Utility.getTypeface1(Splash1Activity.this));

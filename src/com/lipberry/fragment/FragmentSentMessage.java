@@ -104,7 +104,7 @@ public class FragmentSentMessage extends Fragment{
 		actualListView = list_view_inbox.getRefreshableView();
 		registerForContextMenu(actualListView);
 		registerForContextMenu(listviewforinbbox);
-		
+
 		list_view_inbox.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -269,27 +269,27 @@ public class FragmentSentMessage extends Fragment{
 		LinkedList<String> mListItems = new LinkedList<String>();
 		mListItems.add("dhjfgg");
 		mListItems.add("dhjfgg");
-	adapter=new CustomAdapterForISentMessage(getActivity(), inboxlist,FragmentSentMessage.this);
+		adapter=new CustomAdapterForISentMessage(getActivity(), inboxlist,FragmentSentMessage.this);
 		actualListView.setAdapter(adapter);
-	
-//		actualListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//					long arg3) {
-//				// TODO Auto-generated method stub
-//				Toast.makeText(getActivity(), "10000", 1000).show();
-//
-//			}
-//		});
+
+		//		actualListView.setOnItemClickListener(new OnItemClickListener() {
+		//
+		//			@Override
+		//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+		//					long arg3) {
+		//				// TODO Auto-generated method stub
+		//				Toast.makeText(getActivity(), "10000", 1000).show();
+		//
+		//			}
+		//		});
 
 
 	}
 
-	
-//	public void onitemclickclicked(int position){
-//		Toast.makeText(getActivity(), ""+position, 1000).show();
-//	}
+
+	//	public void onitemclickclicked(int position){
+	//		Toast.makeText(getActivity(), ""+position, 1000).show();
+	//	}
 
 	public void loadthreadmessage(int position){
 		if(Constants.isOnline(getActivity())){
@@ -317,7 +317,7 @@ public class FragmentSentMessage extends Fragment{
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-		//	String url =Constants.baseurl+"inbox/inbox/"+;
+				//	String url =Constants.baseurl+"inbox/inbox/"+;
 
 				Log.e("url", inboxlist.get(position).getMessage_url());
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, inboxlist.get(position).getMessage_url()+
@@ -342,14 +342,14 @@ public class FragmentSentMessage extends Fragment{
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
-										 messagelist=ThreadMessageList.getList(job);
-									
-										 if(messagelist.getIndividualThreadlist().size()>0){
-											 parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id()); 
-										 }
-										 else{
-											  Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
-										    }
+					messagelist=ThreadMessageList.getList(job);
+
+					if(messagelist.getIndividualThreadlist().size()>0){
+						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id()); 
+					}
+					else{
+						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+					}
 
 				}
 				else{
@@ -362,6 +362,6 @@ public class FragmentSentMessage extends Fragment{
 			}
 		}
 	}
-	
+
 }
 

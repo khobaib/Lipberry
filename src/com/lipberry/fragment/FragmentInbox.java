@@ -113,6 +113,7 @@ public class FragmentInbox extends Fragment{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				Constants.MESSAGESETTINGSTATE=true;
 				((HomeActivity)getActivity()).mTabHost.setCurrentTab(5);
 			}
 		});

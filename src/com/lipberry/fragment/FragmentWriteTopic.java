@@ -119,7 +119,7 @@ public class FragmentWriteTopic extends Fragment {
 		jsonParser=new JsonParser();
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
-		
+
 
 
 	}
@@ -352,49 +352,21 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-//				
-//				byte[] bytes = body.getBytes(Charset.forName("UTF-8"));
-//
-//				// byte[] utf8 =body.getBytes();
-//				String str = new String(bytes, Charset.forName("UTF-8"));
-//				body="";
-//				for(int a=0;a<bytes.length;a++){
-//					body=body.concat(""+bytes[a]);
-//				}
-//				Log.e("result","abc" +body);
-//				//  body=str;
-//				//				byte[] basstring = body.getBytes();
-//
-//				String base64String = Base64.encodeBytes(body.getBytes());
-//				try {
-//					byte[]  k=Base64.decode(base64String);
-//
-//					Log.e("decode", "aa "+k.toString());
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//				//txt_topic.setText(str);
-				//04-21 12:44:36.201: E/base 64(27490): amZ1aWZ1aGYgZ2d0aWcgaXRnamZmIGpndGlnCg==
-
-//04-21 12:40:27.751: E/base 64(27490): 2KfYs9mFINin2YTZhdiz2KrYrtiv2YUg2KjYsdmK2K/ZgyDYp9mE2KXZhNmD2KrYsdmI2YbZig==
-				//Log.e("", msg)
-				UTF8Text bodytext=new UTF8Text(body,true);
-				String base64String=bodytext.getStringencripted();
-				loginObj.put("title", title);
 				loginObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
 				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
-				loginObj.put("body", base64String);
+				byte[] ba1 = body.getBytes();
+				String base64StrString = Base64.encodeBytes(ba1);
+				loginObj.put("body", base64StrString);
+				ba1 = title.getBytes();
+				base64StrString = Base64.encodeBytes(ba1);
+				loginObj.put("title", base64StrString);
 				if(bitmap!=null){
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG,100, bao);
 					byte[] ba = bao.toByteArray();
 					String base64Str = Base64.encodeBytes(ba);
-
-					Log.e("body", base64Str);
 					loginObj.put("photo",  base64Str);
 				}
 				else{
@@ -419,8 +391,9 @@ public class FragmentWriteTopic extends Fragment {
 
 				bitmap=null;
 				if(status.equals("success")){
+					FragmentMyCountriesPost.oncreatecallsate=true;
+					FragmentMyFollwerPost.oncreatecallsate1=true;
 					Constants.writetopicsuccess=true;
-					//	Toast.makeText(getActivity(),"Write topic completed", Toast.LENGTH_SHORT).show();
 					String article_info=jobj.getString("article_info");
 					article_info=article_info.replace("{", "");
 					article_info=article_info.replace("}", "");

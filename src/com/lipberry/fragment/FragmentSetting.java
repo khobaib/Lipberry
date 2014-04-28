@@ -35,11 +35,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.lipberry.HomeActivity;
 import com.lipberry.LoginActivity;
 import com.lipberry.R;
 import com.lipberry.Splash2Activity;
+import com.lipberry.model.ServerResponse;
+import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 @SuppressLint("NewApi")
 public class FragmentSetting extends Fragment {
@@ -48,11 +50,14 @@ public class FragmentSetting extends Fragment {
 	String[]menuarray;
 	ListView list_menu_item;
 	LipberryApplication appInstance;
+	JsonParser jsonParser;
+	ProgressDialog pd;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		appInstance = (LipberryApplication) getActivity().getApplication();
+		appInstance = (LipberryApplication)getActivity().getApplication();
+		jsonParser=new JsonParser();
 	}
 
 	@Override
@@ -66,10 +71,18 @@ public class FragmentSetting extends Fragment {
 		btn_signout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-			 appInstance.setRememberMe(false);
-			 Intent intent=new Intent(getActivity(), Splash2Activity.class);
-			 intent.putExtra("fromhome", true);
-			getActivity().finish();
+				
+				if(Constants.isOnline(getActivity())){
+					pd=ProgressDialog.show(getActivity(), "Lipberry",
+							"Signing Out", true);
+					new AsyncTaskSaveMessageSetting().execute();
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
+				
+			/* */
 			}
 		});
 		btn_general_settings.setOnClickListener(new OnClickListener() {
@@ -88,6 +101,9 @@ public class FragmentSetting extends Fragment {
 				parent.startFragmentMessageSetting();
 			}
 		});
+		if(	Constants.MESSAGESETTINGSTATE){
+			parent.startFragmentMessageSetting();
+		}
 		return v;
 	}
 	@Override
@@ -104,6 +120,45 @@ public class FragmentSetting extends Fragment {
 		});
 	}
 	
-	
+	private class AsyncTaskSaveMessageSetting extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"account/logout/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("res", result.getjObj().toString());
+			if(pd.isShowing()&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject job=result.getjObj();
+
+			try {
+				String status=job.getString("status");
+				appInstance.setRememberMe(false);
+				Intent intent=new Intent(getActivity(), Splash2Activity.class);
+				intent.putExtra("fromhome", true);
+				getActivity().finish();
+				Toast.makeText(getActivity(), job.getString("description"), Toast.LENGTH_SHORT).show();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
 

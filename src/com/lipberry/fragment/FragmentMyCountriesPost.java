@@ -81,7 +81,7 @@ public class FragmentMyCountriesPost extends Fragment {
 	ArticleList articlelistinstance;
 	int startindex=0;
 	int endindex=10;
-	
+	public static boolean oncreatecallsate=false;
 	ArticleFromMyFollwing postofmycountries;
 	ArrayList<LikeMember>limemberlist;
 	MemberList memberListobject;
@@ -111,12 +111,8 @@ public class FragmentMyCountriesPost extends Fragment {
 		limemberlist=new ArrayList<LikeMember>();
 		activity=getActivity();
 		memberListobject=new MemberList();
-		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry",
-					"Retreving Post", true);
-			new AsyncTaskLoadPostFrommyCountries().execute();
-		}
-
+		oncreatecallsate=true;
+		
 
 
 
@@ -126,7 +122,23 @@ public class FragmentMyCountriesPost extends Fragment {
 			Bundle savedInstanceState) {
 //		startindex=0;
 //		endindex=2;
+		if(oncreatecallsate){
+			startindex=0;
+			 endindex=10;
+			if(Constants.isOnline(activity)){
+				
+				pd=ProgressDialog.show(activity, "Lipberry",
+						"Retreving Post", true);
+				new AsyncTaskLoadPostFrommyCountries().execute();
+			}
+			else{
+				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+						Toast.LENGTH_SHORT).show();
+			}
 
+		}
+
+		oncreatecallsate=false;
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_from_my_country,
 				container, false);

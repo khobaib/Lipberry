@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static boolean MESSAGESETTINGSTATE=false;
 	public static boolean catgeory=false;
 	public static String caturl="-1";
 	public static String caname=""; 
@@ -55,7 +56,7 @@ public class Constants {
 	public static final int REQUEST_TYPE_PUT = 3;
 	public static final int REQUEST_TYPE_DELETE = 4;
 	
-	public static final String SYSTEM_NOTIFICATION = "system_notification";
+	public static final String SYSTEM_NOTIFICATION = "system_notification1";
 	public static final String WEEKLY_NEWSLATER = "weeklynewsletter";
 	public static final String DIRECT_MSZ_TOMAIL = "direcmsztomail";
 	public static final String MEMBERALLOW_TO_SEND_MSZ= "allowmembertosendmessage";

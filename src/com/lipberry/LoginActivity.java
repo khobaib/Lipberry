@@ -132,7 +132,6 @@ public class LoginActivity extends Activity {
 		//et_email,bt_enter,email
 		bt_enter=(Button) findViewById(R.id.bt_enter);
 		et_email=(EditText) findViewById(R.id.et_email);
-
 		bt_enter.setOnClickListener(new OnClickListener() {
 
 			@Override

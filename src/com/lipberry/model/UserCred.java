@@ -34,7 +34,29 @@ public class UserCred {
 	private String password="";
 	public UserCred() {
 	}
+	
+	public void setCountry(String country){
+		this.country=country;
+	}
+//	public void setCity(String city){
+//		this.city=city;
+//	}
+	public void setCity(String city){
+		this.city=city;
+	}
+	public void setNickname(String nickname){
+		this.nickname=nickname;
+	}
+	public void setSiteUrl(String siteurl){
+		this.siteurl=siteurl;
+	}
+	public void setbBrief(String brief){
+		this.brief=brief;
+	}
 
+	public void setEmail(String email){
+		this.email=email;
+	}
 	public void setStop_push_new_message(boolean stop_push_new_message) {
 		this.stop_push_new_message=stop_push_new_message;
 	}
@@ -74,7 +96,7 @@ public class UserCred {
 	}
 
 	public boolean getSystem_notification() {
-		return system_notification;
+		return this.system_notification;
 	}
 
 	public UserCred( boolean system_notification,boolean weekly_newsletter,

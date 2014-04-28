@@ -9,6 +9,8 @@
         android:id="@+id/lst_interaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:dividerHeight="1dp"
+        android:divider="@android:color/darker_gray"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true" >
     </ListView>
