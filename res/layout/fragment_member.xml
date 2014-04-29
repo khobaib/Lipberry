@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
     android:background="#ffffff" >
 
     <ScrollView
@@ -16,7 +18,7 @@
 
             <RelativeLayout
                 android:id="@+id/re_top_holder"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#ffffff" >
 
@@ -210,21 +212,21 @@
                         android:textColor="#000000"
                         android:textSize="14dp" />
                 </RelativeLayout>
-
-                <GridView
-                    android:id="@+id/grd_memberpost"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/re_articletxt_holder"
-                    android:layout_margin="5dp"
-                    android:background="#FFFFFF"
-                    android:horizontalSpacing="5dp"
-                    android:numColumns="2"
-                    android:verticalSpacing="5dp" >
-                </GridView>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
+
+    <GridView
+        android:id="@+id/grd_memberpost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/scrollView1"
+        android:layout_margin="5dp"
+        android:background="#FFFFFF"
+        android:horizontalSpacing="5dp"
+        android:numColumns="2"
+        android:verticalSpacing="5dp" >
+    </GridView>
 
     <android.webkit.WebView
         android:id="@+id/webview_member"

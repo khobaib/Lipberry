@@ -35,6 +35,7 @@ public class ArticleDetails {
 	private String id;
 	private String dislike_url;
 	String member_id="";
+	String abuse_flag;
 	String abuse_url="";
 	public static  ArticleDetails getArticleDetails(JSONObject joObject){
 		String res=joObject.toString();
@@ -42,10 +43,15 @@ public class ArticleDetails {
 		ArticleDetails object = gson.fromJson(res, ArticleDetails.class);
 		return object;
 	}
+	public void setCommentcount(String comment_count){
+		this.comment_count=comment_count;
+	}
 	public String getBody(){
 		return this.body;
 	}
-
+	public String getAbuseFlag(){
+		return this.abuse_flag;
+	}
 	public String getComment_url(){
 		return this.comment_url;
 	}

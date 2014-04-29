@@ -51,6 +51,9 @@ public class Article {
 		this.member_id=member_id;
 		this.member_photo=member_photo;
 	}
+	public void setCommentcount(String comment_count){
+		this.comment_count=comment_count;
+	}
 	public String getMember_nickname(){
 		return this.member_nickname;
 	}

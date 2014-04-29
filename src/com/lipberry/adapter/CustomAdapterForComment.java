@@ -13,6 +13,7 @@ import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.Comments;
+import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
@@ -60,6 +61,7 @@ import android.widget.Toast;
 public class CustomAdapterForComment extends BaseAdapter {
 	ArrayList<Comments> list;
 	Activity activity;
+	String url;
 	LipberryApplication appInstance;	
 	ImageLoader imageLoader;
 	ProgressDialog pd;
@@ -67,11 +69,14 @@ public class CustomAdapterForComment extends BaseAdapter {
 	JsonParser jsonParser;
 	String comment;
 	EditText et_comment;
+	String description;
 	boolean stateoflike=false;
 	int index=0;
 	public CustomAdapterForComment(Activity activity,
-			ArrayList<Comments>  list) {
+			ArrayList<Comments>  list,String url) {
+		
 		super();
+		this.url=url;
 		appInstance = (LipberryApplication) activity.getApplication();
 		this.list=list;
 		this.activity=activity;
@@ -118,7 +123,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.comments_inflate,
 					null);
 			holder = new ViewHolder();
-			//holder.img_avatar=(ImageView) convertView.findViewById(R.id.img_avatar);
+			holder.img_avatar=(ImageView) convertView.findViewById(R.id.img_avatar);
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
 			holder.img_comment=(ImageView) convertView.findViewById(R.id.img_comment);
 			holder.txt_name=(TextView) convertView.findViewById(R.id.txt_name);
@@ -127,14 +132,24 @@ public class CustomAdapterForComment extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		if(list.get(position).getlikeommentFlag()){
+			holder.img_like.setImageResource(R.drawable.unlike);
+		}
 		holder.img_like.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				pd=new ProgressDialog(activity);
-				pd.setTitle("Start like");
-				pd.show();
-				index=position;
-				new AsyncTaskLike().execute();
+				if(!list.get(position).getlikeommentFlag()){
+					pd=new ProgressDialog(activity);
+					pd.setTitle("Start like");
+					pd.show();
+					index=position;
+					AsyncTaskLike instance=new AsyncTaskLike(holder.img_like);
+					instance.execute();
+				}
+				else{
+					Toast.makeText(activity, "You already like this comment", Toast.LENGTH_SHORT).show();
+				}
+				
 			}
 		});
 		
@@ -156,8 +171,13 @@ public class CustomAdapterForComment extends BaseAdapter {
 		return convertView;
 	}
 	private class AsyncTaskLike extends AsyncTask<Void, Void, ServerResponse> {
+		ImageView imgview_like;
+		public AsyncTaskLike(ImageView imgview_like){
+			this.imgview_like=imgview_like;
+		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
+			
 
 			try {
 				JSONObject loginObj = new JSONObject();
@@ -186,6 +206,9 @@ public class CustomAdapterForComment extends BaseAdapter {
 				String description=jobj.getString("description");
 				if(status.equals("success")){
 					stateoflike=true;
+					Log.e("imageview", "1 "+this.imgview_like);
+					list.get(index).setlikeommentFlag(true);
+					notifyDataSetChanged();
 					Toast.makeText(activity,description, 10000).show();
 				//	holder.img_like.setBackgroundResource(R.drawable.unlike);
 					//list.get(index).setUserAlreadylikeThis("Yes");
@@ -271,7 +294,9 @@ public class CustomAdapterForComment extends BaseAdapter {
 		bt_ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				dialog.dismiss();
 				String comments=et_comment.getText().toString();
+				
 				if(comments.equals("")){
 					Toast.makeText(activity,activity.getResources().getString(R.string.Toast_enter_text),
 							Toast.LENGTH_SHORT).show();
@@ -283,6 +308,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 					pd.show();
 					new AsyncTaskReplyOnComments().execute();
 				}
+				
 			}
 		});
 
@@ -311,24 +337,71 @@ public class CustomAdapterForComment extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
-				pd.dismiss();
-			}
+			
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
-				String description=jobj.getString("description");
+				
 				if(status.equals("success")){
-					stateoflike=false;
-					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+					new AsyncTaskGetComments().execute();
 				}
 				else{
-					Toast.makeText(activity,description, 10000).show();
+					if((pd.isShowing())&&(pd!=null)){
+						pd.dismiss();
+					} 
+					description=jobj.getString("description");
+					  Toast.makeText(activity,description, 10000).show();
 					
-				}
+				   }
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}
+	}
+	
+	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				
+
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put("startIndex", "0");
+				loginObj.put("endIndex", ""+list.size()+1);
+				String loginData = loginObj.toString();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			JSONObject jobj=result.getjObj();
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			try {
+				String status= jobj.getString("status");
+				if(status.equals("success")){
+					Commentslist commentslist=Commentslist.getCommentsListInstance(jobj);
+					if(commentslist.getCommentslist().size()>0){
+						list.clear();
+						list=commentslist.getCommentslist();
+						notifyDataSetChanged();
+						Toast.makeText(activity,"Article has been added", Toast.LENGTH_SHORT).show();
+					}
+				}
+				else{
+					String description=jobj.getString("message");
+				//	Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
 			}
 		}
 	}

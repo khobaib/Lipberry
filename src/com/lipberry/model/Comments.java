@@ -9,6 +9,14 @@ public class Comments {
 
 	String created_at,member_url,comment_id,member_avatar,member_name,
 	likecount,abusecomment_url,likecomment_url,replyon_url,comment;
+	boolean likecomment_flag;
+	public boolean getlikeommentFlag(){
+		return this.likecomment_flag;
+	}
+	public void setlikeommentFlag(boolean likecomment_flag){
+	   this.likecomment_flag=likecomment_flag;
+	}
+	
 	public String getComment(){
 		return this.comment;
 	}

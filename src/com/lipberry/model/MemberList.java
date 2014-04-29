@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 public class MemberList {
 	private String status;
 	private ArrayList<Member>memberstofollow=new ArrayList<Member>();
-
+	
 	public MemberList (){
 
 	}
@@ -25,9 +25,11 @@ public class MemberList {
 		MemberList object = gson.fromJson(res, MemberList.class);
 		return object;
 	}
+	
 	public ArrayList<Member> getMemberlist(){
 		return this.memberstofollow;
 	}
+	
 	public String getStatus(){
 		return this.status;
 	}

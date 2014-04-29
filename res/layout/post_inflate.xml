@@ -74,7 +74,7 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:scaleType="fitXY"
-        android:src="@drawable/noimage" />
+        android:src="@drawable/ldummy_image" />
 
     <TextView
         android:id="@+id/txt_articl_ename"
@@ -173,5 +173,26 @@
             android:textColor="#000000"
             android:textSize="17dp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txt_loading"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/progress_loading"
+       android:layout_toRightOf="@+id/progress_loading"
+        android:textColor="#000000"
+        android:layout_marginTop="5dp"
+        android:textSize="24dp"
+        android:text="Image is Loading" />
+
+    <ProgressBar
+        android:id="@+id/progress_loading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/img_article_pro_pic"
+        android:layout_alignLeft="@+id/et_comment"
+        android:layout_marginBottom="55dp"
+        android:layout_marginLeft="107dp" />
 
 </RelativeLayout>

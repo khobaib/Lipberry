@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="#f4f4f4"
     android:layoutDirection="rtl"
     android:orientation="vertical" >
 
@@ -17,6 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:orientation="vertical" >
 
             <RelativeLayout
@@ -34,10 +36,12 @@
 
                     <ImageView
                         android:id="@+id/img_pro_pic"
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
+                        android:layout_width="55dp"
+                        android:layout_height="55dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="2dp"
                         android:background="@color/gray70"
                         android:padding="1.5dp"
                         android:scaleType="fitXY"
@@ -100,7 +104,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/re_top"
-                    android:layout_margin="2dp" >
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="#ffffff" >
 
                     <ImageView
                         android:id="@+id/img_article"
@@ -108,7 +115,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginTop="5dp"
                         android:background="@drawable/noimage"
                         android:scaleType="fitXY" />
 
@@ -118,7 +124,6 @@
                         android:layout_height="250dp"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
                         android:background="@android:color/transparent" >
                     </ListView>
 
@@ -140,7 +145,8 @@
                         android:layout_below="@+id/btn_photo_album"
                         android:layout_marginLeft="18dp"
                         android:layout_marginTop="10dp"
-                        android:src="@drawable/playvedio" />
+                        android:src="@drawable/playvedio"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/txt_articl_ename"
@@ -151,7 +157,6 @@
                         android:layout_toRightOf="@+id/btn_photo_album"
                         android:gravity="right|center_vertical"
                         android:padding="5dp"
-                        android:text="Android Topic name. "
                         android:textColor="#5D933D"
                         android:textSize="24dp"
                         tools:ignore="NotSibling" />
@@ -162,32 +167,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/re_mid2"
-                    android:layout_marginTop="5dp"
                     android:background="#ffffff"
                     android:gravity="right|center_vertical"
                     android:padding="5dp"
-                    android:text="defhldjfh"
                     android:textColor="#000000"
                     android:textSize="24dp" />
 
-                <Button
-                    android:id="@+id/btn_report"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/re_report"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_below="@+id/text_topic_text"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/lbtn_reportabuse"
-                   android:padding="3dp" />
+                    android:background="#ffffff"
+                    android:paddingBottom="8dp" >
+
+                    <Button
+                        android:id="@+id/btn_report"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/lbtn_reportabuse"
+                        android:padding="3dp" />
+                </RelativeLayout>
 
                 <RelativeLayout
                     android:id="@+id/re_like_holder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_report"
-                    android:layout_marginTop="3dp"
-                    android:background="@drawable/llholder_for_likeandcomment"
+                    android:layout_below="@+id/re_report"
+                    android:background="#f4f4f4"
                     android:layoutDirection="rtl" >
 
                     <ImageView
@@ -197,7 +207,7 @@
                         android:layout_centerVertical="true"
                         android:layout_margin="12dp"
                         android:layout_toLeftOf="@+id/image_comments"
-                        android:src="@drawable/lreport_abuse" />
+                        android:src="@drawable/write" />
 
                     <ImageView
                         android:id="@+id/image_comments"
@@ -221,9 +231,9 @@
                         android:id="@+id/txt_viewd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/image_report"
                         android:layout_alignParentLeft="true"
-                        android:paddingLeft="17dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="17dp"
                         android:text="200"
                         android:textColor="#000000" />
 
@@ -234,15 +244,23 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@+id/txt_viewd"
-                        android:src="@drawable/lreport_abuse" />
+                        android:src="@drawable/eye_icon" />
                 </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_gap"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.5dp"
+                    android:layout_below="@+id/re_like_holder"
+                    android:background="#ffffff" >
+                </View>
 
                 <RelativeLayout
                     android:id="@+id/re_bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/re_like_holder"
-                    android:background="@drawable/llholder_for_likeandcomment"
+                    android:layout_below="@+id/view_gap"
+                    android:background="#f4f4f4"
                     android:layoutDirection="rtl" >
 
                     <TextView
@@ -254,7 +272,6 @@
                         android:layout_centerVertical="true"
                         android:gravity="right|center_vertical"
                         android:padding="5dp"
-                        android:text="sam , hasan and 30 other like this"
                         android:textColor="#000000"
                         android:textSize="17dp" />
 
@@ -265,9 +282,8 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_margin="5dp"
-                        android:gravity="center_vertical"
+                        android:gravity="center_vertical|left"
                         android:paddingLeft="10dp"
-                        android:text="60 comments"
                         android:textColor="#000000"
                         android:textSize="17dp" />
                 </RelativeLayout>

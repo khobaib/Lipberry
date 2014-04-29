@@ -54,6 +54,7 @@ import com.lipberry.R;
 import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.CustomAdapter;
 import com.lipberry.adapter.CustomAdapterForComment;
+import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.Commentslist;
@@ -81,14 +82,13 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	CategoryTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
 	ImageView img_pro_pic,img_article,img_like,image_comments,play_vedio;
-	Button btn_photo_album,btn_follow_her,btn_report,back;
+	Button btn_photo_album,btn_follow_her,back,btn_report;
 	LinearLayout vedioholder;
 	VideoView video_view;
 	JsonParser jsonParser;
 	CustomAdapterForComment adapter1;
 	ImageLoadingListener imll;
 	EditText et_comment;
-	RelativeLayout re_mid2;
 	String commentstext;
 	@SuppressLint("NewApi")
 	Article article;
@@ -128,8 +128,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 		listView.setLayoutParams(params);
 	}
-	
-	
+
+
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -153,7 +153,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 
 	public void setmemberlist(){
-		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
 
 		list_comment.setAdapter(adapter1);
 		setListViewHeightBasedOnChildren(list_comment);
@@ -173,7 +173,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		jsonParser=new JsonParser();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details,
 				container, false);
-		re_mid2=(RelativeLayout) v.findViewById(R.id.re_mid2);
 		initview(v);
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), "Lipberry",
@@ -190,9 +189,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 		params.leftMargin = 107;
 		params.topMargin=100;
-		re_mid2.addView(tv, params);
-		re_mid2.removeView(tv);
-		tv.setText("dgh fgv hjfdhg hjgfjehgf hgvhj");
 
 		return v;
 	}
@@ -345,7 +341,27 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	}
 
 	public void setview(){
+		txt_like.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				LisAlertDialog alert;
+				if(article.getLikedmemberlist().size()>0){
+					alert=new LisAlertDialog(getActivity(), article.getLikedmemberlist(),getActivity(),null,parent);
+					alert.show_alert();
+				}
+				else{
 
+				}
+			}
+		});
+		Log.e("abuseflag", "1 " +articledetails.getAbuseFlag());
+		if(articledetails.getAbuseFlag().equals("false")){
+			btn_report.setVisibility(View.VISIBLE);
+		}
+		else{
+			btn_report.setVisibility(View.GONE);
+		}
 		play_vedio.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -368,11 +384,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				vedioholder.setVisibility(View.GONE);
 			}
 		});
-
-
-
-
-
 		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());
@@ -411,7 +422,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						}
 					}
 				});
-				
+
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);
@@ -438,7 +449,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						
+
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
 							Log.e("pd", "3");
@@ -463,12 +474,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 					int y=img_article.getTop();
 					int h=img_article.getHeight();
 					int w=img_article.getWidth();
-					
+
 
 				}
-				
-				
-				
+
+
+
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);
@@ -481,7 +492,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						}
 
 					});
-					
+
 					lst_imag.setOnItemClickListener(new OnItemClickListener() {
 
 						@Override
@@ -500,7 +511,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						if((pd.isShowing())&&(pd!=null)){
 							pd.dismiss();
 						}
-						
+
 						if(articledetails.getArticle_gallery().size()>0){
 							CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 							lst_imag.setAdapter(adapter);
@@ -541,7 +552,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
-			
+
 		}
 		else{
 			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
@@ -602,17 +613,17 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 	}
 	private int getRelativeTop(View myView) {
-	    if (myView.getParent() == myView.getRootView())
-	        return myView.getTop();
-	    else
-	        return myView.getTop() + getRelativeTop((View) myView.getParent());
+		if (myView.getParent() == myView.getRootView())
+			return myView.getTop();
+		else
+			return myView.getTop() + getRelativeTop((View) myView.getParent());
 	}
-	
+
 	private int getRelativeBottom(View myView) {
-	    if (myView.getParent() == myView.getRootView())
-	        return myView.getBottom();
-	    else
-	        return myView.getBottom() + getRelativeBottom((View) myView.getParent());
+		if (myView.getParent() == myView.getRootView())
+			return myView.getBottom();
+		else
+			return myView.getBottom() + getRelativeBottom((View) myView.getParent());
 	}
 
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
@@ -893,6 +904,10 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			try {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
+					articledetails.setCommentcount((Integer.parseInt(articledetails.getComment_count())+1)+"");
+					article.setCommentcount((Integer.parseInt(article.getComment_count())+1)+"");
+					text_comment.setText(articledetails.getComment_count()+ " "+getResources().
+							getString(R.string.txt_comments));
 					if(Constants.isOnline(getActivity())){
 
 						new AsyncTaskGetComments().execute();
@@ -905,6 +920,9 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 				}
 				else{
+					if((pd.isShowing())&&(pd!=null)){
+						pd.dismiss();
+					}
 					String description=jobj.getString("description");
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 				}
@@ -922,7 +940,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				Log.i("error",  "a "+article.getComment_count());
 
 				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
-					endindex=Integer.parseInt(article.getComment_count());
+					endindex=Integer.parseInt(article.getComment_count())+1;
 				}
 				else{
 					endindex=20;

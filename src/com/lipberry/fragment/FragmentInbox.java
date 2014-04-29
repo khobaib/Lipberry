@@ -93,6 +93,7 @@ public class FragmentInbox extends Fragment{
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_inbox,
 				container, false);
+		re_new_msz=(RelativeLayout) v.findViewById(R.id.re_new_msz);
 		re_setting=(RelativeLayout) v.findViewById(R.id.re_setting);
 		list_view_inbox=(PullToRefreshListView) v.findViewById(R.id.list_view_inbox);
 		listviewforinbbox=list_view_inbox.getRefreshableView();
@@ -100,6 +101,14 @@ public class FragmentInbox extends Fragment{
 		re_sent_msz=(RelativeLayout) v.findViewById(R.id.re_sent_msz);
 		registerForContextMenu(actualListView);
 		registerForContextMenu(listviewforinbbox);
+		re_new_msz.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				parent.startfragmentSendMessage();
+			}
+		});
 		re_sent_msz.setOnClickListener(new OnClickListener() {
 			
 			@Override

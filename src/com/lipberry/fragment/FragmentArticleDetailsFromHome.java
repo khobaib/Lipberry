@@ -50,6 +50,7 @@ import com.lipberry.R;
 import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.CustomAdapter;
 import com.lipberry.adapter.CustomAdapterForComment;
+import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.Commentslist;
@@ -147,7 +148,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setmemberlist(){
-		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
+		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
 
 		list_comment.setAdapter(adapter1);
 		setListViewHeightBasedOnChildren(list_comment);
@@ -322,7 +323,26 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setview(){
+		txt_like.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				LisAlertDialog alert;
+				if(article.getLikedmemberlist().size()>0){
+						alert=new LisAlertDialog(getActivity(), article.getLikedmemberlist(),getActivity(),parent,null);
+						alert.show_alert();
+				}
+				else{
 
+				}
+			}
+		});
+		if(articledetails.getAbuseFlag().equals("false")){
+			btn_report.setVisibility(View.VISIBLE);
+		}
+		else{
+			btn_report.setVisibility(View.GONE);
+		}
 		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());
@@ -853,12 +873,19 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					if(status.equals("success")){
+						articledetails.setCommentcount((Integer.parseInt(articledetails.getComment_count())+1)+"");
+						article.setCommentcount((Integer.parseInt(article.getComment_count())+1)+"");
+						text_comment.setText(articledetails.getComment_count()+ " "+getResources().
+								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
 
 							new AsyncTaskGetComments().execute();
 							Toast.makeText(getActivity(),"You just commented! ", Toast.LENGTH_SHORT).show();
 						}
 						else{
+							if((pd.isShowing())&&(pd!=null)){
+								pd.dismiss();
+							}
 							Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
 									Toast.LENGTH_SHORT).show();
 						}
@@ -880,10 +907,9 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				int endindex;
-				Log.i("error",  "a "+article.getComment_count());
-
+				
 				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
-					endindex=Integer.parseInt(article.getComment_count());
+					endindex=Integer.parseInt(article.getComment_count())+1;
 				}
 				else{
 					endindex=20;
