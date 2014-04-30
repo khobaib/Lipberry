@@ -80,7 +80,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	boolean followstate=false;
 	HomeTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
-	ImageView img_pro_pic,img_article,img_like,image_comments;
+	ImageView img_pro_pic,img_article,img_like,image_comments,image_share;
 	Button btn_photo_album,btn_follow_her,visit,btn_report;
 	JsonParser jsonParser;
 	ImageLoadingListener imll;
@@ -310,6 +310,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 		btn_photo_album=(Button) v.findViewById(R.id.btn_photo_album);
 		btn_report=(Button) v.findViewById(R.id.btn_report);
+		image_share=(ImageView) v.findViewById(R.id.image_share);
 		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
 		play_vedio.setOnClickListener(new OnClickListener() {
 			
@@ -323,6 +324,21 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setview(){
+		image_share.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+				sharingIntent.setType("text/plain");
+				String shareBody = articledetails.getShort_url();
+				
+				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Lipberry");
+				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+				startActivity(Intent.createChooser(sharingIntent, "Share via"));
+				
+			}
+		} );
 		txt_like.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {

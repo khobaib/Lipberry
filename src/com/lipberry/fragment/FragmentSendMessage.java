@@ -92,12 +92,15 @@ public class FragmentSendMessage extends Fragment{
 	String replymessage;
 	EditText et_msg_body;
 	AutoCompleteTextView act_to;
+	Button b_send;
+	String subject;
+	EditText et_su;
 	@SuppressLint("NewApi")
 
-//	public FragmentSendMessage(ThreadMessageList messagelist,String messageid){
-//		this.messagelist=messagelist;
-//		this.messageid=messageid;
-//	}
+	//	public FragmentSendMessage(ThreadMessageList messagelist,String messageid){
+	//		this.messagelist=messagelist;
+	//		this.messageid=messageid;
+	//	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -115,9 +118,41 @@ public class FragmentSendMessage extends Fragment{
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.send_message,
 				container, false);
 		act_to=(AutoCompleteTextView) v.findViewById(R.id.act_to);
+		b_send=(Button) v.findViewById(R.id.b_send);
+		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
+		et_su=(EditText) v.findViewById(R.id.et_su);
+		b_send.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				replymessage=et_msg_body.getText().toString();
+				subject=et_su.getText().toString();
+				if(Constants.isOnline(getActivity())){
+					if(replymessage.equalsIgnoreCase("")){
+						Toast.makeText(getActivity(),"Please enter message",
+								Toast.LENGTH_SHORT).show();
+
+					}
+					else if (selectedpos==-1){
+						Toast.makeText(getActivity(),"Please enter member",
+								Toast.LENGTH_SHORT).show();
+					}
+					else{
+						pd=ProgressDialog.show(getActivity(), "Lipberry",
+								"Sending Message", true);
+						new AsyncTaskSendMessage().execute();
+					}
+
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 		if(Constants.isOnline(getActivity())){
-								pd=ProgressDialog.show(getActivity(), "Lipberry",
-									"Please Wait", true);
+			pd=ProgressDialog.show(getActivity(), "Lipberry",
+					"Please Wait", true);
 			new AsyncTaskGetMemberList().execute();
 		}
 		else{
@@ -125,9 +160,65 @@ public class FragmentSendMessage extends Fragment{
 					Toast.LENGTH_SHORT).show();
 		}
 		membername=new ArrayList<String>();
-		
+
 		return v;
 	}
+	private class AsyncTaskSendMessage extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				byte[] ba =replymessage.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("message",base64Str);
+				loginObj.put("tomember",base64Str);
+				if(!subject.equals("")){
+					ba =subject.getBytes();
+					base64Str = Base64.encodeBytes(ba);
+					loginObj.put("subject",base64Str);
+				}
+				loginObj.put("tomember",memberListobject.getMemberlistForSendMessage().get(selectedpos).getUsername());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"inbox/sendmessage/";
+
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("Sending", result.getjObj().toString());
+			if(pd.isShowing()&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject job=result.getjObj();
+
+			try {
+				String status=job.getString("status");
+				if(status.equals("success")){
+					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+					Toast.makeText(getActivity(),"Message is sent", Toast.LENGTH_SHORT).show();
+					parent.onBackPressed();
+				}
+				else{
+					Toast.makeText(getActivity(),job.getString("description"), Toast.LENGTH_SHORT).show();
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -150,7 +241,7 @@ public class FragmentSendMessage extends Fragment{
 				loginObj.put("startIndex",""+0);
 				loginObj.put("endIndex",""+50);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/memberlist/";
+				String url =Constants.baseurl+"account/myfollowinglist/";
 
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
@@ -178,16 +269,17 @@ public class FragmentSendMessage extends Fragment{
 					for (int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
 						membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickname());
 					}
-					  generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
-					  act_to.setThreshold(1);
-					  act_to.setOnItemClickListener(new OnItemClickListener() {
+					Log.e("Size", membername.size()+"");
+					generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
+					act_to.setThreshold(1);
+					act_to.setOnItemClickListener(new OnItemClickListener() {
 
-				            @Override
-				            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				            	selectedpos=position;
-				            	//Toast.makeText(getActivity(),memberListobject.getMemberlistForSendMessage().get(position).getId(), 1000).show();
-				            }
-				        });
+						@Override
+						public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+							selectedpos=position;
+							
+						}
+					});
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -199,12 +291,12 @@ public class FragmentSendMessage extends Fragment{
 			}
 		}
 	}
-	 private void generateautocomplete(AutoCompleteTextView autextview,String[] arrayToSpinner){
-		   ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(
-	               getActivity(),  R.layout.my_autocomplete_text_style, arrayToSpinner);
-		   autextview.setAdapter(myAdapter);
-		   
-	   }
+	private void generateautocomplete(AutoCompleteTextView autextview,String[] arrayToSpinner){
+		ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(
+				getActivity(),  R.layout.my_autocomplete_text_style, arrayToSpinner);
+		autextview.setAdapter(myAdapter);
+
+	}
 }
 
 

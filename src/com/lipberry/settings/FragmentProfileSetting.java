@@ -76,6 +76,7 @@ public class FragmentProfileSetting extends Fragment {
 	ArrayList<String>allcityname;
 	ArrayAdapter<String> adapter ;
 	EditText e_nickname,et_new_pass,et_email,et_site_url,et_brief;
+	Button btn_change_photo;
 	String  nickname,email,country_id="",city_id="",brief,password,siteurl;
 	@SuppressLint("NewApi")
 	@Override
@@ -94,7 +95,7 @@ public class FragmentProfileSetting extends Fragment {
 		allcountryname=new ArrayList<String>();
 		citylist=new ArrayList<City>();
 		allcityname=new ArrayList<String>();
-		
+
 	}
 
 	@Override
@@ -103,17 +104,33 @@ public class FragmentProfileSetting extends Fragment {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_profile_setting,
 				container, false);
 		img_profile=(ImageView) v.findViewById(R.id.img_profile);
+		btn_change_photo=(Button) v.findViewById(R.id.btn_change_photo);
 		s_city=(Spinner) v.findViewById(R.id.s_city);
 		s_country=(Spinner) v.findViewById(R.id.s_country);
 		t_city=(TextView) v.findViewById(R.id.t_city);
 		bt_update_profile=(Button) v.findViewById(R.id.bt_update_profile);
-		
+
 		e_nickname=(EditText) v.findViewById(R.id.e_nickname);
 		et_new_pass=(EditText) v.findViewById(R.id.et_new_pass);
 		et_email=(EditText) v.findViewById(R.id.et_email);
 		et_site_url=(EditText) v.findViewById(R.id.et_site_url);
 		et_brief=(EditText) v.findViewById(R.id.et_brief);
-		
+		img_profile.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				parent.startFragmentImageSetting();
+			}
+		});
+		btn_change_photo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				parent.startFragmentImageSetting();
+			}
+		});
 		bt_update_profile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -129,7 +146,7 @@ public class FragmentProfileSetting extends Fragment {
 					if(!email.equals("")){
 						if(Constants.isValidEmail(email)){
 							//AsyncTasksetUpdateProfile
-						//	AsyncTasksetUpdateProfile 
+							//	AsyncTasksetUpdateProfile 
 							pd=ProgressDialog.show(getActivity(), "Lipberry",
 									"Please wait", true);
 							new AsyncTasksetUpdateProfile().execute();
@@ -143,7 +160,7 @@ public class FragmentProfileSetting extends Fragment {
 								"Please wait", true);
 						new AsyncTasksetUpdateProfile().execute();
 					}
-					
+
 				}
 				else{
 					Toast.makeText(getActivity(), "Please fill up required field", Toast.LENGTH_SHORT).show();
@@ -184,8 +201,8 @@ public class FragmentProfileSetting extends Fragment {
 		});
 		return v;
 	}
-	
-	
+
+
 	private class AsyncTasksetUpdateProfile extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -236,15 +253,15 @@ public class FragmentProfileSetting extends Fragment {
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
-			
+
 			try {
-				  String status=job.getString("status");
-				 if(status.equals("success")){
-					 setusercred();
-				 }
-				 else{
-				 }
-				
+				String status=job.getString("status");
+				if(status.equals("success")){
+					setusercred();
+				}
+				else{
+				}
+
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -255,7 +272,7 @@ public class FragmentProfileSetting extends Fragment {
 		if(!password.equals("")){
 			ucred.setPassword(password);
 		}
-		
+
 		if(!email.equals("")){
 			ucred.setEmail(email);
 		}
@@ -276,7 +293,7 @@ public class FragmentProfileSetting extends Fragment {
 			ucred.setSiteUrl(brief);
 		}
 		appInstance.setUserCred(ucred);
-		
+
 	}
 	private class AsyncTaskGetCity extends AsyncTask<Void, Void, ServerResponse> {
 
@@ -345,7 +362,7 @@ public class FragmentProfileSetting extends Fragment {
 		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
 				adapter2, R.drawable.contact_spinner_row_nothing_selected_city,getActivity()));
 		s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
-			
+
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
 				selectedcityposition=position-1;
@@ -357,7 +374,7 @@ public class FragmentProfileSetting extends Fragment {
 			}
 		}); 
 	}
-	
+
 	private class AsyncTaskGetCountry extends AsyncTask<Void, Void, ServerResponse> {
 
 		@Override
@@ -422,12 +439,12 @@ public class FragmentProfileSetting extends Fragment {
 				parent.onBackPressed();
 			}
 		});
-		
+
 		if(	Constants.MESSAGESETTINGSTATE){
 			parent.startFragmentSetting();
 		}
 	}
-	
+
 	private void setcountry(){
 
 		adapter = new ArrayAdapter<String>(getActivity(),

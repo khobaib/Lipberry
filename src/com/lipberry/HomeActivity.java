@@ -28,6 +28,8 @@ import com.lipberry.fragment.TabFragment;
 import com.lipberry.model.ImageScale;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.settings.FragmentImageSetting;
+import com.lipberry.settings.FragmentMessageSetting;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
@@ -80,7 +82,7 @@ public class HomeActivity extends FragmentActivity {
 	ProgressDialog pd;
 	public TextView text_notification_no_fromactivity;
 	public ImageView img_cat_icon;
-
+	File photo;
 	public TabFragment activeFragment;
 	FragmentWriteTopic writetopic;
 	public ViewGroup mTabsPlaceHoler;
@@ -92,6 +94,7 @@ public class HomeActivity extends FragmentActivity {
 	boolean galary;
 	public Button backbuttonoftab;
 	public TextView welcome_title;
+	FragmentImageSetting imgsetting;
 
 	//	
 	//	 @Override
@@ -324,17 +327,6 @@ public class HomeActivity extends FragmentActivity {
 					Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 					startActivityForResult(intent, 3);
 
-
-
-					//	Intent intent = new Intent(Intent.ACTION_PICK);
-					//intent.setType("image/*");
-					// intent.setAction(Intent.ACTION_GET_CONTENT);
-					// Intent intent = new Intent(Intent.ACTION_PICK,
-					// android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-					// startActivityForResult(Intent.createChooser(intent,
-					//  TODO "Select Picture"),
-					//	startActivityForResult(intent, 3);
-
 				}
 				else if (options[item].equals("Cancel")) {
 					dialog.dismiss();
@@ -344,20 +336,57 @@ public class HomeActivity extends FragmentActivity {
 		builder.show();
 
 	}
-	//04-11 15:34:23.314: E/AndroidRuntime(19338): java.lang.RuntimeException: Unable to resume activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.RuntimeException: Failure delivering result ResultInfo{who=null, request=3, result=-1, data=Intent { dat=content://media/external/images/media/484 }} to activity {com.lipberry/com.lipberry.HomeActivity}: java.lang.NullPointerException
 
+	public void opeencamera(FragmentImageSetting imgsetting){
+		this.imgsetting=imgsetting;
+		photofromcamera=System.currentTimeMillis()+".jpg";
+		photo = new File(Environment.getExternalStorageDirectory(),photofromcamera);
 
-	//04-08 16:49:31.972: E/AndroidRuntime(13691): Caused by: java.lang.RuntimeException: 
-
+		final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
+		startActivityForResult(intent, 4);
+	}
+	public void opengalary(FragmentImageSetting imgsetting){
+		photofromcamera=System.currentTimeMillis()+".jpg";
+		photo = new File(Environment.getExternalStorageDirectory(),photofromcamera);
+		this.imgsetting=imgsetting;
+		Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		startActivityForResult(intent, 5);
+	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		drectory=Constants.drectory;
 		photofromcamera=Constants.photofromcamera;
 
-		Log.e("error", ""+requestCode+" "+RESULT_OK);
 		if (resultCode == RESULT_OK) {
-			if (requestCode == 1) {
+
+			if (requestCode == 4){
+				try {
+
+					String filepath =Environment.getExternalStorageDirectory()+"/"+photofromcamera;
+					Log.e("path", photofromcamera+"   "+Environment.getExternalStorageDirectory()+"   "+photo+"  "+filepath);
+					//					File file=new File(filepath);
+					if(photo.exists()){
+						ImageScale scaleimage=new ImageScale();
+						Bitmap bitmap = scaleimage.decodeImageForProfile( photo.getAbsolutePath());
+						imgsetting.onimageloadingSuccessfull(bitmap);
+
+					}
+					else{
+						imgsetting.onimageloadingFailed();
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					imgsetting.onimageloadingFailed();
+					e.printStackTrace();
+				}
+
+
+			}
+			
+			else if (requestCode == 1) {
 				try
 				{
 
@@ -402,6 +431,44 @@ public class HomeActivity extends FragmentActivity {
 				catch(Exception e)
 				{
 					Log.e("Could not save", e.toString());
+				}
+			}
+			
+			else if(requestCode == 5){
+				try {
+
+					String filepath =Environment.getExternalStorageDirectory()+"/"+photofromcamera;
+					Log.e("path", "yg  "+photo+" "+photo.exists());
+					//					File file=new File(filepath);
+					File sd = Environment.getExternalStorageDirectory();
+					if (sd.canWrite()){
+						Uri selectedImage = data.getData();
+						String[] filePath = { MediaStore.Images.Media.DATA };
+						Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+						c.moveToFirst();
+						int columnIndex = c.getColumnIndex(filePath[0]);
+						String picturePath = c.getString(columnIndex);
+						c.close();
+						File source= new File(picturePath);
+						FileChannel src = new FileInputStream(source).getChannel();
+						FileChannel dst = new FileOutputStream(photo).getChannel();
+						dst.transferFrom(src, 0, src.size());
+						src.close();
+						dst.close();
+						ImageScale scaleimage=new ImageScale();
+						Bitmap bitmap = scaleimage.decodeImageForProfile( photo.getAbsolutePath());
+						imgsetting.onimageloadingSuccessfull(bitmap);
+						
+
+					}
+					else{
+						imgsetting.onimageloadingFailed();
+					}
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					imgsetting.onimageloadingFailed();
+					e.printStackTrace();
 				}
 			}
 
@@ -464,16 +531,21 @@ public class HomeActivity extends FragmentActivity {
 			}
 
 
+			if((requestCode==4)||(requestCode==5)){
 
-			if(!galary){
-				Log.e("directory", "notnull "+drectory+"/"+photofromcamera+"   "+writetopic);
-				Toast.makeText(HomeActivity.this,"You have selected an image",
-						Toast.LENGTH_SHORT).show();
 			}
 			else{
-				Toast.makeText(HomeActivity.this,"You have selected an image",
-						Toast.LENGTH_SHORT).show();
+				if(!galary){
+					Log.e("directory", "notnull "+drectory+"/"+photofromcamera+"   "+writetopic);
+					Toast.makeText(HomeActivity.this,"You have selected an image",
+							Toast.LENGTH_SHORT).show();
+				}
+				else{
+					Toast.makeText(HomeActivity.this,"You have selected an image",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
+
 		}
 		else{
 

@@ -55,7 +55,7 @@ public class FragmentMessageSetting extends Fragment {
 	JsonParser jsonParser;
 	Button btn_save;
 	ProgressDialog pd;
-	String weekly_news,stop_emailmessage,stop_privatemessage,stop_commentMails;
+	int weekly_news,stop_emailmessage,stop_privatemessage,stop_commentMails;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,29 +88,29 @@ public class FragmentMessageSetting extends Fragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if(check_weekly_news_letter.isChecked()){
-					weekly_news="1";
+					weekly_news=1;
 				}
 				else{
-					weekly_news="0";
+					weekly_news=0;
 				}
 				// TODO Auto-generated method stub
 				if(check_direct_msz_to_mail.isChecked()){
-					stop_emailmessage="1";
+					stop_emailmessage=1;
 				}
 				else{
-					stop_emailmessage="0";
+					stop_emailmessage=0;
 				}
 				if(check_allow_member_directmsz.isChecked()){
-					stop_privatemessage="1";
+					stop_privatemessage=1;
 				}
 				else{
-					stop_privatemessage="0";
+					stop_privatemessage=0;
 				}
 				if(system_notification.isChecked()){
-					stop_commentMails="1";
+					stop_commentMails=1;
 				}
 				else{
-					stop_commentMails="0";
+					stop_commentMails=0;
 				}
 				boolean a=check_push_new_msz.isChecked();
 				UserCred ucred=appInstance.getUserCred();
@@ -229,21 +229,21 @@ public class FragmentMessageSetting extends Fragment {
 		boolean a;
 		
 		UserCred ucred=appInstance.getUserCred();
-		if(weekly_news.equals("0")){
+		if(weekly_news==0){
 			a=false;
 		}
 		else{
 			a=true;
 		}
 		ucred.setWeekly_newsletter(a);
-		if(stop_emailmessage.equals("0")){
+		if(stop_emailmessage==0){
 			a=false;
 		}
 		else{
 			a=true;
 		}
 		ucred.setDirect_msz_mail(a);
-		if(stop_commentMails.equals("0")){
+		if(stop_commentMails==0){
 			a=false;
 		}
 		else{
@@ -251,7 +251,7 @@ public class FragmentMessageSetting extends Fragment {
 		}
 		Log.e("sys", stop_commentMails+" "+a);
 		ucred.setSystem_notification(a);
-		if(stop_privatemessage.equals("0")){
+		if(stop_privatemessage==0){
 			a=false;
 		}
 		else{

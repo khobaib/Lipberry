@@ -25,22 +25,43 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl" >
 
-                <ImageView
-                    android:id="@+id/img_profile"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                     android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                   android:src="@drawable/noimage" />
+                <RelativeLayout
+                    android:id="@+id/re_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@drawable/ldummy_image" >
+
+                    <ImageView
+                        android:id="@+id/img_profile"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="22dp"
+                        android:layout_marginRight="22dp"
+                        android:src="@drawable/noimage" />
+
+                    <Button
+                        android:id="@+id/btn_change_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rounded_signin"
+                        android:paddingLeft="10dp"
+                        android:textColor="#ffffff"
+                        android:paddingRight="10dp"
+                         android:layout_marginRight="22dp"
+                        android:text="Change Photo"
+                        android:textSize="22dp" />
+                </RelativeLayout>
 
                 <EditText
                     android:id="@+id/e_nickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/img_profile"
+                    android:layout_below="@+id/re_photo"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginTop="12dp"
@@ -61,7 +82,6 @@
                     android:layout_below="@+id/e_nickname"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
-                    android:visibility="gone"
                     android:layout_marginTop="12dp"
                     android:background="#ffffff"
                     android:gravity="right"
@@ -69,7 +89,8 @@
                     android:inputType="textPassword"
                     android:padding="7dp"
                     android:textColor="#000000"
-                    android:textSize="24dp" >
+                    android:textSize="24dp"
+                    android:visibility="gone" >
                 </EditText>
 
                 <EditText
@@ -218,7 +239,6 @@
                             android:paddingLeft="42dp"
                             android:textSize="24dp" />
 
-
                         <ImageView
                             android:id="@+id/imageView4"
                             android:layout_width="32dp"
@@ -241,22 +261,11 @@
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginTop="12dp"
+                    android:background="@drawable/rounded_password"
                     android:text="Save profile"
                     android:textColor="#ffffff"
                     android:textSize="25dp" >
                 </Button>
-
-                <Button
-                    android:id="@+id/btn_change_photo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/img_profile"
-                    android:layout_alignRight="@+id/e_nickname"
-                    android:layout_marginBottom="25dp"
-                    android:layout_marginRight="36dp"
-                    android:textSize="22dp"
-                    android:text="Change Photo" />
-
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

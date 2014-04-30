@@ -133,6 +133,10 @@ public class FragmentMessage extends Fragment{
 								"Please Wait", true);
 						new AsyncTaskReplyMessage().execute();
 					}
+					else{
+						Toast.makeText(getActivity(),"Please enter message",
+								Toast.LENGTH_SHORT).show();
+					}
 
 				}
 				else{

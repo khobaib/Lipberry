@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.settings.FragmentMessageSetting;
 import com.lipberry.settings.FragmentProfileSetting;
 
@@ -66,7 +67,20 @@ public class MenuTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	
+	public void startFragmentImageSetting() {
+		FragmentImageSetting newFragment = new FragmentImageSetting();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	
 	public void startFragmentProfileSetting() {
+		
 		FragmentProfileSetting newFragment = new FragmentProfileSetting();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
