@@ -68,8 +68,8 @@ import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 
 
-@SuppressLint({ "NewApi", "ResourceAsColor" })
-public class FragmentArticleDetailsFromHome extends Fragment {
+@SuppressLint({ "NewApi", "ResourceAsColor", "ValidFragment" })
+public class FragmentArticleDetailsFromInteraction extends Fragment {
 	LipberryApplication appInstance;
 	ImageLoader imageLoader;
 	ProgressDialog pd;
@@ -88,11 +88,12 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	String commentstext;
 	ImageView play_vedio;
 	Commentslist commentslist;
-	@SuppressLint("NewApi")
-	Article article;
-	public void setArticle(Article article){
-		this.article=article;
+	String article_id;
+	public FragmentArticleDetailsFromInteraction(String article_id){
+		this.article_id=article_id;
 	}
+	@SuppressLint("NewApi")
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -147,8 +148,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		listView.setLayoutParams(params);
 	}
 
-	public void setmemberlist(){
-		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
+	public void setmemberlist1(){
+		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article_id);
 
 		list_comment.setAdapter(adapter1);
 		setListViewHeightBasedOnChildren(list_comment);
@@ -184,50 +185,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		if(article.getCategory_name()!=null){
-			((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
 
-		}
-		else{
-			if(article.getcategory().equals("1")){
-				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat1));
-			}
-			if(article.getcategory().equals("2")){
-				if(article.getArticle_category_url().contains("shexp")){
-					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
-				}
-				else{
-					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
-
-				}
-			}
-			if(article.getcategory().equals("3")){
-				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat3));
-			}
-			if(article.getcategory().equals("5")){
-				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat5));
-			}
-			if(article.getcategory().equals("8")){
-				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat8));
-			}
-		}
-		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
-
-
-
-		if(article.getcategory().equals("2")){
-			if(article.getArticle_category_url().contains("shexp")){
-				int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
-				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
-			}
-			else{
-				int id = getActivity().getResources().getIdentifier("bl"+article.getcategory(), "drawable", getActivity().getPackageName());
-				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
-			}
-		}else{
-			int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
-			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
-		}
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -252,7 +210,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/findarticlebyid/"+article.getArticle_id();
+				String url =Constants.baseurl+"article/findarticlebyid/"+article_id;
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -312,31 +270,66 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		btn_report=(Button) v.findViewById(R.id.btn_report);
 		image_share=(ImageView) v.findViewById(R.id.image_share);
 		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
-		play_vedio.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				Intent intent=new Intent(getActivity(), ActivityVideoViewDemo.class);
-//				startActivity(intent);
+
+	}
+	public void setCategorytitle(){
+		if(articledetails.getCategory_title()!=null){
+			((HomeActivity)getActivity()).welcome_title.setText(articledetails.getCategory_title());
+
+		}
+		else{
+			if(articledetails.getCategory().equals("1")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat1));
 			}
-		});
+			if(articledetails.getCategory().equals("2")){
+				//				if(articledetails.getca.contains("shexp")){
+				//					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
+				//				}
+				//else{
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
+
+				//}
+			}
+			if(articledetails.getCategory().equals("3")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat3));
+			}
+			if(articledetails.getCategory().equals("5")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat5));
+			}
+			if(articledetails.getCategory().equals("8")){
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat8));
+			}
+		}
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
+
+
+
+		if(articledetails.getCategory().equals("2")){
+
+			int id = getActivity().getResources().getIdentifier("bl"+articledetails.getCategory(), "drawable", getActivity().getPackageName());
+			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
+
+		}else{
+			int id = getActivity().getResources().getIdentifier("l"+articledetails.getCategory(), "drawable", getActivity().getPackageName());
+			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
+		}
 	}
 
 	public void setview(){
+		setCategorytitle();
 		image_share.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
 				String shareBody = articledetails.getShort_url();
-				
+
 				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Lipberry");
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent, "Share via"));
-				
+
 			}
 		} );
 		txt_like.setOnClickListener(new OnClickListener() {
@@ -344,9 +337,9 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				LisAlertDialog alert;
-				if(article.getLikedmemberlist().size()>0){
-						alert=new LisAlertDialog(getActivity(), article.getLikedmemberlist(),getActivity(),parent,null);
-						alert.show_alert();
+				if(articledetails.getLikedmemberlist().size()>0){
+					alert=new LisAlertDialog(getActivity(), articledetails.getLikedmemberlist(),getActivity(),parent,null);
+					alert.show_alert();
 				}
 				else{
 
@@ -359,7 +352,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		else{
 			btn_report.setVisibility(View.GONE);
 		}
-		text_user_name.setText(article.getMember_nickname());
+		text_user_name.setText(articledetails.getMember_name());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){
@@ -368,7 +361,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		else{
 			txt_viewd.setText(""+Long.parseLong(articledetails.getVisit_counter()));
 		}
-		text_topic_text.setText(article.getArticle_description());
+		text_topic_text.setText(articledetails.getBody());
 		txt_like.setText(articledetails.getLikemember_text());
 		text_comment.setText(articledetails.getComment_count()+ " "+getResources().
 				getString(R.string.txt_comments));
@@ -519,8 +512,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			imageLoader.loadImage(articledetails.getPhoto(), imll);
 		}
 
-		if(article.getUserAlreadylikeThis()!=null){
-			if(!article.getUserAlreadylikeThis().equals("No")){
+		if(articledetails.getUserAlreadylikeThis()!=null){
+			if(!articledetails.getUserAlreadylikeThis().equals("No")){
 				img_like.setBackgroundResource(R.drawable.unlike);
 			}
 			else{
@@ -529,12 +522,12 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
-			
+
 		}
 		else{
 			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
 		}
-		
+
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -563,7 +556,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		});
 	}
 	public void imgeviewlikeclicked(){
-		if(!article.getUserAlreadylikeThis().equals("No")){
+		if(!articledetails.getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(getActivity())){
 				pd=ProgressDialog.show(getActivity(), "Lipberry",
 						"Start dislike", true);
@@ -616,13 +609,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					img_like.setBackgroundResource(R.drawable.like);
-					article.setUserAlreadylikeThis("No");
+					articledetails.setUserAlreadylikeThis("No");
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					if(description.equals("You pressed dislike before")){
 						img_like.setBackgroundResource(R.drawable.like);
-						article.setUserAlreadylikeThis("No");
+						articledetails.setUserAlreadylikeThis("No");
 					}
 				}
 			} catch (JSONException e) {
@@ -660,13 +653,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					img_like.setBackgroundResource(R.drawable.unlike);
-					article.setUserAlreadylikeThis("Yes");
+					articledetails.setUserAlreadylikeThis("Yes");
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					if(description.equals("You presed like before")){
 						img_like.setBackgroundResource(R.drawable.unlike);
-						article.setUserAlreadylikeThis("Yes");
+						articledetails.setUserAlreadylikeThis("Yes");
 					}
 				}
 			} catch (JSONException e) {
@@ -715,7 +708,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/cancelFollowmember/"+article.getMember_id()+"/";
+				String url =Constants.baseurl+"account/cancelFollowmember/"+articledetails.getMember_id()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -755,7 +748,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/followmember/"+article.getMember_id()+"/";
+				String url =Constants.baseurl+"account/followmember/"+articledetails.getMember_id()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -890,7 +883,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				if(status.equals("success")){
 					if(status.equals("success")){
 						articledetails.setCommentcount((Integer.parseInt(articledetails.getComment_count())+1)+"");
-						article.setCommentcount((Integer.parseInt(article.getComment_count())+1)+"");
+						articledetails.setCommentcount((Integer.parseInt(articledetails.getComment_count())+1)+"");
 						text_comment.setText(articledetails.getComment_count()+ " "+getResources().
 								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
@@ -923,21 +916,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				int endindex;
-				
-				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
-					endindex=Integer.parseInt(article.getComment_count())+1;
-				}
-				else{
-					endindex=20;
-				}
-
-
+				endindex=20;
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", "0");
 				loginObj.put("endIndex", ""+endindex);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
+				String url =Constants.baseurl+"article/commentlist/"+article_id;
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -962,7 +947,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					commentslist=Commentslist.getCommentsListInstance(jobj);
 
 					if(commentslist.getCommentslist().size()>0){
-						setmemberlist();
+						setmemberlist1();
 					}
 				}
 				else{
@@ -973,19 +958,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 	}
-	//	public void setmemberlist(){
-	//		CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
-	//		list_comment.setAdapter(adapter1);
-	//		list_comment.setOnTouchListener(new OnTouchListener() {
-	//			@Override
-	//			public boolean onTouch(View v, MotionEvent event) {
-	//				// Disallow the touch request for parent scroll on touch of child view
-	//				v.getParent().requestDisallowInterceptTouchEvent(true);
-	//				return false;
-	//			}
-	//		});
-	//	}
-	//	
+
 	private class AsyncTaskUpdatePageVisit extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {

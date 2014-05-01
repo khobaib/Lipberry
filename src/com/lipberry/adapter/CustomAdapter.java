@@ -52,7 +52,7 @@ public class CustomAdapter extends BaseAdapter {
 		this.list=list;
 		this.activity=activity;
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();

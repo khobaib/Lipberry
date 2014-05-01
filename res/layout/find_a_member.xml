@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true" >
+
+    <AutoCompleteTextView
+        android:id="@+id/act_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/find_a_member"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/re_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/background_login" >
+
+        <ImageView
+            android:id="@+id/img_pro_pic"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:background="@color/gray70"
+            android:padding="1.5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/txt_bio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/vw_gap"
+            android:gravity="right"
+            android:padding="10dp"
+            android:textColor="#000000" />
+
+        <View
+            android:id="@+id/vw_gap"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/img_pro_pic"
+            android:layout_marginTop="10dp"
+            android:background="#ffffff" />
+
+        <TextView
+            android:id="@+id/text_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="50dp"
+            android:layout_toLeftOf="@+id/img_pro_pic"
+            android:text="Lipberry"
+            android:textColor="#f90452" />
+    </RelativeLayout>
+
+</RelativeLayout>

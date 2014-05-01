@@ -87,14 +87,7 @@ public class FragmentInteraction extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 		
-		
-	/*	FragmentTabHost.TabSpec spec =((HomeActivity)getActivity()).mTabHost.newTabSpec("Interaction");
-		View tabIndicator = LayoutInflater.from(getActivity()).inflate(
-				R.layout.tab_indicator, ((HomeActivity)getActivity()).mTabsPlaceHoler, false);
-		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-		icon.setImageResource(R.drawable.ic_launcher);
-		spec.setIndicator(tabIndicator);
-		((HomeActivity)getActivity()).mTabHost.addTab(spec, IneractionTabFragment.class, null);*/
+	
 		return v;
 	}
 	
@@ -172,6 +165,29 @@ public class FragmentInteraction extends Fragment {
 		Log.e("size",""+notificationList.getnotificationslist().size());
 		CustomAdapterForInteraction adapter=new CustomAdapterForInteraction(getActivity(), notificationList.getnotificationslist());
 		lst_interaction.setAdapter(adapter);
+		lst_interaction.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				// TODO Auto-generated method stub
+				if(notificationList.getnotificationslist().get(position).getInteraction_types()!=0){
+					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
+					Constants.GOMEMBERSTATE=true;
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+				}
+				else{
+					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
+					Constants.GOARTCLEPAGE=true;
+					Constants.INTER_ARTICLE_ID=notificationList.getnotificationslist().get(position).getArticle_id();
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+				}
+				
+			}
+		});
+		
+		
+		
 	}
 	
 	

@@ -64,7 +64,7 @@ public class CustomAdapterMessage extends BaseAdapter {
 		this.activity=activity;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();

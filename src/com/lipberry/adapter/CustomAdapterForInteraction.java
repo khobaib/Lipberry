@@ -6,10 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.Notifications;
+import com.lipberry.utility.Constants;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -57,7 +59,7 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 		this.list=list;
 		this.activity=activity;
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -101,7 +103,7 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
-			
+
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -119,13 +121,24 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
 		holder.text_msz.setText(list.get(position).getMessage());
-		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
 		showtext.updateImages(true,list.get(position).getMessage());
-		
+
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		ShowHtmlText showtext1=new ShowHtmlText(holder.text_date_other,activity);
 		showtext1.updateImages(true,list.get(position).getCreated_at());
+		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Constants.userid=list.get(position).getFrom_id();
+				Constants.GOMEMBERSTATE=true;
+				((HomeActivity)activity).mTabHost.setCurrentTab(4);
+
+			}
+		});
 		return convertView;
+
 	}
 }

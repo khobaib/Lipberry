@@ -264,6 +264,7 @@ public class FragmentMessageSetting extends Fragment {
 		
 		
 	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -276,5 +277,7 @@ public class FragmentMessageSetting extends Fragment {
 			}
 		});
 	}
+	
+	
 }
 

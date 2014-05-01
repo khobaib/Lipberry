@@ -37,6 +37,13 @@ public class ArticleDetails {
 	String member_id="";
 	String abuse_flag;
 	String abuse_url="";
+	String already_like_flag="No";
+	public String getUserAlreadylikeThis(){
+		return this.already_like_flag;
+	}
+	public void setUserAlreadylikeThis(String msz){
+		this.already_like_flag=msz;
+	}
 	public static  ArticleDetails getArticleDetails(JSONObject joObject){
 		String res=joObject.toString();
 		Gson gson = new Gson();

@@ -98,7 +98,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getActivity().getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();

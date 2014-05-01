@@ -16,6 +16,7 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -65,6 +66,7 @@ public class LoginActivity extends Activity {
 				forgotpass();
 			}
 		});
+		bt_forgotpass.setTypeface(Utility.getTypeface1(LoginActivity.this));
 		b_signin.setOnClickListener(new OnClickListener() {
 
 			@Override

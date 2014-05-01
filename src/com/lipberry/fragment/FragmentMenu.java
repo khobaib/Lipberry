@@ -89,16 +89,16 @@ public class FragmentMenu extends Fragment {
 					parent.startFragmentSetting();
 					break;
 				case 2:
-
+					parent.startFragmentFindamember();
 					break;
 				case 3:
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(0);
 					break;
 				case 4:
-
+					parent.startFragmentMyProfile();
 					break;
 				case 5:
-
+					
 					break;
 
 				default:

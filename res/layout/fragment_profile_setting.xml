@@ -38,6 +38,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="22dp"
+                        android:scaleType="fitXY"
                         android:layout_marginRight="22dp"
                         android:src="@drawable/noimage" />
 

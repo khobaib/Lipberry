@@ -1,7 +1,17 @@
 package com.lipberry.model;
 
 public class Notifications {
-	private String message,to_id,from_name,from_id,subject,created_at,from_avatar,from_nickname,from_username,read_flag;
+	private String message,to_id,from_name,from_id,subject,created_at,from_avatar,from_nickname,from_username,read_flag,article_id,article_section;
+	int interaction_types;
+	public String getArticle_section(){
+		return this.article_section;
+	}
+	public String getArticle_id(){
+		return this.article_id;
+	}
+	public int getInteraction_types(){
+		return this.interaction_types;
+	}
 	public String getMessage(){
 		return this.message;
 	}

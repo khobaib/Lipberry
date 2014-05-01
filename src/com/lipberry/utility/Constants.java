@@ -12,6 +12,11 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static boolean GOARTCLEPAGE=false; 
+	public static String INTER_ARTICLE_ID;
+	
+	public static boolean GOMEMBERSTATE=false; 
+	
 	public static boolean MESSAGESETTINGSTATE=false;
 	public static boolean catgeory=false;
 	public static String caturl="-1";

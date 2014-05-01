@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.Article;
+import com.lipberry.utility.Constants;
 
 
 
@@ -51,6 +52,14 @@ public class HomeTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
+		if(Constants.GOMEMBERSTATE){
+			startMemberFragment();
+			Constants.GOMEMBERSTATE=false;
+		}
+		else if(Constants.GOARTCLEPAGE){
+			Constants.GOARTCLEPAGE=false;
+			FragmentArticleDetailsFromInteraction(Constants.INTER_ARTICLE_ID);
+		}
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -60,6 +69,17 @@ public class HomeTabFragment extends TabFragment{
 		super.onStart();
 	}
 
+	public void FragmentArticleDetailsFromInteraction(String article_id) {
+		FragmentArticleDetailsFromInteraction newFragment = new FragmentArticleDetailsFromInteraction (article_id);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 
 	public void startFragmentArticleDetailsFromHome(Article article) {
 		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();

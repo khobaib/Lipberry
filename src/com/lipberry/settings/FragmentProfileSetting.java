@@ -74,9 +74,11 @@ public class FragmentProfileSetting extends Fragment {
 	ArrayList<String>allcountryname;
 	ArrayList<City>citylist;
 	ArrayList<String>allcityname;
+	DisplayImageOptions defaultOptions;
 	ArrayAdapter<String> adapter ;
 	EditText e_nickname,et_new_pass,et_email,et_site_url,et_brief;
 	Button btn_change_photo;
+	SingleMember singleMember;
 	String  nickname,email,country_id="",city_id="",brief,password,siteurl;
 	@SuppressLint("NewApi")
 	@Override
@@ -84,8 +86,8 @@ public class FragmentProfileSetting extends Fragment {
 		super.onCreate(savedInstanceState);
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		 defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getActivity().getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -116,11 +118,10 @@ public class FragmentProfileSetting extends Fragment {
 		et_site_url=(EditText) v.findViewById(R.id.et_site_url);
 		et_brief=(EditText) v.findViewById(R.id.et_brief);
 		img_profile.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				parent.startFragmentImageSetting();
+				parent.startFragmentImageSetting(singleMember);
 			}
 		});
 		btn_change_photo.setOnClickListener(new OnClickListener() {
@@ -128,7 +129,7 @@ public class FragmentProfileSetting extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				parent.startFragmentImageSetting();
+				parent.startFragmentImageSetting(singleMember);
 			}
 		});
 		bt_update_profile.setOnClickListener(new OnClickListener() {
@@ -388,21 +389,16 @@ public class FragmentProfileSetting extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd!=null){
-				if(pd.isShowing()){
-					pd.dismiss();
-				}
-			}
-			Log.d("serverreponse", result.getjObj().toString());
-
-			try {
-				s_country.setVisibility(View.VISIBLE);
-				String country=result.getjObj().getString("country_list");
-				loadcountrylist(country);
-
-			} catch (JSONException e) {
-				Toast.makeText(getActivity(), "Not available", 10000).show();
-			}  
+					try {
+						s_country.setVisibility(View.VISIBLE);
+						String country=result.getjObj().getString("country_list");
+						loadcountrylist(country);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				
+				new AsyncTaskGetSinleMember().execute();
 		}
 	}
 
@@ -474,5 +470,46 @@ public class FragmentProfileSetting extends Fragment {
 
 	}
 
+	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			String url =Constants.baseurl+"account/findmemberbyid/"+appInstance.getUserCred().getId()+"/";
+			ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_GET, url, null,
+					null, null);
+			return response;
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+			}
+			Log.e("responses", result.getjObj().toString());
+			setMemberObject(result.getjObj().toString());
+		}
+	}
+	public void setMemberObject(String  respnse){
+		try {
+			Log.i("serverreponse", respnse);
+			JSONObject jobj=new JSONObject(respnse);
+			String  status=jobj.getString("status");
+			if(status.equals("success")){
+				singleMember  =SingleMember.parseSingleMember(jobj);
+				ImageLoader.getInstance().getMemoryCache().clear();
+				ImageLoader.getInstance().getDiscCache().clear();
+				ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
+			}
+			else{
+//				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
+//						Toast.LENGTH_SHORT).show();
+			}
+		} catch (JSONException e) {
+//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
+//					Toast.LENGTH_SHORT).show();
+			e.printStackTrace();
+		}
+	}
 }
 

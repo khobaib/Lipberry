@@ -97,15 +97,16 @@
          android:layout_marginLeft="30dp"
         android:layout_alignParentLeft="true"
         android:layout_alignTop="@+id/e_pass"
-       
+       android:textSize="18dp"
         android:layout_marginTop="6dp"
         android:paddingLeft="9dp"
                 android:paddingRight="9dp"
      
-        android:background="@drawable/lforget_pwd"
+        android:background="@drawable/rounded_password"
         android:padding="3dp"
+        android:text="@string/bt_signin_forgetpass"
          android:textColor="#ffffff"
-        android:textSize="12dp" />
+        />
 
 
 </RelativeLayout>

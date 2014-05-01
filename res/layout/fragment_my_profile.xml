@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff" >
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/re_photo"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:background="@drawable/ldummy_image" >
+
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/noimage" />
+
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_toRightOf="@+id/img_profile"
+                    android:text="name"
+                    android:textColor="#ffffff"
+                    android:textSize="24dp" />
+
+                <TextView
+                    android:id="@+id/txt_nick_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/txt_name"
+                    android:layout_below="@+id/txt_name"
+                    android:layout_marginTop="4dp"
+                    android:text="nickname"
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/re_bio_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
+                android:background="#787878" >
+
+                <TextView
+                    android:id="@+id/txt_bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:padding="5dp"
+                    android:textColor="#ffffff" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/re_top_holder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="3dp"
+                android:background="#F0F0F0" >
+
+                <RelativeLayout
+                    android:id="@+id/re_Left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/txt_num_seen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:text="200"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/txt_seen_text"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:layout_toRightOf="@+id/txt_num_seen"
+                        android:text="@string/txt_seen_by"
+                        android:textColor="#f90452" />
+
+                    <TextView
+                        android:id="@+id/txt_num_following"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_num_seen"
+                        android:layout_margin="8dp"
+                        android:text="200"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/txt_following_text"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_num_seen"
+                        android:layout_margin="8dp"
+                        android:layout_toRightOf="@+id/txt_num_seen"
+                        android:text="@string/txt_following"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/txt_num_follower"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_num_following"
+                        android:layout_margin="8dp"
+                        android:text="200"
+                        android:textColor="#000000" />
+
+                    <TextView
+                        android:id="@+id/txt_follower_text"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/txt_num_following"
+                        android:layout_margin="8dp"
+                        android:layout_toRightOf="@+id/txt_num_follower"
+                        android:text="@string/txt_following"
+                        android:textColor="#f90452" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/re_mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_toLeftOf="@+id/re_right"
+                    android:layout_toRightOf="@+id/re_Left"
+                    android:background="#ffffff" >
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/btn_change_photo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@+id/re_mid"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="27dp"
+                    android:background="@drawable/rounded_signin"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Edit Profile"
+                    android:textColor="#ffffff"
+                    android:textSize="22dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

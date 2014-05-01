@@ -62,7 +62,7 @@ import com.lipberry.utility.LipberryApplication;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "ValidFragment" })
 public class FragmentImageSetting extends Fragment {
 	public MenuTabFragment parent;
 	String[]menuarray;
@@ -78,6 +78,11 @@ public class FragmentImageSetting extends Fragment {
 	Button b_take_pic,b_go_gallery,b_update;
 	int selectedcountryposition=-1;
 	ProgressDialog pd;
+	public SingleMember singleMember;
+	public FragmentImageSetting(SingleMember singleMember){
+		this.singleMember=singleMember;
+	}
+	
 
 	@SuppressLint("NewApi")
 	@Override
@@ -86,7 +91,7 @@ public class FragmentImageSetting extends Fragment {
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getActivity().getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -104,6 +109,7 @@ public class FragmentImageSetting extends Fragment {
 		b_go_gallery=(Button) v.findViewById(R.id.b_go_gallery);
 		b_update=(Button) v.findViewById(R.id.b_update);
 		iv_profile_pic=(ImageView) v.findViewById(R.id.iv_profile_pic);
+		imageLoader.displayImage(singleMember.getAvatar(), iv_profile_pic);
 		b_take_pic.setOnClickListener(new OnClickListener() {
 
 			@Override

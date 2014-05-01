@@ -2,11 +2,13 @@
 
     <string name="app_name">"Lipberry "</string>
 
-<!--       Inbox -->
+<!--       Inbox
+ا -->
  <string name="inbox_msz">"الرسائل"</string>
 <string name="inbox_new_msz">"رساله جديده"</string>
 <string name="inbox_sent_msz">"الرسائل المرسله"</string>
 <string name="inbox_setting">"الاعدادات"</string>
+<string name="find_a_member">"بحث عن مشتركة"</string>
 
 <!--       Inbox -->
 

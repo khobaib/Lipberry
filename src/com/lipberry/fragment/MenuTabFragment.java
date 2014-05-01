@@ -4,6 +4,8 @@ import java.util.Stack;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.model.SingleMember;
+import com.lipberry.settings.FragmentFindamember;
 import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.settings.FragmentMessageSetting;
 import com.lipberry.settings.FragmentProfileSetting;
@@ -55,6 +57,18 @@ public class MenuTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
+	//FragmentFindamember
+	public void startFragmentFindamember() {
+		FragmentFindamember newFragment = new FragmentFindamember();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	public void startFragmentMessageSetting() {
 		FragmentMessageSetting newFragment = new FragmentMessageSetting();
 		newFragment.parent = this;
@@ -66,9 +80,22 @@ public class MenuTabFragment extends TabFragment{
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
+	public void startFragmentMyProfile() {
+		FragmentMyProfile newFragment = new FragmentMyProfile();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	
-	public void startFragmentImageSetting() {
-		FragmentImageSetting newFragment = new FragmentImageSetting();
+	//
+	
+	public void startFragmentImageSetting(SingleMember singleMember) {
+		FragmentImageSetting newFragment = new FragmentImageSetting(singleMember);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

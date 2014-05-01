@@ -94,7 +94,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.parent3=parent3;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -224,8 +224,10 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			Log.e("category", "null"+list.get(position).getcategory());
 			holder.img_some_icon.setImageResource(id);
 		}
+		if(list.get(position).getMember_nickname()!=null){
+			holder.text_user_name.setText(list.get(position).getMember_nickname());
+		}
 		
-		holder.text_user_name.setText(list.get(position).getMember_nickname());
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
 		holder.text_topic_text.setText(Html.fromHtml(list.get(position).getArticle_description()));
