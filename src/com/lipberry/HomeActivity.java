@@ -95,23 +95,7 @@ public class HomeActivity extends FragmentActivity {
 	public Button backbuttonoftab;
 	public TextView welcome_title;
 	FragmentImageSetting imgsetting;
-
-	//	
-	//	 @Override
-	//	    protected void onRestoreInstanceState(Bundle state) {
-	//	        super.onRestoreInstanceState(state);
-	//	        mListState = state.getParcelable(LIST_STATE);
-	//	    }
-	//	 
-	//	 @Override
-	//	    protected void onSaveInstanceState(Bundle state) {
-	//	        super.onSaveInstanceState(state);
-	//	        mListState = ProductList.onSaveInstanceState();
-	//	        state.putParcelable(LIST_STATE, mListState);
-	//	    }
-	//	@Override
-
-	protected void onCreate(Bundle savedInstanceState) {
+protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		writetopic=new FragmentWriteTopic();
@@ -168,58 +152,8 @@ public class HomeActivity extends FragmentActivity {
 		}
 		icon.setImageResource(drawableId);
 		spec.setIndicator(tabIndicator);
-		//	spec.setContent(intent)
-		//	mTabHost.addTab(spec, c, null);
-
-		//			if(labelId!="Inbox"){
 		spec.setIndicator(tabIndicator);
-		//	spec.setContent(intent)
 		mTabHost.addTab(spec, c, null);
-		//			}
-		//			else{
-		//				Intent intent = new Intent().setClass(HomeActivity.this, LoginActivity.class);
-		//				// LocalActivityManager mLocalActivityManager = new LocalActivityManager(HomeActivity.this, false);
-		//				 //FragmentManager actvityManager = (ActivityManager) this.getSystemService( ACTIVITY_SERVICE );
-		//			
-		//					 mTabHost.setup(this,null ,
-		//								android.R.id.tabcontent);
-		//				spec.setContent(intent);
-		//				mTabHost.addTab(spec);
-		//			}
-		//	//	}
-		//		//04-11 19:12:03.771: E/AndroidRuntime(17512): 	at 
-
-		//	/*	else{
-		//			/*
-		//			
-		//			FragmentTabHost.TabSpec spec = mTabHost
-		//					.newTabSpec(labelId)
-		//					.setIndicator("Videos",
-		//							getResources().getDrawable(R.drawable.linbox))
-		//							.setContent(intent);*/
-		//			
-		//			//tabHost.addTab(spec);
-		//			
-		//			
-		//			Intent intent = new Intent().setClass(this, FragmentInbox.class);
-		//		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
-		//			View tabIndicator = LayoutInflater.from(this).inflate(
-		//					R.layout.tab_indicator, mTabsPlaceHoler, false);
-		//			ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
-		//			text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
-		//			text_notification_no.setVisibility(View.GONE);
-		//			icon.setImageResource(drawableId);
-		//			spec.setIndicator(tabIndicator);
-		//			//spec.setContent(intent);
-		//			mTabHost.addTab(spec, c, null);
-		//		//	mTabHost.addt
-		//		//	mTabHost.addTab(spec);
-		//			//mTabHost.addTab(tabSpec)
-		//
-		//		}*/
-
-
-
 	}
 
 	public void getnotificationcount(){
@@ -272,17 +206,17 @@ public class HomeActivity extends FragmentActivity {
 
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				HomeActivity.this);
-		alertDialogBuilder.setTitle("Lipberry");
+		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
 		alertDialogBuilder
-		.setMessage("Would you like to exit?")
+		.setMessage(getResources().getString(R.string.txt_exit))
 		.setCancelable(false)
-		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				Intent intent=new  Intent(HomeActivity.this, LoginActivity.class);
 				finisssh();
 			}
 		})
-		.setNegativeButton("No",new DialogInterface.OnClickListener() {
+		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog,int id) {
 				dialog.cancel();
 			}
@@ -299,14 +233,15 @@ public class HomeActivity extends FragmentActivity {
 	public void captureimage(boolean from){
 		galary=from;
 		createfolder();
-		final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+		final CharSequence[] options = { getResources().getString(R.string.txt_take_photo),  getResources().getString(R.string.txt_from_gallery),
+				getResources().getString(R.string.txt_from_cancel)};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
 		builder.setTitle("Add Photo!");
 		builder.setItems(options, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int item) {
-				if (options[item].equals("Take Photo"))
+				if (options[item].equals( getResources().getString(R.string.txt_take_photo)))
 				{
 
 					photofromcamera=System.currentTimeMillis()+".jpg";
@@ -319,7 +254,7 @@ public class HomeActivity extends FragmentActivity {
 					//getIntent().getSerializableExtra("MyClass");
 					startActivityForResult(intent, 1);
 				}
-				else if (options[item].equals("Choose from Gallery"))
+				else if (options[item].equals(getResources().getString(R.string.txt_from_gallery)))
 				{
 					photofromcamera=System.currentTimeMillis()+".jpg";
 					Constants.drectory=drectory;
@@ -328,7 +263,7 @@ public class HomeActivity extends FragmentActivity {
 					startActivityForResult(intent, 3);
 
 				}
-				else if (options[item].equals("Cancel")) {
+				else if (options[item].equals(getResources().getString(R.string.txt_from_cancel))) {
 					dialog.dismiss();
 				}
 			}
@@ -537,11 +472,11 @@ public class HomeActivity extends FragmentActivity {
 			else{
 				if(!galary){
 					Log.e("directory", "notnull "+drectory+"/"+photofromcamera+"   "+writetopic);
-					Toast.makeText(HomeActivity.this,"You have selected an image",
+					Toast.makeText(HomeActivity.this,getResources().getString(R.string.txt_you_have_selcect_image),
 							Toast.LENGTH_SHORT).show();
 				}
 				else{
-					Toast.makeText(HomeActivity.this,"You have selected an image",
+					Toast.makeText(HomeActivity.this,getResources().getString(R.string.txt_you_have_selcect_image),
 							Toast.LENGTH_SHORT).show();
 				}
 			}
@@ -549,7 +484,7 @@ public class HomeActivity extends FragmentActivity {
 		}
 		else{
 
-			Toast.makeText(HomeActivity.this,"Failed to select an image",
+			Toast.makeText(HomeActivity.this,getResources().getString(R.string.txt_failed_to_select_an_image),
 					Toast.LENGTH_SHORT).show();
 		}
 	}   

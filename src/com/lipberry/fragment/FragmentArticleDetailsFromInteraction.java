@@ -32,12 +32,16 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -76,6 +80,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	ArticleDetails articledetails;
 	ListView list_comment;
 	ListView lst_imag;
+	int state=0;
 	CustomAdapterForComment adapter1;
 	boolean followstate=false;
 	HomeTabFragment parent;
@@ -89,6 +94,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	ImageView play_vedio;
 	Commentslist commentslist;
 	String article_id;
+	LinearLayout vedio_view_holder;
+	WebView web_view;
 	public FragmentArticleDetailsFromInteraction(String article_id){
 		this.article_id=article_id;
 	}
@@ -150,16 +157,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 	public void setmemberlist1(){
 		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article_id);
-
 		list_comment.setAdapter(adapter1);
 		setListViewHeightBasedOnChildren(list_comment);
-		//			list_comment.setOnTouchListener(new OnTouchListener() {
-		//				@Override
-		//				public boolean onTouch(View v, MotionEvent event) {
-		//					v.getParent().requestDisallowInterceptTouchEvent(true);
-		//					return false;
-		//				}
-		//			});
 	}
 
 	@Override
@@ -190,7 +189,13 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				parent.onBackPressed();
+				if(state==0){
+					parent.onBackPressed();
+				}
+				else{
+					vedio_view_holder.setVisibility(View.GONE);
+					state=0;
+				}
 			}
 		});
 	}
@@ -270,6 +275,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		btn_report=(Button) v.findViewById(R.id.btn_report);
 		image_share=(ImageView) v.findViewById(R.id.image_share);
 		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
+		vedio_view_holder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
+		web_view=(WebView) v.findViewById(R.id.web_view);
 
 	}
 	public void setCategorytitle(){
@@ -314,8 +321,30 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 		}
 	}
+	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			return (false);
+		}
+	}
+
 
 	public void setview(){
+		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
+			play_vedio.setVisibility(View.GONE);
+		}
+		play_vedio.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+					state=1;
+					vedio_view_holder.setVisibility(View.VISIBLE);
+					web_view.setVisibility(View.VISIBLE);
+					WebSettings webSettings = web_view.getSettings();
+					webSettings.setJavaScriptEnabled(true);
+					web_view.setWebViewClient(new Callback());
+					web_view.loadUrl("https://www.youtube.com/watch?v=zdSW4DQ5XdM");
+			}
+		});
 		setCategorytitle();
 		image_share.setOnClickListener(new OnClickListener() {
 

@@ -32,8 +32,12 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,6 +79,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	ProgressDialog pd;
 	ArticleDetails articledetails;
 	ListView list_comment;
+	int state=0;
 	ListView lst_imag;
 	CustomAdapterForComment adapter1;
 	boolean followstate=false;
@@ -88,6 +93,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	String commentstext;
 	ImageView play_vedio;
 	Commentslist commentslist;
+	LinearLayout vedio_view_holder;
+	WebView web_view;
 	@SuppressLint("NewApi")
 	Article article;
 	public void setArticle(Article article){
@@ -107,7 +114,6 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
-			// pre-condition
 			return;
 		}
 
@@ -164,6 +170,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		//state=0;
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details,
@@ -232,7 +239,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				parent.onBackPressed();
+				if(state==0){
+					parent.onBackPressed();
+				}
+				else{
+					vedio_view_holder.setVisibility(View.GONE);
+					state=0;
+				}
 			}
 		});
 	}
@@ -312,41 +325,55 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		btn_report=(Button) v.findViewById(R.id.btn_report);
 		image_share=(ImageView) v.findViewById(R.id.image_share);
 		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
-		play_vedio.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				Intent intent=new Intent(getActivity(), ActivityVideoViewDemo.class);
-//				startActivity(intent);
-			}
-		});
+		vedio_view_holder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
+		web_view=(WebView) v.findViewById(R.id.web_view);
+
+	}
+	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			return (false);
+		}
 	}
 
 	public void setview(){
 		image_share.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
 				String shareBody = articledetails.getShort_url();
-				
 				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Lipberry");
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent, "Share via"));
-				
+
 			}
 		} );
+		
+		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
+			play_vedio.setVisibility(View.GONE);
+		}
+		
+		play_vedio.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+					state=1;
+					vedio_view_holder.setVisibility(View.VISIBLE);
+					web_view.setVisibility(View.VISIBLE);
+					WebSettings webSettings = web_view.getSettings();
+					webSettings.setJavaScriptEnabled(true);
+					web_view.setWebViewClient(new Callback());
+					web_view.loadUrl(articledetails.getVideo());
+			}
+		});
 		txt_like.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				LisAlertDialog alert;
 				if(article.getLikedmemberlist().size()>0){
-						alert=new LisAlertDialog(getActivity(), article.getLikedmemberlist(),getActivity(),parent,null);
-						alert.show_alert();
+					alert=new LisAlertDialog(getActivity(), article.getLikedmemberlist(),getActivity(),parent,null);
+					alert.show_alert();
 				}
 				else{
 
@@ -529,12 +556,12 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
-			
+
 		}
 		else{
 			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
 		}
-		
+
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -923,7 +950,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				int endindex;
-				
+
 				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
 					endindex=Integer.parseInt(article.getComment_count())+1;
 				}
@@ -973,19 +1000,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 	}
-	//	public void setmemberlist(){
-	//		CustomAdapterForComment adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist());
-	//		list_comment.setAdapter(adapter1);
-	//		list_comment.setOnTouchListener(new OnTouchListener() {
-	//			@Override
-	//			public boolean onTouch(View v, MotionEvent event) {
-	//				// Disallow the touch request for parent scroll on touch of child view
-	//				v.getParent().requestDisallowInterceptTouchEvent(true);
-	//				return false;
-	//			}
-	//		});
-	//	}
-	//	
+	
 	private class AsyncTaskUpdatePageVisit extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {

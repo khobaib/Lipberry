@@ -8,7 +8,6 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.google.gson.JsonObject;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.UserCred;
@@ -17,7 +16,6 @@ import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -32,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -44,6 +43,7 @@ public class LoginActivity extends Activity {
 	JsonParser jsonParser;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
+	TextView txt_title;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -54,10 +54,12 @@ public class LoginActivity extends Activity {
 	public void initview(){
 		stateofbackpress=0;
 		setContentView(R.layout.login);
+		txt_title=(TextView) findViewById(R.id.txt_title);
 		e_pass=(EditText) findViewById(R.id.e_pass);
 		e_uname=(EditText) findViewById(R.id.e_uname);
 		b_signin=(Button) findViewById(R.id.b_signin);
 		bt_forgotpass=(Button) findViewById(R.id.bt_forgotpass);
+		txt_title.setTypeface(Utility.getTypeface2(LoginActivity.this));
 		bt_forgotpass.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -83,8 +85,8 @@ public class LoginActivity extends Activity {
 
 		if(Constants.isOnline(LoginActivity.this)){
 			if(Constants.isValidEmail(username)){
-				pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
-						"Signing in", true);
+				pd=ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.app_name_arabic),
+						getResources().getString(R.string.txt_signing_in), false);
 				new  AsyncTaskLogin().execute();
 				
 			}
@@ -93,29 +95,28 @@ public class LoginActivity extends Activity {
 					 
 
 					if(username.length()<3){
-						Toast.makeText(LoginActivity.this, " Username  can't be less than 3 characcter",
-								10000).show();
+						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
+								Toast.LENGTH_SHORT).show();
 					}
 
 					else if(username.length()>10){
-						Toast.makeText(LoginActivity.this, " Username  can't be more than 10 characcter",
+						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_more),
 								10000).show();
 						
 					}
 					else{
-						Toast.makeText(LoginActivity.this, " Username  must  start with later and continue with " +
-								"only later,number and dashes ",
+						Toast.makeText(LoginActivity.this,getResources().getString(R.string.txt_uname_spec),
 								10000).show();
 					}
 				}
 
 				else if(password.trim().equals("")){
-					Toast.makeText(LoginActivity.this, "Please enter password",
+					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
 							10000).show();
 				}
 				else{
-					pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
-							"Signing in", true);
+					pd=ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.app_name_arabic),
+							getResources().getString(R.string.txt_signing_in), false);
 					new  AsyncTaskLogin().execute();
 					
 				}
@@ -141,12 +142,12 @@ public class LoginActivity extends Activity {
 				email=et_email.getText().toString();
 				if(Constants.isOnline(LoginActivity.this)){
 					if  (!Constants.isValidEmail(email)) {
-						Toast.makeText(LoginActivity.this, "Please enter  email",
+						Toast.makeText(LoginActivity.this,  getResources().getString(R.string.txt_please_enter_email),
 								10000).show();
 					}
 					else{
-						pd=ProgressDialog.show(LoginActivity.this, "Lipberry",
-								"Loading", true);
+						pd=ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.app_name_arabic),
+								getResources().getString(R.string.txt_loading), true);
 						new  AsyncTaskForgotPass().execute();
 					}
 				}

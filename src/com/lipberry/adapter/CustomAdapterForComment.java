@@ -74,7 +74,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 	int index=0;
 	public CustomAdapterForComment(Activity activity,
 			ArrayList<Comments>  list,String url) {
-		
+
 		super();
 		this.url=url;
 		appInstance = (LipberryApplication) activity.getApplication();
@@ -111,13 +111,15 @@ public class CustomAdapterForComment extends BaseAdapter {
 		ImageView img_avatar;
 		ImageView img_like;
 		ImageView img_comment;
+		ImageView img_report_abuse;
 		TextView txt_name;
 		TextView txt_title;
+
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		
+
 		LayoutInflater inflater = activity.getLayoutInflater();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.comments_inflate,
@@ -128,10 +130,22 @@ public class CustomAdapterForComment extends BaseAdapter {
 			holder.img_comment=(ImageView) convertView.findViewById(R.id.img_comment);
 			holder.txt_name=(TextView) convertView.findViewById(R.id.txt_name);
 			holder.txt_title=(TextView) convertView.findViewById(R.id.txt_title);
+			holder.img_report_abuse=(ImageView) convertView.findViewById(R.id.img_report_abuse);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
+		if(list.get(position).getabusecomment_flag()){
+			holder.img_report_abuse.setVisibility(View.GONE);
+		}
+		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		if(list.get(position).getlikeommentFlag()){
 			holder.img_like.setImageResource(R.drawable.unlike);
 		}
@@ -149,12 +163,26 @@ public class CustomAdapterForComment extends BaseAdapter {
 				else{
 					Toast.makeText(activity, "You already like this comment", Toast.LENGTH_SHORT).show();
 				}
+
+			}
+		});
+		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+					index=position;
+					pd=new ProgressDialog(activity);
+					pd.setTitle("Please Wait");
+					pd.show();
+					 new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
+				
 				
 			}
 		});
-		
+
 		holder.img_comment.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
@@ -170,6 +198,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 		}
 		return convertView;
 	}
+
 	private class AsyncTaskLike extends AsyncTask<Void, Void, ServerResponse> {
 		ImageView imgview_like;
 		public AsyncTaskLike(ImageView imgview_like){
@@ -177,7 +206,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			
+
 
 			try {
 				JSONObject loginObj = new JSONObject();
@@ -210,14 +239,12 @@ public class CustomAdapterForComment extends BaseAdapter {
 					list.get(index).setlikeommentFlag(true);
 					notifyDataSetChanged();
 					Toast.makeText(activity,description, 10000).show();
-				//	holder.img_like.setBackgroundResource(R.drawable.unlike);
-					//list.get(index).setUserAlreadylikeThis("Yes");
 				}
 				else{
 					Toast.makeText(activity,description, 10000).show();
 					if(description.equals("You presed like before")){
 						stateoflike=true;
-					//	holder.img_like.setBackgroundResource(R.drawable.unlike);
+						//	holder.img_like.setBackgroundResource(R.drawable.unlike);
 						//list.get(index).setUserAlreadylikeThis("Yes");
 					}
 
@@ -229,7 +256,54 @@ public class CustomAdapterForComment extends BaseAdapter {
 			}
 		}
 	}
-	
+
+	private class AsyncTaskRepoertAbuse extends AsyncTask<Void, Void, ServerResponse> {
+		ImageView imgview_abuse;
+		public AsyncTaskRepoertAbuse(ImageView imgview_abuse){
+			this.imgview_abuse=imgview_abuse;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =list.get(index).getAbusecomment_url();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST,
+						url, null,loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status= jobj.getString("status");
+				String description=jobj.getString("description");
+				Toast.makeText(activity,description, 10000).show();
+				if(status.equals("success")){
+					this.imgview_abuse.setVisibility(View.GONE);
+					list.get(index).setabusecomment_flag(true);
+					notifyDataSetChanged();
+				}
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -260,15 +334,15 @@ public class CustomAdapterForComment extends BaseAdapter {
 				if(status.equals("success")){
 					stateoflike=false;
 					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
-				//	holder2.img_like.setBackgroundResource(R.drawable.like);
+					//	holder2.img_like.setBackgroundResource(R.drawable.like);
 					//list.get(index).setUserAlreadylikeThis("No");
 				}
 				else{
 					Toast.makeText(activity,description, 10000).show();
 					if(description.equals("You pressed dislike before")){
-					//	holder2.img_like.setBackgroundResource(R.drawable.like);
+						//	holder2.img_like.setBackgroundResource(R.drawable.like);
 						stateoflike=false;
-					//	list.get(index).setUserAlreadylikeThis("No");
+						//	list.get(index).setUserAlreadylikeThis("No");
 					}
 				}
 			} catch (JSONException e) {
@@ -277,7 +351,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 			}
 		}
 	}
-	
+
 	public void showCustomDialog(){
 		final Dialog dialog=new Dialog(activity);
 		dialog.setContentView(R.layout.custom_dilog);
@@ -296,7 +370,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 			public void onClick(View v) {
 				dialog.dismiss();
 				String comments=et_comment.getText().toString();
-				
+
 				if(comments.equals("")){
 					Toast.makeText(activity,activity.getResources().getString(R.string.Toast_enter_text),
 							Toast.LENGTH_SHORT).show();
@@ -308,14 +382,14 @@ public class CustomAdapterForComment extends BaseAdapter {
 					pd.show();
 					new AsyncTaskReplyOnComments().execute();
 				}
-				
+
 			}
 		});
 
 		dialog.show();
 	}
-	
-	
+
+
 	private class AsyncTaskReplyOnComments extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -337,11 +411,11 @@ public class CustomAdapterForComment extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			
+
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
-				
+
 				if(status.equals("success")){
 					new AsyncTaskGetComments().execute();
 				}
@@ -350,21 +424,21 @@ public class CustomAdapterForComment extends BaseAdapter {
 						pd.dismiss();
 					} 
 					description=jobj.getString("description");
-					  Toast.makeText(activity,description, 10000).show();
-					
-				   }
+					Toast.makeText(activity,description, 10000).show();
+
+				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				
+
 
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
@@ -399,11 +473,11 @@ public class CustomAdapterForComment extends BaseAdapter {
 				}
 				else{
 					String description=jobj.getString("message");
-				//	Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+					//	Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
 			}
 		}
 	}
-	
+
 }

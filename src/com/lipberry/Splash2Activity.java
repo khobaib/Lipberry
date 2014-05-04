@@ -54,55 +54,15 @@ public class Splash2Activity extends Activity {
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.splash2);
 		txt_title=(TextView) findViewById(R.id.txt_title);
-		txt_title.setTypeface(Utility.getTypeface1(Splash2Activity.this));
-//		Handler handler=new Handler();
-//		handler.postDelayed(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//				if(!appInstance.isRememberMe()){
-//					gosplash2();
-//				}
-//				else{
-//					gosplash2();
-//					if(Constants.isOnline(Splash2Activity.this)){
-//						username=appInstance.getUserCred().getUsername();
-//						password=appInstance.getUserCred().getPassword(); 
-//						system_notification=appInstance.getUserCred().getSystem_notification();
-//						weekly_newsletter=appInstance.getUserCred().getWeekly_newsletter();
-//						direct_msz_mail=appInstance.getUserCred().getDirect_msz_mail();
-//						allow_direct_msz=appInstance.getUserCred().getAllow_direct_msz();
-//						stop_push_new_message=appInstance.getUserCred().getStop_push_new_message();
-//						signin();
-//					}
-//					else{
-//						Toast.makeText(Splash2Activity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
-//						Intent intent=new Intent(Splash2Activity.this, HomeActivity.class);
-//						startActivity(intent);
-//						finish();
-//
-//					}
-//				}
-//
-//			}
-//		},4000);
+		txt_title.setTypeface(Utility.getTypeface2(Splash2Activity.this));
+
 	}
-
-
-
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
-
-
-//	public void gosplash2(){
-//		stateofbackpress=0;
-//		setContentView(R.layout.splash2);
-//
-//	}
 
 	public void goLoginpage(View view){
 		Intent  intent=new Intent(Splash2Activity.this, LoginActivity.class);

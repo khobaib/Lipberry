@@ -2,15 +2,71 @@
 
     <string name="app_name">"Lipberry "</string>
 
-<!--       Inbox
-ا -->
- <string name="inbox_msz">"الرسائل"</string>
-<string name="inbox_new_msz">"رساله جديده"</string>
-<string name="inbox_sent_msz">"الرسائل المرسله"</string>
-<string name="inbox_setting">"الاعدادات"</string>
-<string name="find_a_member">"بحث عن مشتركة"</string>
+    <!--
+App Specific
+ا
+    -->
+     <string name="txt_title">"Title"</string>
+    <string name="txt_article_body">"Article Body"</string>
+     <string name="txt_select_photo">"Select Photo"</string>
+      <string name="txt_video_url">"Vedio url"</string>
+       <string name="txt_enter">"Enter"</string>
+        <string name="txt_title">"Title"</string>
+         <string name="txt_title">"Title"</string>
+    
+    <string name="app_name_arabic">"Lipberry"</string>
+    <string name="txt_signing_in">"Signing in"</string>
+    <string name="txt_please_enter_password">"Please enter password"</string>
+    <string name="txt_uname_cant_lessthan">"Username  can't be less than 3 characcter"</string>
+    <string name="txt_uname_cant_more">" Username  can't be more than 10 characcter"</string>
+    <string name="txt_uname_spec">" Username  must  start with later and continue with " +
+								"only later,number and dashes "</string>
+    <string name="txt_loading">"Loading"</string>
+    <string name="txt_please_enter_email"> "Please enter email"</string>
+    <string name="txt_please_wait"> "Please wait"</string>
+    <string name="txt_please_select_country_first"> "Please select country first"</string>
+    <string name="txt_retreiving_country"> "Retreving citylist"</string>
+    <string name="txt_enter_name"> "Please enter name"</string>
+    <string name="txt_enter_nicknamename"> "Please enter nickname"</string>
+    <string name="txt_condition_nickname"> "Nickname  can't be less than 3 characcter"</string>
+    <string name="txt_condition_nicknamemore"> " Nickname  can't be more than 10 characcter"</string>
+    <string name="txt_enter_email"> "Please enter valid email"</string>
+    <string name="txt_enter_password"> "Password  can't be empty"</string>
+    <string name="txt_enter_confirm"> "ConfirmPass  can't be empty"</string>
+    <string name="txt_select_city"> "Please select city"</string>
+    <string name="txt_select_country"> "Please select country"</string>
+    <string name="txt_select_know_us"> "Please select  from how did you know about us list "</string>
+    <string name="txt_match_pass"> "Password and confirm password are not same "</string>
+    <string name="txt_not_available"> "Not available"</string>
+    <string name="txt_no_city_found"> "No city found"</string>
+     <string name="txt_exit"> " Would you like to exit?"</string>
+     <string name="txt_yes"> "Yes"</string>
+     <string name="txt_no"> "No"</string>
+     
+      <string name="txt_take_photo"> "Take Photo"</string>
+      <string name="txt_from_gallery"> "Choose from Gallery"</string>
+      <string name="txt_from_cancel"> "Cancel"</string>
+       <string name="txt_you_have_selcect_image"> "You have selected an image"</string>
+        <string name="txt_failed_to_select_an_image"> "Failed to select an image"</string>
+      
+      
+    <!--
+App Specific
+ا
+    -->
 
-<!--       Inbox -->
+
+    <!--
+Inbox
+ا
+    -->
+    <string name="inbox_msz">"الرسائل"</string>
+    <string name="inbox_new_msz">"رساله جديده"</string>
+    <string name="inbox_sent_msz">"الرسائل المرسله"</string>
+    <string name="inbox_setting">"الاعدادات"</string>
+    <string name="find_a_member">"بحث عن مشتركة"</string>
+
+    <!-- Inbox -->
 
     <string name="txt_cat1">"مكياج"</string>
     <string name="txt_cat2">"البشرة"</string>
@@ -65,14 +121,14 @@
     <string name="et_type_your_comment_here">"Type your comment here"</string>
     <!--
      Type your comment here
-     post within cat in screen
+     post within cat in screen
     -->
     <string name="txt_make_up">"المكياج"</string>
     <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>
     <string name="txt_comments">"تعليق"</string>
     <string name="txt_article">"Article"</string>
 
-<!--      memberscreen -->
+    <!-- memberscreen -->
     <string name="txt_setting">"الإعدادات"</string>
     <string name="txt_body_details">"معلومات جسمك"</string>
     <string name="txt_signout">"تسجيل خروج"</string>

@@ -99,8 +99,8 @@ public class SignupActivity extends Activity {
 		b_register.setTypeface(Utility.getTypeface1(SignupActivity.this));
 		if(Constants.isOnline(SignupActivity.this)){
 
-			pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
-					"Please wait", true);
+			pd=ProgressDialog.show(SignupActivity.this,  getResources().getString(R.string.app_name_arabic),
+					getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetCountry().execute();
 			new AsyncTaskGetknowingReason().execute();
 
@@ -115,8 +115,8 @@ public class SignupActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				if(Constants.isOnline(SignupActivity.this)){
-					pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
-							"Loading", true);
+					pd=ProgressDialog.show(SignupActivity.this, getResources().getString(R.string.app_name_arabic),
+							getResources().getString(R.string.txt_please_wait), false);
 					new AsyncTaskGetknowingReason().execute();
 
 				}
@@ -133,12 +133,12 @@ public class SignupActivity extends Activity {
 			public void onClick(View arg0) {
 				if(Constants.isOnline(SignupActivity.this)){
 					if(selectedcountryposition==-1){
-						Toast.makeText(SignupActivity.this, "Please select country first",
+						Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_please_select_country_first),
 								10000).show();
 
 					}else{
-						pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
-								"Retreving citylist", true);
+						pd=ProgressDialog.show(SignupActivity.this,  getResources().getString(R.string.app_name_arabic),
+								getResources().getString(R.string.txt_retreiving_country), true);
 						new AsyncTaskGetCity().execute();
 					}
 				}
@@ -195,77 +195,71 @@ public class SignupActivity extends Activity {
 		if  (!Constants.namecheck(e_username.getText().toString())) {
 
 			if(e_username.length()<3){
-				Toast.makeText(SignupActivity.this, " Username  can't be less than 3 " +
-						"characcter",
-						10000).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
+						Toast.LENGTH_SHORT).show();
 			}
 
 			else if(e_username.length()>10){
-				Toast.makeText(SignupActivity.this, " Username  can't be more than 10 " +
-						"characcter",
-						10000).show();
+				Toast.makeText(SignupActivity.this,  getResources().getString(R.string.txt_uname_cant_more),
+						Toast.LENGTH_SHORT).show();
 			}
 			else{
-				Toast.makeText(SignupActivity.this, " Username  must  start with later and" +
-						" continue with only later," +
-						"number and dashes ",10000).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_uname_spec),
+						Toast.LENGTH_SHORT).show();
 			}
 
 		}
 		else if  (name.trim().equals("")) {
 
-			Toast.makeText(SignupActivity.this, "Name  can't be empty",10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_name),Toast.LENGTH_SHORT).show();
 		}
 		else if  (nickname.trim().equals("")) {
-			Toast.makeText(SignupActivity.this, "Nickname  can't be empty",10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_nicknamename),Toast.LENGTH_SHORT).show();
 		}
 
 		else if  ((nickname.length()<3)||(nickname.length()>10)) {
 			if(nickname.length()<3){
-				Toast.makeText(SignupActivity.this, " Nickname  can't be less " +
-						"than 3 characcter",
-						10000).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_condition_nickname),
+						Toast.LENGTH_SHORT).show();
 			}
 
 			else if(nickname.length()>10){
-				Toast.makeText(SignupActivity.this, "Nickname  can't be " +
-						"more than 10 characcter",
-						10000).show();
+				Toast.makeText(SignupActivity.this,  getResources().getString(R.string.txt_condition_nicknamemore),
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 		else if  (!Constants.isValidEmail(email)) {
-			Toast.makeText(SignupActivity.this, "Please enter valid email",
-					10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_email),
+					Toast.LENGTH_SHORT).show();
 		}
 		else if  (password.trim().equals("")) {
-			Toast.makeText(SignupActivity.this, "Password  can't be empty",
-					10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_password),
+					Toast.LENGTH_SHORT).show();
 		}
 		else if  (confirmpass.trim().equals("")) {
 
-			Toast.makeText(SignupActivity.this, "ConfirmPass  can't be empty",
-					10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_confirm),
+					Toast.LENGTH_SHORT).show();
 		}
 		else if  (selectedcountryposition==-1) {
 
-			Toast.makeText(SignupActivity.this, "Please select country",
-					10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_select_country),
+					Toast.LENGTH_SHORT).show();
 		}
 		else if  (selectedcityposition==-1) {
-
-			Toast.makeText(SignupActivity.this, "Please select city",
-					10000).show();
+			
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_select_city),
+					Toast.LENGTH_SHORT).show();
 		}
 		else if  (selectedknowposition==-1) {
 
-			Toast.makeText(SignupActivity.this, "Please select  from how did" +
-					" you know about us list ",
-					10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_select_know_us),
+					Toast.LENGTH_SHORT).show();
 		}
 
 		else if (!(password.equalsIgnoreCase(confirmpass))) {
-			Toast.makeText(SignupActivity.this, "Please match Password and ConfirmPass ",
-					10000).show();
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_match_pass),
+					Toast.LENGTH_SHORT).show();
 		}
 
 		else {
@@ -423,7 +417,7 @@ public class SignupActivity extends Activity {
 				loadcitylist(city);
 
 			} catch (JSONException e) {
-				Toast.makeText(SignupActivity.this, "Not available", 10000).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_not_available), Toast.LENGTH_SHORT).show();
 			}  
 		}
 	}
@@ -453,7 +447,7 @@ public class SignupActivity extends Activity {
 				loadcountrylist(country);
 
 			} catch (JSONException e) {
-				Toast.makeText(SignupActivity.this, "Not available", 10000).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_not_available), Toast.LENGTH_SHORT).show();
 			}  
 
 
@@ -506,7 +500,7 @@ public class SignupActivity extends Activity {
 				setcity();
 			}
 			else{
-				Toast.makeText(SignupActivity.this,"No city found ", 10000).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_not_available), Toast.LENGTH_SHORT).show();
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
 

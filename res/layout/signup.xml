@@ -6,19 +6,7 @@
     android:layoutDirection="rtl"
     android:orientation="vertical" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layoutDirection="rtl" >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:orientation="vertical" >
+  
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,23 +18,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                     android:layout_marginTop="12dp"
-                    android:layout_marginRight="25dp"
+                     android:layout_marginTop="7dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/licon_for_topbar"
                     android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/e_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:layout_below="@+id/img_icon_to_bar"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginEnd="22dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
                     android:gravity="right"
@@ -63,14 +51,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/e_name"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp" >
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp" >
 
                     <EditText
                         android:id="@+id/e_username"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                         android:layout_height="42dp"
                         android:layout_alignParentLeft="true"
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
@@ -85,12 +75,14 @@
                 <EditText
                     android:id="@+id/e_nickname"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                     android:layout_height="42dp"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/re_username"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
                     android:gravity="right"
@@ -103,12 +95,14 @@
                 <EditText
                     android:id="@+id/e_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                     android:layout_height="42dp"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/e_nickname"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="7dp"
                     android:background="#ffffff"
                     android:gravity="right"
                     android:hint="@string/et_signup_password"
@@ -121,12 +115,14 @@
                 <EditText
                     android:id="@+id/e_confirmpass"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                     android:layout_height="42dp"
                     android:layout_alignParentLeft="true"
                     android:layout_below="@+id/e_password"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                  android:layout_marginTop="7dp"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
                     android:gravity="right"
@@ -142,14 +138,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/e_confirmpass"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp" >
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp" >
 
                     <EditText
                         android:id="@+id/e_email"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                         android:layout_height="42dp"
                         android:layout_alignParentLeft="true"
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
@@ -164,11 +162,13 @@
                 <RelativeLayout
                     android:id="@+id/re_cityandcountry"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                     android:layout_height="42dp"
                     android:layout_below="@+id/re_email"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp" >
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp" >
 
                     <TextView
                         android:id="@+id/t_dummy"
@@ -199,7 +199,7 @@
                         <TextView
                             android:id="@+id/t_city"
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                             android:layout_height="42dp"
                             android:padding="7dp"
                             android:gravity="center"
                             android:background="@drawable/rounded_edittext"
@@ -227,8 +227,9 @@
                         <Spinner
                             android:id="@+id/s_country"
                             android:layout_width="match_parent"
-                            android:layout_height="55dp"
+                            android:layout_height="42dp"
                             android:paddingLeft="42dp"
+       
                           android:gravity="center"  
                             android:background="@drawable/rounded_edittext"
                             android:textSize="24dp" />
@@ -244,15 +245,7 @@
                             android:textSize="20dp" >
                         </TextView>
 
-                        <AutoCompleteTextView
-                            android:id="@+id/s_country"
-                            android:layout_width="200dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/rounded_edittext"
-                            android:hint="@string/et_signup_country"
-                            android:padding="7dp"
-                            android:textSize="24dp"
-                            android:visibility="gone" />
+                      
 
                         <ImageView
                             android:id="@+id/imageView4"
@@ -269,17 +262,19 @@
                 <RelativeLayout
                     android:id="@+id/re_kowaboutus"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                     android:layout_height="42dp"
                     android:layout_below="@+id/re_cityandcountry"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp"
                     android:background="@drawable/rounded_edittext" >
 
                     <Spinner
                         android:id="@+id/s_kowaboutus"
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="42dp"
                         android:gravity="center" 
                         android:background="@drawable/rounded_edittext"
                        
@@ -307,15 +302,17 @@
                 <Button
                     android:id="@+id/b_register"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                     android:layout_height="42dp"
                     android:layout_below="@+id/re_kowaboutus"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="12dp"
-                    android:layout_marginLeft="22dp"
+                     android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
                     android:textSize="25dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="7dp"
                     android:background="@drawable/rounded_button"
                     android:text="@string/et_signup_register"
                     android:textColor="#ffffff" >
@@ -328,7 +325,7 @@
                     android:layout_alignLeft="@+id/b_register"
                     android:layout_alignTop="@+id/b_register"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="5dp"
                     android:src="@drawable/lsign_yes" />
 
                 <ImageView
@@ -336,11 +333,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                  android:layout_marginTop="33dp"
+                  android:layout_marginTop="19dp"
                     android:src="@drawable/lsignupmsz" />
 
             </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+       
 
 </RelativeLayout>

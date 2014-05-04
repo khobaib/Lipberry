@@ -31,6 +31,8 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebViewClient;
 import android.webkit.WebSettings.PluginState;
 import android.webkit.WebView;
 import android.webkit.WebView.FindListener;
@@ -78,6 +80,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	Commentslist commentslist;
 	ListView list_comment;
 	ListView lst_imag;
+	int state=0;
 	boolean followstate=false;
 	CategoryTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
@@ -90,6 +93,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	ImageLoadingListener imll;
 	EditText et_comment;
 	String commentstext;
+	LinearLayout vedio_view_holder;
+	WebView web_view;
 	@SuppressLint("NewApi")
 	Article article;
 	public void setArticle(Article article){
@@ -106,7 +111,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		ImageLoader.getInstance().init(config);
 	}
 
-
+	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			return (false);
+		}
+	}
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -248,7 +258,13 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				parent.onBackPressed();
+				if(state==0){
+					parent.onBackPressed();
+				}
+				else{
+					vedio_view_holder.setVisibility(View.GONE);
+					state=0;
+				}
 			}
 		});
 	}
@@ -317,10 +333,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 	}
 	public void initview(ViewGroup v){
-		//play_vedio,back,video_view,vedioholder
 		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
-		back=(Button) v.findViewById(R.id.back);
-		video_view=(VideoView) v.findViewById(R.id.video_view);
 		vedioholder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
 		list_comment=(ListView) v.findViewById(R.id.list_comment);
 		lst_imag=(ListView) v.findViewById(R.id.lst_imag);
@@ -339,9 +352,19 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		btn_photo_album=(Button) v.findViewById(R.id.btn_photo_album);
 		btn_report=(Button) v.findViewById(R.id.btn_report);
 		image_share=(ImageView) v.findViewById(R.id.image_share);
+		vedio_view_holder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
+		web_view=(WebView) v.findViewById(R.id.web_view);
 	}
-
+	
 	public void setview(){
+		btn_photo_album.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=cxLG2wtE7TM")));
+			}
+		});
 		image_share.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -378,28 +401,22 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		else{
 			btn_report.setVisibility(View.GONE);
 		}
+		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
+			play_vedio.setVisibility(View.GONE);
+		}
 		play_vedio.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				vedioholder.setVisibility(View.VISIBLE);
-				if(articledetails.getVideo().equals("")){
-
-				}
-				else{
-					startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(articledetails.getVideo())));
-
-				}
-			}
-		});
-		back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				vedioholder.setVisibility(View.GONE);
+					state=1;
+					vedio_view_holder.setVisibility(View.VISIBLE);
+					web_view.setVisibility(View.VISIBLE);
+					WebSettings webSettings = web_view.getSettings();
+					webSettings.setJavaScriptEnabled(true);
+					web_view.setWebViewClient(new Callback());
+					web_view.loadUrl(articledetails.getVideo());
 			}
 		});
+		
 		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getCreated_at());
 		txt_articl_ename.setText(articledetails.getTitle());

@@ -322,6 +322,7 @@ public class FragmentMemberFromCategories extends Fragment {
 	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			
 			return (false);
 		}
 	}

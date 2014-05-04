@@ -9,13 +9,20 @@ public class Comments {
 
 	String created_at,member_url,comment_id,member_avatar,member_name,
 	likecount,abusecomment_url,likecomment_url,replyon_url,comment;
-	boolean likecomment_flag;
+	boolean likecomment_flag,abusecomment_flag;
+	public boolean getabusecomment_flag(){
+		return this.abusecomment_flag;
+	}
+	public void setabusecomment_flag(boolean abusecomment_flag){
+		this.abusecomment_flag=abusecomment_flag;
+	}
 	public boolean getlikeommentFlag(){
 		return this.likecomment_flag;
 	}
 	public void setlikeommentFlag(boolean likecomment_flag){
 	   this.likecomment_flag=likecomment_flag;
 	}
+	
 	
 	public String getComment(){
 		return this.comment;

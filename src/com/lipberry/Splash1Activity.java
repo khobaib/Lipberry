@@ -56,7 +56,7 @@ public class Splash1Activity extends Activity {
 		Log.e("password", appInstance.getUserCred().getPassword());
 		setContentView(R.layout.splash);
 		txt_title=(TextView) findViewById(R.id.txt_title);
-		txt_title.setTypeface(Utility.getTypeface1(Splash1Activity.this));
+		txt_title.setTypeface(Utility.getTypeface2(Splash1Activity.this));
 		Handler handler=new Handler();
 		handler.postDelayed(new Runnable() {
 
@@ -79,7 +79,7 @@ public class Splash1Activity extends Activity {
 						signin();
 					}
 					else{
-						Toast.makeText(Splash1Activity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+						Toast.makeText(Splash1Activity.this, getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT).show();
 						Intent intent=new Intent(Splash1Activity.this, HomeActivity.class);
 						startActivity(intent);
 						finish();
@@ -109,8 +109,8 @@ public class Splash1Activity extends Activity {
 	public void signin(){
 		if(Constants.isOnline(Splash1Activity.this)){
 			if(Constants.isValidEmail(username)){
-				pd=ProgressDialog.show(Splash1Activity.this, "Lipberry",
-						"Signing in", true);
+				pd=ProgressDialog.show(Splash1Activity.this, getResources().getString(R.string.app_name_arabic),
+						getResources().getString(R.string.txt_signing_in), false);
 				new  AsyncTaskLogin().execute();
 				
 			}
@@ -119,29 +119,29 @@ public class Splash1Activity extends Activity {
 					 
 
 					if(username.length()<3){
-						Toast.makeText(Splash1Activity.this, " Username  can't be less than 3 characcter",
-								10000).show();
+						Toast.makeText(Splash1Activity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
+								Toast.LENGTH_SHORT).show();
 					}
 
 					else if(username.length()>10){
-						Toast.makeText(Splash1Activity.this, " Username  can't be more than 10 characcter",
-								10000).show();
+						Toast.makeText(Splash1Activity.this, getResources().getString(R.string.txt_uname_cant_more),
+								Toast.LENGTH_SHORT).show();
 						
 					}
 					else{
-						Toast.makeText(Splash1Activity.this, " Username  must  start with later and continue with " +
-								"only later,number and dashes ",
-								10000).show();
+						Toast.makeText(Splash1Activity.this, getResources().getString(R.string.txt_uname_spec) ,
+								Toast.LENGTH_SHORT).show();
 					}
 				}
 
 				else if(password.trim().equals("")){
-					Toast.makeText(Splash1Activity.this, "Please enter password",
-							10000).show();
+					Toast.makeText(Splash1Activity.this,getResources().getString(R.string.txt_please_enter_password),
+							Toast.LENGTH_SHORT).show();
 				}
 				else{
-					pd=ProgressDialog.show(Splash1Activity.this, "Lipberry",
-							"Signing in", true);
+					
+					pd=ProgressDialog.show(Splash1Activity.this, getResources().getString(R.string.app_name_arabic),
+							getResources().getString(R.string.txt_signing_in), false);
 					new  AsyncTaskLogin().execute();
 					
 				}
@@ -212,7 +212,7 @@ public class Splash1Activity extends Activity {
 			}
 			else{
 				String descrip=job.getString("description");
-				Toast.makeText(Splash1Activity.this,descrip, 10000).show();
+				Toast.makeText(Splash1Activity.this,descrip, Toast.LENGTH_SHORT).show();
 			}
 
 

@@ -135,11 +135,6 @@ public class FragmentWriteTopic extends Fragment {
 		super.onResume();
 		loadGridview();
 	}
-
-
-
-
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -149,7 +144,6 @@ public class FragmentWriteTopic extends Fragment {
 		grid_image=(GridView) v.findViewById(R.id.grid_image);
 		txt_topic=(EditText) v.findViewById(R.id.txt_topic);
 		txt_text=(EditText) v.findViewById(R.id.txt_text);
-		//
 		txt_tag=(EditText) v.findViewById(R.id.txt_tag);
 		btn_go=(Button) v.findViewById(R.id.btn_go);
 		btn_go.setOnClickListener(new OnClickListener() {
@@ -183,8 +177,6 @@ public class FragmentWriteTopic extends Fragment {
 			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-
-
 		return v;
 	}
 
@@ -319,17 +311,16 @@ public class FragmentWriteTopic extends Fragment {
 		title=txt_topic.getText().toString();
 		body=txt_text.getText().toString();
 		body=txt_text.getText().toString();
+		video=txt_tag.getText().toString();
 		if(title.trim().equals("")){
 			Toast.makeText(getActivity(), "Please enter article title",Toast.LENGTH_SHORT).show();
 		}
-		else if(body.trim().equals("")){
-			Toast.makeText(activity, "Please enter article text",Toast.LENGTH_SHORT).show();
-		}
+		
 		else if(selsectedspinnerposition==-1){
 			Toast.makeText(activity, "Please select category",Toast.LENGTH_SHORT).show();
 		}
 
-		else{
+		else if((!body.equals(""))||(video.equals(""))||(bitmap!=null)){
 
 			if(Constants.isOnline(getActivity())){
 
@@ -346,6 +337,9 @@ public class FragmentWriteTopic extends Fragment {
 			}
 
 		}
+		else{
+			Toast.makeText(getActivity(), "please fill up the required field", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private class AsyncTaskWriteTopic extends AsyncTask<Void, Void, ServerResponse> {
@@ -356,9 +350,15 @@ public class FragmentWriteTopic extends Fragment {
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
 				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
-				byte[] ba1 = body.getBytes();
-				String base64StrString = Base64.encodeBytes(ba1);
-				loginObj.put("body", base64StrString);
+				byte[] ba1;
+				String base64StrString;
+				if(!body.equals("")){
+					ba1 = body.getBytes();
+					base64StrString = Base64.encodeBytes(ba1);
+					loginObj.put("body", base64StrString);
+				}
+				
+				
 				ba1 = title.getBytes();
 				base64StrString = Base64.encodeBytes(ba1);
 				loginObj.put("title", base64StrString);
@@ -369,9 +369,7 @@ public class FragmentWriteTopic extends Fragment {
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("photo",  base64Str);
 				}
-				else{
-				}
-				loginObj.put("video", "https://www.youtube.com/watch?v=u9L1QP6foCo");
+				loginObj.put("video", video);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"article/addarticle/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
