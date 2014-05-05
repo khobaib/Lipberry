@@ -109,7 +109,9 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
 			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
 			holder.text_name=(TextView) convertView.findViewById(R.id.text_name);
 			holder.text_time=(TextView) convertView.findViewById(R.id.text_time);
-			
+			holder.text_msz.setTypeface(Utility.getTypeface2(activity));
+			holder.text_name.setTypeface(Utility.getTypeface2(activity));
+			holder.text_time.setTypeface(Utility.getTypeface2(activity));
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -136,6 +138,7 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
 			holder.text_time.setTextColor(Color.parseColor("#000000"));
 			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
+		holder.text_time.setText(Utility.getFormattedTime(list.get(position).getCreated_at()));
 		holder.text_msz.setText(list.get(position).getMessage());
 		holder.text_msz.setTypeface(Utility.getTypeface1(activity));
 		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());

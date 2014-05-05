@@ -53,7 +53,7 @@
                         android:textColor="#ffffff"
                         android:paddingRight="10dp"
                          android:layout_marginRight="22dp"
-                        android:text="Change Photo"
+                        android:text="@string/txt_change_photo"
                         android:textSize="22dp" />
                 </RelativeLayout>
 
@@ -106,7 +106,7 @@
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
                     android:gravity="right"
-                    android:hint="password"
+                    android:hint="@string/et_signup_password"
                     android:inputType="textPassword"
                     android:padding="7dp"
                     android:textColor="#000000"
@@ -130,7 +130,7 @@
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
                         android:gravity="right"
-                        android:hint="email"
+                        android:hint="@string/et_signup_email"
                         android:padding="7dp"
                         android:textColor="#000000"
                         android:textSize="24dp" >
@@ -146,7 +146,7 @@
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
                         android:gravity="right"
-                        android:hint="Site url"
+                        android:hint="@string/txt_site_url"
                         android:padding="7dp"
                         android:textColor="#000000"
                         android:textSize="24dp" >
@@ -162,7 +162,7 @@
                         android:background="@drawable/rounded_edittext"
                         android:ems="10"
                         android:gravity="right"
-                        android:hint="Brief"
+                        android:hint="@string/txt_brief"
                         android:padding="7dp"
                         android:textColor="#000000"
                         android:textSize="24dp" >
@@ -263,7 +263,7 @@
                     android:layout_marginRight="22dp"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rounded_password"
-                    android:text="Save profile"
+                    android:text="@string/txt_save_profile"
                     android:textColor="#ffffff"
                     android:textSize="25dp" >
                 </Button>

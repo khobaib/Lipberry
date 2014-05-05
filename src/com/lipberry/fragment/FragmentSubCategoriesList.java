@@ -102,9 +102,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				if(Constants.isOnline(getActivity())){
-//					pd=ProgressDialog.show(getActivity(), "Lipberry",
-//							"Retreving more Post", true);
-					new AsyncTaskgetmoreSubCategoriesPost().execute();
+						new AsyncTaskgetmoreSubCategoriesPost().execute();
 				}
 				else{
 					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
@@ -114,15 +112,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 		});
 		
 		jsonParser=new JsonParser();
-//		if(Constants.isOnline(getActivity())){
-//			pd=ProgressDialog.show(getActivity(), "Lipberry",
-//					"Retreving Post", true);
-//			new AsyncTaskgetSubCategories().execute();
-//		}
-//		else{
-//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-//					Toast.LENGTH_SHORT).show();
-//		}
+
 		btn_go_another_category=(Button) v.findViewById(R.id.btn_go_another_category);
 		btn_go_another_category.setOnClickListener(new OnClickListener() {
 			@Override

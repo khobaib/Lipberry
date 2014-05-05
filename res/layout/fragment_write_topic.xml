@@ -75,7 +75,7 @@
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
                     android:gravity="right"
-                    android:hint="Vedio url"
+                    android:hint="@string/txt_video_url"
                     android:padding="7dp"
                     android:textAlignment="viewStart"
                     android:textColor="#000000"
@@ -107,7 +107,7 @@
                     android:layout_marginStart="22dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_edittext"
-                    android:text="Select Photo"
+                    android:text="@string/txt_select_photo"
                     android:textColor="#000000" />
 
                 <Button
@@ -121,7 +121,7 @@
                     android:layout_marginStart="22dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/rounded_edittext"
-                    android:text="Enter"
+                     android:text="@string/txt_enter"
                     android:textColor="#000000" />
 
                 

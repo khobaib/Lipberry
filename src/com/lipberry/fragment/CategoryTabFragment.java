@@ -31,13 +31,6 @@ public class CategoryTabFragment extends TabFragment{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		backEndStack = new Stack<Fragment>();
-//		if(Constants.catgeory){
-//			backEndStack.clear();
-//			FragmentSubCategoriesList initialFragment = new FragmentSubCategoriesList();
-//			initialFragment.setUrl(Constants.caturl,Constants.caname);
-//			initialFragment.parent = this;
-//			backEndStack.push(initialFragment);
-//		}
 		FragmentCategories initialFragment = new FragmentCategories();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);

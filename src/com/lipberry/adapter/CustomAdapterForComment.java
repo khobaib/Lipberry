@@ -153,15 +153,15 @@ public class CustomAdapterForComment extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				if(!list.get(position).getlikeommentFlag()){
-					pd=new ProgressDialog(activity);
-					pd.setTitle("Start like");
+					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
+							activity.getResources().getString(R.string.txt_please_wait), false);
 					pd.show();
 					index=position;
 					AsyncTaskLike instance=new AsyncTaskLike(holder.img_like);
 					instance.execute();
 				}
 				else{
-					Toast.makeText(activity, "You already like this comment", Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, activity.getResources().getString(R.string.txt_already_liked), Toast.LENGTH_SHORT).show();
 				}
 
 			}
@@ -172,8 +172,8 @@ public class CustomAdapterForComment extends BaseAdapter {
 			public void onClick(View v) {
 				
 					index=position;
-					pd=new ProgressDialog(activity);
-					pd.setTitle("Please Wait");
+					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
+							activity.getResources().getString(R.string.txt_please_wait), false);
 					pd.show();
 					 new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
 				
@@ -355,7 +355,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 	public void showCustomDialog(){
 		final Dialog dialog=new Dialog(activity);
 		dialog.setContentView(R.layout.custom_dilog);
-		dialog.setTitle("Lipberry");
+		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
 		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
 		Button  bt_ok = (Button) dialog.findViewById(R.id.bt_ok);
@@ -377,8 +377,8 @@ public class CustomAdapterForComment extends BaseAdapter {
 				}
 				else{
 					comment=et_comment.getText().toString();
-					pd=new ProgressDialog(activity);
-					pd.setTitle("Start comment");
+					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
+							activity.getResources().getString(R.string.txt_please_wait), false);
 					pd.show();
 					new AsyncTaskReplyOnComments().execute();
 				}
@@ -468,7 +468,6 @@ public class CustomAdapterForComment extends BaseAdapter {
 						list.clear();
 						list=commentslist.getCommentslist();
 						notifyDataSetChanged();
-						Toast.makeText(activity,"Article has been added", Toast.LENGTH_SHORT).show();
 					}
 				}
 				else{

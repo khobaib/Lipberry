@@ -62,6 +62,7 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 @SuppressLint({ "NewApi", "ValidFragment" })
 public class FragmentMessage extends Fragment{
 	int threadposition;
@@ -110,13 +111,14 @@ public class FragmentMessage extends Fragment{
 		CustomAdapterMessage adapter=new CustomAdapterMessage(getActivity(), messagelist.getIndividualThreadlist());
 		lv_thread_messages.setAdapter(adapter);
 		b_reply=(Button) v.findViewById(R.id.b_reply);
+		b_reply.setTypeface(Utility.getTypeface2(getActivity()));
 		b_delete=(Button) v.findViewById(R.id.b_delete);
 		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
 		
 		if(Constants.isOnline(getActivity())){
 			if(messagelist.getIndividualThreadlist().get(0).equals("0")){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Please Wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSetasReadMessage().execute();
 			}
 				
@@ -129,12 +131,12 @@ public class FragmentMessage extends Fragment{
 				replymessage=et_msg_body.getText().toString();
 				if(Constants.isOnline(getActivity())){
 					if(!replymessage.equalsIgnoreCase("")){
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Please Wait", true);
+						pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						new AsyncTaskReplyMessage().execute();
 					}
 					else{
-						Toast.makeText(getActivity(),"Please enter message",
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),
 								Toast.LENGTH_SHORT).show();
 					}
 
@@ -153,8 +155,8 @@ public class FragmentMessage extends Fragment{
 				
 				if(Constants.isOnline(getActivity())){
 					
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Please Wait", true);
+						pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						new AsyncTaskDeleteMessage().execute();
 				
 
@@ -171,6 +173,7 @@ public class FragmentMessage extends Fragment{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_inbox));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -225,7 +228,7 @@ public class FragmentMessage extends Fragment{
 				String status=job.getString("status");
 				if(status.equals("success")){
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					Toast.makeText(getActivity(),"Message is sent", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),getActivity().getString(R.string.txt_msz_is_sent), Toast.LENGTH_SHORT).show();
 					parent.onBackPressed();
 				}
 				else{

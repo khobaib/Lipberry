@@ -74,6 +74,7 @@ import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.UTF8Text;
+import com.lipberry.utility.Utility;
 
 @SuppressLint("NewApi")
 public class FragmentWriteTopic extends Fragment {
@@ -146,6 +147,10 @@ public class FragmentWriteTopic extends Fragment {
 		txt_text=(EditText) v.findViewById(R.id.txt_text);
 		txt_tag=(EditText) v.findViewById(R.id.txt_tag);
 		btn_go=(Button) v.findViewById(R.id.btn_go);
+		txt_topic.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_tag.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_go.setTypeface(Utility.getTypeface1(getActivity()));
 		btn_go.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -159,6 +164,7 @@ public class FragmentWriteTopic extends Fragment {
 			}
 		});
 		btn_select_photo=(Button) v.findViewById(R.id.btn_select_photo);
+		btn_select_photo.setTypeface(Utility.getTypeface1(getActivity()));
 		btn_select_photo.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -169,8 +175,9 @@ public class FragmentWriteTopic extends Fragment {
 		spinner_category=(Spinner) v.findViewById(R.id.spinner_category);
 		((HomeActivity)activity).welcome_title.setText(R.string.txt_write_topic);
 		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry",
-					"Retreving categories", true);
+			pd=ProgressDialog.show(activity, getActivity().getResources().getString(R.string.app_name_arabic),
+					 getActivity().getResources().getString(R.string.txt_retreiving_category), true);
+			
 			new AsyncTaskgetCategories().execute();
 		}
 		else{
@@ -187,7 +194,7 @@ public class FragmentWriteTopic extends Fragment {
 		galarylist =getList(file); 
 
 		if(galarylist.size()>0){
-			btn_select_photo.setText("Add more photo for gallery");
+			btn_select_photo.setText(getActivity().getResources().getString(R.string.txt_add_more_phto));
 			grid_image.setVisibility(View.VISIBLE);
 			Bitmap bitmap = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
 					"/Lipberryfinal/"+galarylist.get(0));
@@ -313,11 +320,11 @@ public class FragmentWriteTopic extends Fragment {
 		body=txt_text.getText().toString();
 		video=txt_tag.getText().toString();
 		if(title.trim().equals("")){
-			Toast.makeText(getActivity(), "Please enter article title",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_please_enter_title),Toast.LENGTH_SHORT).show();
 		}
 		
 		else if(selsectedspinnerposition==-1){
-			Toast.makeText(activity, "Please select category",Toast.LENGTH_SHORT).show();
+			Toast.makeText(activity,getActivity().getResources().getString(R.string.txt_please_select_category) ,Toast.LENGTH_SHORT).show();
 		}
 
 		else if((!body.equals(""))||(video.equals(""))||(bitmap!=null)){
@@ -325,7 +332,7 @@ public class FragmentWriteTopic extends Fragment {
 			if(Constants.isOnline(getActivity())){
 
 				pd=new ProgressDialog(getActivity());
-				pd.setMessage("Writing topic");
+				pd.setMessage(getActivity().getResources().getString(R.string.txt_writing_topic));
 				pd.show();
 
 
@@ -338,7 +345,7 @@ public class FragmentWriteTopic extends Fragment {
 
 		}
 		else{
-			Toast.makeText(getActivity(), "please fill up the required field", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(),getResources().getString(R.string.txt_please_required_field), Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -406,7 +413,7 @@ public class FragmentWriteTopic extends Fragment {
 							}
 						}
 						((HomeActivity)activity).mTabHost.setCurrentTab(4);
-						Toast.makeText(getActivity(),"Write topic successfull", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(),getResources().getString(R.string.txt_write_topic_success), Toast.LENGTH_SHORT).show();
 					}
 
 
@@ -417,7 +424,7 @@ public class FragmentWriteTopic extends Fragment {
 							pd.dismiss();
 						}
 					}
-					Toast.makeText(getActivity(),"Failed to write topic", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),getResources().getString(R.string.txt_write_topic_failure), Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {

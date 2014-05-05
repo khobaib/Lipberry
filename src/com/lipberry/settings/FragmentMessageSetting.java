@@ -45,6 +45,7 @@ import com.lipberry.model.UserCred;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 @SuppressLint("NewApi")
 public class FragmentMessageSetting extends Fragment {
 	public MenuTabFragment parent;
@@ -77,6 +78,14 @@ public class FragmentMessageSetting extends Fragment {
 		check_allow_member_directmsz=(CheckBox) v.findViewById(R.id.check_allow_member_directmsz);
 		btn_save=(Button) v.findViewById(R.id.btn_save);
 		check_push_new_msz=(CheckBox) v.findViewById(R.id.check_push_new_msz);
+		
+		system_notification.setTypeface(Utility.getTypeface1(getActivity()));
+		check_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
+		check_direct_msz_to_mail.setTypeface(Utility.getTypeface1(getActivity()));
+		check_allow_member_directmsz.setTypeface(Utility.getTypeface1(getActivity()));
+		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
+		check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
+		
 		check_direct_msz_to_mail.setChecked(appInstance.getUserCred().getDirect_msz_mail());
 		check_allow_member_directmsz.setChecked(appInstance.getUserCred().getAllow_direct_msz());
 		check_push_new_msz.setChecked(appInstance.getUserCred().getStop_push_new_message());
@@ -119,8 +128,8 @@ public class FragmentMessageSetting extends Fragment {
 
 				if(Constants.isOnline(getActivity())){
 
-					pd=ProgressDialog.show(getActivity(), "Lipberry",
-							"Please Wait", true);
+					pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+							getActivity().getResources().getString(R.string.txt_please_wait), false);
 					new AsyncTaskSaveMessageSetting().execute();
 
 
@@ -132,50 +141,7 @@ public class FragmentMessageSetting extends Fragment {
 
 			}
 		});
-//		check_direct_msz_to_mail.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				
-//			}
-//		});
-//		check_allow_member_directmsz.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				boolean a=!appInstance.getUserCred().getAllow_direct_msz();
-//				UserCred ucred=appInstance.getUserCred();
-//				ucred.setAllow_direct_msz(a);
-//				appInstance.setUserCred(ucred);
-//			}
-//		});
-		//		check_push_new_msz.setOnClickListener(new OnClickListener() {
-		//			@Override
-		//			public void onClick(View v) {
-		//				
-		//			}
-		//		});
 
-//		system_notification.setOnClickListener(new OnClickListener() {
-//			@Override
-//			public void onClick(View v) {
-//				boolean a=!appInstance.getUserCred().getSystem_notification();
-//				UserCred ucred=appInstance.getUserCred();
-//				
-//				appInstance.setUserCred(ucred);
-//			}
-//		});
-
-//		check_weekly_news_letter.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				boolean a=!appInstance.getUserCred().getWeekly_newsletter();
-//				UserCred ucred=appInstance.getUserCred();
-//				ucred.setWeekly_newsletter(a);
-//				appInstance.setUserCred(ucred);
-//			}
-//		});
 		return v;
 	}
 	private class AsyncTaskSaveMessageSetting extends AsyncTask<Void, Void, ServerResponse> {

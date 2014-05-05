@@ -45,7 +45,7 @@ public class LisAlertDialog {
 		final Dialog dia = new Dialog(context);
 		dia.setContentView(R.layout.list_alert);
 		cancel_button=(Button) dia.findViewById(R.id.cancel_button);
-		dia.setTitle("Select File to import");
+		dia.setTitle(activity.getResources().getString(R.string.app_name_arabic));
 		dia.setCancelable(true);
 		list_alert1 = (ListView) dia.findViewById(R.id.alert_list);
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(

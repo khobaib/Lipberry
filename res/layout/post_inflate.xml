@@ -4,25 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
+  
     android:layoutDirection="rtl"
     android:orientation="vertical" >
-
+    
+    <RelativeLayout
+        android:id="@+id/re_gap"
+        android:layout_width="match_parent"
+        android:layout_height="9dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#d7d7d7"
+        android:layoutDirection="rtl" >
+        </RelativeLayout>
+ 
     <RelativeLayout
         android:id="@+id/re_top"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/re_gap"
         android:background="#ffffff"
         android:layoutDirection="rtl" >
 
         <ImageView
             android:id="@+id/img_pro_pic"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="5dp"
             android:background="@color/gray70"
             android:padding="1.5dp"
             android:scaleType="fitXY"
@@ -126,25 +138,14 @@
             android:background="@drawable/like" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/et_comment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/re_like_holder"
-        android:layout_margin="5dp"
-        android:background="@drawable/rounded_edittext"
-        android:ems="10"
-        android:gravity="right"
-        android:hint="@string/et_type_your_comment_here"
-        android:padding="5dp"
-        android:textColor="#000000" >
-    </EditText>
+    
 
     <RelativeLayout
         android:id="@+id/re_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_comment"
+        android:layout_below="@+id/re_like_holder"
+        android:layout_marginTop="-5dp"
         android:background="@drawable/llholder_for_likeandcomment"
         android:layoutDirection="rtl" >
 
@@ -156,9 +157,8 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:gravity="right|center_vertical"
-            android:padding="5dp"
-            android:text="sam , hasan and 30 other like this"
-            android:textColor="#000000"
+              android:layout_marginRight="12dp"
+           android:textColor="#000000"
             android:textSize="17dp" />
 
         <TextView
@@ -168,8 +168,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:gravity="center_vertical"
-            android:text="60 comments"
+            android:gravity="left"
             android:textColor="#000000"
             android:textSize="17dp" />
     </RelativeLayout>

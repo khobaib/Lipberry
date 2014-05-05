@@ -53,6 +53,7 @@ import com.lipberry.model.SingleMember;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -69,7 +70,8 @@ public class FragmentMemberFromCategories extends Fragment {
 	ArticleList  articlelistinstance;
 	GridView grd_memberpost;
 	CategoryTabFragment parent;
-	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
+	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio,
+	txt_seen_text,txt_following_text,txt_follower_text,txt_article;
 	ImageView img_member_pic;
 	Button btn_follow_her,btn_send,btn_share,btn_connect;
 	ProgressDialog pd;
@@ -93,6 +95,10 @@ public class FragmentMemberFromCategories extends Fragment {
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_member,
 				container, false);
+		txt_seen_text=(TextView) v.findViewById(R.id.txt_seen_text);
+		txt_following_text=(TextView) v.findViewById(R.id.txt_following_text);
+		txt_follower_text=(TextView) v.findViewById(R.id.txt_follower_text);
+		txt_article=(TextView) v.findViewById(R.id.txt_article);
 		txt_num_seen=(TextView) v.findViewById(R.id.txt_num_seen);
 		txt_num_following=(TextView) v.findViewById(R.id.txt_num_following);
 		txt_num_follower=(TextView) v.findViewById(R.id.txt_num_follower);
@@ -106,9 +112,27 @@ public class FragmentMemberFromCategories extends Fragment {
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
 		btn_connect=(Button) v.findViewById(R.id.btn_connect);
 		grd_memberpost=(GridView) v.findViewById(R.id.grd_memberpost);
+		
+		txt_num_seen.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_num_follower.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_num_following.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_name.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_nick_name.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
+		
+		btn_connect.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_share.setTypeface(Utility.getTypeface2(getActivity()));
+		
+		txt_seen_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_article.setTypeface(Utility.getTypeface2(getActivity()));
+		
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Retreving member", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetSinleMember().execute();
 		}
 		else{

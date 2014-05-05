@@ -26,7 +26,8 @@
                 android:layout_height="60dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginRight="10dp"
-                android:text="Take Picture"
+                android:text="@string/txt_take_picture"
+                android:background="#ab4656"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -36,8 +37,9 @@
                 android:layout_height="60dp"
                 android:layout_alignTop="@+id/b_take_pic"
                 android:layout_toRightOf="@+id/b_take_pic"
-                android:text="Go to Gallery"
+                android:text="@string/txt_goto_gallery"
                 android:textColor="@color/white"
+                android:background="#ab4656"
                 android:textSize="20dp" />
         </RelativeLayout>
 
@@ -48,6 +50,7 @@
             android:scaleType="fitXY"
             android:layout_below="@+id/rlTopButtons"
             android:layout_centerHorizontal="true"
+             
             android:layout_marginTop="10dp"
              />
 
@@ -58,8 +61,9 @@
             android:layout_below="@+id/iv_profile_pic"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="Update"
+            android:text="@string/txt_update"
             android:textColor="@color/white"
+             android:background="#ab4656"
             android:textSize="25dp" />
     </RelativeLayout>
 

@@ -101,11 +101,6 @@ public class FragmentFindamember extends Fragment{
 	ImageView img_pro_pic;
 	TextView txt_bio,text_user_name;
 	@SuppressLint("NewApi")
-
-	//	public FragmentSendMessage(ThreadMessageList messagelist,String messageid){
-	//		this.messagelist=messagelist;
-	//		this.messageid=messageid;
-	//	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -136,13 +131,17 @@ public class FragmentFindamember extends Fragment{
 		img_pro_pic=(ImageView) v.findViewById(R.id.img_pro_pic);
 		txt_bio=(TextView) v.findViewById(R.id.txt_bio);
 		text_user_name=(TextView) v.findViewById(R.id.text_user_name);
+		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
+		act_to.setTypeface(Utility.getTypeface2(getActivity()));
+		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
+
 		if(memberListobject.getMemberlistForSendMessage().size()>0){
 			loadAutoComplete();
 		}
 		else{
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Please Wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskGetMemberList().execute();
 			}
 			else{
@@ -226,7 +225,6 @@ public class FragmentFindamember extends Fragment{
 		for (int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
 			membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickname());
 		}
-		Log.e("Size", membername.size()+"");
 		generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
 		act_to.setThreshold(1);
 		act_to.setOnItemClickListener(new OnItemClickListener() {
@@ -248,8 +246,8 @@ public class FragmentFindamember extends Fragment{
 			        
 				Constants.userid=memberListobject.getMemberlistForSendMessage().get(selectedpos).getId();
 				if(Constants.isOnline(getActivity())){
-					pd=ProgressDialog.show(getActivity(), "Lipberry",
-							"Please Wait", true);
+					pd=ProgressDialog.show(getActivity(),getActivity().getResources().getString(R.string.app_name_arabic),
+							getActivity().getResources().getString(R.string.txt_please_wait),false);
 					new AsyncTaskGetSinleMember().execute();
 				}
 				else{

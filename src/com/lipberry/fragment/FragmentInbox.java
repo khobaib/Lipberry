@@ -130,9 +130,7 @@ public class FragmentInbox extends Fragment{
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				if(Constants.isOnline(getActivity())){
-					//					pd=ProgressDialog.show(getActivity(), "Lipberry",
-					//							"Retreving more Post", true);
-					new AsyncTaskRefreshMessage().execute();
+						new AsyncTaskRefreshMessage().execute();
 				}
 				else{
 					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
@@ -144,8 +142,8 @@ public class FragmentInbox extends Fragment{
 			if(Constants.isOnline(getActivity())){
 				startindex=0;
 				endex=10;
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Please wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskGetMessage().execute();
 			}
 			else{
@@ -166,6 +164,7 @@ public class FragmentInbox extends Fragment{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_inbox));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 	}
 	private class AsyncTaskGetMessage extends AsyncTask<Void, Void, ServerResponse> {
@@ -208,7 +207,7 @@ public class FragmentInbox extends Fragment{
 						LoadListView();
 					}
 					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 
 				}
@@ -265,7 +264,7 @@ public class FragmentInbox extends Fragment{
 
 					}
 					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 					list_view_inbox.onRefreshComplete();
 				}
@@ -281,35 +280,16 @@ public class FragmentInbox extends Fragment{
 	}
 	public void LoadListView(){
 		LinkedList<String> mListItems = new LinkedList<String>();
-		mListItems.add("dhjfgg");
-		mListItems.add("dhjfgg");
 		adapter=new CustomAdapterForIInboxMessage(getActivity(), inboxlist,FragmentInbox.this);
 		actualListView.setAdapter(adapter);
-
-		//		actualListView.setOnItemClickListener(new OnItemClickListener() {
-		//
-		//			@Override
-		//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-		//					long arg3) {
-		//				// TODO Auto-generated method stub
-		//				Toast.makeText(getActivity(), "10000", 1000).show();
-		//
-		//			}
-		//		});
-
-
 	}
 
-
-	//	public void onitemclickclicked(int position){
-	//		Toast.makeText(getActivity(), ""+position, 1000).show();
-	//	}
 
 	public void loadthreadmessage(int position){
 		if(Constants.isOnline(getActivity())){
 
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Please wait", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			LoadThreadMessage individualmessage=new LoadThreadMessage(position); 
 			individualmessage.execute();
 		}
@@ -360,7 +340,7 @@ public class FragmentInbox extends Fragment{
 						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id()); 
 					}
 					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 
 				}
@@ -369,7 +349,6 @@ public class FragmentInbox extends Fragment{
 				}
 
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

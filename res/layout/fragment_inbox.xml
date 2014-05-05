@@ -6,11 +6,7 @@
      
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:orientation="vertical" >
-    </LinearLayout>
+    
 
     <LinearLayout
         android:id="@+id/re_holder"
@@ -127,8 +123,7 @@
    <ListView
        android:id="@+id/list_thread_msz"
        android:layout_width="match_parent"
-        android:visibility="gone"
-      
+       android:visibility="gone"
        android:layout_height="wrap_content" >
    </ListView>
    

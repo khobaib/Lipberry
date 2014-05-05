@@ -19,8 +19,8 @@
 
             <Button
                 android:id="@+id/backbuttonoftab"
-                android:layout_width="67dp"
-                android:layout_height="37dp"
+               android:layout_width="60dp"
+            	android:layout_height="32dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"

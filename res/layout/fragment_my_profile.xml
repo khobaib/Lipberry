@@ -165,7 +165,7 @@
                     android:background="@drawable/rounded_signin"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:text="Edit Profile"
+                    android:text="@string/txt_edit_profile"
                     android:textColor="#ffffff"
                     android:textSize="22dp" />
             </RelativeLayout>

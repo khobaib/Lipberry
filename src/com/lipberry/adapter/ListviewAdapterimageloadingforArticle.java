@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -59,6 +60,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -83,6 +85,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	int index;
 	ViewHolder holder2;
 	ProgressDialog mProgress;
+	EditText et_comment;
 	ImageLoader imageLoader;
 
 	public ListviewAdapterimageloadingforArticle(Activity activity,
@@ -94,7 +97,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.parent3=parent3;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -111,7 +114,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.parent=parent;
 		appInstance = (LipberryApplication) activity.getApplication();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -151,7 +154,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		TextView text_topic_text;
 		TextView txt_like;
 		TextView text_comment;
-		EditText et_comment;
+	
 	}
 
 	@Override
@@ -169,7 +172,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
 			holder.image_comments=(ImageView) convertView.findViewById(R.id.image_comments);
 			holder.img_article_pro_pic=(ImageView) convertView.findViewById(R.id.img_article_pro_pic);
-			holder.et_comment=(EditText) convertView.findViewById(R.id.et_comment);
+			
 			holder.text_user_name=(TextView) convertView.findViewById(R.id.text_user_name);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
 			holder.txt_articl_ename=(TextView) convertView.findViewById(R.id.txt_articl_ename);
@@ -186,15 +189,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			public void onClick(View arg0) {
 				positionforcomments=position;
 				index=position;
-				String comments=holder.et_comment.getText().toString();
-				if(comments.equals("")){
-					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_enter_text), 10000).show();
-				}
-
-				else{
-					commentstext=comments;
-					sendposttoserver();
-				}
+				showCustomDialog();
 
 			}
 		});
@@ -230,6 +225,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
+		holder.txt_articl_ename.setTypeface(Utility.getTypeface2(activity));
+		holder.text_topic_text.setTypeface(Utility.getTypeface2(activity));
 		holder.text_topic_text.setText(Html.fromHtml(list.get(position).getArticle_description()));
 		holder.text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_topic_text, activity);
@@ -237,6 +234,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		holder.text_comment.setText(list.get(position).getComment_count()+ " "+activity.getResources().
 				getString(R.string.txt_comments));
 		String liketext="";
+		holder.text_comment.setTypeface(Utility.getTypeface2(activity));
+		holder.txt_like.setTypeface(Utility.getTypeface2(activity));
 		holder.txt_like.setText(list.get(position).getLikemember_text());
 		holder.txt_like.setOnClickListener(new OnClickListener() {
 			@Override
@@ -455,8 +454,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		Log.i("before", ""+stateoflike);
 		if(!list.get(index).getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(activity)){
-				pd=ProgressDialog.show(activity, "Lipberry",
-						"Start dislike", true);
+				pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+						activity.getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSetDislike().execute();
 
 			}
@@ -470,8 +469,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		else{
 
 			if(Constants.isOnline(activity)){
-				pd=ProgressDialog.show(activity, "Lipberry",
-						"Sending like", true);
+				pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+						activity.getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSeLike().execute();
 
 			}
@@ -488,8 +487,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 
 	public void sendposttoserver(){
 		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(activity, "Lipberry",
-					"Posting comments", true);
+			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+					activity.getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskPostComments().execute();
 		}
 		else{
@@ -528,7 +527,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			try {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
-					Toast.makeText(activity,"You just commented! ", 10000).show();
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 					if(parent3==null){
 						if(list.get(positionforcomments)!=null){
 							parent.startFragmentArticleDetailsFromHome(list.get(positionforcomments));
@@ -584,13 +583,13 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				String description=jobj.getString("description");
 				if(status.equals("success")){
 					stateoflike=true;
-					Toast.makeText(activity,description, 10000).show();
+					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 					holder2.img_like.setBackgroundResource(R.drawable.unlike);
 					list.get(index).setUserAlreadylikeThis("Yes");
 				}
 				else{
-					Toast.makeText(activity,description, 10000).show();
-					if(description.equals("You presed like before")){
+					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+					if(description.equals(activity.getResources().getString(R.string.txt_already_liked))){
 						stateoflike=true;
 						holder2.img_like.setBackgroundResource(R.drawable.unlike);
 						list.get(index).setUserAlreadylikeThis("Yes");
@@ -655,5 +654,38 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	
+	public void showCustomDialog(){
+		final Dialog dialog = new Dialog(activity);
+		dialog.setContentView(R.layout.custom_dilog);
+		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
+		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
+		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
+		Button  bt_ok = (Button) dialog.findViewById(R.id.bt_ok);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		bt_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String comments=et_comment.getText().toString();
+				if(comments.equals("")){
+					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_enter_text),
+							Toast.LENGTH_SHORT).show();
+				}
+				else{
+					dialog.dismiss();
+					commentstext=comments;
+					sendposttoserver();
+				}
+			}
+		});
+
+		dialog.show();
 	}
 }

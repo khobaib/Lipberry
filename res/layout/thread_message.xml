@@ -33,7 +33,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:hint="Write your message here"
+        android:hint="@string/txt_write_msz"
         android:textSize="18dp" />
 
     <LinearLayout
@@ -42,38 +42,31 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_margin="5dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
         <Button
             android:id="@+id/b_reply"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Reply"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+
+            android:text="@string/txt_reply"
             android:textColor="@color/white"
+            android:background="#ab4656"
             android:textSize="20dp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/b_delete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Delete"
+             android:layout_width="wrap_content"
+            android:layout_height="60dp"
+          android:layout_marginLeft="100dp"
             android:textColor="@color/white"
             android:textSize="20dp"
+            android:background="@drawable/delete"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/b_block"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Block"
-            android:visibility="gone"
-            android:textColor="@color/white"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+       
     </LinearLayout>
 
 </RelativeLayout>

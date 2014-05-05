@@ -62,7 +62,7 @@ public class FragmentMyProfile extends Fragment {
 	WebView webview_member;
 	ArticleList  articlelistinstance;
 	MenuTabFragment parent;
-	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio;
+	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio,txt_seen_text,txt_following_text,txt_follower_text;
 	ImageView img_profile;
 	ProgressDialog pd;
 	Button btn_change_photo;
@@ -86,6 +86,9 @@ public class FragmentMyProfile extends Fragment {
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_my_profile,
 				container, false);
+		txt_seen_text=(TextView) v.findViewById(R.id.txt_seen_text);
+		txt_following_text=(TextView) v.findViewById(R.id.txt_following_text);
+		txt_follower_text=(TextView) v.findViewById(R.id.txt_follower_text);
 		txt_num_seen=(TextView) v.findViewById(R.id.txt_num_seen);
 		btn_change_photo=(Button) v.findViewById(R.id.btn_change_photo);
 		txt_num_following=(TextView) v.findViewById(R.id.txt_num_following);
@@ -94,10 +97,14 @@ public class FragmentMyProfile extends Fragment {
 		txt_nick_name=(TextView) v.findViewById(R.id.txt_nick_name);
 		txt_bio=(TextView) v.findViewById(R.id.txt_bio);
 		img_profile=(ImageView) v.findViewById(R.id.img_profile);
+		btn_change_photo.setTypeface(Utility.getTypeface2(getActivity()));
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
+		txt_seen_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Retreving member", true);
+			pd=ProgressDialog.show(getActivity(),getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetSinleMember().execute();
 		}
 		else{

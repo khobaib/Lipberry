@@ -106,7 +106,7 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 			holder.img_big_img=(ImageView) convertView.findViewById(R.id.img_big_img);
 			holder.img_category_pro_pic=(ImageView) convertView.findViewById(R.id.img_category_pro_pic);
 			holder.txt_cat_name=(TextView) convertView.findViewById(R.id.txt_cat_name);
-			holder.txt_cat_name.setTypeface(Utility.getTypeface1(activity));
+			holder.txt_cat_name.setTypeface(Utility.getTypeface2(activity));
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

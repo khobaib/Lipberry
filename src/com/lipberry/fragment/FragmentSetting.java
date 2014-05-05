@@ -43,6 +43,7 @@ import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 @SuppressLint("NewApi")
 public class FragmentSetting extends Fragment {
 	MenuTabFragment parent;
@@ -68,13 +69,16 @@ public class FragmentSetting extends Fragment {
 		btn_signout=(Button) v.findViewById(R.id.btn_signout);
 		btn_body_details=(Button) v.findViewById(R.id.btn_body_details);
 		btn_general_settings=(Button) v.findViewById(R.id.btn_general_settings);
+		btn_signout.setTypeface(Utility.getTypeface1(getActivity()));
+		btn_body_details.setTypeface(Utility.getTypeface1(getActivity()));
+		btn_general_settings.setTypeface(Utility.getTypeface1(getActivity()));
 		btn_signout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				
 				if(Constants.isOnline(getActivity())){
-					pd=ProgressDialog.show(getActivity(), "Lipberry",
-							"Signing Out", true);
+					pd=ProgressDialog.show(getActivity(), getResources().getString(R.string.app_name_arabic),
+							getResources().getString(R.string.txt_signout), true);
 					new AsyncTaskSaveMessageSetting().execute();
 				}
 				else{

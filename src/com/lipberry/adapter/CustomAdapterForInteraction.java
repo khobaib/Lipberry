@@ -12,6 +12,7 @@ import com.lipberry.ShowHtmlText;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.Notifications;
 import com.lipberry.utility.Constants;
+import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -103,6 +104,8 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
+			holder.text_msz.setTypeface(Utility.getTypeface2(activity));
+			holder.text_date_other.setTypeface(Utility.getTypeface2(activity));
 
 			convertView.setTag(holder);
 		} else {

@@ -97,10 +97,6 @@ public class FragmentSendMessage extends Fragment{
 	EditText et_su;
 	@SuppressLint("NewApi")
 
-	//	public FragmentSendMessage(ThreadMessageList messagelist,String messageid){
-	//		this.messagelist=messagelist;
-	//		this.messageid=messageid;
-	//	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -129,17 +125,17 @@ public class FragmentSendMessage extends Fragment{
 				subject=et_su.getText().toString();
 				if(Constants.isOnline(getActivity())){
 					if(replymessage.equalsIgnoreCase("")){
-						Toast.makeText(getActivity(),"Please enter message",
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),
 								Toast.LENGTH_SHORT).show();
-
+						
 					}
 					else if (selectedpos==-1){
-						Toast.makeText(getActivity(),"Please enter member",
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_member),
 								Toast.LENGTH_SHORT).show();
 					}
 					else{
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Sending Message", true);
+						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						new AsyncTaskSendMessage().execute();
 					}
 
@@ -151,8 +147,8 @@ public class FragmentSendMessage extends Fragment{
 			}
 		});
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Please Wait", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetMemberList().execute();
 		}
 		else{
@@ -205,7 +201,7 @@ public class FragmentSendMessage extends Fragment{
 				String status=job.getString("status");
 				if(status.equals("success")){
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					Toast.makeText(getActivity(),"Message is sent", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_msz_is_sent), Toast.LENGTH_SHORT).show();
 					parent.onBackPressed();
 				}
 				else{

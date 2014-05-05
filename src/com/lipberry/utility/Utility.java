@@ -52,6 +52,37 @@ public class Utility {
 		}
 
 	}
+	
+//	public static String getFormattedTime2(String dateTime) {
+//		if (dateTime == null)
+//			return null;
+//
+//		SimpleDateFormat dateFormat = new SimpleDateFormat(
+//				"yyyy-MM-dd HH:mm:ss");
+//		Date date = new Date();
+//		try {
+//			date = dateFormat.parse(dateTime);
+//			int a=date.getDate();
+////			Calendar c = Calendar.getInstance();
+////			c.setTime(date);
+////			long millis = c.getTimeInMillis();
+////			if (isToday(millis)) {
+////				return formatTOdayTime(millis);
+////			} 
+////			else if (getDaysago(millis)<3){
+////				if(getDaysago(millis)==1)return "yesterday";
+////				return getDaysago(millis)+" days ago";
+////			}
+////			
+////			else {
+////				return "more than 3 days ago";
+////			}
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//
+//	}
 	public static int getDaysago(long millis) {
 		Calendar today = Calendar.getInstance();
 		today = clearTimes(today);

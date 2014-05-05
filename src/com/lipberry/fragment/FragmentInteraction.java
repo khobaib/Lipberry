@@ -72,8 +72,8 @@ public class FragmentInteraction extends Fragment {
 				container, false);
 		lst_interaction=(ListView) v.findViewById(R.id.lst_interaction);
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Please wait", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), true);
 			new AsyncTaskGetNotification().execute();
 			if(Constants.notificationcount>0){
 			new AsyncTasksetNotificationToggle().execute();
@@ -96,7 +96,7 @@ public class FragmentInteraction extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		((HomeActivity)getActivity()).welcome_title.setText(R.string.txt_interaction);
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

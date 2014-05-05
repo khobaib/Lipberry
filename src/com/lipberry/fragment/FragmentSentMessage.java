@@ -109,8 +109,7 @@ public class FragmentSentMessage extends Fragment{
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				if(Constants.isOnline(getActivity())){
-					//					pd=ProgressDialog.show(getActivity(), "Lipberry",
-					//							"Retreving more Post", true);
+					
 					new AsyncTaskRefreshMessage().execute();
 				}
 				else{
@@ -123,8 +122,8 @@ public class FragmentSentMessage extends Fragment{
 			if(Constants.isOnline(getActivity())){
 				startindex=0;
 				endex=10;
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Please wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskGetMessage().execute();
 			}
 			else{
@@ -182,7 +181,7 @@ public class FragmentSentMessage extends Fragment{
 						LoadListView();
 					}
 					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 
 				}
@@ -239,7 +238,7 @@ public class FragmentSentMessage extends Fragment{
 
 					}
 					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 					list_view_inbox.onRefreshComplete();
 				}
@@ -257,6 +256,7 @@ public class FragmentSentMessage extends Fragment{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_sent_msz));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -271,31 +271,13 @@ public class FragmentSentMessage extends Fragment{
 		mListItems.add("dhjfgg");
 		adapter=new CustomAdapterForISentMessage(getActivity(), inboxlist,FragmentSentMessage.this);
 		actualListView.setAdapter(adapter);
-
-		//		actualListView.setOnItemClickListener(new OnItemClickListener() {
-		//
-		//			@Override
-		//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-		//					long arg3) {
-		//				// TODO Auto-generated method stub
-		//				Toast.makeText(getActivity(), "10000", 1000).show();
-		//
-		//			}
-		//		});
-
-
 	}
-
-
-	//	public void onitemclickclicked(int position){
-	//		Toast.makeText(getActivity(), ""+position, 1000).show();
-	//	}
 
 	public void loadthreadmessage(int position){
 		if(Constants.isOnline(getActivity())){
 
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Please wait", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			LoadThreadMessage individualmessage=new LoadThreadMessage(position); 
 			individualmessage.execute();
 		}
@@ -317,9 +299,6 @@ public class FragmentSentMessage extends Fragment{
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				//	String url =Constants.baseurl+"inbox/inbox/"+;
-
-				Log.e("url", inboxlist.get(position).getMessage_url());
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, inboxlist.get(position).getMessage_url()+
 						inboxlist.get(position).getMessage_id(), null,
 						loginData, null);
@@ -348,7 +327,7 @@ public class FragmentSentMessage extends Fragment{
 						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id()); 
 					}
 					else{
-						Toast.makeText(getActivity(),"you dont have any message", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 
 				}

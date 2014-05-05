@@ -59,6 +59,7 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -110,6 +111,10 @@ public class FragmentImageSetting extends Fragment {
 		b_update=(Button) v.findViewById(R.id.b_update);
 		iv_profile_pic=(ImageView) v.findViewById(R.id.iv_profile_pic);
 		imageLoader.displayImage(singleMember.getAvatar(), iv_profile_pic);
+		b_take_pic.setTypeface(Utility.getTypeface2(getActivity()));
+		b_go_gallery.setTypeface(Utility.getTypeface2(getActivity()));
+		b_update.setTypeface(Utility.getTypeface2(getActivity()));
+
 		b_take_pic.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -134,8 +139,8 @@ public class FragmentImageSetting extends Fragment {
 				// TODO Auto-generated method stub
 				if(bitmap!=null){
 					if(Constants.isOnline(getActivity())){
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Please Wait", false);
+						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						new AsyncTaskUploadImage().execute();
 					}
 					else{
@@ -144,7 +149,7 @@ public class FragmentImageSetting extends Fragment {
 
 				}
 				else{
-					Toast.makeText(getActivity(), "Please select an image first",
+					Toast.makeText(getActivity(),  getActivity().getResources().getString(R.string.txt_please_selct_img),
 							Toast.LENGTH_SHORT).show();
 				}
 			}
@@ -154,20 +159,20 @@ public class FragmentImageSetting extends Fragment {
 	}
 
 	public void onimageloadingSuccessfull(Bitmap bitmap){
-		Toast.makeText(getActivity(), "You have selected an image", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_have_selcect_image), Toast.LENGTH_SHORT).show();
 		iv_profile_pic.setImageBitmap(bitmap);
 		this.bitmap=bitmap;
 		Log.e("size", ""+bitmap.getHeight()+"  "+bitmap.getWidth());
 	}
 	public void onimageloadingFailed(){
-		Toast.makeText(getActivity(), "Failed to select image", Toast.LENGTH_SHORT).show();
+		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_failed_to_select_an_image), Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_general_settings));
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_my_page));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override

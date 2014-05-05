@@ -9,6 +9,7 @@ import java.util.List;
 import com.lipberry.R;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleGallery;
+import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -93,11 +94,12 @@ public class CustomAdapterFormemberPost extends BaseAdapter {
 			holder.img_thumb=(ImageView) convertView.findViewById(R.id.img_thumb);
 			holder.txt_article_created=(TextView) convertView.findViewById(R.id.txt_article_created);
 			holder.txt_article_title=(TextView) convertView.findViewById(R.id.txt_article_title);
+			
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.txt_article_created.setText(list.get(position).getCreated_at());
+		holder.txt_article_created.setText(Utility.getFormattedTime(list.get(position).getCreated_at()));
 		holder.txt_article_title.setText(list.get(position).getArticle_title());
 		if(list.get(position).getArticle_photo()==null){
 

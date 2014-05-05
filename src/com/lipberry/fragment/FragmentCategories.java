@@ -69,8 +69,8 @@ public class FragmentCategories extends Fragment {
 		list_categories=(ListView) v.findViewById(R.id.list_categories);
 		jsonParser=new JsonParser();
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Retreving categories", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskgetCategories().execute();
 		}
 		else{
@@ -158,8 +158,8 @@ public class FragmentCategories extends Fragment {
 				index=position;
 				
 				if(Constants.isOnline(getActivity())){
-					pd=ProgressDialog.show(getActivity(), "Lipberry",
-							"Retreving Post", true);
+					pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+							getActivity().getResources().getString(R.string.txt_please_wait), false);
 					new AsyncTaskgetSubCategories().execute();
 				}
 				else{

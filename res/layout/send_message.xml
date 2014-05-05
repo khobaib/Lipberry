@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="To"
+        android:hint="@string/txt_to"
         android:layout_margin="5dp"
         android:padding="5dp"
         android:textColor="@color/black"
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/act_to"
-        android:hint="Subject"
+        android:hint="@string/txt_subject"
         android:textSize="18dp" />
 
     <EditText
@@ -32,7 +32,7 @@
         android:layout_above="@+id/b_send"
         android:layout_alignLeft="@+id/act_to"
         android:layout_alignRight="@+id/act_to"
-        android:hint="Enter message"
+        android:hint="@string/txt_enter_msz"
         android:textSize="18dp" />
 
     <Button
@@ -43,8 +43,9 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
       android:padding="15dp"
-        android:text="Send"
+        android:text="@string/txt_send"
         android:textColor="@color/white"
+        android:background="#ab4656"
         android:textSize="20dp"
         android:textStyle="bold" />
 

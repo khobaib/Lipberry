@@ -52,6 +52,7 @@ import com.lipberry.model.UserCred;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -111,12 +112,22 @@ public class FragmentProfileSetting extends Fragment {
 		s_country=(Spinner) v.findViewById(R.id.s_country);
 		t_city=(TextView) v.findViewById(R.id.t_city);
 		bt_update_profile=(Button) v.findViewById(R.id.bt_update_profile);
-
 		e_nickname=(EditText) v.findViewById(R.id.e_nickname);
 		et_new_pass=(EditText) v.findViewById(R.id.et_new_pass);
 		et_email=(EditText) v.findViewById(R.id.et_email);
 		et_site_url=(EditText) v.findViewById(R.id.et_site_url);
 		et_brief=(EditText) v.findViewById(R.id.et_brief);
+		
+		t_city.setTypeface(Utility.getTypeface2(getActivity()));
+		e_nickname.setTypeface(Utility.getTypeface2(getActivity()));
+		et_new_pass.setTypeface(Utility.getTypeface2(getActivity()));
+		et_email.setTypeface(Utility.getTypeface2(getActivity()));
+		et_site_url.setTypeface(Utility.getTypeface2(getActivity()));
+		et_brief.setTypeface(Utility.getTypeface2(getActivity()));
+		
+		btn_change_photo.setTypeface(Utility.getTypeface1(getActivity()));
+		bt_update_profile.setTypeface(Utility.getTypeface1(getActivity()));
+		
 		img_profile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -148,30 +159,30 @@ public class FragmentProfileSetting extends Fragment {
 						if(Constants.isValidEmail(email)){
 							//AsyncTasksetUpdateProfile
 							//	AsyncTasksetUpdateProfile 
-							pd=ProgressDialog.show(getActivity(), "Lipberry",
-									"Please wait", true);
+							pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+									getActivity().getResources().getString(R.string.txt_please_wait), false);
 							new AsyncTasksetUpdateProfile().execute();
 						}
 						else{
-							Toast.makeText(getActivity(), "Please enter valid email", Toast.LENGTH_SHORT).show();
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_please_enter_email), Toast.LENGTH_SHORT).show();
 						}
 					}
 					else{
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Please wait", true);
+						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						new AsyncTasksetUpdateProfile().execute();
 					}
 
 				}
 				else{
-					Toast.makeText(getActivity(), "Please fill up required field", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_please_required_field), Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
 		if(Constants.isOnline(getActivity())){
 
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Please wait", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetCountry().execute();
 		}
 		else{
@@ -185,12 +196,12 @@ public class FragmentProfileSetting extends Fragment {
 			public void onClick(View arg0) {
 				if(Constants.isOnline(getActivity())){
 					if(selectedcountryposition==-1){
-						Toast.makeText(getActivity(), "Please select country first",
+						Toast.makeText(getActivity(),  getActivity().getResources().getString(R.string.txt_please_select_country_first),
 								10000).show();
 
 					}else{
-						pd=ProgressDialog.show(getActivity(), "Lipberry",
-								"Retreving citylist", true);
+						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_retreiving_country), false);
 						new AsyncTaskGetCity().execute();
 					}
 				}
@@ -318,7 +329,7 @@ public class FragmentProfileSetting extends Fragment {
 				loadcitylist(city);
 
 			} catch (JSONException e) {
-				Toast.makeText(getActivity(), "Not available", 10000).show();
+				Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_not_available), 10000).show();
 			}  
 		}
 	}
@@ -345,7 +356,7 @@ public class FragmentProfileSetting extends Fragment {
 				setcity();
 			}
 			else{
-				Toast.makeText(getActivity(),"No city found ", 10000).show();
+				Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_no_city_found), 10000).show();
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
 
@@ -427,7 +438,7 @@ public class FragmentProfileSetting extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_general_settings));
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_my_page));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -435,7 +446,6 @@ public class FragmentProfileSetting extends Fragment {
 				parent.onBackPressed();
 			}
 		});
-
 		if(	Constants.MESSAGESETTINGSTATE){
 			parent.startFragmentSetting();
 		}

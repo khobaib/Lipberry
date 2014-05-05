@@ -167,13 +167,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 		list_comment.setAdapter(adapter1);
 		setListViewHeightBasedOnChildren(list_comment);
-		//		list_comment.setOnTouchListener(new OnTouchListener() {
-		//			@Override
-		//			public boolean onTouch(View v, MotionEvent event) {
-		//				v.getParent().requestDisallowInterceptTouchEvent(true);
-		//				return false;
-		//			}
-		//		});
+		
 	}
 
 	@Override
@@ -185,8 +179,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				container, false);
 		initview(v);
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Retreving article details", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskgetArticleDetails().execute();
 		}
 		else{
@@ -354,6 +348,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		image_share=(ImageView) v.findViewById(R.id.image_share);
 		vedio_view_holder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
 		web_view=(WebView) v.findViewById(R.id.web_view);
+		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_articl_ename.setTypeface(Utility.getTypeface2(getActivity()));
+		text_topic_text.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
+		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
+		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
 	}
 	
 	public void setview(){
@@ -438,8 +438,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 					public void run(){
 						getActivity().runOnUiThread(new Runnable(){
 							public void run(){
-								pd=ProgressDialog.show(getActivity(), "Lipberry",
-										"Image is loading", true);
+								pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+										getActivity().getResources().getString(R.string.txt_please_wait), false);
 							}
 						});
 					}
@@ -585,7 +585,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
-
+			btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
 		}
 		else{
 			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
@@ -624,8 +624,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void imgeviewlikeclicked(){
 		if(!article.getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Start dislike", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSetDislike().execute();
 			}
 			else{
@@ -635,8 +635,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 		else{
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Sending like", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSeLike().execute();
 			}
 			else{
@@ -874,8 +874,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void buttonfollowclicked(){
 		if(!followstate){
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), "Lipberry",
-						"Please wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSendFollowReq().execute();
 			}
 			else{
@@ -886,8 +886,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	}
 	public void CallReoprt(){
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Start Report", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskCallReoprt().execute();
 		}
 		else{
@@ -899,8 +899,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 	public void sendposttoserver(){
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), "Lipberry",
-					"Posting comments", true);
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskPostComments().execute();
 		}
 		else{
@@ -944,7 +944,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 					if(Constants.isOnline(getActivity())){
 
 						new AsyncTaskGetComments().execute();
-						Toast.makeText(getActivity(),"You just commented! ", Toast.LENGTH_SHORT).show();
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 					}
 					else{
 						Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
@@ -1029,7 +1029,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void showCustomDialog(){
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.setContentView(R.layout.custom_dilog);
-		dialog.setTitle("Lipberry");
+		dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
 		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
 		Button  bt_ok = (Button) dialog.findViewById(R.id.bt_ok);

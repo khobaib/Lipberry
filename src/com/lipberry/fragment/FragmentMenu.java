@@ -52,7 +52,6 @@ public class FragmentMenu extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		Log.e("activity", "name  "+getActivity());
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_menu,
 				container, false);
 		list_menu_item=(ListView) v.findViewById(R.id.list_menu_item);
@@ -73,6 +72,7 @@ public class FragmentMenu extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_menu));
 	}
 
 	public void setlistviewonitemclick(){
