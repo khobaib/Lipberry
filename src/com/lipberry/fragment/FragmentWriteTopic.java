@@ -176,7 +176,7 @@ public class FragmentWriteTopic extends Fragment {
 		((HomeActivity)activity).welcome_title.setText(R.string.txt_write_topic);
 		if(Constants.isOnline(activity)){
 			pd=ProgressDialog.show(activity, getActivity().getResources().getString(R.string.app_name_arabic),
-					 getActivity().getResources().getString(R.string.txt_retreiving_category), true);
+					 getActivity().getResources().getString(R.string.txt_retreiving_category), false);
 			
 			new AsyncTaskgetCategories().execute();
 		}
@@ -222,7 +222,7 @@ public class FragmentWriteTopic extends Fragment {
 			});
 		}
 		else{
-			btn_select_photo.setText("Select photo");
+			btn_select_photo.setText(getActivity().getResources().getString(R.string.txt_select_photo));
 			grid_image.setVisibility(View.GONE);
 		}
 

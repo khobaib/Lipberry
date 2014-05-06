@@ -2,6 +2,7 @@
 package com.lipberry.fragment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -21,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,6 +39,7 @@ import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.adapter.CustomAdapterForMenu;
 import com.lipberry.utility.Constants;
 @SuppressLint("NewApi")
 public class FragmentMenu extends Fragment {
@@ -56,11 +59,17 @@ public class FragmentMenu extends Fragment {
 				container, false);
 		list_menu_item=(ListView) v.findViewById(R.id.list_menu_item);
 		menuarray = getActivity().getResources().getStringArray(R.array.menuarray);
-		ArrayAdapter adapter = new ArrayAdapter<String>(
-				getActivity(),
-				android.R.layout.simple_list_item_1,
-				menuarray);
-		list_menu_item.setAdapter(adapter);
+		
+		int layout=R.layout.custom_textview;
+		ArrayList<String>list=new ArrayList<String>(Arrays.asList(menuarray));
+	
+		CustomAdapterForMenu adapter1=new CustomAdapterForMenu(getActivity(), list);
+//		ArrayAdapter adapter = new ArrayAdapter<String>(
+//				getActivity(),
+//				R.layout.custom_textview,
+//				menuarray);
+//	
+		list_menu_item.setAdapter(adapter1);
 		setlistviewonitemclick();
 		if(	Constants.MESSAGESETTINGSTATE){
 			parent.startFragmentSetting();
@@ -68,9 +77,16 @@ public class FragmentMenu extends Fragment {
 		return v;
 	}
 	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		((HomeActivity)getActivity()).topBar.setVisibility(View.VISIBLE);
+	}
+	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		((HomeActivity)getActivity()).topBar.setVisibility(View.GONE);
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_menu));
 	}

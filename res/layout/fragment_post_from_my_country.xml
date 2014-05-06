@@ -2,16 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-      android:layout_marginLeft="3dp"
-    android:layout_marginRight="3dp"
-    android:orientation="vertical" >
-	
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
+    android:background="#d8d8d8"
+    android:orientation="vertical"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp" >
+    
+     <RelativeLayout
+        android:id="@+id/re_gap"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentLeft="true"
+       android:background="#d7d7d7"
+        android:layoutDirection="rtl" >
+        </RelativeLayout>
+	<com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list_view_latest_post"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        ptr:ptrMode="both" />
+        android:divider="@android:color/darker_gray"
+     	ptr:ptrMode="both"/>
 
 </LinearLayout>

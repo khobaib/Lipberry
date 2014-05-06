@@ -65,7 +65,7 @@
             android:name="com.lipberry.Splash1Activity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@style/HomeActivityTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,7 +75,7 @@
         <activity
             android:name="com.lipberry.Splash2Activity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar"  >
+            android:theme="@style/HomeActivityTheme" >
         </activity>
         <activity
             android:name=".HomeActivity"
@@ -86,7 +86,7 @@
         <activity
             android:name="com.lipberry.LoginActivity"
             android:screenOrientation="portrait"
-           android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@style/HomeActivityTheme">
         </activity>
         <activity
             android:name="com.lipberry.WebViewActtivity"
@@ -95,7 +95,7 @@
         <activity
             android:name=".SignupActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@style/HomeActivityTheme" >
         </activity>
         <activity
             android:name=".ActivityVideoViewDemo"

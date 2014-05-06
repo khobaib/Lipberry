@@ -12,6 +12,9 @@ public class Notifications {
 	public int getInteraction_types(){
 		return this.interaction_types;
 	}
+	public void setMessage(String message){
+		 this.message=message;
+	}
 	public String getMessage(){
 		return this.message;
 	}

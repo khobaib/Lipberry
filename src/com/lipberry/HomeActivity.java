@@ -65,6 +65,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
@@ -88,6 +89,7 @@ public class HomeActivity extends FragmentActivity {
 	public ViewGroup mTabsPlaceHoler;
 	int count=0;
 	public ListView ProductList;
+	public  RelativeLayout topBar;
 	JsonParser jsonParser;
 	LipberryApplication appInstance;
 	TextView text_notification_no;
@@ -107,6 +109,7 @@ protected void onCreate(Bundle savedInstanceState) {
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
+		topBar=(RelativeLayout) findViewById(R.id.topBar);
 		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
 		setTabs();
 		mTabHost.setCurrentTab(4);
@@ -237,7 +240,7 @@ protected void onCreate(Bundle savedInstanceState) {
 				getResources().getString(R.string.txt_from_cancel)};
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
-		builder.setTitle("Add Photo!");
+		builder.setTitle(getResources().getString(R.string.app_name_arabic));
 		builder.setItems(options, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int item) {

@@ -119,11 +119,13 @@ public class CustomAdapterMessage extends BaseAdapter {
 			holder.iv_pic.setVisibility(View.GONE);
 			holder.iv_pic_own.setVisibility(View.VISIBLE);
 			holder.tv_conv_desc.setBackgroundResource(R.drawable.blue);
+			imageLoader.displayImage(list.get(0).getFrom_avatar(),holder.iv_pic_own);
 		}
 		else{
 			holder.iv_pic_own.setVisibility(View.GONE);
 			holder.iv_pic.setVisibility(View.VISIBLE);
 			holder.tv_conv_desc.setBackgroundResource(R.drawable.yellow);
+			imageLoader.displayImage(list.get(0).getTo_avatar(), holder.iv_pic);
 		}
 		
 		holder.tv_name.setText(list.get(position).getFrom_nickname());

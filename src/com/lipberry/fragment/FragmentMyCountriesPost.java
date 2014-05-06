@@ -126,9 +126,8 @@ public class FragmentMyCountriesPost extends Fragment {
 			startindex=0;
 			 endindex=10;
 			if(Constants.isOnline(activity)){
-				
-				pd=ProgressDialog.show(activity, "Lipberry",
-						"Retreving Post", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskLoadPostFrommyCountries().execute();
 			}
 			else{
@@ -144,6 +143,7 @@ public class FragmentMyCountriesPost extends Fragment {
 				container, false);
 		list_view_latest_post2=(PullToRefreshListView) v.findViewById(R.id.list_view_latest_post);
 		listviewforarticle=list_view_latest_post2.getRefreshableView();
+		listviewforarticle.setDividerHeight(6);
 		list_view_latest_post2.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {

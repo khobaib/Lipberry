@@ -144,7 +144,15 @@ public class Utility {
 	public static int getDeviceWidth(Activity activity){
 		DisplayMetrics displaymetrics = new DisplayMetrics();
 		activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		Log.e("test", ""+displaymetrics.density+" "+displaymetrics.densityDpi+"  "+displaymetrics.scaledDensity);
 		int width = displaymetrics.widthPixels;
 		return width;
 	}
+	
+	public static float getDpi(Activity activity){
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+		activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+		return displaymetrics.density;
+	}
+
 }

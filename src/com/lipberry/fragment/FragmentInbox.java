@@ -343,7 +343,7 @@ public class FragmentInbox extends Fragment{
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 
-				}
+				}   
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
 				}

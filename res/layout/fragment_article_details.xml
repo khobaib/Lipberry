@@ -57,8 +57,8 @@
                         android:layout_marginTop="8dp"
                         android:layout_toLeftOf="@+id/img_pro_pic"
                         android:text="Lipberry"
-                        android:textColor="#f90452"
-                        android:textSize="17dp" />
+                        android:textColor="#777777"
+                        android:textSize="24dp" />
 
                     <TextView
                         android:id="@+id/text_date_other"
@@ -120,10 +120,12 @@
 
                     <ListView
                         android:id="@+id/lst_imag"
-                        android:layout_width="60dp"
+                        android:layout_width="50dp"
                         android:layout_height="250dp"
                         android:layout_alignParentLeft="true"
                         android:layout_marginLeft="10dp"
+                        android:dividerHeight="5dp"
+                        android:divider="@android:color/transparent"
                         android:background="@android:color/transparent" >
                     </ListView>
 
@@ -233,6 +235,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
+                        android:textSize="24dp"
                         android:text="200"
                         android:textColor="#000000" />
 
@@ -243,7 +246,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:layout_toRightOf="@+id/txt_viewd"
-                        android:src="@drawable/eye_icon" />
+                        android:src="@drawable/leye" />
                 </RelativeLayout>
 
                 <View

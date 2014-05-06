@@ -115,7 +115,7 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		convertView.setOnClickListener(new OnClickListener() {
+		holder.re_top.setOnClickListener(new OnClickListener() {
 
              @Override
              public void onClick(View arg0) {
@@ -124,6 +124,7 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
                }
          });
 
+		imageLoader.displayImage(list.get(position).getFrom_avatar(), holder.img_pro_pic);
 		if(list.get(position).getRead_flag().equals("0")){
 			holder.text_msz.setTextColor(Color.parseColor("#ffffff"));
 			holder.text_time.setTextColor(Color.parseColor("#ffffff"));

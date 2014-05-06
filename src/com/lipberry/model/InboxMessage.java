@@ -1,8 +1,16 @@
 package com.lipberry.model;
 
 public class InboxMessage {
-	String message,from_id,subject,message_url,message_id,thread_count,from_username,from_nickname,read_flag,to_nickname,article_title,child_flag,
+	String message,from_id,subject,message_url,message_id,thread_count,from_username,from_nickname,read_flag,
+	to_nickname,article_title,child_flag,from_avatar,to_avatar,
 	article_url,category_prefix,article_id,article_flag,to_id,created_at;
+	
+	public String getTo_avatar(){
+		return this.to_avatar;
+	}
+	public String getFrom_avatar(){
+		return this.from_avatar;
+	}
 	public String getMessage(){
 		return this.message;
 	}

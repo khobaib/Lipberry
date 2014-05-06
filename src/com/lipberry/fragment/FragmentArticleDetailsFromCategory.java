@@ -157,7 +157,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 
 		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		params.height = totalHeight-5;
 		listView.setLayoutParams(params);
 	}
 
@@ -510,9 +510,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 
 				}
-
-
-
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);

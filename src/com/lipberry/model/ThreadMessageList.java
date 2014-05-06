@@ -26,7 +26,7 @@ public class ThreadMessageList {
 				JSONArray jsonArray=new JSONArray(a);
 				for(int i=0;i<object.getIndividualThreadlist().size();i++){
 					JSONObject childjobject=jsonArray.getJSONObject(i);
-					String to_nickname=childjobject.getString("to-nickname");
+					String to_nickname=childjobject.getString("to_nickname");
 					object.getIndividualThreadlist().get(i).setTo_nickname(to_nickname);
 				}
 			} catch (JsonSyntaxException e) {

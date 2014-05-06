@@ -97,6 +97,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 		img_cat=(ImageView) v.findViewById(R.id.img_cat);
 		list_categories=(PullToRefreshListView) v.findViewById(R.id.list_categories);
 		listviewforarticle=list_categories.getRefreshableView();
+		listviewforarticle.setDividerHeight(6);
 		((HomeActivity)getActivity()).ProductList=listviewforarticle;
 		list_categories.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override

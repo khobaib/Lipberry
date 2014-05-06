@@ -66,6 +66,11 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
+		for(int i=0;i<list.size();i++){
+			String msz=list.get(i).getMessage().substring(list.get(i).getMessage().indexOf("</a>"));
+			list.get(i).setMessage(msz);
+		}
+		
 
 	}
 
@@ -89,7 +94,7 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 	private class ViewHolder {
 		ImageView img_pro_pic;
 		RelativeLayout re_top;
-		TextView text_msz,text_date_other;
+		TextView text_msz,text_date_other,text_name;
 	}
 
 	@Override
@@ -103,10 +108,11 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			holder.re_top=(RelativeLayout) convertView.findViewById(R.id.re_top);
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.text_msz=(TextView) convertView.findViewById(R.id.text_msz);
+			holder.text_name=(TextView) convertView.findViewById(R.id.text_name);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
 			holder.text_msz.setTypeface(Utility.getTypeface2(activity));
 			holder.text_date_other.setTypeface(Utility.getTypeface2(activity));
-
+			holder.text_name.setTypeface(Utility.getTypeface2(activity));
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
@@ -123,10 +129,11 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			holder.text_msz.setTextColor(Color.parseColor("#000000"));
 			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
+		holder.text_name.setText(list.get(position).getFrom_username());
 		holder.text_msz.setText(list.get(position).getMessage());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
 		showtext.updateImages(true,list.get(position).getMessage());
-
+	Log.e(""+position, list.get(position).getMessage());
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		ShowHtmlText showtext1=new ShowHtmlText(holder.text_date_other,activity);
 		showtext1.updateImages(true,list.get(position).getCreated_at());

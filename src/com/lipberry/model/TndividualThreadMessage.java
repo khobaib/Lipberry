@@ -2,8 +2,14 @@ package com.lipberry.model;
 
 public class TndividualThreadMessage {
 	String article_title,subject,to_nickname,child_flag,from_nickname,article_url,read_flag,message,id,
-	category_prefix,article_id,article_flag,to_id,from_id,created_at,from_username;
+	category_prefix,article_id,article_flag,to_id,from_id,created_at,from_username,from_avatar,to_avatar;
 	
+	public String  getTo_avatar(){
+		return this.to_avatar;
+	}
+	public String  getFrom_avatar(){
+		return this.from_avatar;
+	}
 	public String  getFrom_username(){
 		return this.from_username;
 	}
