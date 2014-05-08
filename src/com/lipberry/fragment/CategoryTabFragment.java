@@ -55,6 +55,18 @@ public class CategoryTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
+	
+	public void StartFragmentSendMessageFormHome(String nickname,String username) {
+		FragmentSendMessageFormCategory newFragment = new FragmentSendMessageFormCategory (nickname,username);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 
 	public void startFragmentSubCategoriesList( String url,String catname,ArticleList article) {
 		FragmentSubCategoriesList newFragment = new FragmentSubCategoriesList ();

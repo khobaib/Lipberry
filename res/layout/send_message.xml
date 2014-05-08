@@ -45,7 +45,7 @@
       android:padding="15dp"
         android:text="@string/txt_send"
         android:textColor="@color/white"
-        android:background="#ab4656"
+      android:background="@drawable/rounded_password"
         android:textSize="20dp"
         android:textStyle="bold" />
 

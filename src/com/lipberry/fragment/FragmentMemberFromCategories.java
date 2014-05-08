@@ -169,10 +169,19 @@ public class FragmentMemberFromCategories extends Fragment {
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			String url =Constants.baseurl+"account/findmemberbyid/"+Constants.userid+"/";
-			ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_GET, url, null,
-					null, null);
-			return response;
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"account/findmemberbyid/"+Constants.userid+"/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
@@ -237,7 +246,7 @@ public class FragmentMemberFromCategories extends Fragment {
 			}
 		});
 		
-		if(singleMember.getAllow_follow().equals("0")){
+		if(!singleMember.getAlready_followin().equals("Yes")){
 			followstate=false;
 		}
 		else{
@@ -250,6 +259,22 @@ public class FragmentMemberFromCategories extends Fragment {
 		else{
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
+		
+		btn_send.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(followstate){
+						//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+					}
+					else{
+						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
+//								Toast.LENGTH_SHORT).show();
+					}
+			}
+		});
 
 	}
 	public void buttonfollowclicked(){

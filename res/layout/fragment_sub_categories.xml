@@ -2,13 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e9e9e9"
+  android:background="#d3d3d3"
+    android:paddingLeft="4dp"
+     android:paddingRight="4dp"
     android:orientation="vertical" >
-
+<RelativeLayout
+        android:id="@+id/re_top"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#d3d3d3"
+        android:layoutDirection="rtl" >
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/re_top_top"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="50dp"
         android:background="#ffffff"
         android:layoutDirection="rtl"
         android:padding="3dp" >
@@ -45,6 +55,15 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/l1" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/re_top1"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/darker_gray"
+        android:layoutDirection="rtl" >
     </RelativeLayout>
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView

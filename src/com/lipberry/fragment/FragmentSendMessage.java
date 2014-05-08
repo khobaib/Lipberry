@@ -65,6 +65,7 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 @SuppressLint({ "NewApi", "ValidFragment" })
 public class FragmentSendMessage extends Fragment{
 	int threadposition;
@@ -117,6 +118,10 @@ public class FragmentSendMessage extends Fragment{
 		b_send=(Button) v.findViewById(R.id.b_send);
 		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
 		et_su=(EditText) v.findViewById(R.id.et_su);
+		act_to.setTypeface(Utility.getTypeface2(getActivity()));
+		b_send.setTypeface(Utility.getTypeface2(getActivity()));
+		et_msg_body.setTypeface(Utility.getTypeface2(getActivity()));
+		et_su.setTypeface(Utility.getTypeface2(getActivity()));
 		b_send.setOnClickListener(new OnClickListener() {
 
 			@Override

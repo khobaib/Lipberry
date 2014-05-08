@@ -133,7 +133,7 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
 			holder.text_time.setTextColor(Color.parseColor("#000000"));
 			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
 		}
-		holder.text_time.setText(Utility.getFormattedTime(list.get(position).getCreated_at()));
+		holder.text_time.setText(list.get(position).getCreated_at());
 		holder.text_msz.setText(list.get(position).getMessage());
 		holder.text_msz.setTypeface(Utility.getTypeface1(activity));
 		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());

@@ -100,7 +100,7 @@ public class CustomAdapterFormemberPost extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		holder.txt_article_created.setText(Utility.getFormattedTime(list.get(position).getCreated_at()));
+		holder.txt_article_created.setText(list.get(position).getCreated_at());
 		holder.txt_article_title.setText(list.get(position).getArticle_title());
 		if(list.get(position).getArticle_photo()==null){
 

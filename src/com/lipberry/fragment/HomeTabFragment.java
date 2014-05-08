@@ -73,6 +73,7 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
+	
 
 	public void FragmentArticleDetailsFromInteraction(String article_id) {
 		FragmentArticleDetailsFromInteraction newFragment = new FragmentArticleDetailsFromInteraction (article_id);
@@ -86,6 +87,17 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 
+	public void StartFragmentSendMessageFormHome(String nickname,String username) {
+		FragmentSendMessageFormHome newFragment = new FragmentSendMessageFormHome (nickname,username);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	public void startFragmentArticleDetailsFromHome(Article article) {
 		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();
 		newFragment.setArticle(article);

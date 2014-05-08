@@ -129,7 +129,7 @@ public class CustomAdapterMessage extends BaseAdapter {
 		}
 		
 		holder.tv_name.setText(list.get(position).getFrom_nickname());
-		holder.tv_timestamp.setText(Utility.getFormattedTime(list.get(position).getCreated_at()));
+		holder.tv_timestamp.setText(list.get(position).getCreated_at());
 		holder.tv_conv_desc.setText(list.get(position).getMessage());
 		holder.tv_name.setTypeface(Utility.getTypeface1(activity));
 		holder.tv_timestamp.setTypeface(Utility.getTypeface1(activity));

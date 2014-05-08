@@ -2,19 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d8d8d8"
+    android:background="#d3d3d3"
     android:orientation="vertical"
-    android:paddingLeft="3dp"
-    android:paddingRight="3dp" >
-
-    <RelativeLayout
-        android:id="@+id/re_gap"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:layout_alignParentLeft="true"
-        android:background="#d7d7d7"
-        android:layoutDirection="rtl" >
-    </RelativeLayout>
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp" >
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"

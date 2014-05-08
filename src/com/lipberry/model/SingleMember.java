@@ -9,7 +9,7 @@ public class SingleMember {
 	String  id,name,nickname,username,email,password,country,city,fromwhere_uknow,marital_status,
 	birth_date,working_woman,beauty_money,tall,weight,avatar,created_at,administrator,blocked,points,
 	allow_follow,brief,siteurl,youtube,instagram,telephone,number_of_followers,number_of_following,
-	publicpage_visit;
+	publicpage_visit,already_following;
 	public SingleMember(){
 
 	}
@@ -154,8 +154,8 @@ public class SingleMember {
 	public String getPoints(){
 		return this.points;
 	}
-	public String getAllow_follow(){
-		return this.allow_follow;
+	public String getAlready_followin(){
+		return this.already_following;
 	}
 
 	public String getBrief(){

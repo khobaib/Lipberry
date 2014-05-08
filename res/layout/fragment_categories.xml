@@ -2,42 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d8cad7"
+    android:background="#d3d3d3"
+    android:paddingLeft="4dp"
+     android:paddingRight="4dp"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/re_top_top"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="#ffffff"
-        android:layoutDirection="rtl"
-        android:visibility="gone" >
-
-        <TextView
-            android:id="@+id/txt_make_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="@string/txt_make_up"
-            android:textColor="#f90452" />
-
-        <Button
-            android:id="@+id/btn_go_another_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/txt_make_up"
-            android:layout_alignBottom="@+id/txt_make_up"
-            android:layout_alignParentLeft="true"
-            android:text="@string/txt_another_cat" />
-    </RelativeLayout>
-
+   
     <ListView
         android:id="@+id/list_categories"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="2.5dp"
+        android:background="#FFFFFF" >
     </ListView>
 
 </LinearLayout>

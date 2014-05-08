@@ -21,20 +21,20 @@
             android:layout_height="65dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
             android:padding="2dp"
+            android:layout_marginRight="5dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_launcher" />
+            android:src="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
             android:layout_toLeftOf="@+id/img_pro_pic"
             android:layout_toRightOf="@+id/text_time"
@@ -49,15 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_name"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_toLeftOf="@+id/img_pro_pic"
+           android:layout_marginLeft="50dp"
+            android:layout_marginRight="10dp"
+           android:layout_toLeftOf="@+id/img_pro_pic"
             android:gravity="right"
             android:text="Lipberry"
             android:textColor="#000000"
-            android:textSize="17dp" />
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/text_time"
@@ -65,13 +63,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="9dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginStart="9dp"
             android:layout_marginTop="8dp"
-            android:textColor="#f90452"
-            android:textSize="17dp" />
+            android:textColor="#777777"
+            android:textSize="15dp" />
     </RelativeLayout>
 
 </RelativeLayout>

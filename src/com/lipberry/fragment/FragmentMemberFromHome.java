@@ -100,7 +100,7 @@ public class FragmentMemberFromHome extends Fragment {
 		txt_following_text=(TextView) v.findViewById(R.id.txt_following_text);
 		txt_follower_text=(TextView) v.findViewById(R.id.txt_follower_text);
 		txt_article=(TextView) v.findViewById(R.id.txt_article);
-		
+
 		txt_num_seen=(TextView) v.findViewById(R.id.txt_num_seen);
 		txt_num_following=(TextView) v.findViewById(R.id.txt_num_following);
 		txt_num_follower=(TextView) v.findViewById(R.id.txt_num_follower);
@@ -115,14 +115,14 @@ public class FragmentMemberFromHome extends Fragment {
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
 		btn_connect=(Button) v.findViewById(R.id.btn_connect);
 		activity=getActivity();
-		
+
 		txt_num_seen.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_follower.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_following.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_nick_name.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
-		
+
 		btn_connect.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
@@ -140,7 +140,7 @@ public class FragmentMemberFromHome extends Fragment {
 			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
+
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -166,15 +166,29 @@ public class FragmentMemberFromHome extends Fragment {
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			String url =Constants.baseurl+"account/findmemberbyid/"+Constants.userid+"/";
-			ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_GET, url, null,
-					null, null);
-			return response;
+			
+	
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"account/findmemberbyid/"+Constants.userid+"/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		
+
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Log.e("result", "1   "+result.getjObj().toString());
 			setMemberObject(result.getjObj().toString());
+			Log.e("result", "1   "+result.getjObj().toString());
 		}
 	}
 
@@ -200,6 +214,7 @@ public class FragmentMemberFromHome extends Fragment {
 	public void setUserInterface(){
 		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)activity).welcome_title.setText(singleMember.getName());
+		Log.e("null",singleMember.getId() +" a "+appInstance.getUserCred().getId());
 		if(singleMember.getId().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setVisibility(View.GONE);
 			btn_send.setVisibility(View.GONE);
@@ -229,20 +244,36 @@ public class FragmentMemberFromHome extends Fragment {
 				webview_member.loadUrl(singleMember.getSiteurl());
 			}
 		});
-		
-		if(singleMember.getAllow_follow().equals("0")){
+
+		if(!singleMember.getAlready_followin().equals("Yes")){
 			followstate=false;
 		}
 		else{
 			followstate=true;
 		}
-		
+
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
 		}
 		else{
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
+		btn_send.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(followstate){
+					//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+				}
+				else{
+					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+//					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
+//							Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
 	}
 	public void buttonfollowclicked(){
 		if(!followstate){

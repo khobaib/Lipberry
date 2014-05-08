@@ -8,7 +8,15 @@
   
     android:layoutDirection="rtl"
     android:orientation="vertical" >
-    
+    <RelativeLayout
+        android:id="@+id/re_top1"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#d3d3d3"
+        android:layoutDirection="rtl" >
+    </RelativeLayout>
    
  
     <RelativeLayout
@@ -16,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:layout_alignParentLeft="true"
-         android:layout_alignParentTop="true"
+         android:layout_below="@+id/re_top1"
         android:background="#ffffff"
         android:layoutDirection="rtl" >
 
@@ -62,12 +70,13 @@
 
         <ImageView
             android:id="@+id/img_some_icon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="2dp"
-            android:src="@drawable/lcat_icon" />
+            android:padding="13dp"
+            
+            android:background="#f3f3f3" />
     </RelativeLayout>
 
     <ImageView
@@ -75,8 +84,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_top"
-        android:layout_marginLeft="2dp"
-        android:layout_marginRight="2dp"
         android:scaleType="fitXY"
         android:src="@drawable/ldummy_image" />
 
@@ -188,6 +195,6 @@
         android:layout_alignBottom="@+id/img_article_pro_pic"
         android:layout_alignLeft="@+id/et_comment"
         android:layout_marginBottom="55dp"
-        android:layout_marginLeft="107dp" />
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

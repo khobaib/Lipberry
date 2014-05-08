@@ -25,7 +25,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -81,6 +83,21 @@ public class LoginActivity extends Activity {
 				password=e_pass.getText().toString(); 
 				signin();
 			}
+		});
+		
+		e_pass.setOnKeyListener(new OnKeyListener() {
+		    public boolean onKey(View v, int keyCode, KeyEvent event) {
+		        // If the event is a key-down event on the "enter" button
+		        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+		            (keyCode == KeyEvent.KEYCODE_ENTER)) {
+		        	username=e_uname.getText().toString();
+					password=e_pass.getText().toString(); 
+					signin();
+		          // Perform action on key press
+		          return true;
+		        }
+		        return false;
+		    }
 		});
 
 

@@ -230,7 +230,7 @@ public class FragmentMyProfile extends Fragment {
 			}
 		});
 		
-		if(singleMember.getAllow_follow().equals("0")){
+		if(!singleMember.getAlready_followin().equals("Yes")){
 			followstate=false;
 		}
 		else{
