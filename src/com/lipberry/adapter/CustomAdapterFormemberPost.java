@@ -94,7 +94,8 @@ public class CustomAdapterFormemberPost extends BaseAdapter {
 			holder.img_thumb=(ImageView) convertView.findViewById(R.id.img_thumb);
 			holder.txt_article_created=(TextView) convertView.findViewById(R.id.txt_article_created);
 			holder.txt_article_title=(TextView) convertView.findViewById(R.id.txt_article_title);
-			
+			holder.txt_article_created.setTypeface(Utility.getTypeface2(activity));
+			holder.txt_article_created.setTypeface(Utility.getTypeface2(activity));
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

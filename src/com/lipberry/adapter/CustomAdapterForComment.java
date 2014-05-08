@@ -131,6 +131,9 @@ public class CustomAdapterForComment extends BaseAdapter {
 			holder.txt_name=(TextView) convertView.findViewById(R.id.txt_name);
 			holder.txt_title=(TextView) convertView.findViewById(R.id.txt_title);
 			holder.img_report_abuse=(ImageView) convertView.findViewById(R.id.img_report_abuse);
+			holder.txt_title.setTypeface(Utility.getTypeface2(activity));
+			holder.txt_name.setTypeface(Utility.getTypeface2(activity));
+
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();

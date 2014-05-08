@@ -11,32 +11,37 @@
 
         <ImageView
             android:id="@+id/img_avatar"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_alignParentRight="true"
-            android:layout_margin="8dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/ic_launcher" />
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp"
+           android:padding="2dp"
+            android:scaleType="fitXY"
+            android:background="@android:color/darker_gray" />
 
         <ImageView
             android:id="@+id/img_report_abuse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/txt_title"
-            android:layout_marginBottom="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
+            android:paddingBottom="7dp"
             android:src="@drawable/lbtn_reportabuse_for_comments" />
 
         <ImageView
             android:id="@+id/img_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_title"
-            android:layout_marginBottom="2dp"
+             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="6dp"
+             android:paddingBottom="5dp"
             android:layout_toRightOf="@+id/img_report_abuse"
             android:src="@drawable/comment" />
 
@@ -44,9 +49,10 @@
             android:id="@+id/img_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_title"
-            android:layout_marginBottom="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="6dp"
             android:layout_marginLeft="8dp"
+             android:paddingBottom="5dp"
             android:layout_toRightOf="@+id/img_comment"
             android:src="@drawable/like" />
 
@@ -57,20 +63,19 @@
             android:layout_alignRight="@+id/img_avatar"
             android:layout_below="@+id/img_avatar"
             android:gravity="center"
-            android:textColor="#000000" />
+            android:textColor="#777777"/>
 
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="85dp"
-            android:layout_marginRight="85dp"
-            android:layout_marginTop="9dp"
+            android:layout_toLeftOf="@+id/img_avatar"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="12dp"
             android:gravity="right"
-            android:padding="5dp"
-            android:textColor="#000000" />
+          android:paddingBottom="30dp"
+            android:textColor="#777777" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.lipberry.fragment.FragmentWriteTopic;
+import com.lipberry.model.Article;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -12,6 +13,9 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static boolean GOARTCLEPAGEFROMMEMBER=false; 
+	public static Article ARTICLETOSEE;
+	
 	public static boolean GOARTCLEPAGE=false; 
 	public static String INTER_ARTICLE_ID;
 	

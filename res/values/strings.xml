@@ -5,8 +5,9 @@
     <!--
 App Specific
 ا <string name="txt_title">"Title"</string>
-         <string name="txt_title">"Title"</string> Subject
+         <string name="txt_title">"Title"</string>  Subject
     -->
+ 
     <string name="txt_connect">"ربط "</string>
      <string name="txt_enter_your_comment"> "اكتب تعليقك هنا"</string>
     <string name="txt_cancel"> "الغاء"</string>
@@ -146,6 +147,7 @@ Inbox
 
 
     <!-- Sign in screen -->
+       <string name="txt_unfollow">"الغاء المتابعة "</string>
     <string name="btn_signin_sign">"دخول"</string>
     <string name="bt_signin_sign">"تسجيل دخول"</string>
     <string name="bt_signin_forgetpass">"نسيت كلمة المرور؟"</string>

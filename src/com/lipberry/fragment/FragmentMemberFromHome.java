@@ -127,7 +127,6 @@ public class FragmentMemberFromHome extends Fragment {
 		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_share.setTypeface(Utility.getTypeface2(getActivity()));
-		
 		txt_seen_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
@@ -141,12 +140,7 @@ public class FragmentMemberFromHome extends Fragment {
 			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		if(followstate){
-			btn_follow_her.setText("unfollow");
-		}
-		else{
-			btn_follow_her.setText("follow");
-		}
+		
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -206,6 +200,14 @@ public class FragmentMemberFromHome extends Fragment {
 	public void setUserInterface(){
 		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)activity).welcome_title.setText(singleMember.getName());
+		if(singleMember.getId().equals(appInstance.getUserCred().getId())){
+			btn_follow_her.setVisibility(View.GONE);
+			btn_send.setVisibility(View.GONE);
+		}
+		else{
+			btn_follow_her.setVisibility(View.VISIBLE);
+			btn_send.setVisibility(View.VISIBLE);
+		}
 		txt_name.setText(singleMember.getName());
 		txt_nick_name.setText(singleMember.getNickname());
 		txt_bio.setText(singleMember.getBrief());
@@ -217,7 +219,7 @@ public class FragmentMemberFromHome extends Fragment {
 		txt_num_following.setText(singleMember.getNumber_of_following());
 		txt_num_seen.setText(singleMember.getPublicpage_visit());                                                                                                        
 		imageLoader.displayImage(singleMember.getAvatar(), img_member_pic);
-		btn_connect.setOnClickListener(new OnClickListener() {
+		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				webview_member.setVisibility(View.VISIBLE);
@@ -227,12 +229,26 @@ public class FragmentMemberFromHome extends Fragment {
 				webview_member.loadUrl(singleMember.getSiteurl());
 			}
 		});
+		
+		if(singleMember.getAllow_follow().equals("0")){
+			followstate=false;
+		}
+		else{
+			followstate=true;
+		}
+		
+		if(followstate){
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
+		}
+		else{
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
+		}
 	}
 	public void buttonfollowclicked(){
 		if(!followstate){
 			if(Constants.isOnline(activity)){
-				pd=ProgressDialog.show(activity, "Lipberry",
-						"Please wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSendFollowReq().execute();
 			}
 			else{
@@ -242,8 +258,8 @@ public class FragmentMemberFromHome extends Fragment {
 		}
 		else{
 			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(activity, "Lipberry",
-						"Please wait", true);
+				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSendUnFollowReq().execute();
 			}
 			else{
@@ -280,7 +296,7 @@ public class FragmentMemberFromHome extends Fragment {
 				String description=jobj.getString("description");
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
-					btn_follow_her.setText("follow");
+					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 					followstate=false;
 				}
 				else{
@@ -320,13 +336,13 @@ public class FragmentMemberFromHome extends Fragment {
 				String description=jobj.getString("description");
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
-					btn_follow_her.setText("unfollow");
+					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
 					followstate=true;
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					if(description.equals("Already followed")){
-						btn_follow_her.setText("unfollow");
+						btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
 						followstate=true;
 					}
 				}
@@ -347,7 +363,7 @@ public class FragmentMemberFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", "0");
-				loginObj.put("endIndex" , "5");
+				loginObj.put("endIndex" , "10");
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"account/memberpostsbyid/"+Constants.userid;
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,

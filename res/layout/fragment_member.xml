@@ -40,6 +40,7 @@
             android:id="@+id/btn_connect"
             android:layout_width="60dp"
             android:layout_height="32dp"
+            android:visibility="gone"
             android:layout_alignRight="@+id/img_member_pic"
             android:layout_below="@+id/btn_follow_her"
             android:layout_marginTop="12dp"
@@ -196,7 +197,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/lreport_button"
-                    android:text="Share" 
+                    android:text="تواصل" 
                      android:textColor="#ffffff"/>
             </RelativeLayout>
         </RelativeLayout>
@@ -272,11 +273,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/ret_article_holder"
-      android:paddingTop="2dp"
+      android:paddingTop="3dp"
         android:gravity="center_horizontal"
-        
-        android:horizontalSpacing="0dp"
-        android:numColumns="2"
+        android:numColumns="4"
         android:verticalSpacing="2dp" >
     </GridView>
 

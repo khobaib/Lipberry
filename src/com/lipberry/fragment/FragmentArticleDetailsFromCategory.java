@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,6 +56,7 @@ import android.widget.VideoView;
 import com.lipberry.HomeActivity;
 import com.lipberry.LoginActivity;
 import com.lipberry.R;
+import com.lipberry.ShowHtmlText;
 import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.CustomAdapter;
 import com.lipberry.adapter.CustomAdapterForComment;
@@ -91,9 +95,11 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	JsonParser jsonParser;
 	CustomAdapterForComment adapter1;
 	ImageLoadingListener imll;
+	static Activity activity;
 	EditText et_comment;
 	String commentstext;
 	LinearLayout vedio_view_holder;
+	View view_gap_list,view_gap_list2;
 	WebView web_view;
 	@SuppressLint("NewApi")
 	Article article;
@@ -109,6 +115,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
+		activity=getActivity();
 	}
 
 	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
@@ -117,28 +124,31 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			return (false);
 		}
 	}
-	public static void setListViewHeightBasedOnChildren(ListView listView) {
-		ListAdapter listAdapter = listView.getAdapter();
-		if (listAdapter == null) {
-			// pre-condition
-			return;
-		}
+	public static void setListViewHeightBasedOnChildren(ListView listView)
+	{
+	    ListAdapter listAdapter = listView.getAdapter();
+	    if(listAdapter == null) return;
+	    if(listAdapter.getCount() <= 1) return;
 
-		int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-		for (int i = 0; i < listAdapter.getCount(); i++) {
-			View listItem = listAdapter.getView(i, null, listView);
-			if (listItem instanceof ViewGroup) {
-				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+	    int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
+	    int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+	   
+	    int totalHeight = 0;
+	    View view = null;
+	    for(int i = 0; i < listAdapter.getCount(); i++)
+	    {
+	        view = listAdapter.getView(i, view, listView);
+	        if (view instanceof ViewGroup) {
+	        	view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
-			listItem.measure(0, 0);
-			totalHeight += listItem.getMeasuredHeight();
-		}
-
-		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-		listView.setLayoutParams(params);
+	        view.measure(widthMeasureSpec, heightMeasureSpec);
+	        totalHeight += view.getMeasuredHeight();
+	    }
+	    ViewGroup.LayoutParams params = listView.getLayoutParams();
+	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+	    listView.setLayoutParams(params);
+	    listView.requestLayout();
 	}
-
 
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
 		ListAdapter listAdapter = listView.getAdapter();
@@ -163,13 +173,20 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 
 	public void setmemberlist(){
-		adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
-
-		list_comment.setAdapter(adapter1);
-		setListViewHeightBasedOnChildren(list_comment);
+		if(commentslist.getCommentslist().size()>0){
+			view_gap_list.setVisibility(View.VISIBLE);
+			view_gap_list2.setVisibility(View.VISIBLE);
+			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
+			list_comment.setAdapter(adapter1);
+			setListViewHeightBasedOnChildren(list_comment);
+		}
+		else{
+			view_gap_list.setVisibility(View.GONE);
+			view_gap_list2.setVisibility(View.GONE);
+		}
+		
 		
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -348,6 +365,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		image_share=(ImageView) v.findViewById(R.id.image_share);
 		vedio_view_holder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
 		web_view=(WebView) v.findViewById(R.id.web_view);
+		view_gap_list=v.findViewById(R.id.view_gap_list);
+		view_gap_list2=v.findViewById(R.id.view_gap_list2);
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_articl_ename.setTypeface(Utility.getTypeface2(getActivity()));
 		text_topic_text.setTypeface(Utility.getTypeface2(getActivity()));
@@ -373,8 +392,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
 				String shareBody = articledetails.getShort_url();
-				
-				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Lipberry");
+				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, articledetails.getTitle());
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent, "Share via"));
 				
@@ -417,8 +435,13 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		});
 		
-		text_user_name.setText(article.getMember_nickname());
-		text_date_other.setText(articledetails.getCreated_at());
+		text_topic_text.setText(Html.fromHtml(articledetails.getBody()));
+		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
+		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
+		showtext.updateImages(true,articledetails.getBody());
+		text_user_name.setText(articledetails.getMember_username());
+		text_date_other.setText(article.getMember_nickname());
+		
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){
 			txt_viewd.setText("");
@@ -426,7 +449,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		else{
 			txt_viewd.setText(""+Long.parseLong(articledetails.getVisit_counter()));
 		}
-		text_topic_text.setText(article.getArticle_description());
 		txt_like.setText(articledetails.getLikemember_text());
 		text_comment.setText(articledetails.getComment_count()+ " "+getResources().
 				getString(R.string.txt_comments));
@@ -995,10 +1017,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			JSONObject jobj=result.getjObj();
-			//			if((pd.isShowing())&&(pd!=null)){
-			//				pd.dismiss();
-			////			}
-
+			view_gap_list.setVisibility(View.GONE);
+			view_gap_list2.setVisibility(View.GONE);
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();

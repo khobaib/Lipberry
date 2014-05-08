@@ -52,6 +52,7 @@ public class HomeTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
+		
 		if(Constants.GOMEMBERSTATE){
 			startMemberFragment();
 			Constants.GOMEMBERSTATE=false;
@@ -59,6 +60,10 @@ public class HomeTabFragment extends TabFragment{
 		else if(Constants.GOARTCLEPAGE){
 			Constants.GOARTCLEPAGE=false;
 			FragmentArticleDetailsFromInteraction(Constants.INTER_ARTICLE_ID);
+		}
+		else if(Constants.GOARTCLEPAGEFROMMEMBER){
+			Constants.GOARTCLEPAGEFROMMEMBER=false;
+			startFragmentArticleDetailsFromHome(Constants.ARTICLETOSEE);
 		}
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();

@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 public class LoginActivity extends Activity {
 	int stateofbackpress=0;
+	String l;
 	UserCred usercred;
 	EditText e_uname,e_pass,et_email;
 	Button b_signin,bt_forgotpass,bt_enter;
@@ -45,6 +46,7 @@ public class LoginActivity extends Activity {
 	ProgressDialog pd;
 	LipberryApplication appInstance;
 	TextView txt_title;
+	String sk;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
