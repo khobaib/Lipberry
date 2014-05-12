@@ -13,11 +13,14 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	
+	public static int GOTABFROMWRITETOPIC;
 	public static boolean GOARTCLEPAGEFROMMEMBER=false; 
 	public static Article ARTICLETOSEE;
 	
 	public static boolean GOARTCLEPAGE=false; 
 	public static String INTER_ARTICLE_ID;
+	public static String INTER_MEMBER_ID;
 	
 	public static boolean GOMEMBERSTATE=false; 
 	

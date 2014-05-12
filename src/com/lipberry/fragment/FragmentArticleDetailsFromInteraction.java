@@ -101,6 +101,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	String article_id;
 	LinearLayout vedio_view_holder;
 	View view_gap_list,view_gap_list2;
+	String member_id;
 	WebView web_view;
 	public FragmentArticleDetailsFromInteraction(String article_id){
 		this.article_id=article_id;
@@ -415,8 +416,26 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
 		showtext.updateImages(true,articledetails.getBody());
-		text_user_name.setText(articledetails.getMember_username());
-		text_date_other.setText(articledetails.getMember_name());
+		text_user_name.setText(articledetails.getMember_name());
+		text_date_other.setText(articledetails.getMember_username());
+		text_user_name.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Constants.userid=articledetails.getMember();
+				parent.startMemberFragment();
+				
+			}
+		});
+		img_pro_pic.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Constants.userid=articledetails.getMember();
+				parent.startMemberFragment();
+				
+			}
+		});
 		
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){

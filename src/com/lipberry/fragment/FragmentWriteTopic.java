@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
@@ -104,7 +105,6 @@ public class FragmentWriteTopic extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		activity=getActivity();
-
 		jsonParser=new JsonParser();
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
@@ -116,13 +116,9 @@ public class FragmentWriteTopic extends Fragment {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
 		activity=getActivity();
-
 		jsonParser=new JsonParser();
 		categorylist=new ArrayList<Categories>();
 		catnamelist=new ArrayList<String>();
-
-
-
 	}
 	@Override
 	public void onPause() {
@@ -135,6 +131,16 @@ public class FragmentWriteTopic extends Fragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		loadGridview();
+		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)activity).backbuttonoftab.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				parent.onBackPressed();
+			}
+		});
+		
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -186,6 +192,7 @@ public class FragmentWriteTopic extends Fragment {
 		}
 		return v;
 	}
+	
 
 
 	public void loadGridview(){
@@ -292,18 +299,55 @@ public class FragmentWriteTopic extends Fragment {
 			}
 		}
 	}
+	/*
+	 *  ((TextView) parent.getChildAt(0)).setTextColor(Color.BLUE);
+	        ((TextView) parent.getChildAt(0)).setTextSize(5);
+	        private void generateSpinner() {
 
+			ArrayAdapter< String>adapter = new ArrayAdapter<String>(activity,
+					R.layout.spinner_item, catnamelist);
+		
+			spinner_category.setAdapter(adapter);
+			spinner_category.setAdapter(
+					new NothingSelectedSpinnerAdapter(
+							adapter,
+							R.drawable.contact_spinner_row_nothing_selected_category,
+							getActivity()));
+		//	adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			spinner_category.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+				public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
+						long arg3){
+					selsectedspinnerposition=position;
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+					selsectedspinnerposition=0;
+				}
+			});
+		}
+
+	 */
 	private void generateSpinner() {
 
 		ArrayAdapter< String>adapter = new ArrayAdapter<String>(activity,
-				android.R.layout.simple_spinner_dropdown_item, catnamelist);
+				R.layout.spinner_item, catnamelist);
 		spinner_category.setAdapter(adapter);
+		spinner_category.setAdapter(
+				new NothingSelectedSpinnerAdapter(
+						adapter,
+						R.drawable.contact_spinner_row_nothing_selected_category,
+						getActivity()));
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_category.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
+			public void onItemSelected(AdapterView<?> parent, View arg1, int position, 
 					long arg3){
-				selsectedspinnerposition=position;
+				((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#777777"));
+		        ((TextView) parent.getChildAt(0)).setTypeface(Utility.getTypeface2(getActivity()));
+		        ((TextView) parent.getChildAt(0)).setGravity(Gravity.CENTER);
+				selsectedspinnerposition=position-1;
 			}
 
 			@Override

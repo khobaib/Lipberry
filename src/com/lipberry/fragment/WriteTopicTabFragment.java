@@ -71,21 +71,22 @@ public class WriteTopicTabFragment extends TabFragment{
 	}
 	@Override
 	public void onBackPressed() {
-		if (backEndStack.size()==1) {
-			((HomeActivity) getActivity()).close();
-		}
-		else {
-			if (backEndStack.size()==1) {
-				((HomeActivity) getActivity()).close();
-			} else {
-				backEndStack.pop();
-				Fragment frg = backEndStack.peek();
-				Log.d("1", "4");
-				FragmentManager fragmentManager = getChildFragmentManager();
-				FragmentTransaction fragmentTransaction = fragmentManager
-						.beginTransaction();
-				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
-			}
-		}
+		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOTABFROMWRITETOPIC);
+//		if (backEndStack.size()==1) {
+//			((HomeActivity) getActivity()).close();
+//		}
+//		else {
+//			if (backEndStack.size()==1) {
+//				((HomeActivity) getActivity()).close();
+//			} else {
+//				backEndStack.pop();
+//				Fragment frg = backEndStack.peek();
+//				Log.d("1", "4");
+//				FragmentManager fragmentManager = getChildFragmentManager();
+//				FragmentTransaction fragmentTransaction = fragmentManager
+//						.beginTransaction();
+//				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+//			}
+//		}
 	}
 }

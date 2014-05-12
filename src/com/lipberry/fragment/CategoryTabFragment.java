@@ -47,6 +47,8 @@ public class CategoryTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
+		Constants.GOTABFROMWRITETOPIC=3;
+
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

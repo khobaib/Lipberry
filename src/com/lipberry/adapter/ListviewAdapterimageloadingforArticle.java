@@ -266,6 +266,25 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				imageviewarticlepicclicked(position);
 			}
 		});
+		holder.txt_articl_ename.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(parent3==null){
+					if(list.get(position)!=null){
+						parent.startFragmentArticleDetailsFromHome(list.get(position));
+					}
+					
+				}
+				else{
+					if(list.get(position)!=null){
+						parent3.startFragmentArticleDetails(list.get(position));
+
+					}
+				}
+			}
+		});
 		holder.text_comment.setOnClickListener(new OnClickListener() {
 
 			@Override

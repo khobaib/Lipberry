@@ -4,6 +4,7 @@ import java.util.Stack;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.utility.Constants;
 
 
 
@@ -45,6 +46,8 @@ public class IneractionTabFragment extends TabFragment{
 	}
 
 	public void onStart( ) {
+		Constants.GOTABFROMWRITETOPIC=2;
+
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

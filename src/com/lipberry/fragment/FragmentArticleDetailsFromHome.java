@@ -118,59 +118,59 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 		activity=getActivity();
-		
+
 	}
-	
+
 	public static void setListViewHeightBasedOnChildren(ListView listView)
 	{
-	    ListAdapter listAdapter = listView.getAdapter();
-	    if(listAdapter == null) return;
-	    if(listAdapter.getCount() <= 1) return;
+		ListAdapter listAdapter = listView.getAdapter();
+		if(listAdapter == null) return;
+		if(listAdapter.getCount() <= 1) return;
 
-	    int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
-	    int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-	   
-	    int totalHeight = 0;
-	    View view = null;
-	    for(int i = 0; i < listAdapter.getCount(); i++)
-	    {
-	        view = listAdapter.getView(i, view, listView);
-	        if (view instanceof ViewGroup) {
-	        	view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
+		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+
+		int totalHeight = 0;
+		View view = null;
+		for(int i = 0; i < listAdapter.getCount(); i++)
+		{
+			view = listAdapter.getView(i, view, listView);
+			if (view instanceof ViewGroup) {
+				view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
-	        view.measure(widthMeasureSpec, heightMeasureSpec);
-	        totalHeight += view.getMeasuredHeight();
-	    }
-	    ViewGroup.LayoutParams params = listView.getLayoutParams();
-	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-	    listView.setLayoutParams(params);
-	    listView.requestLayout();
+			view.measure(widthMeasureSpec, heightMeasureSpec);
+			totalHeight += view.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
-//	public static void setListViewHeightBasedOnChildren(ListView listView) {
-//		ListAdapter listAdapter = listView.getAdapter();
-//		if (listAdapter == null) {
-//			return;
-//		}
-//
-//		int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-//		Log.e("totalHeight pad", ""+totalHeight);
-//		for (int i = 0; i < listAdapter.getCount(); i++) {
-//			View listItem = listAdapter.getView(i, null, listView);
-//			if (listItem instanceof ViewGroup) {
-//				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-//			}
-//			listItem.measure(0, 0);
-//			totalHeight += listItem.getMeasuredHeight();
-//			Log.e("totalHeight view", ""+listItem.getMeasuredHeight());
-//
-//		}
-//
-//		ViewGroup.LayoutParams params = listView.getLayoutParams();
-//		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-//		listView.setLayoutParams(params);
-//		Log.e("totalHeight", ""+(listView.getDividerHeight() * (listAdapter.getCount() - 1))+"  "+params.height);
-//		
-//	}
+	//	public static void setListViewHeightBasedOnChildren(ListView listView) {
+		//		ListAdapter listAdapter = listView.getAdapter();
+	//		if (listAdapter == null) {
+	//			return;
+	//		}
+	//
+	//		int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
+	//		Log.e("totalHeight pad", ""+totalHeight);
+	//		for (int i = 0; i < listAdapter.getCount(); i++) {
+	//			View listItem = listAdapter.getView(i, null, listView);
+	//			if (listItem instanceof ViewGroup) {
+	//				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+	//			}
+	//			listItem.measure(0, 0);
+	//			totalHeight += listItem.getMeasuredHeight();
+	//			Log.e("totalHeight view", ""+listItem.getMeasuredHeight());
+	//
+	//		}
+	//
+	//		ViewGroup.LayoutParams params = listView.getLayoutParams();
+	//		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+	//		listView.setLayoutParams(params);
+	//		Log.e("totalHeight", ""+(listView.getDividerHeight() * (listAdapter.getCount() - 1))+"  "+params.height);
+	//		
+	//	}
 
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
 		ListAdapter listAdapter = listView.getAdapter();
@@ -205,8 +205,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
 		}
-		
-		
+
+
 	}
 
 	@Override
@@ -399,21 +399,21 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 
 			}
 		} );
-		
+
 		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
 			play_vedio.setVisibility(View.GONE);
 		}
-		
+
 		play_vedio.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-					state=1;
-					vedio_view_holder.setVisibility(View.VISIBLE);
-					web_view.setVisibility(View.VISIBLE);
-					WebSettings webSettings = web_view.getSettings();
-					webSettings.setJavaScriptEnabled(true);
-					web_view.setWebViewClient(new Callback());
-					web_view.loadUrl(articledetails.getVideo());
+				state=1;
+				vedio_view_holder.setVisibility(View.VISIBLE);
+				web_view.setVisibility(View.VISIBLE);
+				WebSettings webSettings = web_view.getSettings();
+				webSettings.setJavaScriptEnabled(true);
+				web_view.setWebViewClient(new Callback());
+				web_view.loadUrl(articledetails.getVideo());
 			}
 		});
 		txt_like.setOnClickListener(new OnClickListener() {
@@ -441,9 +441,9 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
 		showtext.updateImages(true,articledetails.getBody());
-		text_user_name.setText(articledetails.getMember_username());
-		text_date_other.setText(article.getMember_nickname());
-		
+		text_user_name.setText(article.getMember_nickname());
+		text_date_other.setText(articledetails.getMember_username());
+
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){
 			txt_viewd.setText("");
@@ -451,7 +451,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		else{
 			txt_viewd.setText(""+Long.parseLong(articledetails.getVisit_counter()));
 		}
-	
+
 		txt_like.setText(articledetails.getLikemember_text());
 		text_comment.setText(articledetails.getComment_count()+ " "+getResources().
 				getString(R.string.txt_comments));
@@ -463,7 +463,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					public void run(){
 						getActivity().runOnUiThread(new Runnable(){
 							public void run(){
-								pd=ProgressDialog.show(getActivity(), "Lipberry",
+								pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 										getActivity().getResources().getString(R.string.txt_image_is_loading), false);
 							}
 						});
@@ -644,6 +644,25 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				CallReoprt();
 			}
 		});
+		text_user_name.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				Constants.userid=article.getMember_id();
+				parent.startMemberFragment();
+
+			}
+		});
+		img_pro_pic.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Constants.userid=article.getMember_id();
+				parent.startMemberFragment();
+
+			}
+		});
 	}
 	public void imgeviewlikeclicked(){
 		if(!article.getUserAlreadylikeThis().equals("No")){
@@ -789,6 +808,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				e.printStackTrace();
 			}
 		}
+
 	}
 	private class AsyncTaskSendUnFollowReq extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -1058,7 +1078,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		}
 	}
-	
+
 	private class AsyncTaskUpdatePageVisit extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {

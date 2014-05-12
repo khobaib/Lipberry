@@ -126,28 +126,28 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	}
 	public static void setListViewHeightBasedOnChildren(ListView listView)
 	{
-	    ListAdapter listAdapter = listView.getAdapter();
-	    if(listAdapter == null) return;
-	    if(listAdapter.getCount() <= 1) return;
+		ListAdapter listAdapter = listView.getAdapter();
+		if(listAdapter == null) return;
+		if(listAdapter.getCount() <= 1) return;
 
-	    int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
-	    int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-	   
-	    int totalHeight = 0;
-	    View view = null;
-	    for(int i = 0; i < listAdapter.getCount(); i++)
-	    {
-	        view = listAdapter.getView(i, view, listView);
-	        if (view instanceof ViewGroup) {
-	        	view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
+		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+
+		int totalHeight = 0;
+		View view = null;
+		for(int i = 0; i < listAdapter.getCount(); i++)
+		{
+			view = listAdapter.getView(i, view, listView);
+			if (view instanceof ViewGroup) {
+				view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
-	        view.measure(widthMeasureSpec, heightMeasureSpec);
-	        totalHeight += view.getMeasuredHeight();
-	    }
-	    ViewGroup.LayoutParams params = listView.getLayoutParams();
-	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-	    listView.setLayoutParams(params);
-	    listView.requestLayout();
+			view.measure(widthMeasureSpec, heightMeasureSpec);
+			totalHeight += view.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
 
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
@@ -184,8 +184,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
 		}
-		
-		
+
+
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -373,11 +373,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
+
 	}
-	
+
 	public void setview(){
 		btn_photo_album.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -385,17 +386,17 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		});
 		image_share.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
 				String shareBody = articledetails.getShort_url();
 				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, articledetails.getTitle());
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent, "Share via"));
-				
+
 			}
 		} );
 		txt_like.setOnClickListener(new OnClickListener() {
@@ -425,23 +426,23 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		play_vedio.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-					state=1;
-					vedio_view_holder.setVisibility(View.VISIBLE);
-					web_view.setVisibility(View.VISIBLE);
-					WebSettings webSettings = web_view.getSettings();
-					webSettings.setJavaScriptEnabled(true);
-					web_view.setWebViewClient(new Callback());
-					web_view.loadUrl(articledetails.getVideo());
+				state=1;
+				vedio_view_holder.setVisibility(View.VISIBLE);
+				web_view.setVisibility(View.VISIBLE);
+				WebSettings webSettings = web_view.getSettings();
+				webSettings.setJavaScriptEnabled(true);
+				web_view.setWebViewClient(new Callback());
+				web_view.loadUrl(articledetails.getVideo());
 			}
 		});
-		
+
 		text_topic_text.setText(Html.fromHtml(articledetails.getBody()));
 		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
 		showtext.updateImages(true,articledetails.getBody());
-		text_user_name.setText(articledetails.getMember_username());
-		text_date_other.setText(article.getMember_nickname());
-		
+		text_user_name.setText(article.getMember_nickname());
+		text_date_other.setText(articledetails.getMember_username());
+
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){
 			txt_viewd.setText("");
@@ -636,6 +637,25 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			@Override
 			public void onClick(View v) {
 				CallReoprt();
+			}
+		});
+		text_user_name.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				Constants.userid=articledetails.getMember_id();
+				parent.startFragmentMemberFromCategories();
+
+			}
+		});
+		img_pro_pic.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Constants.userid=articledetails.getMember_id();
+				parent.startFragmentMemberFromCategories();
+
 			}
 		});
 	}

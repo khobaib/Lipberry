@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.ThreadMessageList;
+import com.lipberry.utility.Constants;
 
 
 
@@ -47,6 +48,7 @@ public class InboxTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
+		Constants.GOTABFROMWRITETOPIC=1;
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

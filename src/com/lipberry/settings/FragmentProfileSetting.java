@@ -75,6 +75,7 @@ public class FragmentProfileSetting extends Fragment {
 	ArrayList<String>allcountryname;
 	ArrayList<City>citylist;
 	ArrayList<String>allcityname;
+	int state=0;
 	DisplayImageOptions defaultOptions;
 	ArrayAdapter<String> adapter ;
 	EditText e_nickname,et_new_pass,et_email,et_site_url,et_brief;
@@ -321,9 +322,13 @@ public class FragmentProfileSetting extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.d("serverreponse", result.getjObj().toString());
-			if((pd!=null)&&(pd.isShowing())){
-				pd.dismiss();
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+				
 			}
+			
 			try {
 				String city=result.getjObj().getString("city_list");
 				loadcitylist(city);
@@ -365,14 +370,18 @@ public class FragmentProfileSetting extends Fragment {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+			
+
 	}
 	private void setcity(){
+		
 
 		ArrayAdapter  adapter2 = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_spinner_dropdown_item, allcityname);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
-				adapter2, R.drawable.contact_spinner_row_nothing_selected_city,getActivity()));
+//		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
+//				adapter2, R.drawable.contact_spinner_row_nothing_selected_city,getActivity()));
+		s_city.setAdapter(adapter2);
 		s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
@@ -384,7 +393,18 @@ public class FragmentProfileSetting extends Fragment {
 			public void onNothingSelected(AdapterView<?> arg0) {
 				selectedcityposition=-1;
 			}
-		}); 
+		});
+		if(state==0){
+			int inexforcity=10;
+			for (int i=0;i<citylist.size();i++){
+				if(citylist.get(i).getId().equals(appInstance.getUserCred().getCity())){
+					inexforcity=i;
+				}
+			}
+			s_city.setSelection(20);
+			selectedcityposition=inexforcity;
+		}
+	
 	}
 
 	private class AsyncTaskGetCountry extends AsyncTask<Void, Void, ServerResponse> {
@@ -427,8 +447,9 @@ public class FragmentProfileSetting extends Fragment {
 				Country contr=new Country(id, name);
 				countrylist.add(contr);
 				allcountryname.add(name);
-				setcountry();
+				
 			}
+			setcountry();
 
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -453,23 +474,43 @@ public class FragmentProfileSetting extends Fragment {
 
 	private void setcountry(){
 
+		Log.e("tag", "1");
 		adapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.spinner_item, allcountryname);
+		Log.e("tag", "2");
+
+		int position=0;
+		Log.e("tag", "3");
+
+		for (int i=0;i<countrylist.size();i++){
+			if(countrylist.get(i).getId().equals(appInstance.getUserCred().getCountry())){
+				position=i;
+			}
+		}
+		Log.e("tag", "4");
+
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		s_country.setAdapter(
+		Log.e("tag", "5");
+
+		//s_country.setAdapter(adapter);
+	s_country.setAdapter(
+			
 				new NothingSelectedSpinnerAdapter(
 						adapter,
 						R.drawable.contact_spinner_row_nothing_selected_country,
-						getActivity()));
+					getActivity()));
+		Log.e("tag", "6");
+
 		s_country.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
-
+				
 				selectedcountryposition=position-1;
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
+				state=1;
 			}
 
 			@Override
@@ -477,8 +518,12 @@ public class FragmentProfileSetting extends Fragment {
 				selectedcountryposition=-1;
 			}
 		});
-
-	}
+		s_country.setSelection(position);
+		selectedcountryposition=position;
+		t_city.setVisibility(View.VISIBLE);
+		s_city.setVisibility(View.GONE);
+		new AsyncTaskGetCity().execute();
+		}
 
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -510,6 +555,11 @@ public class FragmentProfileSetting extends Fragment {
 				ImageLoader.getInstance().getMemoryCache().clear();
 				ImageLoader.getInstance().getDiscCache().clear();
 				ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
+				e_nickname.setText(singleMember.getNickname());
+				et_email.setText(singleMember.getEmail());
+				et_site_url.setText(singleMember.getSiteurl());
+				et_brief.setText(singleMember.getBrief());
+				
 			}
 			else{
 //				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),

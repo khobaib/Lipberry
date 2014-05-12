@@ -221,8 +221,8 @@ public class FragmentMemberFromCategories extends Fragment {
 			btn_follow_her.setVisibility(View.VISIBLE);
 			btn_send.setVisibility(View.VISIBLE);
 		}
-		txt_name.setText(singleMember.getName());
-		txt_nick_name.setText(singleMember.getNickname());
+		txt_name.setText(singleMember.getNickname());
+		txt_nick_name.setText(singleMember.getUsername());
 		if(singleMember.getBrief()!=null){
 			txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
 		}

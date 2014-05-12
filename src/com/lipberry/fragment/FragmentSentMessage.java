@@ -69,8 +69,6 @@ public class FragmentSentMessage extends Fragment{
 	ThreadMessageList messagelist;
 	int endex=10;
 	private ArrayAdapter<String> mAdapter;
-	LinearLayout re_holder;
-	RelativeLayout re_sent_msz,re_new_msz,re_setting;
 	CustomAdapterForISentMessage adapter;
 	public static boolean oncreatecalledstate=false;
 	JsonParser jsonParser;
@@ -94,11 +92,8 @@ public class FragmentSentMessage extends Fragment{
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_inbox,
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sent_msz,
 				container, false);
-		re_holder=(LinearLayout) v.findViewById(R.id.re_holder);
-		re_holder.setVisibility(View.GONE);
-		re_setting=(RelativeLayout) v.findViewById(R.id.re_setting);
 		list_view_inbox=(PullToRefreshListView) v.findViewById(R.id.list_view_inbox);
 		listviewforinbbox=list_view_inbox.getRefreshableView();
 		actualListView = list_view_inbox.getRefreshableView();

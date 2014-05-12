@@ -9,6 +9,7 @@ import com.lipberry.settings.FragmentFindamember;
 import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.settings.FragmentMessageSetting;
 import com.lipberry.settings.FragmentProfileSetting;
+import com.lipberry.utility.Constants;
 
 
 
@@ -49,6 +50,7 @@ public class MenuTabFragment extends TabFragment{
 	}
 
 	public void onStart( ) {
+		Constants.GOTABFROMWRITETOPIC=5;
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

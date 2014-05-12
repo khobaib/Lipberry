@@ -180,6 +180,7 @@ public class FragmentInteraction extends Fragment {
 					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
 					Constants.GOARTCLEPAGE=true;
 					Constants.INTER_ARTICLE_ID=notificationList.getnotificationslist().get(position).getArticle_id();
+				//	Constants.INTER_MEMBER_ID=notificationList.getnotificationslist().get(position).getArticle_id();
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 				}
 				

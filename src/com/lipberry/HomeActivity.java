@@ -120,9 +120,9 @@ protected void onCreate(Bundle savedInstanceState) {
 		mTabHost.setup(this, getSupportFragmentManager(),
 				android.R.id.tabcontent);
 		mTabsPlaceHoler = (TabWidget) findViewById(android.R.id.tabs);
-		addTab("Write Topic", R.drawable.lunknown, WriteTopicTabFragment.class);
-		addTab("Inbox", R.drawable.linbox,InboxTabFragment.class);
-		addTab("Interaction", R.drawable.linteraction, IneractionTabFragment.class);
+		addTab(getResources().getString(R.string.txt_write_topic), R.drawable.lunknown, WriteTopicTabFragment.class);
+		addTab(getResources().getString(R.string.txt_inbox), R.drawable.linbox,InboxTabFragment.class);
+		addTab(getResources().getString(R.string.txt_interaction), R.drawable.linteraction, IneractionTabFragment.class);
 		addTab("Categories", R.drawable.lcategory, CategoryTabFragment.class);
 		addTab("Home", R.drawable.lhome, HomeTabFragment.class);
 		addTab("Menu", R.drawable.lmenu, MenuTabFragment.class);

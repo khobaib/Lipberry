@@ -223,8 +223,8 @@ public class FragmentMemberFromHome extends Fragment {
 			btn_follow_her.setVisibility(View.VISIBLE);
 			btn_send.setVisibility(View.VISIBLE);
 		}
-		txt_name.setText(singleMember.getName());
-		txt_nick_name.setText(singleMember.getNickname());
+		txt_name.setText(singleMember.getNickname());
+		txt_nick_name.setText(singleMember.getUsername());
 		txt_bio.setText(singleMember.getBrief());
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());

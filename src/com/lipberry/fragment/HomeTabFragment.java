@@ -52,7 +52,7 @@ public class HomeTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
-		
+		Constants.GOTABFROMWRITETOPIC=4;
 		if(Constants.GOMEMBERSTATE){
 			startMemberFragment();
 			Constants.GOMEMBERSTATE=false;
