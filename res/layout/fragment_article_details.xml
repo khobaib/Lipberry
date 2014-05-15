@@ -83,6 +83,7 @@
                         android:background="@android:color/transparent"
                         android:gravity="center"
                         android:padding="1dp"
+                        android:textColor="#ffffff"
                         android:textSize="20dp" />
 
                     <Button
@@ -198,9 +199,11 @@
                 <RelativeLayout
                     android:id="@+id/re_like_holder"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/re_report"
-                    android:background="#f4f4f4"
+                    android:paddingTop="7dp"
+             		android:paddingBottom="7dp"
+                    android:background="#e9e9e9"
                     android:layoutDirection="rtl" >
 
                     <ImageView
@@ -262,20 +265,25 @@
                 <RelativeLayout
                     android:id="@+id/re_bottom"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/view_gap"
-                    android:background="#f4f4f4"
+                     android:paddingTop="7dp"
+             		android:paddingBottom="7dp"
+                    android:background="#e9e9e9"
                     android:layoutDirection="rtl" >
 
                     <TextView
                         android:id="@+id/txt_like"
-                        android:layout_width="250dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
+                          android:layout_toRightOf="@+id/text_comment"
                         android:gravity="right|center_vertical"
                         android:padding="5dp"
+                         android:layout_marginRight="12dp"
+               android:layout_marginLeft="12dp"
                         android:textColor="#777777"
                         android:textSize="15dp" />
 

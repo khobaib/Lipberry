@@ -37,6 +37,7 @@ import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebView.FindListener;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -47,6 +48,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +84,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	ImageLoader imageLoader;
 	ProgressDialog pd;
 	ArticleDetails articledetails;
+	ScrollView scrollView1;
 	ListView list_comment;
 	ListView lst_imag;
 	int state=0;
@@ -124,7 +127,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	{
 	    ListAdapter listAdapter = listView.getAdapter();
 	    if(listAdapter == null) return;
-	    if(listAdapter.getCount() <= 1) return;
+	    if(listAdapter.getCount() <= 0) return;
 
 	    int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
 	    int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -168,19 +171,28 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	}
 	
 	public void setmemberlist1(){
+		 list_comment.setFocusable(false);
 		if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
 			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article_id);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
+			scrollView1.scrollTo(0, 0);
+			scrollView1.fullScroll(View.FOCUS_UP);
+		
 		}
 		else{
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
+			scrollView1.scrollTo(0, 0);
+			
+
 		}
+		 img_pro_pic.requestFocus();
 		
-		
+
+	//	scrollView1.fullScroll(View.FOCUS_UP);
 	}
 
 	
@@ -205,16 +217,18 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		return v;
 	}
 	@Override
+	
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if(state==0){
 					parent.onBackPressed();
+					
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(2);
 				}
 				else{
 					vedio_view_holder.setVisibility(View.GONE);
@@ -280,6 +294,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		}
 	}
 	public void initview(ViewGroup v){
+		scrollView1=(ScrollView) v.findViewById(R.id.scrollView1);
 		visit=(Button) v.findViewById(R.id.visit);
 		list_comment=(ListView) v.findViewById(R.id.list_comment);
 		lst_imag=(ListView) v.findViewById(R.id.lst_imag);
@@ -305,10 +320,10 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		view_gap_list2=v.findViewById(R.id.view_gap_list2);
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_articl_ename.setTypeface(Utility.getTypeface2(getActivity()));
-		text_topic_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
+		scrollView1.scrollTo(0, 0);
 
 	}
 	public void setCategorytitle(){
@@ -362,6 +377,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 
 	public void setview(){
+		
 		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
 			play_vedio.setVisibility(View.GONE);
 		}
@@ -423,7 +439,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Constants.userid=articledetails.getMember();
-				parent.startMemberFragment();
+				parent.startMemberFragment(0);
 				
 			}
 		});
@@ -432,7 +448,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Constants.userid=articledetails.getMember();
-				parent.startMemberFragment();
+				parent.startMemberFragment(0);
 				
 			}
 		});
@@ -636,6 +652,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				CallReoprt();
 			}
 		});
+		//scrollView1.fullScroll(View.FOCUS_UP);
+		scrollView1.fullScroll(View.FOCUS_UP);
 	}
 	public void imgeviewlikeclicked(){
 		if(!articledetails.getUserAlreadylikeThis().equals("No")){

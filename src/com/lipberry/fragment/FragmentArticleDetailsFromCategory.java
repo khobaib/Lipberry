@@ -49,6 +49,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -83,6 +84,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	ArticleDetails articledetails;
 	Commentslist commentslist;
 	ListView list_comment;
+	ScrollView scrollView1;
 	ListView lst_imag;
 	int state=0;
 	boolean followstate=false;
@@ -128,7 +130,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	{
 		ListAdapter listAdapter = listView.getAdapter();
 		if(listAdapter == null) return;
-		if(listAdapter.getCount() <= 1) return;
+		if(listAdapter.getCount() <= 0) return;
 
 		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
 		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -173,17 +175,21 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 
 	public void setmemberlist(){
-		if(commentslist.getCommentslist().size()>0){
+		 list_comment.setFocusable(false);
+		 if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
 			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
+			list_comment.requestFocus();
+			
 		}
 		else{
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
 		}
+		scrollView1.fullScroll(View.FOCUS_UP);
 
 
 	}
@@ -254,15 +260,15 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 		if(article.getcategory().equals("2")){
 			if(article.getArticle_category_url().contains("shexp")){
-				int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
+				int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
 				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 			}
 			else{
-				int id = getActivity().getResources().getIdentifier("bl"+article.getcategory(), "drawable", getActivity().getPackageName());
+				int id = getActivity().getResources().getIdentifier("catbl"+article.getcategory(), "drawable", getActivity().getPackageName());
 				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 			}
 		}else{
-			int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
+			int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
 			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 		}
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
@@ -344,6 +350,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 	}
 	public void initview(ViewGroup v){
+		scrollView1=(ScrollView) v.findViewById(R.id.scrollView1);
+
 		play_vedio=(ImageView) v.findViewById(R.id.play_vedio);
 		vedioholder=(LinearLayout) v.findViewById(R.id.vedio_view_holder);
 		list_comment=(ListView) v.findViewById(R.id.list_comment);
@@ -369,7 +377,6 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		view_gap_list2=v.findViewById(R.id.view_gap_list2);
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_articl_ename.setTypeface(Utility.getTypeface2(getActivity()));
-		text_topic_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
@@ -377,6 +384,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	}
 
 	public void setview(){
+		scrollView1.fullScroll(View.FOCUS_DOWN);
 		btn_photo_album.setOnClickListener(new OnClickListener() {
 
 			@Override

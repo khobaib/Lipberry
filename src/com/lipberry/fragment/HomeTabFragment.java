@@ -26,13 +26,17 @@ import android.widget.Toast;
 
 public class HomeTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
+	protected Stack<Integer> trackcallhome;
 	Bundle sBundle;
+	int callstatefromtab=0;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		trackcallhome=new Stack<Integer>();
 		backEndStack = new Stack<Fragment>();
 		FragmentHomeHolder initialFragment = new FragmentHomeHolder();
 		initialFragment.parent = this;
+		trackcallhome.push(0);
 		backEndStack.push(initialFragment);
 		sBundle=savedInstanceState;
 	}
@@ -53,9 +57,13 @@ public class HomeTabFragment extends TabFragment{
 	}
 	public void onStart( ) {
 		Constants.GOTABFROMWRITETOPIC=4;
-		if(Constants.GOMEMBERSTATE){
-			startMemberFragment();
-			Constants.GOMEMBERSTATE=false;
+		if(Constants.GOMEMBERSTATEFROMINTERACTION){
+			startMemberFragment(2);
+			Constants.GOMEMBERSTATEFROMINTERACTION=false;
+		}
+		else if(Constants.GOMEMBERSTATEFROMSETTING){
+			startMemberFragment(5);
+			Constants.GOMEMBERSTATEFROMSETTING=false;
 		}
 		else if(Constants.GOARTCLEPAGE){
 			Constants.GOARTCLEPAGE=false;
@@ -63,8 +71,9 @@ public class HomeTabFragment extends TabFragment{
 		}
 		else if(Constants.GOARTCLEPAGEFROMMEMBER){
 			Constants.GOARTCLEPAGEFROMMEMBER=false;
-			startFragmentArticleDetailsFromHome(Constants.ARTICLETOSEE);
+			startFragmentArticleDetailsFromHome(Constants.ARTICLETOSEE,5);
 		}
+		trackcallhome.peek();
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -84,6 +93,7 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
 		backEndStack.push(newFragment);
+		trackcallhome.push(2);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 
@@ -96,6 +106,7 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
 		backEndStack.push(newFragment);
+		trackcallhome.push(0);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void startFragmentArticleDetailsFromHome(Article article) {
@@ -108,6 +119,20 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
 		backEndStack.push(newFragment);
+		trackcallhome.push(0);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
+	public void startFragmentArticleDetailsFromHome(Article article, int state) {
+		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();
+		newFragment.setArticle(article);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		trackcallhome.push(state);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void startMenufragment() {
@@ -119,10 +144,11 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
 		backEndStack.push(newFragment);
+		trackcallhome.push(0);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	public void startMemberFragment() {
-		FragmentMemberFromHome newFragment = new FragmentMemberFromHome();
+	public void startMemberFragment(int state) {
+		FragmentMemberFromHome newFragment = new FragmentMemberFromHome(state, Constants.userid);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -130,9 +156,11 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
 		backEndStack.push(newFragment);
+		trackcallhome.push(state);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void clearr(){
+		trackcallhome.pop();
 		backEndStack.pop();
 	}
 	@Override
@@ -144,12 +172,19 @@ public class HomeTabFragment extends TabFragment{
 			if (backEndStack.size()==1) {
 				((HomeActivity) getActivity()).close();
 			} else {
+				int callstate=trackcallhome.pop();
 				backEndStack.pop();
-				Fragment frg = backEndStack.peek();
-				FragmentManager fragmentManager = getChildFragmentManager();
-				FragmentTransaction fragmentTransaction = fragmentManager
-						.beginTransaction();
-				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+				if(callstate==0){
+					Fragment frg = backEndStack.peek();
+					FragmentManager fragmentManager = getChildFragmentManager();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+				}
+				else{
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(callstate);
+				}
+				
 			}
 
 		}

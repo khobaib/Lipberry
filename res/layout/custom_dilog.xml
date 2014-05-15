@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="220dp"
+    android:layout_height="210dp"
     android:layoutDirection="rtl"
+    android:padding="2dp"
     android:orientation="horizontal"
     android:textColor="#ffffff" >
 
@@ -11,8 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentLeft="true"
-        android:layout_margin="5dp"
-        android:background="#657383"
+        android:layout_marginBottom="2dp"
+                android:layout_marginTop="-4dp"
+        
+        android:background="#81212f"
         android:ems="10"
         android:gravity="right"
         android:hint="@string/txt_enter_your_comment"
@@ -25,11 +28,11 @@
     <Button
         android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/et_comment"
-        android:layout_margin="4dp"
-        android:layout_toLeftOf="@+id/bt_middle"
-        android:background="#657383"
+     
+       android:layout_toLeftOf="@+id/bt_middle"
+        android:background="#81212f"
         android:gravity="center"
         android:text="@string/txt_cancel"
         android:textColor="#ffffff"
@@ -41,9 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_comment"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
+      
+        android:layout_marginRight="2dp"
         android:layout_toRightOf="@+id/button1"
         android:background="@drawable/rounded_edittext"
         android:gravity="center"
@@ -53,11 +55,11 @@
     <Button
         android:id="@+id/bt_ok"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="match_parent"
         android:layout_below="@+id/et_comment"
-        android:layout_margin="4dp"
+      
         android:layout_toRightOf="@+id/bt_middle"
-        android:background="#657383"
+        android:background="#81212f"
         android:gravity="center"
         android:text="@string/txt_ok"
         android:textColor="#ffffff"

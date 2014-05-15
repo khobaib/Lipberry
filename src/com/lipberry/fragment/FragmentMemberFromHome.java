@@ -60,7 +60,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "ValidFragment" })
 public class FragmentMemberFromHome extends Fragment {
 	ImageLoader imageLoader;
 	LipberryApplication appInstance;
@@ -70,6 +70,7 @@ public class FragmentMemberFromHome extends Fragment {
 	SingleMember singleMember;
 	ArticleList  articlelistinstance;
 	Activity activity;
+	int statefromcallesd=0;
 	HomeTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio,
 	txt_seen_text,txt_following_text,txt_follower_text,txt_article;
@@ -77,6 +78,9 @@ public class FragmentMemberFromHome extends Fragment {
 	Button btn_follow_her,btn_send,btn_share,btn_connect;
 	ProgressDialog pd;
 	boolean followstate=false;
+	int callstatefromtab=0;
+	String userid;
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,10 @@ public class FragmentMemberFromHome extends Fragment {
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
+	}
+	public FragmentMemberFromHome(int callstatefromtab,String userid){
+		this.callstatefromtab=callstatefromtab;
+		this.userid=userid;
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,7 +167,14 @@ public class FragmentMemberFromHome extends Fragment {
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				parent.onBackPressed();
+				if(callstatefromtab==0){
+					parent.onBackPressed();
+				}
+				else{
+					parent.onBackPressed();
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(callstatefromtab);
+				}
+				
 			}
 		});
 	}
@@ -172,7 +187,7 @@ public class FragmentMemberFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/findmemberbyid/"+Constants.userid+"/";
+				String url =Constants.baseurl+"account/findmemberbyid/"+userid+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;

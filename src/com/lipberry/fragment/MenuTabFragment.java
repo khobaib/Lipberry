@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.SingleMember;
+import com.lipberry.settings.FragmentContactUs;
 import com.lipberry.settings.FragmentFindamember;
 import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.settings.FragmentMessageSetting;
@@ -48,8 +49,17 @@ public class MenuTabFragment extends TabFragment{
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
+	
 
 	public void onStart( ) {
+//		Log.e("position", "called");
+//		
+//		for(int i=0;i<(backEndStack.size()-1);i++){
+//			backEndStack.pop();
+//		}
+		Constants.STATECALLPDFORMENU=true;
+		backEndStack.clear();
+		startMenufragment();
 		Constants.GOTABFROMWRITETOPIC=5;
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -59,7 +69,20 @@ public class MenuTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
-	//FragmentFindamember
+	
+	
+	//FragmentContactUs
+	public void startFragmentContactUs() {
+		FragmentContactUs newFragment = new FragmentContactUs();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	public void startFragmentFindamember() {
 		FragmentFindamember newFragment = new FragmentFindamember();
 		newFragment.parent = this;

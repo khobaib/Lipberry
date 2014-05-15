@@ -57,6 +57,7 @@ public class FragmentMessageSetting extends Fragment {
 	Button btn_save;
 	ProgressDialog pd;
 	int weekly_news,stop_emailmessage,stop_privatemessage,stop_commentMails;
+	TextView txt_sys_noti,txt_weekly_news_letter,txt_direct_msz_to_mail,txt_allow_member_directmsz,txt_check_push_new_msz;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,16 @@ public class FragmentMessageSetting extends Fragment {
 		Constants.MESSAGESETTINGSTATE=false;
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_message_setting,
 				container, false);
+		txt_sys_noti=(TextView) v.findViewById(R.id.txt_sys_noti);
+		txt_weekly_news_letter=(TextView) v.findViewById(R.id.txt_weekly_news_letter);
+		txt_direct_msz_to_mail=(TextView) v.findViewById(R.id.txt_direct_msz_to_mail);
+		txt_allow_member_directmsz=(TextView) v.findViewById(R.id.txt_allow_member_directmsz);
+		txt_check_push_new_msz=(TextView) v.findViewById(R.id.txt_check_push_new_msz);
+		txt_sys_noti.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_direct_msz_to_mail.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_allow_member_directmsz.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		system_notification=(CheckBox) v.findViewById(R.id.system_notification);
 		check_weekly_news_letter=(CheckBox) v.findViewById(R.id.check_weekly_news_letter);
@@ -78,14 +89,12 @@ public class FragmentMessageSetting extends Fragment {
 		check_allow_member_directmsz=(CheckBox) v.findViewById(R.id.check_allow_member_directmsz);
 		btn_save=(Button) v.findViewById(R.id.btn_save);
 		check_push_new_msz=(CheckBox) v.findViewById(R.id.check_push_new_msz);
-		
 		system_notification.setTypeface(Utility.getTypeface1(getActivity()));
 		check_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
 		check_direct_msz_to_mail.setTypeface(Utility.getTypeface1(getActivity()));
 		check_allow_member_directmsz.setTypeface(Utility.getTypeface1(getActivity()));
 		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
 		check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
-		
 		check_direct_msz_to_mail.setChecked(appInstance.getUserCred().getDirect_msz_mail());
 		check_allow_member_directmsz.setChecked(appInstance.getUserCred().getAllow_direct_msz());
 		check_push_new_msz.setChecked(appInstance.getUserCred().getStop_push_new_message());

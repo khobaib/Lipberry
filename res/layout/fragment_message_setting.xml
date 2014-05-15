@@ -2,101 +2,179 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="#ffffff"
     android:orientation="vertical" >
 
-    <CheckBox
-        android:id="@+id/system_notification"
+    <RelativeLayout
+        android:id="@+id/re_system_notification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
-         android:layout_marginRight="4dp"
-         android:layout_marginBottom="4dp"
-         android:layout_marginTop="45dp"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:textColor="#000000"
-        android:text="@string/txt_sys_noti_msz"
-        android:textSize="18dp" />
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="45dp" >
 
-    <CheckBox
-        android:id="@+id/check_weekly_news_letter"
+        <CheckBox
+            android:id="@+id/system_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_sys_noti"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/system_notification"
+            android:text="@string/txt_sys_noti_msz"
+            android:textColor="#777777"
+            android:textSize="18dp" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/re_check_weekly_news_letter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/system_notification"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="5dp"
-         android:textColor="#000000"
-        android:paddingTop="5dp"
-        android:text="@string/txt_weekly_news"
-        android:textSize="18dp" />
+        android:layout_below="@+id/re_system_notification"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp" >
 
-    <CheckBox
-        android:id="@+id/check_direct_msz_to_mail"
+        <CheckBox
+            android:id="@+id/check_weekly_news_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_weekly_news_letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/check_weekly_news_letter"
+            android:text="@string/txt_weekly_news"
+            android:textColor="#777777"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+      <RelativeLayout
+        android:id="@+id/re_check_direct_msz_to_mail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-         android:layout_below="@+id/check_weekly_news_letter"
-        android:layout_margin="4dp"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="40dp"
-         android:textColor="#000000"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:text="@string/txt_dir_msz"
-        android:textSize="18dp" />
+        android:layout_below="@+id/re_check_weekly_news_letter"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp" >
 
-    <CheckBox
-        android:id="@+id/check_allow_member_directmsz"
+        <CheckBox
+            android:id="@+id/check_direct_msz_to_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_direct_msz_to_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/check_direct_msz_to_mail"
+             android:text="@string/txt_dir_msz"
+            android:textColor="#777777"
+            android:textSize="18dp" />
+    </RelativeLayout>
+    
+       <RelativeLayout
+        android:id="@+id/re_check_allow_member_directmsz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/check_direct_msz_to_mail"
-        android:layout_centerHorizontal="true"
-         android:textColor="#000000"
-        android:layout_margin="4dp"
-        android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:text="@string/txt_allow_member_todirect_msz"
-        android:textSize="18dp" />
+        android:layout_below="@+id/re_check_direct_msz_to_mail"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp" >
 
-    <CheckBox
-        android:id="@+id/check_push_new_msz"
+        <CheckBox
+            android:id="@+id/check_allow_member_directmsz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_allow_member_directmsz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/check_allow_member_directmsz"
+             android:text="@string/txt_allow_member_todirect_msz"
+            android:textColor="#777777"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+   <RelativeLayout
+        android:id="@+id/re_check_push_new_msz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/check_allow_member_directmsz"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="4dp"
-       android:gravity="center"
-        android:paddingBottom="5dp"
-        android:paddingLeft="40dp"
-        android:paddingRight="5dp"
-        android:paddingTop="5dp"
-        android:textColor="#000000"
-        android:text="@string/txt_push_new_msz_notifi"
-        android:textSize="18dp" />
+        android:layout_below="@+id/re_check_allow_member_directmsz"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp" >
+
+        <CheckBox
+            android:id="@+id/check_push_new_msz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_check_push_new_msz"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/check_push_new_msz"
+             android:text="@string/txt_push_new_msz_notifi"
+            android:textColor="#777777"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+  
+
+    
 
     <Button
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/re_check_push_new_msz"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:textSize="18dp"
-        android:layout_below="@+id/check_push_new_msz"
-        android:background="@drawable/rounded_password"
-        android:text="@string/txt_save_setting" />
+        android:layout_marginTop="15dp"
+        android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+         android:background="@drawable/rounded_password"
+        android:text="@string/txt_save_setting"
+        android:textColor="#ffffff"
+        android:textSize="18dp" />
 
 </RelativeLayout>

@@ -90,6 +90,15 @@ public class FragmentMyProfile extends Fragment {
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
+		if(Constants.isOnline(getActivity())){
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetSinleMember().execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,7 +109,6 @@ public class FragmentMyProfile extends Fragment {
 		txt_following_text=(TextView) v.findViewById(R.id.txt_following_text);
 		txt_follower_text=(TextView) v.findViewById(R.id.txt_follower_text);
 		txt_article=(TextView) v.findViewById(R.id.txt_article);
-		
 		txt_num_seen=(TextView) v.findViewById(R.id.txt_num_seen);
 		txt_num_following=(TextView) v.findViewById(R.id.txt_num_following);
 		txt_num_follower=(TextView) v.findViewById(R.id.txt_num_follower);
@@ -115,14 +123,12 @@ public class FragmentMyProfile extends Fragment {
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
 		btn_connect=(Button) v.findViewById(R.id.btn_connect);
 		activity=getActivity();
-		
 		txt_num_seen.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_follower.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_following.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_nick_name.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
-		
 		btn_connect.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
@@ -131,16 +137,6 @@ public class FragmentMyProfile extends Fragment {
 		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_article.setTypeface(Utility.getTypeface2(getActivity()));
-		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetSinleMember().execute();
-		}
-		else{
-			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-		
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

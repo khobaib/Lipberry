@@ -123,6 +123,14 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
                
                }
          });
+		holder.text_msz.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+               inbox.loadthreadmessage(position) ;   
+              
+              }
+        });
 
 		imageLoader.displayImage(list.get(position).getFrom_avatar(), holder.img_pro_pic);
 		if(list.get(position).getRead_flag().equals("0")){

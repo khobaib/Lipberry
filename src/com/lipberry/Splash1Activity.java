@@ -190,6 +190,8 @@ public class Splash1Activity extends Activity {
 			}
 			setUsercredential(result.getjObj().toString());
 		}
+		
+
 	}
 
 

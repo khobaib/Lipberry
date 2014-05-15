@@ -73,7 +73,6 @@ import android.widget.Toast;
 
 public class HomeActivity extends FragmentActivity {
 	public static Typeface tp;
-
 	public  String photofromcamera;
 	public  FragmentTabHost mTabHost;
 	public  String drectory;

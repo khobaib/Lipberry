@@ -48,6 +48,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,6 +85,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	ProgressDialog pd;
 	ArticleDetails articledetails;
 	ListView list_comment;
+	ScrollView scrollView1;
 	int state=0;
 	ListView lst_imag;
 	CustomAdapterForComment adapter1;
@@ -125,7 +127,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	{
 		ListAdapter listAdapter = listView.getAdapter();
 		if(listAdapter == null) return;
-		if(listAdapter.getCount() <= 1) return;
+		if(listAdapter.getCount() <= 0) return;
 
 		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
 		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
@@ -145,6 +147,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 		listView.setLayoutParams(params);
 		listView.requestLayout();
+		
 	}
 	//	public static void setListViewHeightBasedOnChildren(ListView listView) {
 		//		ListAdapter listAdapter = listView.getAdapter();
@@ -194,17 +197,23 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setmemberlist(){
+		 list_comment.setFocusable(false);
 		if(commentslist.getCommentslist().size()>0){
+			Log.e("comment", "10");
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
 			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
+			list_comment.requestFocus();
+
 		}
 		else{
+			Log.e("comment", "11");
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
 		}
+		scrollView1.fullScroll(View.FOCUS_UP);
 
 
 	}
@@ -266,15 +275,15 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 
 		if(article.getcategory().equals("2")){
 			if(article.getArticle_category_url().contains("shexp")){
-				int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
+				int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
 				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 			}
 			else{
-				int id = getActivity().getResources().getIdentifier("bl"+article.getcategory(), "drawable", getActivity().getPackageName());
+				int id = getActivity().getResources().getIdentifier("catbl"+article.getcategory(), "drawable", getActivity().getPackageName());
 				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 			}
 		}else{
-			int id = getActivity().getResources().getIdentifier("l"+article.getcategory(), "drawable", getActivity().getPackageName());
+			int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
 			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 		}
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
@@ -349,6 +358,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 	}
 	public void initview(ViewGroup v){
+		scrollView1=(ScrollView) v.findViewById(R.id.scrollView1);
+
 		visit=(Button) v.findViewById(R.id.visit);
 		list_comment=(ListView) v.findViewById(R.id.list_comment);
 		lst_imag=(ListView) v.findViewById(R.id.lst_imag);
@@ -374,7 +385,6 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		view_gap_list2=v.findViewById(R.id.view_gap_list2);
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_articl_ename.setTypeface(Utility.getTypeface2(getActivity()));
-		text_topic_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
@@ -387,6 +397,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setview(){
+		scrollView1.fullScroll(View.FOCUS_UP);
+
 		image_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -650,7 +662,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onClick(View v) {
 
 				Constants.userid=article.getMember_id();
-				parent.startMemberFragment();
+				parent.startMemberFragment(0);
 
 			}
 		});
@@ -659,7 +671,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			@Override
 			public void onClick(View v) {
 				Constants.userid=article.getMember_id();
-				parent.startMemberFragment();
+				parent.startMemberFragment(0);
 
 			}
 		});
@@ -1052,29 +1064,38 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Log.e("comment", "1");
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();
 				}
 			}
+			Log.e("comment", "2");
 			JSONObject jobj=result.getjObj();
+			Log.e("comment", "3");
 			new AsyncTaskUpdatePageVisit().execute();
+			Log.e("comment", "4");
 			view_gap_list.setVisibility(View.GONE);
+			Log.e("comment", "5");
 			view_gap_list2.setVisibility(View.GONE);
 			try {
+				Log.e("comment", "6");
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					commentslist=Commentslist.getCommentsListInstance(jobj);
-
+					Log.e("comment", "7");
 					if(commentslist.getCommentslist().size()>0){
+						Log.e("comment", "8");
 						setmemberlist();
 					}
+					
 				}
 				else{
 					String description=jobj.getString("message");
 					//Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
+				Log.e("comment", "9");
 			}
 		}
 	}

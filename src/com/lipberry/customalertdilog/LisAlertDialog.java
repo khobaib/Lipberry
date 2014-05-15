@@ -65,7 +65,7 @@ public class LisAlertDialog {
 					long arg3) {
 				if(parent!=null){
 					Constants.userid=likememberlist.get(position).getLikemember_id();
-					parent.startMemberFragment();
+					parent.startMemberFragment(0);
 				}
 				else{
 					Constants.userid=likememberlist.get(position).getLikemember_id();

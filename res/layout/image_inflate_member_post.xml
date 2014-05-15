@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/txt_article_title"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/img_thumb"
         android:gravity="top|center_horizontal"
         android:padding="2dp"
@@ -30,7 +30,7 @@
     <TextView
         android:id="@+id/txt_article_created"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="15dp"
          android:gravity="center"
         android:layout_below="@+id/txt_article_title"
         android:padding="2dp"

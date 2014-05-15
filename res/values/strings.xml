@@ -5,10 +5,14 @@
     <!--
 App Specific
 ا <string name="txt_title">"Title"</string>
-         <string name="txt_title">"Title"</string>   Subject
+         <string name="txt_title">"Title"</string>   اSubject
     -->
+      <string name="txt_send_msz">"رسال رساله"</string>
+    <string name="txt_no_like">"No user likes this post"</string>
+     <string name="txt_contact_us_url">"http://www.lipberry.com/ContactUs/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/"</string>
+    <string name="txt_contact_us">"تصلي بنا"</string>
      <string name="txt_choose">"اختاري القسم"</string>
-     <string name="txt_cant_send_msz">"You are not allowed to send message to the member"</string>
+     <string name="txt_cant_send_msz">"غير مسموح لك بإرسال رساله لهذه المشتركة"</string>
  
     <string name="txt_connect">"ربط "</string>
      <string name="txt_enter_your_comment"> "اكتب تعليقك هنا"</string>
@@ -21,11 +25,6 @@ App Specific
     <string name="txt_to">"إلى"</string>
     <string name="txt_send">"إرسال"</string>
      <string name="txt_enter_member">"الرجاء ادخال اسم المشتركة "</string>
-    
-    
-    
-    
-    
      <string name="txt_sent_msz">"الرسائل المرسلة"</string>
      <string name="txt_msz_is_sent">"تم ارسال الرساله بنجاح"</string>
      <string name="txt_enter_msz">"الرجاء كتابة نص الرسالة "</string>
@@ -141,7 +140,7 @@ Inbox
     <string name="et_signup_city">"المدينة"</string>
     <string name="et_signup_country">"الدولة"</string>
     <string name="et_signup_register">"اشتراك"</string>
-    <string name="et_signup_knowing">"كيف علمتي عن ليب بيري؟"</string>
+    <string name="et_signup_knowing">"كيف علمتي عن التطبيق؟"</string>
     <string name="bet_signup_register">"اشتراك"</string>
     <string name="bt_signup_signup">"اشتراك"</string>
 
@@ -158,16 +157,16 @@ Inbox
     <!-- Sign in screen -->
     <string name="et_signup_key">"Enter Key"</string>
     <string name="txt_seen_by">"شاهدها"</string>
-    <string name="txt_following">"مُتابع"</string>
+    <string name="txt_following">"تتابع "</string>
     <string name="txt_follower">"يتابعها"</string>
     <string name="txt_follow_her">"تابعيها"</string>
     <string name="txt_photo_album">"ألبوم الصور"</string>
     <string name="Toast_enter_text">"اكتب تعليقك هنا "</string>
     <string name="Toast_check_internet">"الرجاء التحقق كم اتصالك بالانترنت"</string>
-    <string name="Toast_nocat_found">"Failed to bring categories. Please try again."</string>
-    <string name="Toast_article_found">"Failed to bring Article. Please try again."</string>
-    <string name="Toast_member_found">"Failed to get Member. Please try again."</string>
-    <string name="Toast_comments_txt">"Your comments have been posted."</string>
+    <string name="Toast_nocat_found">"​ خطأ في الوصول لهذا القسم الرجاء المحاوله مرة أخرى"</string>
+    <string name="Toast_article_found">" خطأ ​في الوصول لهذه التدوينه  الرجاء المحاوله مر​ة  ​أ​خرى"</string>
+    <string name="Toast_member_found">"​  خطأ في الوصول لهذه المشتركه الرجاء المحاوله مرة أخرى"</string>
+    <string name="Toast_comments_txt">"​ تم اضافه تعليقك بنجاح"</string>
     <!-- memberscreen -->
     <string name="txt_interaction">"التفاعلات"</string>
     <string name="back_string">"رجوع"</string>
@@ -176,16 +175,15 @@ Inbox
     <string name="et_type_your_comment_here">"اكتب تعليقك هنا "</string>
     <!--
      Type your comment here
-     post within cat in screen
+     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
     -->
     <string name="txt_make_up">"المكياج"</string>
     <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>
     <string name="txt_comments">"تعليق"</string>
-    <string name="txt_article">"Article"</string>
-
-    <!-- memberscreen -->
+    <string name="txt_article">"  تدوينه"</string>
+  <!-- memberscreen -->
     <string name="txt_setting">"الإعدادات"</string>
-    <string name="txt_body_details">"معلومات جسمك"</string>
+    <string name="txt_body_details">"إعدادات الرسائل"</string>
     <string name="txt_signout">"تسجيل خروج"</string>
     <string name="txt_general_settings">"الاعدادات العامه"</string>
 

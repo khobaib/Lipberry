@@ -226,7 +226,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
 		holder.txt_articl_ename.setTypeface(Utility.getTypeface2(activity));
-		holder.text_topic_text.setTypeface(Utility.getTypeface2(activity));
 		holder.text_topic_text.setText(Html.fromHtml(list.get(position).getArticle_description()));
 		holder.text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_topic_text, activity);
@@ -254,10 +253,12 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					alert.show_alert();
 				}
 				else{
-
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_no_like), Toast.LENGTH_SHORT).show();
+					
 				}
 			}
 		});
+		
 		holder.img_article_pro_pic.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -291,7 +292,18 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				
-				imageviewcommentsclicked();
+				if(parent3==null){
+					if(list.get(position)!=null){
+						parent.startFragmentArticleDetailsFromHome(list.get(position));
+					}
+					
+				}
+				else{
+					if(list.get(position)!=null){
+						parent3.startFragmentArticleDetails(list.get(position));
+
+					}
+				}
 			}
 		});
 
@@ -402,7 +414,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				// TODO Auto-generated method stub
 				if(parent!=null){
 					Constants.userid=list.get(position).getMember_id();
-					parent.startMemberFragment();
+					parent.startMemberFragment(0);
 					
 				}
 				else{
@@ -420,7 +432,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				// TODO Auto-generated method stub
 				if(parent!=null){
 					Constants.userid=list.get(position).getMember_id();
-					parent.startMemberFragment();
+					parent.startMemberFragment(0);
 				}
 				else{
 					Constants.userid=list.get(position).getMember_id();

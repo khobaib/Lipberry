@@ -47,7 +47,7 @@ public class LoginActivity extends Activity {
 	JsonParser jsonParser;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
-	TextView txt_title;
+	TextView txt_title,tv_sign_in;
 	String sk;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,8 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.login);
 		txt_title=(TextView) findViewById(R.id.txt_title);
 		e_pass=(EditText) findViewById(R.id.e_pass);
+		tv_sign_in=(TextView) findViewById(R.id.tv_sign_in);
+		tv_sign_in.setTypeface(Utility.getTypeface1(LoginActivity.this));
 		e_uname=(EditText) findViewById(R.id.e_uname);
 		b_signin=(Button) findViewById(R.id.b_signin);
 		bt_forgotpass=(Button) findViewById(R.id.bt_forgotpass);

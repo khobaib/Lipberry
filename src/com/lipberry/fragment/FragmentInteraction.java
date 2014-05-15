@@ -173,7 +173,7 @@ public class FragmentInteraction extends Fragment {
 				// TODO Auto-generated method stub
 				if(notificationList.getnotificationslist().get(position).getInteraction_types()!=0){
 					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
-					Constants.GOMEMBERSTATE=true;
+					Constants.GOMEMBERSTATEFROMINTERACTION=true;
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 				}
 				else{

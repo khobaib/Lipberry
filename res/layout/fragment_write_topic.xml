@@ -37,7 +37,7 @@
                     android:textAlignment="viewStart"
                     android:textColor="#777777"
                     android:textDirection="rtl"
-                    android:textSize="24dp" >
+                    android:textSize="18dp" >
                 </EditText>
 
                 <EditText
@@ -58,14 +58,14 @@
                     android:textAlignment="viewStart"
                     android:textColor="#777777"
                     android:textDirection="rtl"
-                    android:textSize="24dp" >
+                    android:textSize="18dp" >
                 </EditText>
 
                 <EditText
                     android:id="@+id/txt_tag"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@+id/btn_select_photo"
+                    android:layout_below="@+id/spinner_category"
                     android:layout_marginEnd="22dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
@@ -79,7 +79,7 @@
                     android:textAlignment="viewStart"
                     android:textColor="#777777"
                     android:textDirection="rtl"
-                    android:textSize="24dp" >
+                    android:textSize="18dp" >
                 </EditText>
 
                 <Spinner
@@ -112,37 +112,55 @@
                     android:id="@+id/btn_select_photo"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_below="@+id/spinner_category"
-                    android:layout_marginEnd="22dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginStart="22dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/rounded_edittext"
-                    android:text="@string/txt_select_photo"
-                    android:textColor="#777777" />
-
-                <Button
-                    android:id="@+id/btn_go"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:layout_below="@+id/txt_tag"
                     android:layout_marginEnd="22dp"
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:layout_marginStart="22dp"
                     android:layout_marginTop="10dp"
+                    android:paddingLeft="45dp"
                     android:background="@drawable/rounded_edittext"
+                    android:text="@string/txt_select_photo"
+                    android:textColor="#777777"
+                    android:textSize="20dp" />
+
+                <ImageView
+                    android:id="@+id/img_add_photo_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/txt_tag"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/add_photo" />
+
+                <Button
+                    android:id="@+id/btn_go"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/btn_select_photo"
+                    android:layout_marginEnd="22dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginStart="22dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rounded_login"
                     android:text="@string/txt_enter"
-                    android:textColor="#777777" />
+                    android:textColor="#ffffff"
+                    android:textSize="20dp" />
 
                 <GridView
                     android:id="@+id/grid_image"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_below="@+id/btn_go"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
                     android:layout_marginTop="10dp"
                     android:background="#3B444B"
                     android:horizontalSpacing="5dp"

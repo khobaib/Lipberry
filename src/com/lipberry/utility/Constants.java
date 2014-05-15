@@ -13,7 +13,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
-	
+	public static boolean STATECALLPDFORMENU=false;
 	public static int GOTABFROMWRITETOPIC;
 	public static boolean GOARTCLEPAGEFROMMEMBER=false; 
 	public static Article ARTICLETOSEE;
@@ -22,7 +22,8 @@ public class Constants {
 	public static String INTER_ARTICLE_ID;
 	public static String INTER_MEMBER_ID;
 	
-	public static boolean GOMEMBERSTATE=false; 
+	public static boolean GOMEMBERSTATEFROMINTERACTION=false; 
+	public static boolean GOMEMBERSTATEFROMSETTING=false; 
 	
 	public static boolean MESSAGESETTINGSTATE=false;
 	public static boolean catgeory=false;

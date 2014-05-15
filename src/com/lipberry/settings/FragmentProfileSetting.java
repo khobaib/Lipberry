@@ -63,6 +63,7 @@ public class FragmentProfileSetting extends Fragment {
 	ListView list_menu_item;
 	Spinner  s_city,s_country;
 	int selectedcityposition=-1;
+	int statetocallpd=0;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
 	TextView t_city;
@@ -76,6 +77,7 @@ public class FragmentProfileSetting extends Fragment {
 	ArrayList<City>citylist;
 	ArrayList<String>allcityname;
 	int state=0;
+	int stateofcalloncreate=0;
 	DisplayImageOptions defaultOptions;
 	ArrayAdapter<String> adapter ;
 	EditText e_nickname,et_new_pass,et_email,et_site_url,et_brief;
@@ -86,6 +88,7 @@ public class FragmentProfileSetting extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		stateofcalloncreate=1;
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
 		 defaultOptions = new DisplayImageOptions.Builder()
@@ -99,14 +102,26 @@ public class FragmentProfileSetting extends Fragment {
 		allcountryname=new ArrayList<String>();
 		citylist=new ArrayList<City>();
 		allcityname=new ArrayList<String>();
+		if(Constants.isOnline(getActivity())){
+
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetCountry().execute();
+		}
+		else{
+			Toast.makeText(getActivity(), getResources().
+					getString(R.string.Toast_check_internet), 10000).show();
+		}
+		stateofcalloncreate=1;
+		Log.e("tag", "onCreate");
 
 	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_profile_setting,
 				container, false);
+		Log.e("tag", "onCreateView");
 		img_profile=(ImageView) v.findViewById(R.id.img_profile);
 		btn_change_photo=(Button) v.findViewById(R.id.btn_change_photo);
 		s_city=(Spinner) v.findViewById(R.id.s_city);
@@ -147,6 +162,7 @@ public class FragmentProfileSetting extends Fragment {
 		bt_update_profile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				
 				// TODO Auto-generated method stub
 				//String  nickname,email,country_id,city_id,brief,password;
 				nickname=e_nickname.getText().toString();
@@ -180,16 +196,7 @@ public class FragmentProfileSetting extends Fragment {
 				}
 			}
 		});
-		if(Constants.isOnline(getActivity())){
-
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetCountry().execute();
-		}
-		else{
-			Toast.makeText(getActivity(), getResources().
-					getString(R.string.Toast_check_internet), 10000).show();
-		}
+		
 		//imageLoader.displayImage(appInstance.getUserCred().get, imageView)
 		t_city.setOnClickListener(new OnClickListener() {
 
@@ -212,8 +219,25 @@ public class FragmentProfileSetting extends Fragment {
 				}
 			}
 		});
+		if(stateofcalloncreate==0){
+			s_country.setVisibility(View.VISIBLE);
+			if(allcountryname.size()>0){
+				setcountry();
+			}
+			if (singleMember!=null){
+				Toast.makeText(getActivity(), "called", 1000).show();
+				setMemberObjectView();
+				
+			}
+			else{
+				Toast.makeText(getActivity(), " not called", 1000).show();
+			}
+			
+		}
+		
 		return v;
 	}
+	
 
 
 	private class AsyncTasksetUpdateProfile extends AsyncTask<Void, Void, ServerResponse> {
@@ -421,8 +445,9 @@ public class FragmentProfileSetting extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 					try {
-						s_country.setVisibility(View.VISIBLE);
+						
 						String country=result.getjObj().getString("country_list");
+						s_country.setVisibility(View.VISIBLE);
 						loadcountrylist(country);
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
@@ -455,9 +480,17 @@ public class FragmentProfileSetting extends Fragment {
 			e.printStackTrace();
 		}
 	}
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		stateofcalloncreate=0;
+	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		Log.e("tag", "onCreateView");
 		super.onResume();
 		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_my_page));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
@@ -552,13 +585,7 @@ public class FragmentProfileSetting extends Fragment {
 			String  status=jobj.getString("status");
 			if(status.equals("success")){
 				singleMember  =SingleMember.parseSingleMember(jobj);
-				ImageLoader.getInstance().getMemoryCache().clear();
-				ImageLoader.getInstance().getDiscCache().clear();
-				ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
-				e_nickname.setText(singleMember.getNickname());
-				et_email.setText(singleMember.getEmail());
-				et_site_url.setText(singleMember.getSiteurl());
-				et_brief.setText(singleMember.getBrief());
+				setMemberObjectView();
 				
 			}
 			else{
@@ -570,6 +597,16 @@ public class FragmentProfileSetting extends Fragment {
 //					Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+	}
+	public void setMemberObjectView(){
+		ImageLoader.getInstance().getMemoryCache().clear();
+		ImageLoader.getInstance().getDiscCache().clear();
+		ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
+		Log.e("url", "a  "+ singleMember.getAvatar());
+		e_nickname.setText(singleMember.getNickname());
+		et_email.setText(singleMember.getEmail());
+		et_site_url.setText(singleMember.getSiteurl());
+		et_brief.setText(singleMember.getBrief());
 	}
 }
 

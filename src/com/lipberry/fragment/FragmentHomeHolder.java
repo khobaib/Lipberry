@@ -47,11 +47,12 @@ public class FragmentHomeHolder extends Fragment {
 	ViewGroup view;
 	ViewPager pager;
 	TabPageIndicator indicator;
+	FragmentPagerAdapter adapter;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e("onCreate", "onCreate");
+		Log.e("onCreate", "homeonCreate");
 
 	}
 	@Override
@@ -62,10 +63,14 @@ public class FragmentHomeHolder extends Fragment {
 		view=container;
 		pager = (ViewPager) v.findViewById(R.id.pager);
 		indicator = (TabPageIndicator)v.findViewById(R.id.indicator);
-		FragmentPagerAdapter adapter = new PostRetreiveAdapter(getChildFragmentManager());
+		 adapter = new PostRetreiveAdapter(getChildFragmentManager());
 		pager.setAdapter(adapter);
-		indicator.setViewPager(pager);
-		Log.e("onCreateView", "onCreateView");
+		
+		//pager.setCurrentItem(0);
+		Log.e("current item", pager.getCurrentItem()+"");
+		indicator.setViewPager(pager,1);
+	
+		Log.e("onCreateView", "homeonCreateView");
 
 		return v;
 	}
@@ -74,19 +79,19 @@ public class FragmentHomeHolder extends Fragment {
 		super.onResume();
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
-		Log.e("onResume", "onResume");
+		Log.e("onResume", "homeonResume");
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.e("onStart", "onStart");
+		Log.e("onStart", "homeonStart");
 
 	}
 	@Override
 	public void onPause() {
 		super.onPause();
-		Log.e("onPause", "onPause");
+		
 	}
 	class PostRetreiveAdapter extends FragmentPagerAdapter {
 		@Override
@@ -116,6 +121,7 @@ public class FragmentHomeHolder extends Fragment {
 		}
 		@Override
 		public int getCount() {
+			Log.e("count", ""+CONTENT.length);
 			return CONTENT.length;
 		}
 	}

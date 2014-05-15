@@ -113,7 +113,7 @@ public class FragmentSentMessage extends Fragment{
 				}
 			}
 		});
-		if(oncreatecalledstate){
+//		if(oncreatecalledstate){
 			if(Constants.isOnline(getActivity())){
 				startindex=0;
 				endex=10;
@@ -125,12 +125,12 @@ public class FragmentSentMessage extends Fragment{
 				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
-		}
-		else{
-			if(inboxlist.size()>0){
-				LoadListView();
-			}
-		}
+//		}
+//		else{
+//			if(inboxlist.size()>0){
+//				LoadListView();
+//			}
+//		}
 		oncreatecalledstate=false;
 		return v;
 	}
@@ -144,7 +144,7 @@ public class FragmentSentMessage extends Fragment{
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex",""+startindex);
-				loginObj.put("endIndex",""+endex);
+				loginObj.put("endIndex",""+100000);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"inbox/sentmessages/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,

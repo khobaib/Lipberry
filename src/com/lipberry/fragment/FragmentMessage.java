@@ -281,7 +281,8 @@ public class FragmentMessage extends Fragment{
 				//list_view_inbox.onRefreshComplete();
 				}
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),job.getString("description"), Toast.LENGTH_SHORT).show();
+					parent.onBackPressed();
 				}
 
 			} catch (JSONException e) {

@@ -28,6 +28,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import android.view.ViewParent;
 import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -45,6 +48,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.bugsense.trace.Utils;
@@ -53,8 +57,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.ShowHtmlText;
 import com.lipberry.adapter.CustomAdapterForIInboxMessage;
 import com.lipberry.adapter.CustomAdapterMessage;
+import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
 import com.lipberry.fragment.MenuTabFragment;
 import com.lipberry.model.Article;
 import com.lipberry.model.InboxMessage;
@@ -97,9 +103,12 @@ public class FragmentFindamember extends Fragment{
 	ImageLoader imageLoader;
 	LipberryApplication appInstance;
 	ArrayList<InboxMessage>inboxlist;
-	AutoCompleteTextView act_to;
+	EditText et_username;
 	ImageView img_pro_pic;
 	TextView txt_bio,text_user_name;
+	String username;
+	Button btn_go;
+	Spinner spn_uname;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -127,32 +136,96 @@ public class FragmentFindamember extends Fragment{
 				container, false);
 		re_holder=(RelativeLayout) v.findViewById(R.id.re_holder);
 		re_holder.setVisibility(View.GONE);
-		act_to=(AutoCompleteTextView) v.findViewById(R.id.act_to);
+		et_username=(EditText) v.findViewById(R.id.et_username);
 		img_pro_pic=(ImageView) v.findViewById(R.id.img_pro_pic);
 		txt_bio=(TextView) v.findViewById(R.id.txt_bio);
 		text_user_name=(TextView) v.findViewById(R.id.text_user_name);
 		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
-		act_to.setTypeface(Utility.getTypeface2(getActivity()));
+		et_username.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_go=(Button) v.findViewById(R.id.btn_go);
+		spn_uname=(Spinner) v.findViewById(R.id.spn_uname);
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
+		btn_go.setOnClickListener(new OnClickListener() {
 
-		if(memberListobject.getMemberlistForSendMessage().size()>0){
-			loadAutoComplete();
-		}
-		else{
-			if(Constants.isOnline(getActivity())){
-				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-						getActivity().getResources().getString(R.string.txt_please_wait), false);
-				new AsyncTaskGetMemberList().execute();
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				username=et_username.getText().toString();
+				if(Constants.isOnline(getActivity())){
+					pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+							getActivity().getResources().getString(R.string.txt_please_wait), false);
+					new AsyncTaskGetMemberListWithName().execute();
+				}
+				else{
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
+				}
 			}
-			else{
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-						Toast.LENGTH_SHORT).show();
-			}
-		}
+		});
+		//		
+		//		if(memberListobject.getMemberlistForSendMessage().size()>0){
+		//			
+		//		}
+		//		else{
+		//			if(Constants.isOnline(getActivity())){
+		//				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+		//						getActivity().getResources().getString(R.string.txt_please_wait), false);
+		//				//new AsyncTaskGetMemberList().execute();
+		//			}
+		//			else{
+		//				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+		//						Toast.LENGTH_SHORT).show();
+		//			}
+		//		}
 
 
 
 		return v;
+	}
+	
+	private void setcountry(){
+		//memberListobject
+		ArrayList<String> allcountryname=new ArrayList<String>();
+		for(int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
+			allcountryname.add(memberListobject.getMemberlistForSendMessage().get(i).getUsername());
+		}
+
+		ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(),
+				R.layout.spinner_item, allcountryname);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spn_uname.setAdapter(
+				new NothingSelectedSpinnerAdapter(
+						adapter,
+						R.drawable.contact_spinner_row_nothing_selected_country,
+						getActivity()));
+		spn_uname.performClick();
+		//spn_uname.performItemClick(view, position, id)
+		
+		spn_uname.setOnItemSelectedListener(new OnItemSelectedListener(){
+
+			public void onItemSelected(AdapterView<?> parent, View arg1, int position, 
+					long arg3){
+				if(position>0){
+					et_username.setText(memberListobject.getMemberlistForSendMessage().get(position-1).getUsername());
+					Constants.userid=memberListobject.getMemberlistForSendMessage().get(position-1).getId();
+					if(Constants.isOnline(getActivity())){
+						pd=ProgressDialog.show(getActivity(),getActivity().getResources().getString(R.string.app_name_arabic),
+								getActivity().getResources().getString(R.string.txt_please_wait),false);
+						new AsyncTaskGetSinleMember().execute();
+					}
+					else{
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+								Toast.LENGTH_SHORT).show();
+					}
+				}
+								
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+			}
+		});
+
 	}
 
 	@Override
@@ -168,15 +241,18 @@ public class FragmentFindamember extends Fragment{
 			}
 		});
 	}
-	private class AsyncTaskGetMemberList extends AsyncTask<Void, Void, ServerResponse> {
+	private class AsyncTaskGetMemberListWithName extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("startIndex",""+0);
-				loginObj.put("endIndex",""+500);
+//				loginObj.put("startIndex",""+0);
+//				loginObj.put("endIndex",""+1500);
+				byte[] ba = username.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("username",base64Str);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"account/memberlist/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -201,7 +277,10 @@ public class FragmentFindamember extends Fragment{
 				String status=job.getString("status");
 				if(status.equals("success")){
 					memberListobject=MemberListForSendMessage.getMemberlist(result.getjObj());
-					loadAutoComplete();
+					if(memberListobject.getMemberlistForSendMessage().size()>0){
+						setcountry();
+					}
+				//	Toast.makeText(getActivity(),""+memberListobject.getMemberlistForSendMessage().size(), Toast.LENGTH_SHORT).show();
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -213,51 +292,51 @@ public class FragmentFindamember extends Fragment{
 			}
 		}
 	}
-	private void generateautocomplete(AutoCompleteTextView autextview,String[] arrayToSpinner){
-		ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(
-				getActivity(),  R.layout.my_autocomplete_text_style, arrayToSpinner);
-		autextview.setAdapter(myAdapter);
-
-	}
-
-	public void loadAutoComplete(){
-		membername.clear();
-		for (int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
-			membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickname());
-		}
-		generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
-		act_to.setThreshold(1);
-		act_to.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-				parent.getAdapter().getViewTypeCount();
-				selectedpos=position;
-				 String selection = (String) parent.getItemAtPosition(position);
-			        int pos = -1;
-
-			        for (int i = 0; i < membername.size(); i++) {
-			            if (membername.get(i).equals(selection)) {
-			                pos = i;
-			                break;
-			            }
-			        }
-			        selectedpos=pos;
-			        
-				Constants.userid=memberListobject.getMemberlistForSendMessage().get(selectedpos).getId();
-				if(Constants.isOnline(getActivity())){
-					pd=ProgressDialog.show(getActivity(),getActivity().getResources().getString(R.string.app_name_arabic),
-							getActivity().getResources().getString(R.string.txt_please_wait),false);
-					new AsyncTaskGetSinleMember().execute();
-				}
-				else{
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-							Toast.LENGTH_SHORT).show();
-				}
-
-			}
-		});
-	}
+	//	private void generateautocomplete(AutoCompleteTextView autextview,String[] arrayToSpinner){
+	//		ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(
+	//				getActivity(),  R.layout.my_autocomplete_text_style, arrayToSpinner);
+	//		autextview.setAdapter(myAdapter);
+	//
+	//	}
+	//
+	//	public void loadAutoComplete(){
+	//		membername.clear();
+	//		for (int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
+	//			membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickname());
+	//		}
+	//		generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
+	//		act_to.setThreshold(1);
+	//		act_to.setOnItemClickListener(new OnItemClickListener() {
+	//
+	//			@Override
+	//			public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+	//				parent.getAdapter().getViewTypeCount();
+	//				selectedpos=position;
+	//				 String selection = (String) parent.getItemAtPosition(position);
+	//			        int pos = -1;
+	//
+	//			        for (int i = 0; i < membername.size(); i++) {
+	//			            if (membername.get(i).equals(selection)) {
+	//			                pos = i;
+	//			                break;
+	//			            }
+	//			        }
+	//			        selectedpos=pos;
+	//			        
+	//				Constants.userid=memberListobject.getMemberlistForSendMessage().get(selectedpos).getId();
+	//				if(Constants.isOnline(getActivity())){
+	//					pd=ProgressDialog.show(getActivity(),getActivity().getResources().getString(R.string.app_name_arabic),
+	//							getActivity().getResources().getString(R.string.txt_please_wait),false);
+	//					new AsyncTaskGetSinleMember().execute();
+	//				}
+	//				else{
+	//					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+	//							Toast.LENGTH_SHORT).show();
+	//				}
+	//
+	//			}
+	//		});
+	//	}
 
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -303,16 +382,21 @@ public class FragmentFindamember extends Fragment{
 	public void setmemberView(){
 		re_holder.setVisibility(View.VISIBLE);
 		text_user_name.setText(singleMember.getNickname());	
-		text_user_name.setTypeface(Utility.getTypeface2(getActivity()));
+		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
 		imageLoader.displayImage(singleMember.getAvatar(), img_pro_pic);
 		txt_bio.setText(singleMember.getBrief());
+		txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
+		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
+		ShowHtmlText showtext=new ShowHtmlText(txt_bio, getActivity());
+		showtext.updateImages(true,singleMember.getBrief());
+
 		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
 		text_user_name.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Constants.GOMEMBERSTATE=true;
+				Constants.GOMEMBERSTATEFROMSETTING=true;
 				((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 
 			}
@@ -322,7 +406,7 @@ public class FragmentFindamember extends Fragment{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Constants.GOMEMBERSTATE=true;
+				Constants.GOMEMBERSTATEFROMSETTING=true;
 				((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 
 			}

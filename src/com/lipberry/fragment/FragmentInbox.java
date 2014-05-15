@@ -138,7 +138,7 @@ public class FragmentInbox extends Fragment{
 				}
 			}
 		});
-		if(oncreatecalledstate){
+//		if(oncreatecalledstate){
 			if(Constants.isOnline(getActivity())){
 				startindex=0;
 				endex=10;
@@ -150,13 +150,13 @@ public class FragmentInbox extends Fragment{
 				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
-		}
-		else{
-			if(inboxlist.size()>0){
-				LoadListView();
-			}
-		}
-		oncreatecalledstate=false;
+//	//	}
+//		else{
+//			if(inboxlist.size()>0){
+//				LoadListView();
+//			}
+//		}
+////		oncreatecalledstate=false;
 		return v;
 	}
 

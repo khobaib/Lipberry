@@ -123,6 +123,14 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
             	 inbox.loadthreadmessage(position) ;   
                }
          });
+		holder.text_msz.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+               inbox.loadthreadmessage(position) ;   
+              
+              }
+        });
 		imageLoader.displayImage(list.get(position).getTo_avatar(), holder.img_pro_pic);
 		if(list.get(position).getRead_flag().equals("0")){
 			holder.text_msz.setTextColor(Color.parseColor("#ffffff"));

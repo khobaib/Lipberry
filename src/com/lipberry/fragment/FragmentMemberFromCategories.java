@@ -112,14 +112,12 @@ public class FragmentMemberFromCategories extends Fragment {
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
 		btn_connect=(Button) v.findViewById(R.id.btn_connect);
 		grd_memberpost=(GridView) v.findViewById(R.id.grd_memberpost);
-		
 		txt_num_seen.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_follower.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_following.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_nick_name.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
-		
 		btn_connect.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
