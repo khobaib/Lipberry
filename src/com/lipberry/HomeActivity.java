@@ -16,6 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gcm.GCMRegistrar;
 import com.lipberry.fragment.FragmentInbox;
 import com.lipberry.fragment.FragmentWriteTopic;
 import com.lipberry.fragment.HomeTabFragment;
@@ -38,8 +39,11 @@ import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -50,6 +54,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -89,6 +94,7 @@ public class HomeActivity extends FragmentActivity {
 	int count=0;
 	public ListView ProductList;
 	public  RelativeLayout topBar;
+	AsyncTask<Void, Void, Void> mRegisterTask;
 	JsonParser jsonParser;
 	LipberryApplication appInstance;
 	TextView text_notification_no;
@@ -96,11 +102,10 @@ public class HomeActivity extends FragmentActivity {
 	public Button backbuttonoftab;
 	public TextView welcome_title;
 	FragmentImageSetting imgsetting;
-protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		writetopic=new FragmentWriteTopic();
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.main);
@@ -110,8 +115,23 @@ protected void onCreate(Bundle savedInstanceState) {
 		backbuttonoftab.setVisibility(View.GONE);
 		topBar=(RelativeLayout) findViewById(R.id.topBar);
 		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
+		newgetGCMDeviceID();
 		setTabs();
 		mTabHost.setCurrentTab(4);
+//		Handler handler=new Handler();
+//		handler.postDelayed(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				writetopic=new FragmentWriteTopic();
+				
+				
+				
+//
+//			}
+//		},4000);
+		
+		
 
 	}
 	private void setTabs() {
@@ -253,7 +273,6 @@ protected void onCreate(Bundle savedInstanceState) {
 					File f = new File(drectory, photofromcamera);
 					Log.e("pos", drectory+photofromcamera+" " +f.exists());
 					intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-					//getIntent().getSerializableExtra("MyClass");
 					startActivityForResult(intent, 1);
 				}
 				else if (options[item].equals(getResources().getString(R.string.txt_from_gallery)))
@@ -322,7 +341,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 
 			}
-			
+
 			else if (requestCode == 1) {
 				try
 				{
@@ -370,7 +389,7 @@ protected void onCreate(Bundle savedInstanceState) {
 					Log.e("Could not save", e.toString());
 				}
 			}
-			
+
 			else if(requestCode == 5){
 				try {
 
@@ -395,7 +414,7 @@ protected void onCreate(Bundle savedInstanceState) {
 						ImageScale scaleimage=new ImageScale();
 						Bitmap bitmap = scaleimage.decodeImageForProfile( photo.getAbsolutePath());
 						imgsetting.onimageloadingSuccessfull(bitmap);
-						
+
 
 					}
 					else{
@@ -583,8 +602,6 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		}
 	}
-
-
 	public void runonUI(){
 		HomeActivity.this.runOnUiThread(new Runnable(){
 			public void run(){
@@ -593,7 +610,69 @@ protected void onCreate(Bundle savedInstanceState) {
 			}
 		});
 	}
+	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
 
+			String newMessage = intent.getExtras().getString(Utility.EXTRA_MESSAGE);
+		}
+	};
+	
+	private void newgetGCMDeviceID() {
+		if(Constants.isOnline(HomeActivity.this)){
+			Log.e("Gcm", "1");
+			Utility.token=appInstance.getUserCred().getSession_id();
+			Log.e("Gcm", "11");
+			GCMRegistrar.checkDevice(HomeActivity.this);
+			Log.e("Gcm", "12");
+			GCMRegistrar.checkManifest(HomeActivity.this);
+			Log.e("Gcm", "2");
+
+			registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.DISPLAY_MESSAGE_ACTION));
+			final String regId = GCMRegistrar.getRegistrationId(HomeActivity.this);
+			Log.e("Gcm", "3");
+
+			Log.e("reg id", "reg "+regId);
+			if (regId.equals("")) {
+				Log.e("Gcm", "4");
+
+				GCMRegistrar.register(this, Utility.SENDER_ID);
+				Log.e("Gcm", "5");
+				GCMRegistrar.getRegistrationId(HomeActivity.this);
+				Log.e("Gcm", "6");
+			}
+			else {
+				Log.e("Gcm", "5");
+
+				if (GCMRegistrar.isRegisteredOnServer(HomeActivity.this)) {
+					Log.e("Gcm", "6");
+
+				} 
+				else {
+					final Context context = this;
+					mRegisterTask = new AsyncTask<Void, Void, Void>() {
+
+						@Override
+						protected Void doInBackground(Void... params) {
+							Log.e("Gcm", "7");
+
+							boolean registered = ServerUtilities.register(context, regId);
+							return null;
+						}
+
+						@Override
+						protected void onPostExecute(Void result) {
+							mRegisterTask = null;
+							Log.e("Gcm", "8");
+
+						}
+
+					};
+					mRegisterTask.execute(null, null, null);
+				}
+			}
+		}
+	}
 
 }
 

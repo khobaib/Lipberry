@@ -23,6 +23,12 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class Utility {
+	public static final String EXTRA_MESSAGE = "message";
+	public static String token;
+	// public static final String SENDER_ID = "326205185342";
+	 public static final String SENDER_ID ="975975527814";//"631054890646";// 
+	 public static final String DISPLAY_MESSAGE_ACTION =
+	            "com.google.android.gcm.demo.app.DISPLAY_MESSAGE";
 	public static String getFormattedTime(String dateTime) {
 		if (dateTime == null)
 			return null;
