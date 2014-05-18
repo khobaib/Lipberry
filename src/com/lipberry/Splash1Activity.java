@@ -74,11 +74,7 @@ public class Splash1Activity extends Activity {
 					if(Constants.isOnline(Splash1Activity.this)){
 						username=appInstance.getUserCred().getUsername();
 						password=appInstance.getUserCred().getPassword(); 
-						system_notification=appInstance.getUserCred().getSystem_notification();
-						weekly_newsletter=appInstance.getUserCred().getWeekly_newsletter();
-						direct_msz_mail=appInstance.getUserCred().getDirect_msz_mail();
-						allow_direct_msz=appInstance.getUserCred().getAllow_direct_msz();
-						stop_push_new_message=appInstance.getUserCred().getStop_push_new_message();
+						
 						signin();
 					}
 					else{
@@ -204,11 +200,6 @@ public class Splash1Activity extends Activity {
 				usercred=usercred.parseUserCred(job);
 				usercred.checknull();
 				usercred.setPassword(password);
-				usercred.setSystem_notification(system_notification);
-				usercred.setWeekly_newsletter(weekly_newsletter);
-				usercred.setDirect_msz_mail(direct_msz_mail);
-				usercred.setAllow_direct_msz(allow_direct_msz);
-				usercred.setStop_push_new_message(stop_push_new_message);
 				appInstance.setUserCred(usercred);
 				appInstance.setRememberMe(true);
 				Intent intent=new Intent(Splash1Activity.this, HomeActivity.class);

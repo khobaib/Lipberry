@@ -8,7 +8,7 @@ import com.google.gson.GsonBuilder;
 public class Comments {
 
 	String created_at,member_url,comment_id,member_avatar,member_name,
-	likecount,abusecomment_url,likecomment_url,replyon_url,comment;
+	likecount,abusecomment_url,likecomment_url,replyon_url,comment,member_id="1";
 	boolean likecomment_flag,abusecomment_flag;
 	public boolean getabusecomment_flag(){
 		return this.abusecomment_flag;
@@ -23,7 +23,9 @@ public class Comments {
 	   this.likecomment_flag=likecomment_flag;
 	}
 	
-	
+	public String getMember_id(){
+		return this.member_id;
+	}
 	public String getComment(){
 		return this.comment;
 	}

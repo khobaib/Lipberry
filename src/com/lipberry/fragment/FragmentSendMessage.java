@@ -139,9 +139,17 @@ public class FragmentSendMessage extends Fragment{
 								Toast.LENGTH_SHORT).show();
 					}
 					else{
-						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-								getActivity().getResources().getString(R.string.txt_please_wait), false);
-						new AsyncTaskSendMessage().execute();
+						if(memberListobject.getMemberlistForSendMessage().get(selectedpos).getStopPrivateMsz().equals("0")){
+							pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+									getActivity().getResources().getString(R.string.txt_please_wait), false);
+							new AsyncTaskSendMessage().execute();
+						}
+						else{
+							//txt_not_allod_to_send_msz
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_not_allod_to_send_msz),
+									Toast.LENGTH_SHORT).show();
+						}
+					
 					}
 
 				}
@@ -174,12 +182,13 @@ public class FragmentSendMessage extends Fragment{
 				byte[] ba =replymessage.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
 				loginObj.put("message",base64Str);
-				loginObj.put("tomember",base64Str);
 				if(!subject.equals("")){
 					ba =subject.getBytes();
 					base64Str = Base64.encodeBytes(ba);
 					loginObj.put("subject",base64Str);
 				}
+				 ba =memberListobject.getMemberlistForSendMessage().get(selectedpos).getUsername().getBytes();
+				 base64Str = Base64.encodeBytes(ba);
 				loginObj.put("tomember",memberListobject.getMemberlistForSendMessage().get(selectedpos).getUsername());
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"inbox/sendmessage/";
@@ -270,14 +279,26 @@ public class FragmentSendMessage extends Fragment{
 					for (int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
 						membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickname());
 					}
-					Log.e("Size", membername.size()+"");
 					generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
 					act_to.setThreshold(1);
 					act_to.setOnItemClickListener(new OnItemClickListener() {
 
 						@Override
 						public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-							selectedpos=position;
+							
+							 String selection = (String) parent.getItemAtPosition(position);
+						        int pos = -1;
+
+						        for (int i = 0; i < membername.size(); i++) {
+						            if (membername.get(i).equals(selection)) {
+						                pos = i;
+						                break;
+						            }
+						        }
+							
+							
+							selectedpos= pos;
+							
 							
 						}
 					});

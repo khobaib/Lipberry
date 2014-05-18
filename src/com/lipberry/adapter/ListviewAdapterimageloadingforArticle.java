@@ -23,9 +23,11 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.customalertdilog.LisAlertDialog;
+import com.lipberry.customalertdilog.LisAlertDialogForComment;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.model.Article;
+import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
@@ -291,19 +293,28 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
-				if(parent3==null){
-					if(list.get(position)!=null){
-						parent.startFragmentArticleDetailsFromHome(list.get(position));
-					}
-					
+				if(Constants.isOnline(activity)){
+					pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+							activity.getResources().getString(R.string.txt_please_wait), false);
+					new AsyncTaskGetComments(list.get(position)).execute();
 				}
 				else{
-					if(list.get(position)!=null){
-						parent3.startFragmentArticleDetails(list.get(position));
-
-					}
+					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
 				}
+				
+//				if(parent3==null){
+//					if(list.get(position)!=null){
+//						parent.startFragmentArticleDetailsFromHome(list.get(position));
+//					}
+//					
+//				}
+//				else{
+//					if(list.get(position)!=null){
+//						parent3.startFragmentArticleDetails(list.get(position));
+//
+//					}
+//				}
 			}
 		});
 
@@ -718,5 +729,72 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		});
 
 		dialog.show();
+	}
+	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+		Article article;
+		public AsyncTaskGetComments(Article article){
+			this.article=article;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				int endindex;
+
+				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
+					endindex=Integer.parseInt(article.getComment_count())+1;
+				}
+				else{
+					endindex=20;
+				}
+
+
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put("startIndex", "0");
+				loginObj.put("endIndex", ""+endindex);
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status= jobj.getString("status");
+				if(status.equals("success")){
+					
+					LisAlertDialogForComment alertcomment;
+					Commentslist commentslist=Commentslist.getCommentsListInstance(jobj);
+					if(commentslist.getCommentslist().size()>0){
+							alertcomment=new LisAlertDialogForComment(activity, commentslist.getCommentslist(), activity, parent, parent3,article.getComment_url());
+							Log.e("urlcomments", article.getComment_url());
+							alertcomment.show_alert();
+					}
+					else{
+						Toast.makeText(activity,activity.getResources().getString(R.string.txt_no_comments1), Toast.LENGTH_SHORT).show();
+						
+					}
+					
+				}
+				else{
+					String description=jobj.getString("message");
+					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+					
+				}
+			} catch (JSONException e) {
+			}
+		}
 	}
 }

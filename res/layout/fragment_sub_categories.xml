@@ -39,11 +39,14 @@
         <Button
             android:id="@+id/btn_go_another_category"
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
-            android:layout_alignBaseline="@+id/txt_make_up"
-            android:layout_alignBottom="@+id/txt_make_up"
+            android:layout_height="27dp"
+            android:paddingRight="5dp"
+              android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/lselector"
+            android:gravity="center"
+            android:background="@drawable/rounded_grayback"
+            android:text="@string/txt_another_cat"
+            android:paddingLeft="27dp"
             android:textColor="#000000" />
 
         <ImageView
@@ -55,6 +58,16 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:src="@drawable/l1" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="13dp"
+            android:layout_marginLeft="3dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/lrefreshicon" />
+
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/re_top1"

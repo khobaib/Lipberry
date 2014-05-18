@@ -11,7 +11,9 @@
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/cancel_button"
-        android:background="#657383" >
+        android:dividerHeight="1.5dp"
+         android:divider="#79443B"
+       android:background="#881e35"  >
     </ListView>
 
     <Button

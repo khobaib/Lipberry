@@ -49,15 +49,16 @@ import com.lipberry.utility.Utility;
 @SuppressLint("NewApi")
 public class FragmentMessageSetting extends Fragment {
 	public MenuTabFragment parent;
-	CheckBox system_notification,check_weekly_news_letter,check_direct_msz_to_mail,check_allow_member_directmsz,
-	check_push_new_msz;
+	CheckBox check_weekly_news,check_stop_emailmessage,check_stop_privatemessage,check_stop_commentMails,
+	check_stop_followerMails,check_stop_likeArtMails,check_push_new_msz;
 	ListView list_menu_item;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
 	Button btn_save;
 	ProgressDialog pd;
-	int weekly_news,stop_emailmessage,stop_privatemessage,stop_commentMails;
-	TextView txt_sys_noti,txt_weekly_news_letter,txt_direct_msz_to_mail,txt_allow_member_directmsz,txt_check_push_new_msz;
+	int weekly_news,stop_emailmessage,stop_privatemessage,stop_commentMails,stop_followerMails,stop_likeArtMails;
+	TextView txt_sys_noti,txt_weekly_news_letter,txt_direct_msz_to_mail,txt_allow_member_directmsz,txt_check_push_new_msz,
+	txt_stop_followerMails,txt_stop_likeArtMails;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,63 +78,141 @@ public class FragmentMessageSetting extends Fragment {
 		txt_direct_msz_to_mail=(TextView) v.findViewById(R.id.txt_direct_msz_to_mail);
 		txt_allow_member_directmsz=(TextView) v.findViewById(R.id.txt_allow_member_directmsz);
 		txt_check_push_new_msz=(TextView) v.findViewById(R.id.txt_check_push_new_msz);
+		txt_stop_followerMails=(TextView) v.findViewById(R.id.txt_stop_followerMails);
+		txt_stop_likeArtMails=(TextView) v.findViewById(R.id.txt_stop_likeArtMails);
+
+		txt_stop_followerMails.setTypeface(Utility.getTypeface1(getActivity()));
+		txt_stop_likeArtMails.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_sys_noti.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_direct_msz_to_mail.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_allow_member_directmsz.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
+		
+		
 		appInstance = (LipberryApplication) getActivity().getApplication();
-		system_notification=(CheckBox) v.findViewById(R.id.system_notification);
-		check_weekly_news_letter=(CheckBox) v.findViewById(R.id.check_weekly_news_letter);
-		check_direct_msz_to_mail=(CheckBox) v.findViewById(R.id.check_direct_msz_to_mail);
-		check_allow_member_directmsz=(CheckBox) v.findViewById(R.id.check_allow_member_directmsz);
-		btn_save=(Button) v.findViewById(R.id.btn_save);
+		check_weekly_news=(CheckBox) v.findViewById(R.id.check_weekly_news);
+		check_stop_emailmessage=(CheckBox) v.findViewById(R.id.check_stop_emailmessage);
+		check_stop_privatemessage=(CheckBox) v.findViewById(R.id.check_stop_privatemessage);
+		check_stop_commentMails=(CheckBox) v.findViewById(R.id.check_stop_commentMails);
+		check_stop_followerMails=(CheckBox) v.findViewById(R.id.check_stop_followerMails);
+		check_stop_likeArtMails=(CheckBox) v.findViewById(R.id.check_stop_likeArtMails);
 		check_push_new_msz=(CheckBox) v.findViewById(R.id.check_push_new_msz);
-		system_notification.setTypeface(Utility.getTypeface1(getActivity()));
-		check_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
-		check_direct_msz_to_mail.setTypeface(Utility.getTypeface1(getActivity()));
-		check_allow_member_directmsz.setTypeface(Utility.getTypeface1(getActivity()));
+		btn_save=(Button) v.findViewById(R.id.btn_save);
 		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
-		check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
-		check_direct_msz_to_mail.setChecked(appInstance.getUserCred().getDirect_msz_mail());
-		check_allow_member_directmsz.setChecked(appInstance.getUserCred().getAllow_direct_msz());
-		check_push_new_msz.setChecked(appInstance.getUserCred().getStop_push_new_message());
-		system_notification.setChecked(appInstance.getUserCred().getSystem_notification());
-		check_weekly_news_letter.setChecked(appInstance.getUserCred().getWeekly_newsletter());
+		//
+		//		check_push_new_msz=(CheckBox) v.findViewById(R.id.check_push_new_msz);
+		//		system_notification.setTypeface(Utility.getTypeface1(getActivity()));
+		//		check_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
+		//		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
+		//		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
+		//		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
+		//		check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
+		//		
+		//		
+		//		check_direct_msz_to_mail.setChecked(appInstance.getUserCred().getDirect_msz_mail());
+		//		check_allow_member_directmsz.setChecked(appInstance.getUserCred().getAllow_direct_msz());
+		//		check_push_new_msz.setChecked(appInstance.getUserCred().getStop_push_new_message());
+		//		system_notification.setChecked(appInstance.getUserCred().getSystem_notification());
+		//		check_weekly_news_letter.setChecked(appInstance.getUserCred().getWeekly_newsletter());
+		
+//		CheckBox check_weekly_news,check_stop_emailmessage,check_stop_privatemessage,check_stop_commentMails,
+//		check_stop_followerMails,check_stop_likeArtMails,check_push_new_msz;
+		
+		if(appInstance.getUserCred().getPush_new_msz().equals("0")){
+			check_push_new_msz.setChecked(false);
+		}
+		else{
+			check_push_new_msz.setChecked(true);
+		}
+		
+		if(appInstance.getUserCred().getStop_commentMails().equals("0")){
+			check_stop_commentMails.setChecked(false);
+		}
+		else{
+			check_stop_commentMails.setChecked(true);
+		}
+		if(appInstance.getUserCred().getStop_followerMails().equals("0")){
+			check_stop_followerMails.setChecked(false);
+		}
+		else{
+			check_stop_followerMails.setChecked(true);
+		}
+		if(appInstance.getUserCred().getStop_likeArtMails().equals("0")){
+			check_stop_likeArtMails.setChecked(false);
+		}
+		else{
+			check_stop_likeArtMails.setChecked(true);
+		}
+		if(appInstance.getUserCred().getStop_privateMails().equals("0")){
+			check_stop_emailmessage.setChecked(false);
+		}
+		else{
+			check_stop_emailmessage.setChecked(true);
+		}
+		if(appInstance.getUserCred().getStop_privateMessages().equals("0")){
+			check_stop_privatemessage.setChecked(false);
+		}
+		else{
+			check_stop_privatemessage.setChecked(true);
+		}
+		if(appInstance.getUserCred().getWeekly_news().equals("0")){
+			check_weekly_news.setChecked(false);
+		}
+		else{
+			check_weekly_news.setChecked(true);
+		}
+
+
+
 		btn_save.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(check_weekly_news_letter.isChecked()){
+				
+//				CheckBox check_weekly_news,check_stop_emailmessage,check_stop_privatemessage,check_stop_commentMails,
+//				check_stop_followerMails,check_stop_likeArtMails,check_push_new_msz;
+				
+				
+				if(check_weekly_news.isChecked()){
 					weekly_news=1;
 				}
 				else{
 					weekly_news=0;
 				}
 				// TODO Auto-generated method stub
-				if(check_direct_msz_to_mail.isChecked()){
+				if(check_stop_emailmessage.isChecked()){
 					stop_emailmessage=1;
 				}
 				else{
 					stop_emailmessage=0;
 				}
-				if(check_allow_member_directmsz.isChecked()){
+				if(check_stop_privatemessage.isChecked()){
 					stop_privatemessage=1;
 				}
 				else{
 					stop_privatemessage=0;
 				}
-				if(system_notification.isChecked()){
+				if(check_stop_commentMails.isChecked()){
 					stop_commentMails=1;
 				}
 				else{
 					stop_commentMails=0;
 				}
-				boolean a=check_push_new_msz.isChecked();
-				UserCred ucred=appInstance.getUserCred();
-				ucred.setStop_push_new_message(a);
-				appInstance.setUserCred(ucred);
+				if(check_stop_followerMails.isChecked()){
+					stop_followerMails=1;
+				}
+				else{
+					stop_followerMails=0;
+				}
+				if(check_stop_likeArtMails.isChecked()){
+					stop_likeArtMails=1;
+				}
+				else{
+					stop_likeArtMails=0;
+				}
+			
 
 				if(Constants.isOnline(getActivity())){
 
@@ -164,6 +243,8 @@ public class FragmentMessageSetting extends Fragment {
 				loginObj.put("stop_emailmessage", stop_emailmessage);
 				loginObj.put("stop_privatemessage", stop_privatemessage);
 				loginObj.put("stop_commentMails", stop_commentMails);
+				loginObj.put("stop_followerMails", stop_followerMails);
+				loginObj.put("stop_likeArtMails", stop_likeArtMails);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"settings/messagesettings/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -201,45 +282,37 @@ public class FragmentMessageSetting extends Fragment {
 	}
 
 	public void savemessagesettingslocally(){
-		boolean a;
+		String a;
+		
+//		loginObj.put("weekly_news", weekly_news);
+//		loginObj.put("stop_emailmessage", stop_emailmessage);
+//		loginObj.put("stop_privatemessage", stop_privatemessage);
+//		loginObj.put("stop_commentMails", stop_commentMails);
+//		loginObj.put("stop_followerMails", stop_followerMails);
+//		loginObj.put("stop_likeArtMails", stop_likeArtMails);
 		
 		UserCred ucred=appInstance.getUserCred();
-		if(weekly_news==0){
-			a=false;
-		}
-		else{
-			a=true;
-		}
-		ucred.setWeekly_newsletter(a);
-		if(stop_emailmessage==0){
-			a=false;
-		}
-		else{
-			a=true;
-		}
-		ucred.setDirect_msz_mail(a);
-		if(stop_commentMails==0){
-			a=false;
-		}
-		else{
-			a=true;
-		}
-		Log.e("sys", stop_commentMails+" "+a);
-		ucred.setSystem_notification(a);
-		if(stop_privatemessage==0){
-			a=false;
-		}
-		else{
-			a=true;
-		}
 		
-		ucred.setAllow_direct_msz(a);
+		ucred.setWeekly_news(""+weekly_news);
+		ucred.setStop_commentMails(""+stop_commentMails);
+		ucred.setStop_privateMails(""+stop_emailmessage);
+		ucred.setStop_privateMessages(""+stop_privatemessage);
+		ucred.setStop_followerMails(""+stop_followerMails);
+		ucred.setStop_likeArtMails(""+stop_likeArtMails);
+		
+		if(check_push_new_msz.isChecked()){
+			ucred.setPush_new_msz("1");
+		}
+		else{
+			ucred.setPush_new_msz("1");
+
+		}
 		appInstance.setUserCred(ucred);
-		Log.e("syst", appInstance.getUserCred().getSystem_notification()+"");
 		
-		
+
+
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -252,7 +325,7 @@ public class FragmentMessageSetting extends Fragment {
 			}
 		});
 	}
-	
-	
+
+
 }
 

@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_top"
         android:scaleType="fitXY"
-        android:src="@drawable/ldummy_image" />
+        android:src="@drawable/noimage" />
 
     <TextView
         android:id="@+id/txt_articl_ename"
@@ -189,10 +189,11 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/progress_loading"
        android:layout_toRightOf="@+id/progress_loading"
-        android:textColor="#000000"
+       android:textColor="#c13468"
         android:layout_marginTop="5dp"
         android:textSize="24dp"
-        android:text="Image is Loading" />
+      
+        android:text="@string/txt_image_loading" />
 
     <ProgressBar
         android:id="@+id/progress_loading"
@@ -201,7 +202,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/img_article_pro_pic"
         android:layout_alignLeft="@+id/et_comment"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="100dp"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -145,6 +145,7 @@ public class FragmentFindamember extends Fragment{
 		btn_go=(Button) v.findViewById(R.id.btn_go);
 		spn_uname=(Spinner) v.findViewById(R.id.spn_uname);
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
+		btn_go.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_go.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -385,12 +386,14 @@ public class FragmentFindamember extends Fragment{
 		text_user_name.setTypeface(Utility.getTypeface1(getActivity()));
 		imageLoader.displayImage(singleMember.getAvatar(), img_pro_pic);
 		txt_bio.setText(singleMember.getBrief());
-		txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
-		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
-		ShowHtmlText showtext=new ShowHtmlText(txt_bio, getActivity());
-		showtext.updateImages(true,singleMember.getBrief());
-
-		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
+		if(singleMember.getBrief()!=null){
+			txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
+			txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
+			ShowHtmlText showtext=new ShowHtmlText(txt_bio, getActivity());
+			showtext.updateImages(true,singleMember.getBrief());
+			txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
+		}
+		
 		text_user_name.setOnClickListener(new OnClickListener() {
 
 			@Override

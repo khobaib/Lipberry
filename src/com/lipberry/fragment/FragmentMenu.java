@@ -1,6 +1,7 @@
 
 package com.lipberry.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -114,13 +115,28 @@ public class FragmentMenu extends Fragment {
 					parent.startFragmentMyProfile();
 					break;
 				case 5:
-					Intent intent = new Intent(Intent.ACTION_SEND);
-					intent.setType("text/html");
-					intent.putExtra(Intent.EXTRA_EMAIL, "contact@lipberry.com");
-					intent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
-					intent.putExtra(Intent.EXTRA_TEXT, "I'm email body. Email test");
-
-					startActivity(Intent.createChooser(intent, "Send Email"));
+					
+					Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+					emailIntent.setType("jpeg/image");
+					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+	                new String[] { "" });
+					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
+					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "body");
+					
+					emailIntent.setType("text/plain");
+					emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
+					emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
+					//emailIntent.putExtra(Intent.EXTRA_TEXT, info.getText().toString());
+					startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+					
+					
+//					Intent intent = new Intent(Intent.ACTION_SEND);
+//					intent.setType("text/html");
+//					intent.putExtra(Intent.EXTRA_EMAIL, "contact@lipberry.com");
+//					intent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
+//					intent.putExtra(Intent.EXTRA_TEXT, "I'm email body. Email test");
+//
+//					startActivity(Intent.createChooser(intent, "Send Email"));
 					//parent.startFragmentContactUs();
 					break;
 

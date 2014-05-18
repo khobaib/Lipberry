@@ -60,7 +60,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class CustomAdapterForComment extends BaseAdapter {
+public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 	ArrayList<Comments> list;
 	Activity activity;
 	String url;
@@ -76,10 +76,12 @@ public class CustomAdapterForComment extends BaseAdapter {
 	int index=0;
 	HomeTabFragment parent;
 	CategoryTabFragment parent3;
-	public CustomAdapterForComment(Activity activity,
-			ArrayList<Comments>  list,String url) {
+	public CustomAdapterForCommentFromDialog(Activity activity,
+			ArrayList<Comments>  list,String url,HomeTabFragment parent, CategoryTabFragment parent3) {
 
 		super();
+		this.parent=parent;
+		this.parent3=parent3;
 		this.url=url;
 		appInstance = (LipberryApplication) activity.getApplication();
 		this.list=list;

@@ -41,13 +41,14 @@ public class LipberryApplication extends Application {
 		editor.commit();        
 	}
 	public void setUserCred(UserCred userCred){
-		Log.e("mail", "  "+userCred.getDirect_msz_mail());
 		Editor editor = User.edit();
-		editor.putBoolean(Constants.SYSTEM_NOTIFICATION, userCred.getSystem_notification());
-		editor.putBoolean(Constants.WEEKLY_NEWSLATER, userCred.getWeekly_newsletter());
-		editor.putBoolean(Constants.DIRECT_MSZ_TOMAIL, userCred.getDirect_msz_mail());
-		editor.putBoolean(Constants.MEMBERALLOW_TO_SEND_MSZ, userCred.getAllow_direct_msz());
-		editor.putBoolean(Constants.STOP_PUSH_MESSAGE, userCred.getStop_push_new_message());
+		editor.putString(Constants.PUSHNEWMESSAGE, userCred.getPush_new_msz());
+		editor.putString(Constants.WEEKLY_NEWS, userCred.getWeekly_news());
+		editor.putString(Constants.STOPPRIVATEMAILS, userCred.getStop_privateMails());
+		editor.putString(Constants.STOPPRIVATEMESSAGE, userCred.getStop_privateMessages());
+		editor.putString(Constants.STOPCOMMENTMAIL, userCred.getStop_commentMails());
+		editor.putString(Constants.STOPFOLLOWERMAIL, userCred.getStop_followerMails());
+		editor.putString(Constants.STOPLIKEARTMAIL, userCred.getStop_likeArtMails());
 		editor.putString(Constants.ID, userCred.getId());
 		editor.putString(Constants.SITEURL, userCred.getSiteurl());
 		editor.putString(Constants.CITY, userCred.getCity());
@@ -72,12 +73,8 @@ public class LipberryApplication extends Application {
 
 
 	public UserCred getUserCred(){
-		boolean system_notification=User.getBoolean(Constants.SYSTEM_NOTIFICATION, false);
-		boolean weekly_newsletter=User.getBoolean(Constants.WEEKLY_NEWSLATER, false);;
-		boolean direct_msz_mail=User.getBoolean(Constants.DIRECT_MSZ_TOMAIL, false);;
-		boolean allow_direct_msz=User.getBoolean(Constants.MEMBERALLOW_TO_SEND_MSZ, false);;
-		boolean stop_push_new_message=User.getBoolean(Constants.STOP_PUSH_MESSAGE, false);;
-		String administrator =User.getString(Constants.ACCESS_ADMINTRATOR, "");;
+		
+		String administrator =User.getString(Constants.ACCESS_ADMINTRATOR, "");
 		String name=User.getString(Constants.NAME, "");
 		String youtube=User.getString(Constants.YOUTUBE, "");
 		String telephone=User.getString(Constants.TELEPHONE, "");
@@ -96,8 +93,15 @@ public class LipberryApplication extends Application {
 		String is_authorized=User.getString(Constants.IS_AUTHORIZED, "");
 		String siteurl=User.getString(Constants.SITEURL, "");
 		String password=User.getString(Constants.PASSWORD, "");
-		UserCred userCred = new UserCred(system_notification,weekly_newsletter,direct_msz_mail,
-				allow_direct_msz,stop_push_new_message,administrator, name, youtube, telephone, 
+		 String weekly_news=User.getString(Constants.WEEKLY_NEWS, "0");
+		 String stop_privateMails=User.getString(Constants.STOPPRIVATEMAILS, "0");
+		 String stop_privateMessages=User.getString(Constants.STOPPRIVATEMESSAGE, "0");
+		 String stop_commentMails=User.getString(Constants.STOPCOMMENTMAIL, "0");
+		 String stop_followerMails=User.getString(Constants.STOPFOLLOWERMAIL, "0");
+		 String stop_likeArtMails=User.getString(Constants.STOPLIKEARTMAIL, "0");
+		 String Push_new_msz=User.getString(Constants.PUSHNEWMESSAGE, "0");
+		UserCred userCred = new UserCred(Push_new_msz,weekly_news,stop_privateMails,stop_privateMessages,
+				stop_commentMails,stop_followerMails,stop_likeArtMails,administrator, name, youtube, telephone, 
 				brief, city, country, id, twitter, username, email, description, session_id, 
 				instagram, nickname, countrycity_flag, is_authorized, siteurl);
 		userCred.setPassword(password) ;

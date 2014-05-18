@@ -69,6 +69,23 @@ public class Constants {
 	public static final int REQUEST_TYPE_PUT = 3;
 	public static final int REQUEST_TYPE_DELETE = 4;
 	
+	private String weekly_news;
+	private String stop_privateMails;
+	private String stop_privateMessages;
+	private String stop_commentMails;
+	private String stop_followerMails;
+	private String stop_likeArtMails;
+	
+	public static final String PUSHNEWMESSAGE = "pushnewmessage";
+	public static final String WEEKLY_NEWS = "weeklynews";
+	public static final String STOPPRIVATEMAILS = "stopprivatemail";
+	public static final String STOPPRIVATEMESSAGE = "stopprivatmessage";
+	public static final String STOPCOMMENTMAIL = "stopcommentmail";
+	public static final String STOPFOLLOWERMAIL = "stopfollwemail";
+	public static final String STOPLIKEARTMAIL = "stoplikeartmails";
+
+
+	
 	public static final String SYSTEM_NOTIFICATION = "system_notification1";
 	public static final String WEEKLY_NEWSLATER = "weeklynewsletter";
 	public static final String DIRECT_MSZ_TOMAIL = "direcmsztomail";

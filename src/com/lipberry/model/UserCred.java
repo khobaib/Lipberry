@@ -7,12 +7,7 @@ import com.google.gson.GsonBuilder;
 
 
 public class UserCred {
-	private boolean system_notification=false;
-	private boolean weekly_newsletter=false;
-	private boolean direct_msz_mail=false;
-	private boolean allow_direct_msz=false;
-	private boolean stop_push_new_message=false;
-
+	
 	private String administrator;
 	private String name;
 	private String youtube;
@@ -32,8 +27,106 @@ public class UserCred {
 	private String is_authorized;
 	private String siteurl;
 	private String password="";
+	private String push_new_msz="0";
+	private String weekly_news;
+	private String stop_privateMails;
+	private String stop_privateMessages;
+	private String stop_commentMails;
+	private String stop_followerMails;
+	private String stop_likeArtMails;
+
+	public UserCred(String push_new_msz,String weekly_news, String stop_privateMails,
+			 String stop_privateMessages, String stop_commentMails,String stop_followerMails,String stop_likeArtMails,
+			String administrator,String name, String youtube,String telephone,
+			String brief, String city, String country, String id,String twitter,
+			String username, String email,String description,String session_id,
+			String instagram, String nickname,String countrycity_flag,
+			String is_authorized,String siteurl) {
+		this.push_new_msz=push_new_msz;
+		this.stop_likeArtMails=stop_likeArtMails;
+		this.weekly_news=weekly_news;
+		this.stop_privateMails=stop_privateMails;
+		this.stop_privateMessages=stop_privateMessages;
+		this.stop_commentMails=stop_commentMails;
+		this.stop_followerMails=stop_followerMails;
+		this.siteurl=siteurl;
+		this.is_authorized=is_authorized;
+		this.countrycity_flag=countrycity_flag;
+		this.nickname=nickname;
+		this.administrator=administrator;
+		this.name=name;
+		this.youtube=youtube;
+		this.telephone=telephone;
+		this.brief=brief;
+		this.city=city;
+		this.country=country;
+		this.id=id;
+		this.twitter=twitter;
+		this.twitter=twitter;
+		this.username=username;
+		this.email=email;
+		this.description=description;
+		this.session_id=session_id;
+		this.instagram=instagram;
+
+	}
+	public String  getPush_new_msz(){
+		return this.push_new_msz;
+	}
+	
+	public void  setPush_new_msz(String push_new_msz){
+		 this.push_new_msz=push_new_msz;
+	}
+
+	
+	public void setStop_followerMails(String stop_followerMails) {
+		this.stop_followerMails=stop_followerMails;
+	}
+	public String getStop_followerMails() {
+		return stop_followerMails;
+	}
+	
+	public void setStop_likeArtMails(String stop_likeArtMails) {
+		this.stop_likeArtMails=stop_likeArtMails;
+	}
+	public String getStop_likeArtMails() {
+		return stop_likeArtMails;
+	}
+	
+	public void setStop_commentMails(String stop_commentMails) {
+		this.stop_commentMails=stop_commentMails;
+	}
+	public String getStop_commentMails() {
+		return stop_commentMails;
+	}
+	
+	public void setStop_privateMessages(String stop_privateMessages) {
+		this.stop_privateMessages=stop_privateMessages;
+	}
+	public String getStop_privateMessages() {
+		return stop_privateMessages;
+	}
+	
+	
+	public void setStop_privateMails(String stop_privateMails) {
+		this.stop_privateMails=stop_privateMails;
+	}
+	public String getStop_privateMails() {
+		return stop_privateMails;
+	}
+	
+	
+	public void setWeekly_news(String weekly_news) {
+		this.weekly_news=weekly_news;
+	}
+	public String getWeekly_news() {
+		return weekly_news;
+	}
+
+	
 	public UserCred() {
 	}
+	
 	
 	public void setCountry(String country){
 		this.country=country;
@@ -57,81 +150,9 @@ public class UserCred {
 	public void setEmail(String email){
 		this.email=email;
 	}
-	public void setStop_push_new_message(boolean stop_push_new_message) {
-		this.stop_push_new_message=stop_push_new_message;
-	}
+	
 
-	public boolean getStop_push_new_message() {
-		return stop_push_new_message;
-	}
-
-	public void setAllow_direct_msz(boolean allow_direct_msz) {
-		this.allow_direct_msz=allow_direct_msz;
-	}
-
-	public boolean getAllow_direct_msz() {
-		return allow_direct_msz;
-	}
-
-	public void setDirect_msz_mail(boolean direct_msz_mail) {
-		this.direct_msz_mail=direct_msz_mail;
-	}
-
-	public boolean getDirect_msz_mail() {
-		return direct_msz_mail;
-	}
-
-	public void setWeekly_newsletter(boolean weekly_newsletter) {
-		this.weekly_newsletter=weekly_newsletter;
-	}
-
-	public boolean getWeekly_newsletter() {
-		return weekly_newsletter;
-	}
-
-
-
-	public void setSystem_notification(boolean system_notification) {
-		this.system_notification=system_notification;
-	}
-
-	public boolean getSystem_notification() {
-		return this.system_notification;
-	}
-
-	public UserCred( boolean system_notification,boolean weekly_newsletter,
-			boolean direct_msz_mail, boolean allow_direct_msz,boolean stop_push_new_message,
-			String administrator,String name, String youtube,String telephone,
-			String brief, String city, String country, String id,String twitter,
-			String username, String email,String description,String session_id,
-			String instagram, String nickname,String countrycity_flag,
-			String is_authorized,String siteurl) {
-		this.system_notification=system_notification;
-		this.weekly_newsletter=weekly_newsletter;
-		this.direct_msz_mail=direct_msz_mail;
-		this.allow_direct_msz=allow_direct_msz;
-		this.stop_push_new_message=stop_push_new_message;
-		this.siteurl=siteurl;
-		this.is_authorized=is_authorized;
-		this.countrycity_flag=countrycity_flag;
-		this.nickname=nickname;
-		this.administrator=administrator;
-		this.name=name;
-		this.youtube=youtube;
-		this.telephone=telephone;
-		this.brief=brief;
-		this.city=city;
-		this.country=country;
-		this.id=id;
-		this.twitter=twitter;
-		this.twitter=twitter;
-		this.username=username;
-		this.email=email;
-		this.description=description;
-		this.session_id=session_id;
-		this.instagram=instagram;
-
-	}
+	
 	public static UserCred parseUserCred(JSONObject userObj){
 		UserCred userCred = new UserCred();
 

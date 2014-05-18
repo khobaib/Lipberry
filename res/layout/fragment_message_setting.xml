@@ -15,7 +15,7 @@
         android:layout_marginTop="45dp" >
 
         <CheckBox
-            android:id="@+id/system_notification"
+            android:id="@+id/check_weekly_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -29,8 +29,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="13dp"
-            android:layout_toLeftOf="@+id/system_notification"
-            android:text="@string/txt_sys_noti_msz"
+            android:layout_toLeftOf="@+id/check_weekly_news"
+            android:text="@string/txt_weekly_news1"
             android:textColor="#777777"
             android:textSize="18dp" />
     </RelativeLayout>
@@ -46,7 +46,7 @@
         android:layout_marginTop="7dp" >
 
         <CheckBox
-            android:id="@+id/check_weekly_news_letter"
+            android:id="@+id/check_stop_emailmessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -60,8 +60,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="13dp"
-            android:layout_toLeftOf="@+id/check_weekly_news_letter"
-            android:text="@string/txt_weekly_news"
+            android:layout_toLeftOf="@+id/check_stop_emailmessage"
+            android:text="@string/txt_stop_emailmessage"
             android:textColor="#777777"
             android:textSize="18dp" />
     </RelativeLayout>
@@ -77,7 +77,7 @@
         android:layout_marginTop="7dp" >
 
         <CheckBox
-            android:id="@+id/check_direct_msz_to_mail"
+            android:id="@+id/check_stop_privatemessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -91,8 +91,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="13dp"
-            android:layout_toLeftOf="@+id/check_direct_msz_to_mail"
-             android:text="@string/txt_dir_msz"
+            android:layout_toLeftOf="@+id/check_stop_privatemessage"
+             android:text="@string/txt_stop_privatemessage"
             android:textColor="#777777"
             android:textSize="18dp" />
     </RelativeLayout>
@@ -108,7 +108,7 @@
         android:layout_marginTop="7dp" >
 
         <CheckBox
-            android:id="@+id/check_allow_member_directmsz"
+            android:id="@+id/check_stop_commentMails"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -122,17 +122,81 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="13dp"
-            android:layout_toLeftOf="@+id/check_allow_member_directmsz"
-             android:text="@string/txt_allow_member_todirect_msz"
+            android:layout_toLeftOf="@+id/check_stop_commentMails"
+             android:text="@string/txt_stop_commentMails"
             android:textColor="#777777"
             android:textSize="18dp" />
     </RelativeLayout>
+    
+        <RelativeLayout
+        android:id="@+id/re_stop_followerMails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/re_check_allow_member_directmsz"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp" >
+
+        <CheckBox
+            android:id="@+id/check_stop_followerMails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_stop_followerMails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/check_stop_followerMails"
+             android:text="@string/txt_stop_followerMails"
+            android:textColor="#777777"
+           android:textSize="18dp" />
+    </RelativeLayout>
+    
+         <RelativeLayout
+        android:id="@+id/re_stop_likeArtMails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/re_stop_followerMails"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="7dp" >
+
+        <CheckBox
+            android:id="@+id/check_stop_likeArtMails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/txt_stop_likeArtMails"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="9dp"
+            android:layout_marginRight="13dp"
+            android:layout_toLeftOf="@+id/check_stop_likeArtMails"
+             android:text="@string/txt_stop_likeArtMails"
+            android:textColor="#777777"
+             android:textSize="18dp"/>
+    </RelativeLayout>
+    
+        
 
    <RelativeLayout
         android:id="@+id/re_check_push_new_msz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/re_check_allow_member_directmsz"
+        android:layout_below="@+id/re_stop_likeArtMails"
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"

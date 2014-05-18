@@ -161,6 +161,7 @@ public class SingleMember {
 	public String getBrief(){
 		return this.brief;
 	}
+	
 
 	public String getSiteurl(){
 		return this.siteurl;

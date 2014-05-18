@@ -253,6 +253,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			if(article.getcategory().equals("2")){
 				if(article.getArticle_category_url().contains("shexp")){
 					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
+					
 				}
 				else{
 					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
@@ -388,6 +389,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_report.setTypeface(Utility.getTypeface2(getActivity()));
+
 	}
 	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
 		@Override
@@ -397,6 +400,12 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setview(){
+		if(articledetails.getArticle_gallery().size()<1){
+			btn_photo_album.setVisibility(View.GONE);
+		}
+		else{
+			btn_photo_album.setVisibility(View.VISIBLE);
+		}
 		scrollView1.fullScroll(View.FOCUS_UP);
 
 		image_share.setOnClickListener(new OnClickListener() {

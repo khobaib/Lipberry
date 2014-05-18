@@ -380,19 +380,21 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		txt_like.setTypeface(Utility.getTypeface2(getActivity()));
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
+		btn_report.setTypeface(Utility.getTypeface2(getActivity()));
+
+		
 
 	}
 
 	public void setview(){
 		scrollView1.fullScroll(View.FOCUS_DOWN);
-		btn_photo_album.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=cxLG2wtE7TM")));
-			}
-		});
+		if(articledetails.getArticle_gallery().size()<1){
+			btn_photo_album.setVisibility(View.GONE);
+		}
+		else{
+			btn_photo_album.setVisibility(View.VISIBLE);
+		}
+		
 		image_share.setOnClickListener(new OnClickListener() {
 
 			@Override

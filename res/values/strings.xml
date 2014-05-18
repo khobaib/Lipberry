@@ -1,65 +1,62 @@
 <resources>
 
     <string name="app_name">"ليب بيري "</string>
-
-    <!--
-App Specific
-ا <string name="txt_title">"Title"</string>
-         <string name="txt_title">"Title"</string>   اSubject
-    -->
-      <string name="txt_send_msz">"رسال رساله"</string>
+    <string name="txt_weekly_news1">"Stop weekly news"</string>
+    <string name="txt_stop_emailmessage">"Stop email message"</string>
+    <string name="txt_stop_privatemessage">"Stop private message"</string>
+    <string name="txt_stop_commentMails">"Stop comment mails"</string>
+    <string name="txt_stop_followerMails">"Stop follower mails"</string>
+    <string name="txt_stop_likeArtMails">"Stop like article mail"</string>
+    <string name="txt_not_allod_to_send_msz">"It is not possible to send message to this member"</string>
+    <string name="txt_report">"Report Abuse"</string>
+    <string name="txt_image_loading">" Image is Loading "</string>
     <string name="txt_no_like">"No user likes this post"</string>
-     <string name="txt_contact_us_url">"http://www.lipberry.com/ContactUs/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/"</string>
+    <string name="txt_no_comments1">"There is no comments on the the post"</string>
+    <string name="txt_send_msz">"رسال رساله"</string>
+    <string name="txt_contact_us_url">"http://www.lipberry.com/ContactUs/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/"</string>
     <string name="txt_contact_us">"تصلي بنا"</string>
-     <string name="txt_choose">"اختاري القسم"</string>
-     <string name="txt_cant_send_msz">"غير مسموح لك بإرسال رساله لهذه المشتركة"</string>
- 
+    <string name="txt_choose">"اختاري القسم"</string>
+    <string name="txt_cant_send_msz">"غير مسموح لك بإرسال رساله لهذه المشتركة"</string>
     <string name="txt_connect">"ربط "</string>
-     <string name="txt_enter_your_comment"> "اكتب تعليقك هنا"</string>
+    <string name="txt_enter_your_comment"> "اكتب تعليقك هنا"</string>
     <string name="txt_cancel"> "الغاء"</string>
     <string name="txt_ok"> "تأكيد"</string>
-     <string name="txt_image_is_loading">"تحميل الصورة "</string>
-     <string name="txt_already_liked">"لقد تم الاعجاب بهذه المشاركة من قبل"</string>
-     <string name="txt_comment">"تم اضافة التعليق"</string>
-   <string name="txt_subject">"العنوان "</string>
+    <string name="txt_image_is_loading">"تحميل الصورة "</string>
+    <string name="txt_already_liked">"لقد تم الاعجاب بهذه المشاركة من قبل"</string>
+    <string name="txt_comment">"تم اضافة التعليق"</string>
+    <string name="txt_subject">"العنوان "</string>
     <string name="txt_to">"إلى"</string>
     <string name="txt_send">"إرسال"</string>
-     <string name="txt_enter_member">"الرجاء ادخال اسم المشتركة "</string>
-     <string name="txt_sent_msz">"الرسائل المرسلة"</string>
-     <string name="txt_msz_is_sent">"تم ارسال الرساله بنجاح"</string>
-     <string name="txt_enter_msz">"الرجاء كتابة نص الرسالة "</string>
-         <string name="txt_write_msz">"اكتب رسالتك هنا"</string>
-    
-     <string name="txt_reply">"الرد"</string>
+    <string name="txt_enter_member">"الرجاء ادخال اسم المشتركة "</string>
+    <string name="txt_sent_msz">"الرسائل المرسلة"</string>
+    <string name="txt_msz_is_sent">"تم ارسال الرساله بنجاح"</string>
+    <string name="txt_enter_msz">"الرجاء كتابة نص الرسالة "</string>
+    <string name="txt_write_msz">"اكتب رسالتك هنا"</string>
+    <string name="txt_reply">"الرد"</string>
     <string name="txt_inbox">"الرسائل "</string>
-    
     <string name="txt_you_dont_have_msz">"لا يوجد لديك أي رسالة "</string>
     <string name="txt_update">"تحديث"</string>
     <string name="txt_goto_gallery">"الذهب الى الألبوم "</string>
     <string name="txt_take_picture">"التقط صورة"</string>
-      <string name="txt_please_selct_img">"الرجاء اختيار صورة أولاُ"</string>
+    <string name="txt_please_selct_img">"الرجاء اختيار صورة أولاُ"</string>
     <string name="txt_edit_profile">"تعديل الملف"</string>
-     <string name="txt_sys_noti_msz">"إلغاء استلام رسائل الاشعارات من الموقع"</string>
-      <string name="txt_weekly_news">"إيقاف استلام النشرة الاسبوعية"</string>
-       <string name="txt_dir_msz">"ايقاف استلام الرسائل الخاصة عبر البريد الإلكتروني"</string>
-        <string name="txt_allow_member_todirect_msz">"ايقاف خدمة إرسال الرسائل الخاصة"</string>
-         <string name="txt_push_new_msz_notifi">"ايقاف تنبية اشعارات التطبيق"</string>
-          <string name="txt_save_setting">"حفظ الاعدادات"</string>
-    
+    <string name="txt_sys_noti_msz">"إلغاء استلام رسائل الاشعارات من الموقع"</string>
+    <string name="txt_weekly_news">"إيقاف استلام النشرة الاسبوعية"</string>
+    <string name="txt_dir_msz">"ايقاف استلام الرسائل الخاصة عبر البريد الإلكتروني"</string>
+    <string name="txt_allow_member_todirect_msz">"ايقاف خدمة إرسال الرسائل الخاصة"</string>
+    <string name="txt_push_new_msz_notifi">"ايقاف تنبية اشعارات التطبيق"</string>
+    <string name="txt_save_setting">"حفظ الاعدادات"</string>
     <string name="txt_save_profile">"حفظ الملف"</string>
-     <string name="txt_brief">"نبذه عني"</string>
-     <string name="txt_site_url">"رابط الموقع"</string>
-     <string name="txt_change_photo">"تحديث الصورة"</string>
+    <string name="txt_brief">"نبذه عني"</string>
+    <string name="txt_site_url">"رابط الموقع"</string>
+    <string name="txt_change_photo">"تحديث الصورة"</string>
     <string name="txt_menu">"القائمة الرئيسيه "</string>
     <string name="txt_write_topic_failure">"فشل في اضافة المشاركة "</string>
-     <string name="txt_write_topic_success">"تم اضافة المشاركة بنجاح "</string>
+    <string name="txt_write_topic_success">"تم اضافة المشاركة بنجاح "</string>
     <string name="txt_please_required_field">"الرجاء تعبئة الحقول المطلوبة"</string>
     <string name="txt_writing_topic">"كتابة مشاركة "</string>
-    
     <string name="txt_please_select_category">"الرجاء اختيار القسم"</string>
-    
     <string name="txt_please_enter_title">"الرجاء ادخال عنوان المشاركة "</string>
-    
     <string name="txt_add_more_phto">"اضافه المزيد من الصور في ألبوم "</string>
     <string name="txt_retreiving_category">"استعادة الأقسام "</string>
     <string name="txt_title">"العنوان "</string>
@@ -68,7 +65,6 @@ App Specific
     <string name="txt_video_url">"رابط الفيديو"</string>
     <string name="txt_enter">"ادخال"</string>
     <string name="app_name_arabic">"ليب بيري"</string>
-    
     <string name="txt_signing_in">"تسجيل الدخول"</string>
     <string name="txt_please_enter_password">"الرجاء ادخال كلمة السر"</string>
     <string name="txt_uname_cant_lessthan">"اسم المستخدم يجب أن لا يكون اقل من 3 حروف"</string>
@@ -94,7 +90,6 @@ App Specific
     <string name="txt_no_city_found"> "المدينة غير موجودة"</string>
     <string name="txt_exit"> "هل تريد الخروج؟"</string>
     <string name="txt_yes"> "نعم "</string>
-    
     <string name="txt_no"> "لا "</string>
     <string name="txt_take_photo"> "التقاط صورة "</string>
     <string name="txt_from_gallery"> "اختيار من الألبوم "</string>
@@ -104,15 +99,15 @@ App Specific
 
     <!--
 App Specific
-ا
+ا
     -->
 
 
     <!--
 Inbox
-ا
+ا
     -->
-     <string name="txt_my_page">"صفحتي"</string>
+    <string name="txt_my_page">"صفحتي"</string>
     <string name="inbox_msz">"الرسائل"</string>
     <string name="inbox_new_msz">"رساله جديده"</string>
     <string name="inbox_sent_msz">"الرسائل المرسله"</string>
@@ -148,7 +143,7 @@ Inbox
 
 
     <!-- Sign in screen -->
-       <string name="txt_unfollow">"الغاء المتابعة "</string>
+    <string name="txt_unfollow">"الغاء المتابعة "</string>
     <string name="btn_signin_sign">"دخول"</string>
     <string name="bt_signin_sign">"تسجيل دخول"</string>
     <string name="bt_signin_forgetpass">"نسيت كلمة المرور؟"</string>
@@ -175,13 +170,13 @@ Inbox
     <string name="et_type_your_comment_here">"اكتب تعليقك هنا "</string>
     <!--
      Type your comment here
-     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
+     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
     -->
     <string name="txt_make_up">"المكياج"</string>
     <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>
     <string name="txt_comments">"تعليق"</string>
     <string name="txt_article">"  تدوينه"</string>
-  <!-- memberscreen -->
+    <!-- memberscreen -->
     <string name="txt_setting">"الإعدادات"</string>
     <string name="txt_body_details">"إعدادات الرسائل"</string>
     <string name="txt_signout">"تسجيل خروج"</string>

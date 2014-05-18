@@ -68,6 +68,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 	LipberryApplication appInstance;	
 	JsonParser jsonParser;
 	String catname;
+	
 	Button btn_go_another_category;
 	TextView txt_make_up;
 	ListviewAdapterimageloadingforArticle adapter;
@@ -113,8 +114,8 @@ public class FragmentSubCategoriesList extends ListFragment {
 		});
 		
 		jsonParser=new JsonParser();
-
 		btn_go_another_category=(Button) v.findViewById(R.id.btn_go_another_category);
+		btn_go_another_category.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_go_another_category.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

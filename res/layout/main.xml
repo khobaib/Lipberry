@@ -27,22 +27,23 @@
                 android:background="@drawable/lbtn_back"
                 android:textColor="#ffffff" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/re_la_mid"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp"
                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="77dp"
-                android:layout_marginRight="77dp" >
+               android:gravity="center"
+                android:layout_marginLeft="70dp"
+                android:layout_marginRight="70dp" >
 
                  
                 <TextView
                     android:id="@+id/welcome_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    
-                    android:layout_marginRight="6dp"
-                    android:gravity="right|center_vertical"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@+id/img_cat_icon"
+                    android:gravity="center"
                     android:textColor="#ffffff"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -51,11 +52,12 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:visibility="gone"
-                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/l2" />
+                    android:layout_alignParentRight="true"
+                   android:layout_centerVertical="true"
+                   android:src="@drawable/l2" />
 
               
-            </LinearLayout>
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/img_icon_to_bar"
