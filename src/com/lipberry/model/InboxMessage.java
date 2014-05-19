@@ -1,10 +1,36 @@
 package com.lipberry.model;
 
 public class InboxMessage {
-	String message,from_id,subject,message_url,message_id,thread_count,from_username,from_nickname,read_flag,
-	to_nickname,article_title,child_flag,from_avatar,to_avatar,
-	article_url,category_prefix,article_id,article_flag,to_id,created_at;
+	String message="",from_id="",subject="",message_url="",message_id="",thread_count="",from_username="",from_nickname="",
+			read_flag="",to_nickname="",article_title="",child_flag="",from_avatar,to_avatar="",
+	article_url="",category_prefix="",article_id="",article_flag="",to_id="",created_at="";
 	
+	public InboxMessage(String message,String from_id,String subject,String message_url,String message_id,String thread_count,
+			String from_username,String from_nickname,String read_flag,String to_nickname,String article_title,String child_flag,
+			String from_avatar,String to_avatar,String article_url,String category_prefix,String article_id,String article_flag,
+			String to_id,String created_at){
+		this.message=message;
+		this.from_id=from_id;
+		this.subject=subject;
+		this.message_url=message_url;
+		this.message_id=message_id;
+		this.thread_count=thread_count;
+		this.from_username=from_username;
+		this.from_nickname=from_nickname;
+		this.read_flag=read_flag;
+		this.to_nickname=to_nickname;
+		this.article_title=article_title;
+		this.child_flag=child_flag;
+		this.from_avatar=from_avatar;
+		this.to_avatar=to_avatar;
+		this.article_url=article_url;
+		this.category_prefix=category_prefix;
+		this.article_id=article_id;
+		this.article_flag=article_flag;
+		this.to_id=to_id;
+		this.created_at=created_at;
+		
+	}
 	public String getTo_avatar(){
 		return this.to_avatar;
 	}
@@ -64,6 +90,9 @@ public class InboxMessage {
 	}
 	public String getCreated_at(){
 		return this.created_at;
+	}
+	public String getArticle_Title(){
+		return this.article_title;
 	}
 
 	

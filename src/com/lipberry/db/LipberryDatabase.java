@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lipberry.model.Article;
+import com.lipberry.model.InboxMessage;
 import com.lipberry.model.LikeMember;
+import com.lipberry.model.TndividualThreadMessage;
 
 import android.content.Context;
 import android.database.SQLException;
@@ -25,6 +27,10 @@ public class LipberryDatabase {
 
         @Override
         public void onCreate(SQLiteDatabase db) {
+        	ThreadInboxMessageDbManager.createTable(db);
+
+        	SentMessageDbManager.createTable(db);
+        	InboxDbManager.createTable(db);
             ArticleDbManager.createTable(db);
             LikedMemberDbManager.createTable(db);
             ArticleDbManagerFollowing.createTable(db);
@@ -32,6 +38,10 @@ public class LipberryDatabase {
          }
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        	ThreadInboxMessageDbManager.dropTable(db);
+
+        	SentMessageDbManager.dropTable(db);
+        	InboxDbManager.dropTable(db);
             ArticleDbManager.dropTable(db);
             LikedMemberDbManager.dropTable(db);
             ArticleDbManagerFollowing.dropTable(db);
@@ -50,6 +60,25 @@ public class LipberryDatabase {
     public void close() {
         dbHelper.close();
     }
+    public void droptableSentMessageDbManager() {
+    	
+    	SentMessageDbManager.dropTable(this.db);
+    
+    }
+    public void createtableThreadMessage() {
+    	ThreadInboxMessageDbManager.createTable(db);
+    }
+    public void createtableSentMessageDbManager() {
+    	SentMessageDbManager.createTable(db);
+    }
+    public void droptableInboxDbManager() {
+    	
+    	InboxDbManager.dropTable(this.db);
+    
+    }
+    public void createtableInboxDbManager() {
+    	InboxDbManager.createTable(db);
+    }
     public void droptableLikemember() {
     	LikedMemberDbManager.dropTable(this.db);
     }
@@ -63,6 +92,48 @@ public class LipberryDatabase {
     public void droptableArticlefollowing() {
     	ArticleDbManagerFollowing.dropTable(this.db);
     }
+    
+    public void insertOrUpdateThreadMessageInboxList(ArrayList<TndividualThreadMessage>threadinblist) {
+    	for (int i=0;i<threadinblist.size();i++){
+    		insertOrUpdateThreadInboxMessage(threadinblist.get(i));
+    	}
+    	
+    }
+    public void insertOrUpdateThreadInboxMessage(TndividualThreadMessage inboxdbmanager) {
+    	ThreadInboxMessageDbManager.insertOrupdate(this.db, inboxdbmanager);
+    	//InboxDbManager.insertOrupdate(this.db, inboxdbmanager);
+    }
+    public List<TndividualThreadMessage> retrieveThreadInboxtMessage() {
+     	 return ThreadInboxMessageDbManager.retrieve(this.db);
+     }
+    
+    
+    
+    public void insertOrUpdateSentMessageList(ArrayList<InboxMessage>inblist) {
+    	for (int i=0;i<inblist.size();i++){
+    		insertOrUpdateSentMessage(inblist.get(i));
+    	}
+    }
+    public void insertOrUpdateInboxMessageList(ArrayList<InboxMessage>inblist) {
+    	for (int i=0;i<inblist.size();i++){
+    		insertOrUpdateInboxMessage(inblist.get(i));
+    	}
+    	
+    }
+    public void insertOrUpdateSentMessage(InboxMessage inboxdbmanager) {
+    	SentMessageDbManager.insertOrupdate(this.db, inboxdbmanager);
+    	//InboxDbManager.insertOrupdate(this.db, inboxdbmanager);
+    }
+    public void insertOrUpdateInboxMessage(InboxMessage inboxdbmanager) {
+    	InboxDbManager.insertOrupdate(this.db, inboxdbmanager);
+    	//InboxDbManager.insertOrupdate(this.db, inboxdbmanager);
+    }
+    public List<InboxMessage> retrieveSentMessage() {
+      	 return SentMessageDbManager.retrieve(this.db);
+      }
+    public List<InboxMessage> retrieveInboxMessage() {
+   	 return InboxDbManager.retrieve(this.db);
+   }
      public void insertOrUpdateArticlefollowing(Article article) {
     	for(int i=0;i<article.getLikedmemberlist().size();i++){
     		insertOrUpdateLikememberfollowing(article.getLikedmemberlist().get(i));

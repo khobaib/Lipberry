@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings.Secure;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -60,6 +61,11 @@ public class Splash1Activity extends Activity {
 		txt_title=(TextView) findViewById(R.id.txt_title);
 		txt_title.setTypeface(Utility.getTypeface2(Splash1Activity.this));
 		Utility.getDeviceWidth(Splash1Activity.this);
+
+		String android_id = Secure.getString(Splash1Activity.this.getContentResolver(),
+		                                                    Secure.ANDROID_ID); 
+		Utility.DEVICE_ID=android_id;
+		Log.e("deviceid ", android_id);
 		Handler handler=new Handler();
 		handler.postDelayed(new Runnable() {
 

@@ -86,11 +86,13 @@ public class FragmentMessage extends Fragment{
 	Button b_reply,b_delete;
 	String replymessage;
 	EditText et_msg_body;
+	boolean read_flag;
 	@SuppressLint("NewApi")
 
-	public FragmentMessage(ThreadMessageList messagelist,String messageid){
+	public FragmentMessage(ThreadMessageList messagelist,String messageid,boolean read_flag){
 		this.messagelist=messagelist;
 		this.messageid=messageid;
+		this.read_flag=read_flag;
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +118,7 @@ public class FragmentMessage extends Fragment{
 		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
 		
 		if(Constants.isOnline(getActivity())){
-			if(messagelist.getIndividualThreadlist().get(0).equals("0")){
+			if(!read_flag){
 				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 						getActivity().getResources().getString(R.string.txt_please_wait), false);
 				new AsyncTaskSetasReadMessage().execute();

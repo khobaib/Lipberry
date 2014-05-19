@@ -1,17 +1,17 @@
 <resources>
-
+ 
     <string name="app_name">"ليب بيري "</string>
-    <string name="txt_weekly_news1">"Stop weekly news"</string>
-    <string name="txt_stop_emailmessage">"Stop email message"</string>
-    <string name="txt_stop_privatemessage">"Stop private message"</string>
-    <string name="txt_stop_commentMails">"Stop comment mails"</string>
-    <string name="txt_stop_followerMails">"Stop follower mails"</string>
-    <string name="txt_stop_likeArtMails">"Stop like article mail"</string>
-    <string name="txt_not_allod_to_send_msz">"It is not possible to send message to this member"</string>
-    <string name="txt_report">"Report Abuse"</string>
-    <string name="txt_image_loading">" Image is Loading "</string>
-    <string name="txt_no_like">"No user likes this post"</string>
-    <string name="txt_no_comments1">"There is no comments on the the post"</string>
+    <string name="txt_weekly_news1">"ايقاف استلام النشرة الاسبوعية"</string>
+    <string name="txt_stop_emailmessage">"ايقاف استلام الرسائل الخاصة عبر البريد الإلكترونى"</string>
+    <string name="txt_stop_privatemessage">"ايقاف خدمة إرسال الرسائل الخاصة "</string>
+    <string name="txt_stop_commentMails">"ايقاف استلام تنبيه التعليقات عبر البريد الالكتروني"</string>
+    <string name="txt_stop_followerMails">"ايقاف استلام تنبيه بالمتابعات الجدد "</string>
+    <string name="txt_stop_likeArtMails">"ايقاف استلام تنبيه الاعجاب على ال ​تدوينات"</string>
+    <string name="txt_not_allod_to_send_msz">"غير مسموح بإرسال رساله خاصه لهذه المشتركه​"</string>
+    <string name="txt_report">"إبلاغ عن إساءة"</string>
+    <string name="txt_image_loading">"جاري تحميل الصورة​"</string>
+    <string name="txt_no_like">"لم يتم الاعجاب بهذه التدوينة من قبل أي من المشتركات​"</string>
+    <string name="txt_no_comments1">"لا يوجد أي تعليق على هذه التدوينة"</string>
     <string name="txt_send_msz">"رسال رساله"</string>
     <string name="txt_contact_us_url">"http://www.lipberry.com/ContactUs/%D8%A7%D8%AA%D8%B5%D9%84-%D8%A8%D9%86%D8%A7/"</string>
     <string name="txt_contact_us">"تصلي بنا"</string>

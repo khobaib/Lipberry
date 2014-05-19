@@ -1,8 +1,42 @@
 package com.lipberry.model;
 
 public class TndividualThreadMessage {
-	String article_title,subject,to_nickname,child_flag,from_nickname,article_url,read_flag,message,id,
-	category_prefix,article_id,article_flag,to_id,from_id,created_at,from_username,from_avatar,to_avatar;
+	String parent_id="",article_title="",subject="",to_nickname="",child_flag="",from_nickname="",article_url="",read_flag="",message="",id="",
+	category_prefix="",article_id="",article_flag="",to_id="",from_id="",created_at="",from_username="",from_avatar="",to_avatar="";
+	
+	public TndividualThreadMessage(String parent_id,String article_title,String subject,String to_nickname,String child_flag,String from_nickname,
+			String article_url,String read_flag,String message,String id,String category_prefix,String article_id,
+			String article_flag,String to_id,
+			String from_id,String created_at,String from_username,String from_avatar,String to_avatar){
+		this.article_title=article_title;
+		this.subject=subject;
+		this.to_nickname=to_nickname;
+		this.child_flag=child_flag;
+		this.from_nickname=from_nickname;
+		this.article_url=article_url;
+		this.read_flag=read_flag;
+		this.message=message;
+		this.id=id;
+		this.category_prefix=category_prefix;
+		this.article_id=article_id;
+		this.article_flag=article_flag;
+		this.to_id=to_id;
+		this.from_id=from_id;
+		this.created_at=created_at;
+		this.from_username=from_username;
+		this.from_avatar=from_avatar;
+		this.to_avatar=to_avatar;
+		this.parent_id=parent_id;
+		
+	}
+	public String getParent_id(){
+		return this.parent_id;
+		
+	}
+	public void setParent_flag(String parent_id){
+		this.parent_id=parent_id;
+		
+	}
 	
 	public String  getTo_avatar(){
 		return this.to_avatar;

@@ -23,6 +23,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 public class Utility {
+	public static String DEVICE_ID;
 	public static final String EXTRA_MESSAGE = "message";
 	public static String token;
 	// public static final String SENDER_ID = "326205185342";

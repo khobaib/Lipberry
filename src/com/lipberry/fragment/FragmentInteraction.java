@@ -75,9 +75,9 @@ public class FragmentInteraction extends Fragment {
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), true);
 			new AsyncTaskGetNotification().execute();
-			if(Constants.notificationcount>0){
-			new AsyncTasksetNotificationToggle().execute();
-			}
+			//if(Constants.notificationcount>0){
+				new AsyncTasksetNotificationToggle().execute();
+			//}
 			
 				
 			
@@ -222,7 +222,10 @@ public class FragmentInteraction extends Fragment {
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
-					((HomeActivity)getActivity()).text_notification_no_fromactivity.setVisibility(View.GONE);
+					if(((HomeActivity)getActivity()).text_notification_no_fromactivity!=null){
+						((HomeActivity)getActivity()).text_notification_no_fromactivity.setVisibility(View.GONE);
+
+					}
 				}
 				else{
 				}

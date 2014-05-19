@@ -101,18 +101,13 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/list_view_inbox"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
-        android:fadingEdge="none"
-        android:fastScrollEnabled="false"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
-        android:smoothScrollbar="true" />
+   
+      	<ListView
+        	android:id="@+id/listviewforinbbox"
+       	 	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	 >
+    	</ListView>
 
     <ListView
         android:id="@+id/list_thread_msz"

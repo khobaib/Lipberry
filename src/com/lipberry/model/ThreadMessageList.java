@@ -16,6 +16,10 @@ public class ThreadMessageList {
 			return this.inbox_message;
 		}
 		
+		public void setIndividualThreadlist(ArrayList<TndividualThreadMessage>inbox_message){
+			this.inbox_message=inbox_message;
+		}
+		
 		public static  ThreadMessageList getList(JSONObject joObject){
 			String res=joObject.toString();
 			ThreadMessageList object;

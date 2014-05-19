@@ -14,9 +14,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
-public class InboxDbManager {
+public class SentMessageDbManager {
 	private static final String TAG = ArticleDbManager.class.getSimpleName();
-	private static String TABLE_EDUCATION_LIST = "inbox_message";
+	private static String TABLE_EDUCATION_LIST = "sent_message";
 	public static final String TABLE_PRIMARY_KEY = "_id";
 	private static String message = "message";
 	private static String from_id = "from_id";
@@ -82,8 +82,6 @@ public class InboxDbManager {
 		cv.put(article_flag , inmessage.getArticle_flag());
 		cv.put(to_id , inmessage.getTo_id());
 		cv.put(created_at , inmessage.getCreated_at());
-
-		
 		return db.insert(TABLE_EDUCATION_LIST, null, cv);
 	}
 	public static void createTable(SQLiteDatabase db) {

@@ -634,12 +634,8 @@ public class HomeActivity extends FragmentActivity {
 
 			Log.e("reg id", "reg "+regId);
 			if (regId.equals("")) {
-				Log.e("Gcm", "4");
-
 				GCMRegistrar.register(this, Utility.SENDER_ID);
-				Log.e("Gcm", "5");
 				GCMRegistrar.getRegistrationId(HomeActivity.this);
-				Log.e("Gcm", "6");
 			}
 			else {
 				Log.e("Gcm", "5");

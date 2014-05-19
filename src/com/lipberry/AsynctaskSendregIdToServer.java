@@ -53,7 +53,7 @@ public class AsynctaskSendregIdToServer extends AsyncTask<Void, Void, String> {
 				   
 				   loginObj.put("session_id",Utility.token);
 				   loginObj.put("regId",regid);
-				   loginObj.put("deviceId", Utility.SENDER_ID);
+				   loginObj.put("deviceId", Utility.DEVICE_ID);
 				   String  loginData = loginObj.toString();
 				   ServerResponse response = jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url,
 				           null, loginData, token);

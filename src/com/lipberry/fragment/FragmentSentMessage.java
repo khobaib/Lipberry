@@ -51,12 +51,14 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.CustomAdapterForIInboxMessage;
 import com.lipberry.adapter.CustomAdapterForISentMessage;
+import com.lipberry.db.LipberryDatabase;
 import com.lipberry.model.Article;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.InboxMessgaeList;
 import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.ThreadMessageList;
+import com.lipberry.model.TndividualThreadMessage;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
@@ -76,7 +78,6 @@ public class FragmentSentMessage extends Fragment{
 	int screenmessagestate=0;
 	LipberryApplication appInstance;
 	ArrayList<InboxMessage>inboxlist;
-	PullToRefreshListView list_view_inbox;
 	ListView listviewforinbbox;
 	@SuppressLint("NewApi")
 	@Override
@@ -94,25 +95,9 @@ public class FragmentSentMessage extends Fragment{
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sent_msz,
 				container, false);
-		list_view_inbox=(PullToRefreshListView) v.findViewById(R.id.list_view_inbox);
-		listviewforinbbox=list_view_inbox.getRefreshableView();
-		actualListView = list_view_inbox.getRefreshableView();
-		registerForContextMenu(actualListView);
-		registerForContextMenu(listviewforinbbox);
+		listviewforinbbox =(ListView) v.findViewById(R.id.listviewforinbbox);
 
-		list_view_inbox.setOnRefreshListener(new OnRefreshListener<ListView>() {
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				if(Constants.isOnline(getActivity())){
-					
-					new AsyncTaskRefreshMessage().execute();
-				}
-				else{
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+	
 //		if(oncreatecalledstate){
 			if(Constants.isOnline(getActivity())){
 				startindex=0;
@@ -122,6 +107,7 @@ public class FragmentSentMessage extends Fragment{
 				new AsyncTaskGetMessage().execute();
 			}
 			else{
+				getinbox_list();
 				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 						Toast.LENGTH_SHORT).show();
 			}
@@ -144,7 +130,7 @@ public class FragmentSentMessage extends Fragment{
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex",""+startindex);
-				loginObj.put("endIndex",""+100000);
+				loginObj.put("endIndex",""+10);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"inbox/sentmessages/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -171,8 +157,7 @@ public class FragmentSentMessage extends Fragment{
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
 					inboxlist=messagelist.getinboxlist();
 					if(inboxlist.size()>0){
-						startindex=endex+1;
-						endex=endex+6;
+						saveindb(inboxlist);
 						LoadListView();
 					}
 					else{
@@ -191,62 +176,62 @@ public class FragmentSentMessage extends Fragment{
 		}
 	}
 
-	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
-		@Override
-		protected ServerResponse doInBackground(Void... params) {
-
-			try {
-				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("startIndex",""+startindex);
-				loginObj.put("endIndex",""+endex);
-				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"inbox/sentmessages/";
-
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-						loginData, null);
-				return response;
-			} catch (JSONException e) {                
-				e.printStackTrace();
-				return null;
-			}
-		}
-
-		@Override
-		protected void onPostExecute(ServerResponse result) {
-			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
-				pd.dismiss();
-			}
-			JSONObject job=result.getjObj();
-
-			try {
-				String status=job.getString("status");
-				if(status.equals("success")){
-					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					if(messagelist.getinboxlist().size()>0){
-						inboxlist.addAll(messagelist.getinboxlist());
-						startindex=endex+1;
-						endex=endex+6;
-						adapter.notifyDataSetChanged();
-
-					}
-					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
-					}
-					list_view_inbox.onRefreshComplete();
-				}
-				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
-				}
-
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
+//	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
+//		@Override
+//		protected ServerResponse doInBackground(Void... params) {
+//
+//			try {
+//				JSONObject loginObj = new JSONObject();
+//				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+//				loginObj.put("startIndex",""+startindex);
+//				loginObj.put("endIndex",""+endex);
+//				String loginData = loginObj.toString();
+//				String url =Constants.baseurl+"inbox/sentmessages/";
+//
+//				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+//						loginData, null);
+//				return response;
+//			} catch (JSONException e) {                
+//				e.printStackTrace();
+//				return null;
+//			}
+//		}
+//
+//		@Override
+//		protected void onPostExecute(ServerResponse result) {
+//			super.onPostExecute(result);
+//			Log.e("res", result.getjObj().toString());
+//			if(pd.isShowing()&&(pd!=null)){
+//				pd.dismiss();
+//			}
+//			JSONObject job=result.getjObj();
+//
+//			try {
+//				String status=job.getString("status");
+//				if(status.equals("success")){
+//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+//					if(messagelist.getinboxlist().size()>0){
+//						inboxlist.addAll(messagelist.getinboxlist());
+//						startindex=endex+1;
+//						endex=endex+6;
+//						adapter.notifyDataSetChanged();
+//
+//					}
+//					else{
+//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
+//					}
+//					list_view_inbox.onRefreshComplete();
+//				}
+//				else{
+//					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+//				}
+//
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -260,12 +245,36 @@ public class FragmentSentMessage extends Fragment{
 			}
 		});
 	}
+	public void saveindb(ArrayList<InboxMessage>inboxlist){
+		deletetable();
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		dbInstance.insertOrUpdateSentMessageList(inboxlist);
+		dbInstance.close();
+	}
+	public void deletetable(){
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		dbInstance.droptableSentMessageDbManager();
+		dbInstance.createtableSentMessageDbManager();
+		dbInstance.close();
+	}
+	public void getinbox_list(){
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		try {
+			dbInstance.createtableSentMessageDbManager();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		inboxlist= (ArrayList<InboxMessage>) dbInstance.retrieveSentMessage();
+		LoadListView();
+		dbInstance.close();
+	}
 	public void LoadListView(){
-		LinkedList<String> mListItems = new LinkedList<String>();
-		mListItems.add("dhjfgg");
-		mListItems.add("dhjfgg");
 		adapter=new CustomAdapterForISentMessage(getActivity(), inboxlist,FragmentSentMessage.this);
-		actualListView.setAdapter(adapter);
+		listviewforinbbox.setAdapter(adapter);
 	}
 
 	public void loadthreadmessage(int position){
@@ -277,8 +286,7 @@ public class FragmentSentMessage extends Fragment{
 			individualmessage.execute();
 		}
 		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
+			tryfromdb(inboxlist.get(position).getMessage_id());
 		}
 	}
 
@@ -319,7 +327,17 @@ public class FragmentSentMessage extends Fragment{
 					messagelist=ThreadMessageList.getList(job);
 
 					if(messagelist.getIndividualThreadlist().size()>0){
-						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id()); 
+						
+						boolean read_flag;
+						if(inboxlist.get(position).getRead_flag().equals("0")){
+							read_flag=false;
+						}
+						else{
+							read_flag=true;
+
+						}
+						saveindb(inboxlist.get(position).getMessage_id());
+						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id(),read_flag); 
 					}
 					else{
 						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
@@ -335,6 +353,58 @@ public class FragmentSentMessage extends Fragment{
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void tryfromdb(String parent_id){
+		//messagelist.getIndividualThreadlist()
+		ArrayList<TndividualThreadMessage>inbox_message=new ArrayList<TndividualThreadMessage>();
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		try {
+			dbInstance.createtableThreadMessage();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
+		
+		for(int i=0;i<inbox_list.size();i++){
+			Log.e("parent id", "1 "+inbox_list.get(i).getParent_id());
+			if(inbox_list.get(i).getParent_id().equals(parent_id)){
+				inbox_message.add(inbox_list.get(i));
+				
+			}
+		}
+		if(inbox_message.size()>0){
+			messagelist=new ThreadMessageList();
+			messagelist.setIndividualThreadlist(inbox_message);
+			parent.startMessagefragment(messagelist,parent_id,true); 
+			
+		}
+		else{
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		
+		
+		dbInstance.close();
+	}
+	public void saveindb(String parent_id){
+		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		dbInstance.open();
+		try {
+			dbInstance.createtableThreadMessage();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for(int i=0;i<messagelist.getIndividualThreadlist().size();i++){
+			messagelist.getIndividualThreadlist().get(i).setParent_flag(parent_id);
+		}
+		dbInstance.insertOrUpdateThreadMessageInboxList(messagelist.getIndividualThreadlist());
+		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
+		dbInstance.close();
 	}
 
 }

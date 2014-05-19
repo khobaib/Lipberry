@@ -51,16 +51,6 @@ public class Splash2Activity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-
-		String android_id = Secure.getString(Splash2Activity.this.getContentResolver(),
-		                                                    Secure.ANDROID_ID); 
-		Log.e("deviceid ", android_id);
-		
-		//05-18 13:14:20.272: E/deviceid(5755): e322c641906d3480
-
-		
-		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
@@ -71,7 +61,6 @@ public class Splash2Activity extends Activity {
 	}
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
