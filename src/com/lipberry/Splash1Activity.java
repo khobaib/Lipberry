@@ -49,6 +49,7 @@ public class Splash1Activity extends Activity {
 	ProgressDialog pd;
 	TextView txt_title;
 	LipberryApplication appInstance;
+	String push_noti_prev;
 	boolean system_notification,weekly_newsletter,direct_msz_mail,allow_direct_msz,stop_push_new_message;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +81,7 @@ public class Splash1Activity extends Activity {
 					if(Constants.isOnline(Splash1Activity.this)){
 						username=appInstance.getUserCred().getUsername();
 						password=appInstance.getUserCred().getPassword(); 
+						push_noti_prev=appInstance.getUserCred().getPush_new_msz();
 						
 						signin();
 					}
@@ -206,6 +208,7 @@ public class Splash1Activity extends Activity {
 				usercred=usercred.parseUserCred(job);
 				usercred.checknull();
 				usercred.setPassword(password);
+				usercred.setPush_new_msz(push_noti_prev);
 				appInstance.setUserCred(usercred);
 				appInstance.setRememberMe(true);
 				Intent intent=new Intent(Splash1Activity.this, HomeActivity.class);

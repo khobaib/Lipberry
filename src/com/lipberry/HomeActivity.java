@@ -102,6 +102,7 @@ public class HomeActivity extends FragmentActivity {
 	public Button backbuttonoftab;
 	public TextView welcome_title;
 	FragmentImageSetting imgsetting;
+	String a="normal";
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -117,7 +118,23 @@ public class HomeActivity extends FragmentActivity {
 		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
 		newgetGCMDeviceID();
 		setTabs();
-		mTabHost.setCurrentTab(4);
+		try {
+			a=getIntent().getExtras().getString("type");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			a="normal";
+		}
+		if(a.equals("normal")){
+			mTabHost.setCurrentTab(4);
+		}
+		else if(a.equals("inbox message")){
+			mTabHost.setCurrentTab(1);
+
+		}
+		else{
+			mTabHost.setCurrentTab(2);
+		}
 //		Handler handler=new Handler();
 //		handler.postDelayed(new Runnable() {
 //

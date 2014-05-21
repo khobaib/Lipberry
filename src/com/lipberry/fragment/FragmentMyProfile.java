@@ -217,6 +217,7 @@ public class FragmentMyProfile extends Fragment {
 		txt_num_following.setText(singleMember.getNumber_of_following());
 		txt_num_seen.setText(singleMember.getPublicpage_visit());                                                                                                        
 		imageLoader.displayImage(singleMember.getAvatar(), img_member_pic);
+		btn_share.setVisibility(View.GONE);
 		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -363,7 +364,7 @@ public class FragmentMyProfile extends Fragment {
 				loginObj.put("startIndex", "0");
 				loginObj.put("endIndex" , "10");
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/memberpostsbyid/"+Constants.userid;
+				String url =Constants.baseurl+"account/memberpostsbyid/"+appInstance.getUserCred().getId();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;

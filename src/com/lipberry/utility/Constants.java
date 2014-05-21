@@ -76,7 +76,7 @@ public class Constants {
 	private String stop_followerMails;
 	private String stop_likeArtMails;
 	
-	public static final String PUSHNEWMESSAGE = "pushnewmessage";
+	public static final String PUSHNEWMESSAGE = "pushnewmessage1";
 	public static final String WEEKLY_NEWS = "weeklynews";
 	public static final String STOPPRIVATEMAILS = "stopprivatemail";
 	public static final String STOPPRIVATEMESSAGE = "stopprivatmessage";

@@ -9,6 +9,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -42,6 +43,7 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.sax.StartElementListener;
@@ -158,7 +160,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		TextView text_comment;
 	
 	}
-
+	
 	@Override
 	public View getView(final int position, View convertView, ViewGroup viewgroup) {
 		LayoutInflater inflater = activity.getLayoutInflater();
@@ -569,6 +571,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			try {
 				String status= jobj.getString("status");
 				if(status.equals("success")){
+					list.get(index).setcommentcount();
+					notifyDataSetChanged();
 					Toast.makeText(activity,activity.getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 					if(parent3==null){
 						if(list.get(positionforcomments)!=null){
@@ -700,9 +704,10 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	
 	
 	public void showCustomDialog(){
-		final Dialog dialog = new Dialog(activity);
-		dialog.setContentView(R.layout.custom_dilog);
+		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
 		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
+	
+		dialog.setContentView(R.layout.custom_dilog);
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
 		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
 		Button  bt_ok = (Button) dialog.findViewById(R.id.bt_ok);
@@ -727,7 +732,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				}
 			}
 		});
-
 		dialog.show();
 	}
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {

@@ -364,8 +364,17 @@ public class FragmentInbox extends Fragment{
 							read_flag=true;
 
 						}
-						saveindb(inboxlist.get(position).getMessage_id());
-						parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id(),read_flag); 
+						if(messagelist.getIndividualThreadlist().get(0).getArticle_flag().equals("0")){
+							saveindb(inboxlist.get(position).getMessage_id());
+							parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id(),read_flag,1); 
+
+						}
+						else{
+						//	Constants.userid=inboxlist.get(position).getFrom_id();
+							Constants.GOARTCLEPAGE=true;
+							Constants.INTER_ARTICLE_ID=messagelist.getIndividualThreadlist().get(0).getArticle_id();
+							((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+						}
 					}
 					else{
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
@@ -383,6 +392,9 @@ public class FragmentInbox extends Fragment{
 			}
 		}
 	}
+	
+	
+	
 	public void tryfromdb(String parent_id){
 		//messagelist.getIndividualThreadlist()
 		ArrayList<TndividualThreadMessage>inbox_message=new ArrayList<TndividualThreadMessage>();
@@ -406,7 +418,9 @@ public class FragmentInbox extends Fragment{
 		if(inbox_message.size()>0){
 			messagelist=new ThreadMessageList();
 			messagelist.setIndividualThreadlist(inbox_message);
-			parent.startMessagefragment(messagelist,parent_id,true); 
+			
+				parent.startMessagefragment(messagelist,parent_id,true,1); 
+
 			
 		}
 		else{

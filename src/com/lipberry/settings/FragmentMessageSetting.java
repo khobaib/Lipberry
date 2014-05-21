@@ -118,7 +118,8 @@ public class FragmentMessageSetting extends Fragment {
 		
 //		CheckBox check_weekly_news,check_stop_emailmessage,check_stop_privatemessage,check_stop_commentMails,
 //		check_stop_followerMails,check_stop_likeArtMails,check_push_new_msz;
-		
+		Log.e("result", appInstance.getUserCred().getPush_new_msz());
+
 		if(appInstance.getUserCred().getPush_new_msz().equals("0")){
 			check_push_new_msz.setChecked(false);
 		}
@@ -304,11 +305,12 @@ public class FragmentMessageSetting extends Fragment {
 			ucred.setPush_new_msz("1");
 		}
 		else{
-			ucred.setPush_new_msz("1");
+			ucred.setPush_new_msz("0");
 
 		}
+	
 		appInstance.setUserCred(ucred);
-		
+		Log.e("result", appInstance.getUserCred().getPush_new_msz());
 
 
 	}

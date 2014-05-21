@@ -223,6 +223,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+	
 		if(article.getCategory_name()!=null){
 			((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
 
@@ -288,10 +289,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
-
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
-
 		super.onPause();
 	}
 	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
@@ -1074,7 +1072,9 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	}
 
 	public void showCustomDialog(){
-		final Dialog dialog = new Dialog(getActivity());
+		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
+		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
+	
 		dialog.setContentView(R.layout.custom_dilog);
 		dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);

@@ -45,6 +45,14 @@ public class HomeTabFragment extends TabFragment{
 		super.onResume();
 	}
 	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		Log.e("calling", "calling Tab");
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
+
+		super.onPause();
+	}
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ViewParent parent = (ViewParent) container.getParent();
@@ -98,6 +106,8 @@ public class HomeTabFragment extends TabFragment{
 	}
 
 	public void StartFragmentSendMessageFormHome(String nickname,String username) {
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
+
 		FragmentSendMessageFormHome newFragment = new FragmentSendMessageFormHome (nickname,username);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -136,6 +146,8 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void startMenufragment() {
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
+
 		FragmentHomeHolder newFragment = new FragmentHomeHolder ();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -148,6 +160,8 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void startMemberFragment(int state) {
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
+
 		FragmentMemberFromHome newFragment = new FragmentMemberFromHome(state, Constants.userid);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -182,6 +196,11 @@ public class HomeTabFragment extends TabFragment{
 					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
 				}
 				else{
+					Fragment frg = backEndStack.peek();
+					FragmentManager fragmentManager = getChildFragmentManager();
+					FragmentTransaction fragmentTransaction = fragmentManager
+							.beginTransaction();
+					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(callstate);
 				}
 				

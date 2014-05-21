@@ -12,8 +12,10 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
@@ -36,6 +38,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -120,6 +123,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 		activity=getActivity();
+		Log.e("onCreateView", "detailonCreate");
 
 	}
 
@@ -222,6 +226,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		//state=0;
+		Log.e("onCreateView", "detailCreateView");
+
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details,
@@ -238,10 +244,12 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 		return v;
 	}
+	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+
 		if(article.getCategory_name()!=null){
 			((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
 
@@ -273,7 +281,6 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
 
 
-
 		if(article.getcategory().equals("2")){
 			if(article.getArticle_category_url().contains("shexp")){
 				int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
@@ -301,11 +308,35 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			}
 		});
 	}
+	@Override
+	public void onViewStateRestored(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewStateRestored(savedInstanceState);
+		Log.e("calling", "onViewStateRestored");
+	}
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		Log.e("calling", "onDestroyView");
+	}
 
+	@Override
+	public void onDetach() {
+		// TODO Auto-generated method stub
+		super.onDetach();
+		Log.e("calling", "onDetach");
+	}
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		Log.e("calling", "onStop");
+	}
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-
+Log.e("calling", "calling");
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -941,9 +972,48 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 	}
 	public void showCustomDialog(){
-		final Dialog dialog = new Dialog(getActivity());
+		/*AlertDialog.Builder builder;
+		final AlertDialog alertDialog;
+
+		Context mContext = getActivity().getApplicationContext();
+		LayoutInflater inflater = (LayoutInflater)
+		        mContext.getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+		View layout = inflater.inflate(R.layout.custom_dilog,
+		        null);
+		builder = new AlertDialog.Builder(mContext);
+		builder.setView(layout);
+		alertDialog = builder.create();
+		et_comment =  (EditText) layout.findViewById(R.id.et_comment);
+		Button  btn_cancel = (Button) layout.findViewById(R.id.btn_cancel);
+		Button  bt_ok = (Button) layout.findViewById(R.id.bt_ok);
+		btn_cancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alertDialog.cancel();
+
+			}
+		});
+		bt_ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String comments=et_comment.getText().toString();
+				if(comments.equals("")){
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_enter_text),
+							Toast.LENGTH_SHORT).show();
+				}
+				else{
+					alertDialog.cancel();
+					commentstext=comments;
+					sendposttoserver();
+				}
+			}
+		});*/
+		
+		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
+		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
+	
 		dialog.setContentView(R.layout.custom_dilog);
-		dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
+		//dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
 		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
 		Button  bt_ok = (Button) dialog.findViewById(R.id.bt_ok);

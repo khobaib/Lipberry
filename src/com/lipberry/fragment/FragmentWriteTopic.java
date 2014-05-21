@@ -413,6 +413,15 @@ public class FragmentWriteTopic extends Fragment {
 				ba1 = title.getBytes();
 				base64StrString = Base64.encodeBytes(ba1);
 				loginObj.put("title", base64StrString);
+				
+				String filepath = galarylist.get(0);
+				if(filepath!=null){
+					filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
+					
+					bitmap=BitmapFactory.decodeFile(filepath);
+				}
+				
+				
 				if(bitmap!=null){
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG,100, bao);

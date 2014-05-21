@@ -50,6 +50,7 @@ import com.lipberry.model.ServerResponse;
 import com.lipberry.model.SingleMember;
 import com.lipberry.model.UserCred;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
@@ -263,10 +264,14 @@ public class FragmentProfileSetting extends Fragment {
 					loginObj.put("siteurl", siteurl);
 				}
 				if(!nickname.equals("")){
-					loginObj.put("nickname", nickname);
+					byte[] ba = nickname.getBytes();
+					String base64Str = Base64.encodeBytes(ba);
+					loginObj.put("nickname", base64Str);
 				}
 				if(!brief.equals("")){
-					loginObj.put("brief", brief);
+					byte[] ba = brief.getBytes();
+					String base64Str = Base64.encodeBytes(ba);
+					loginObj.put("brief", base64Str);
 				}
 				if(Constants.isValidEmail(email)){
 					loginObj.put("email", email);

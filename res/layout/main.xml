@@ -45,7 +45,7 @@
                     android:layout_toLeftOf="@+id/img_cat_icon"
                     android:gravity="center"
                     android:textColor="#ffffff"
-                    android:textSize="18sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
                  <ImageView
                     android:id="@+id/img_cat_icon"

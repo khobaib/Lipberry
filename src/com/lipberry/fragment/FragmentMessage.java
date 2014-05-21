@@ -87,12 +87,14 @@ public class FragmentMessage extends Fragment{
 	String replymessage;
 	EditText et_msg_body;
 	boolean read_flag;
+	int from;
 	@SuppressLint("NewApi")
 
-	public FragmentMessage(ThreadMessageList messagelist,String messageid,boolean read_flag){
+	public FragmentMessage(ThreadMessageList messagelist,String messageid,boolean read_flag,int from){
 		this.messagelist=messagelist;
 		this.messageid=messageid;
 		this.read_flag=read_flag;
+		this.from=from;
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -116,7 +118,13 @@ public class FragmentMessage extends Fragment{
 		b_reply.setTypeface(Utility.getTypeface2(getActivity()));
 		b_delete=(Button) v.findViewById(R.id.b_delete);
 		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
-		
+		if(from==2){
+			b_delete.setVisibility(View.GONE);
+		}
+		else{
+			b_delete.setVisibility(View.VISIBLE);
+
+		}
 		if(Constants.isOnline(getActivity())){
 			if(!read_flag){
 				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),

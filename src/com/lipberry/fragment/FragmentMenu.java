@@ -120,12 +120,11 @@ public class FragmentMenu extends Fragment {
 					emailIntent.setType("jpeg/image");
 					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
 	                new String[] { "" });
-					emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "subject");
-					emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "body");
+				
 					
 					emailIntent.setType("text/plain");
 					emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
-					emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
+				
 					//emailIntent.putExtra(Intent.EXTRA_TEXT, info.getText().toString());
 					startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 					

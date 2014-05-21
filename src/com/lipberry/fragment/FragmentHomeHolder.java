@@ -77,6 +77,7 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
 		Log.e("onResume", "homeonResume");

@@ -122,6 +122,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 		activity=getActivity();
+		Log.e("details", "onCreate");
 	}
 	public static void setListViewHeightBasedOnChildren(ListView listView)
 	{
@@ -200,6 +201,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.e("details", "onCreateView");
+
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details,
@@ -221,6 +224,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		Log.e("details", "onResume");
+
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -241,6 +246,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
+		Log.e("details", "onPause");
 
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 
@@ -329,6 +335,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 	}
 	public void setCategorytitle(){
+
 		if(articledetails.getCategory_title()!=null){
 			((HomeActivity)getActivity()).welcome_title.setText(articledetails.getCategory_title());
 
@@ -385,12 +392,12 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		else{
 			btn_photo_album.setVisibility(View.VISIBLE);
 		}
-		if(articledetails.getArticle_gallery().size()<1){
-			btn_photo_album.setVisibility(View.GONE);
-		}
-		else{
-			btn_photo_album.setVisibility(View.VISIBLE);
-		}
+//		if(articledetails.getArticle_gallery().size()<1){
+//			btn_photo_album.setVisibility(View.GONE);
+//		}
+//		else{
+//			btn_photo_album.setVisibility(View.VISIBLE);
+//		}
 		
 		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
 			play_vedio.setVisibility(View.GONE);
@@ -398,13 +405,13 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		play_vedio.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-					state=1;
-					vedio_view_holder.setVisibility(View.VISIBLE);
-					web_view.setVisibility(View.VISIBLE);
-					WebSettings webSettings = web_view.getSettings();
-					webSettings.setJavaScriptEnabled(true);
-					web_view.setWebViewClient(new Callback());
-					web_view.loadUrl("https://www.youtube.com/watch?v=zdSW4DQ5XdM");
+				state=1;
+				vedio_view_holder.setVisibility(View.VISIBLE);
+				web_view.setVisibility(View.VISIBLE);
+				WebSettings webSettings = web_view.getSettings();
+				webSettings.setJavaScriptEnabled(true);
+				web_view.setWebViewClient(new Callback());
+				web_view.loadUrl(articledetails.getVideo());
 			}
 		});
 		setCategorytitle();
@@ -557,8 +564,9 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 
 				}
-
-
+			
+			//	05-21 15:36:33.156: D/JsonParser(10751): url after param added = 
+			//	05-21 15:36:33.166: D/JsonParser(10751): content body = {"session_id":"c9vqt65hdf85bl8sll4hfltfn2","endIndex":"10","startIndex":"0"}
 
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
@@ -924,9 +932,10 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		}
 	}
 	public void showCustomDialog(){
-		final Dialog dialog = new Dialog(getActivity());
+		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
+		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
+	
 		dialog.setContentView(R.layout.custom_dilog);
-		dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
 		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);
 		Button  bt_ok = (Button) dialog.findViewById(R.id.bt_ok);

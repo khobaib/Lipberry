@@ -46,6 +46,7 @@ public class Splash2Activity extends Activity {
 	JsonParser jsonParser;
 	ProgressDialog pd;
 	TextView txt_title;
+	
 	LipberryApplication appInstance;
 	boolean system_notification,weekly_newsletter,direct_msz_mail,allow_direct_msz,stop_push_new_message;
 	@Override

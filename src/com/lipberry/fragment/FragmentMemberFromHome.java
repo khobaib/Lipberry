@@ -233,6 +233,8 @@ public class FragmentMemberFromHome extends Fragment {
 		if(singleMember.getId().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setVisibility(View.GONE);
 			btn_send.setVisibility(View.GONE);
+			btn_share.setVisibility(View.GONE);
+
 		}
 		else{
 			btn_follow_her.setVisibility(View.VISIBLE);

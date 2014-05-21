@@ -30,6 +30,17 @@ public class Article {
 	private  String category_name;
 	
 	private String article_category_url="";
+	public void setcommentcount(){
+		if(comment_count==null){
+			comment_count="1";
+		}
+		else if(comment_count.equals("")){
+			comment_count="1";
+		}
+		else{
+			comment_count=""+Integer.parseInt(comment_count)+1;
+		}
+	}
 	public Article(ArrayList<LikeMember>likedmemberlist,String article_id,String article_photo,String article_url,
 			String article_title,String article_description,String like_count,String comment_count,String like_url
 			,String dislike_url,String comment_url,String member_id,String member_photo,String userAlreadylikeThis,
