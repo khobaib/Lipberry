@@ -2,27 +2,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true" >
+  >
 
+    <View
+        android:id="@+id/lv_vw_top"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+         android:layout_alignParentTop="true"
+       android:background="@color/android_green" />
     <ListView
         android:id="@+id/lv_thread_messages"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/et_msg_body"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+         android:layout_below="@+id/lv_vw_top"
+       android:layout_above="@+id/lv_vw_btm"
+      android:layout_alignParentTop="true"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="2dp"
+        
         android:listSelector="@android:color/transparent"
-        android:stackFromBottom="true" >
+        >
     </ListView>
 
     <View
+        android:id="@+id/lv_vw_btm"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/lv_thread_messages"
+        android:layout_above="@+id/et_msg_body"
         android:background="@color/android_green" />
 
     <EditText

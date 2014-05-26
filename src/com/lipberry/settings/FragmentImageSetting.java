@@ -120,6 +120,7 @@ public class FragmentImageSetting extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				Constants.IMAGEPAGECALLED=true;
 				((HomeActivity)getActivity()).opeencamera(FragmentImageSetting.this);
 			}
 		});
@@ -129,6 +130,8 @@ public class FragmentImageSetting extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				Constants.IMAGEPAGECALLED=true;
+
 				((HomeActivity)getActivity()).opengalary(FragmentImageSetting.this);
 			}
 		});

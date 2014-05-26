@@ -58,8 +58,15 @@ public class MenuTabFragment extends TabFragment{
 //			backEndStack.pop();
 //		}
 		Constants.STATECALLPDFORMENU=true;
-		backEndStack.clear();
-		startMenufragment();
+		if(!Constants.IMAGEPAGECALLED){
+			backEndStack.clear();
+			startMenufragment();
+		}
+		else{
+			Constants.IMAGEPAGECALLED=false;
+		}
+		
+		
 		Constants.GOTABFROMWRITETOPIC=5;
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();

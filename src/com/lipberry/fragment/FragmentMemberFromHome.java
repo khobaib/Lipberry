@@ -271,6 +271,7 @@ public class FragmentMemberFromHome extends Fragment {
 
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
 		}
 		else{
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));

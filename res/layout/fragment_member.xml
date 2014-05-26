@@ -35,6 +35,8 @@
             android:layout_marginTop="12dp"
             android:textColor="#ffffff"
             android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:background="@drawable/rounded_follower"
             android:text="@string/txt_follow_her" />
 
@@ -274,6 +276,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:text="@string/txt_article"
+            
             android:textColor="#777777"
             android:textSize="14dp" />
     </RelativeLayout>
@@ -285,6 +288,8 @@
         android:layout_below="@+id/ret_article_holder"
       android:paddingTop="3dp"
         android:gravity="center_horizontal"
+       android:rotationY="180"
+      
         android:numColumns="4"
         android:verticalSpacing="2dp" >
     </GridView>

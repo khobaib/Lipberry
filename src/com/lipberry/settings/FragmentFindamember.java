@@ -284,7 +284,8 @@ public class FragmentFindamember extends Fragment{
 				//	Toast.makeText(getActivity(),""+memberListobject.getMemberlistForSendMessage().size(), Toast.LENGTH_SHORT).show();
 				}
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_no_member_found2), 
+							Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {

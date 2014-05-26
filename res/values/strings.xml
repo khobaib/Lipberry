@@ -1,7 +1,7 @@
 <resources>
+    <string name="txt_no_member_found2">"لا يوجد مشتركة بهذا الاسم ، الرجاء البحث بإسم المستخدم فقط"</string>
     <string name="txt_show_self_follow">"لا يمكنك متابعة نفسك "</string>
     <string name="txt_mszsendto_email">"لقد تم ارسال الرسالة بنجاح. فضلاً التحقق من بريدك الالكتروني "</string>
-    
     <string name="app_name">"ليب بيري "</string>
     <string name="txt_weekly_news1">"ايقاف استلام النشرة الاسبوعية"</string>
     <string name="txt_stop_emailmessage">"ايقاف استلام الرسائل الخاصة عبر البريد الإلكترونى"</string>

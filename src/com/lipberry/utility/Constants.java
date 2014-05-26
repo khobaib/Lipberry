@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static boolean IMAGEPAGECALLED=false; 
 	public static ArticleList articlelist;
 	public static boolean STATECALLPDFORMENU=false;
 	public static int GOTABFROMWRITETOPIC;

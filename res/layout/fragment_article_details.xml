@@ -49,19 +49,22 @@
 
                     <TextView
                         android:id="@+id/text_user_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
+                                                android:gravity="right"
+                        android:singleLine="true"
+                        android:layout_toRightOf="@+id/btn_follow_her"
                         android:layout_toLeftOf="@+id/img_pro_pic"
                         android:textColor="#777777"
                         android:textSize="24dp" />
 
                     <TextView
                         android:id="@+id/text_date_other"
-                        android:layout_width="140dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/text_user_name"
                         android:layout_marginBottom="8dp"
@@ -71,6 +74,7 @@
                         android:layout_toRightOf="@+id/btn_follow_her"
                         android:gravity="right"
                         android:textColor="#5D933D"
+                         android:singleLine="true"
                         android:textSize="18dp" />
 
                     <Button

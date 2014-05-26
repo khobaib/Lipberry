@@ -227,12 +227,12 @@ public class FragmentProfileSetting extends Fragment {
 				setcountry();
 			}
 			if (singleMember!=null){
-				Toast.makeText(getActivity(), "called", 1000).show();
+			//	Toast.makeText(getActivity(), "called", 1000).show();
 				setMemberObjectView();
 				
 			}
 			else{
-				Toast.makeText(getActivity(), " not called", 1000).show();
+			//	Toast.makeText(getActivity(), " not called", 1000).show();
 			}
 			
 		}
@@ -437,12 +437,8 @@ public class FragmentProfileSetting extends Fragment {
 					inexforcity=i;
 				}
 			}
-		//	Toast.makeText(getActivity(), ""+inexforcity, 2000).show();
-//			s_country.setSelection(position+1);
-//			selectedcountryposition=position;
-			
 			selectedcityposition=inexforcity;
-			s_city.setSelection(selectedcityposition+1);
+			s_city.setSelection(selectedcityposition);
 			
 		}
 	

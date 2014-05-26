@@ -68,7 +68,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	ArticleList articlelistinstance;
 	JsonParser jsonParser;
 	int startindex=0;
-	int endindex=10;
+	int endindex=9;
 	Activity activity;
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;
@@ -108,7 +108,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			Bundle savedInstanceState) {
 		if(oncreatecallsate1){
 			startindex=0;
-			 endindex=10;
+			 endindex=9;
 			 if(Constants.isOnline(activity)){
 					pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 							getActivity().getResources().getString(R.string.txt_please_wait), false);
@@ -259,9 +259,9 @@ public class FragmentMyFollwerPost extends Fragment {
 			JSONObject result=new JSONObject(a);
 			String status=result.getString("status");
 			if(status.equals("success")){
-				startindex=endindex+1;
-				endindex+=2;
+				endindex+=10;
 				ArticleList articlelistinstance2=ArticleList.getArticlelist(result);
+				articlaList.clear();
 				articlaList.addAll(articlelistinstance2.getArticlelist());
 				ladapter.notifyDataSetChanged();
 				list_view_latest_post2.onRefreshComplete();
@@ -283,8 +283,7 @@ public class FragmentMyFollwerPost extends Fragment {
 
 				articlelistinstance=ArticleList.getArticlelist(result);
 				articlaList=articlelistinstance.getArticlelist();
-				startindex=endindex+1;
-				endindex+=2;
+				endindex+=10;
 
 				loadlistview(true);
 			}

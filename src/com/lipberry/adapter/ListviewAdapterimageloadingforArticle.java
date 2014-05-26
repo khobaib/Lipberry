@@ -109,6 +109,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
+		
 	}
 
 	public ListviewAdapterimageloadingforArticle(Activity activity,
@@ -240,11 +241,19 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		String liketext="";
 		holder.text_comment.setTypeface(Utility.getTypeface2(activity));
 		holder.txt_like.setTypeface(Utility.getTypeface2(activity));
-		holder.txt_like.setText(list.get(position).getLikemember_text());
+		if((list.get(position).getLikemember_text().equals(""))||(list.get(position).getLikemember_text()==null)){
+			holder.txt_like.setText("");
+		}
+		else{
+			holder.txt_like.setText(list.get(position).getLikemember_text());
+		}
+		
+		
 		holder.txt_like.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				//Toast.makeText(activity, position+"  t  "+list.get(position).getLikemember_text(),4000).show();
 				LisAlertDialog alert;
 				if(list.get(position).getLikedmemberlist().size()>0){
 					if(parent==null){

@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
 import com.lipberry.R;
+import com.lipberry.adapter.CustomAdapterLike;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.model.LikeMember;
@@ -49,6 +50,7 @@ public class LisAlertDialog {
 		dia.setTitle(activity.getResources().getString(R.string.app_name_arabic));
 		dia.setCancelable(true);
 		list_alert1 = (ListView) dia.findViewById(R.id.alert_list);
+		CustomAdapterLike adapter= new CustomAdapterLike(activity, aList);
 		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
 				activity, 
 				android.R.layout.simple_list_item_1,
@@ -60,7 +62,7 @@ public class LisAlertDialog {
 			}
 		});
 		cancel_button.setTypeface(Utility.getTypeface2(activity));
-		list_alert1.setAdapter(arrayAdapter); 
+		list_alert1.setAdapter(adapter); 
 		list_alert1.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,

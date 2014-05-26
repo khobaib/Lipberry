@@ -55,8 +55,8 @@ import com.lipberry.utility.Utility;
 @SuppressLint("NewApi")
 public class FragmentSubCategoriesList extends ListFragment {
 	String url;
-	int startindex=11;
-	int endindex=12;
+	int startindex=0;
+	int endindex=9;
 	ProgressDialog pd;
 	private int index = -1;
     private int top = 0;
@@ -100,9 +100,11 @@ public class FragmentSubCategoriesList extends ListFragment {
 		listviewforarticle=list_categories.getRefreshableView();
 		listviewforarticle.setDividerHeight(6);
 		((HomeActivity)getActivity()).ProductList=listviewforarticle;
+		
 		list_categories.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+				
 				if(Constants.isOnline(getActivity())){
 						new AsyncTaskgetmoreSubCategoriesPost().execute();
 				}
@@ -215,8 +217,8 @@ public class FragmentSubCategoriesList extends ListFragment {
 				try {
 					String status=res.getString("status");
 					if(status.equals("success")){
-						startindex=endindex+1;
-						endindex+=2;
+					
+						endindex+=10;
 						
 						
 //						article=new ArticleList();
@@ -224,6 +226,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 //						
 						ArticleList article2=new ArticleList();
 						article2=article2.getArticlelist(res);
+						article.getArticlelist().clear();
 						article.getArticlelist().addAll(article2.getArticlelist());
 						
 						
