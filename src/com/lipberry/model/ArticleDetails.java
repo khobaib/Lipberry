@@ -81,7 +81,7 @@ public class ArticleDetails {
 		return this.dislike_url;
 	}
 	public String getMember_id(){
-		return this.member_id;
+		return this.member;
 	}
 	public String getAbuse_url(){
 		return this.abuse_url;

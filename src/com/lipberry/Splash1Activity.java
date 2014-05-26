@@ -214,10 +214,18 @@ public class Splash1Activity extends Activity {
 				Intent intent=new Intent(Splash1Activity.this, HomeActivity.class);
 				startActivity(intent);
 				finish();
+				//05-25 18:10:26.596: D/JsonParser(28549): sb = {"status":"failure","description":"Inactive email"}
+
 			}
 			else{
 				String descrip=job.getString("description");
-				Toast.makeText(Splash1Activity.this,descrip, Toast.LENGTH_SHORT).show();
+				if(descrip.equals("Inactive email")){
+					 resenlinktomail();
+				}
+				else{
+					Toast.makeText(Splash1Activity.this,descrip, Toast.LENGTH_SHORT).show();
+
+				}
 			}
 
 
@@ -232,6 +240,37 @@ public class Splash1Activity extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();
 
+	}
+	
+	
+	public void resenlinktomail() {
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				Splash1Activity.this);
+		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
+		alertDialogBuilder
+		.setMessage(getResources().getString(R.string.txt_resend_aciviation))
+		.setCancelable(false)
+		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				Intent intent=new  Intent(Splash1Activity.this, ResendActiviationEmail.class);
+				startActivity(intent);
+
+				finish();
+				//dialog.cancel();
+
+			}
+		})
+		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				Intent intent=new  Intent(Splash1Activity.this, LoginActivity.class);
+				finish();
+			}
+		});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
 	}
 
 }

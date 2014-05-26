@@ -1,5 +1,7 @@
 <resources>
- 
+    <string name="txt_show_self_follow">"لا يمكنك متابعة نفسك "</string>
+    <string name="txt_mszsendto_email">"لقد تم ارسال الرسالة بنجاح. فضلاً التحقق من بريدك الالكتروني "</string>
+    
     <string name="app_name">"ليب بيري "</string>
     <string name="txt_weekly_news1">"ايقاف استلام النشرة الاسبوعية"</string>
     <string name="txt_stop_emailmessage">"ايقاف استلام الرسائل الخاصة عبر البريد الإلكترونى"</string>
@@ -28,7 +30,7 @@
     <string name="txt_to">"إلى"</string>
     <string name="txt_send">"إرسال"</string>
     <string name="txt_enter_member">"الرجاء ادخال اسم المشتركة "</string>
-    <string name="txt_sent_msz">"الرسائل المرسلة"</string>
+    <string name="txt_sent_msz">"ارسلي رسالة"</string>
     <string name="txt_msz_is_sent">"تم ارسال الرساله بنجاح"</string>
     <string name="txt_enter_msz">"الرجاء كتابة نص الرسالة "</string>
     <string name="txt_write_msz">"اكتب رسالتك هنا"</string>
@@ -96,6 +98,8 @@
     <string name="txt_from_cancel"> "إلغاء"</string>
     <string name="txt_you_have_selcect_image"> "لقد تم اختيار صورة "</string>
     <string name="txt_failed_to_select_an_image"> "فشل في اختيار صورة "</string>
+    
+    <string name="txt_resend_aciviation"> "لم يتم تسجيل دخولك لأن حسابك غير مفعل.فضلاً التحقق من بريدك المسجل و بريد الغير هام (Junk, Spam) .إذا لم تصلك رسالة التفعيل عبر بريدك المسجل يمكنك طلبها مره اخرى من "</string>
 
     <!--
 App Specific

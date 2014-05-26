@@ -133,9 +133,10 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
         });
 		imageLoader.displayImage(list.get(position).getTo_avatar(), holder.img_pro_pic);
 		if(list.get(position).getRead_flag().equals("0")){
-			holder.text_msz.setTextColor(Color.parseColor("#ffffff"));
-			holder.text_time.setTextColor(Color.parseColor("#ffffff"));
-			holder.re_top.setBackgroundColor(Color.parseColor("#F0E68C"));
+			//holder.text_name.setTextColor(Color.parseColor("#5D933D"));
+			holder.text_msz.setTextColor(Color.parseColor("#000000"));
+			holder.text_time.setTextColor(Color.parseColor("#000000"));
+			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));
 		}else{
 			holder.text_msz.setTextColor(Color.parseColor("#000000"));
 			holder.text_time.setTextColor(Color.parseColor("#000000"));

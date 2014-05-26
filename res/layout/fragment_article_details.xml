@@ -75,16 +75,19 @@
 
                     <Button
                         android:id="@+id/btn_follow_her"
-                        android:layout_width="65dp"
-                        android:layout_height="34dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="42dp"
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="17dp"
                         android:background="@android:color/transparent"
                         android:gravity="center"
-                        android:padding="1dp"
+                       
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        
                         android:textColor="#ffffff"
-                        android:textSize="20dp" />
+                        android:textSize="15dp" />
 
                     <Button
                         android:id="@+id/visit"

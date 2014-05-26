@@ -66,6 +66,7 @@ import com.lipberry.adapter.CustomAdapterForComment;
 import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
+import com.lipberry.model.ArticleList;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
@@ -151,10 +152,10 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
 		listView.setLayoutParams(params);
 		listView.requestLayout();
-		
+
 	}
 	//	public static void setListViewHeightBasedOnChildren(ListView listView) {
-		//		ListAdapter listAdapter = listView.getAdapter();
+	//		ListAdapter listAdapter = listView.getAdapter();
 	//		if (listAdapter == null) {
 	//			return;
 	//		}
@@ -201,7 +202,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	public void setmemberlist(){
-		 list_comment.setFocusable(false);
+		list_comment.setFocusable(false);
 		if(commentslist.getCommentslist().size()>0){
 			Log.e("comment", "10");
 			view_gap_list.setVisibility(View.VISIBLE);
@@ -244,7 +245,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 		return v;
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -261,7 +262,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			if(article.getcategory().equals("2")){
 				if(article.getArticle_category_url().contains("shexp")){
 					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
-					
+
 				}
 				else{
 					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
@@ -336,7 +337,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-Log.e("calling", "calling");
+		Log.e("calling", "calling");
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -662,19 +663,34 @@ Log.e("calling", "calling");
 				img_like.setBackgroundResource(R.drawable.like);
 			}
 		}
-		if(followstate){
-			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+		if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_show_self_follow));
+
+
 		}
 		else{
-			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
+			if(followstate){
+				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+				btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+			}
+			else{
+				btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
+			}
 		}
-
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				buttonfollowclicked();
+				
+				if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
+
+				}
+				else{
+					buttonfollowclicked();
+
+				}
 			}
 		});
 
@@ -1008,10 +1024,10 @@ Log.e("calling", "calling");
 				}
 			}
 		});*/
-		
+
 		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
 		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
-	
+
 		dialog.setContentView(R.layout.custom_dilog);
 		//dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
@@ -1167,7 +1183,7 @@ Log.e("calling", "calling");
 						Log.e("comment", "8");
 						setmemberlist();
 					}
-					
+
 				}
 				else{
 					String description=jobj.getString("message");
@@ -1207,6 +1223,10 @@ Log.e("calling", "calling");
 			}
 		}
 	}
+	
+	
+
+	
 
 
 }

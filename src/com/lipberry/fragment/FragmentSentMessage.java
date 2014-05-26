@@ -79,6 +79,7 @@ public class FragmentSentMessage extends Fragment{
 	LipberryApplication appInstance;
 	ArrayList<InboxMessage>inboxlist;
 	ListView listviewforinbbox;
+	String messageid;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -329,10 +330,25 @@ public class FragmentSentMessage extends Fragment{
 					if(messagelist.getIndividualThreadlist().size()>0){
 						
 						boolean read_flag;
+						Log.e("called", "1");
 						if(inboxlist.get(position).getRead_flag().equals("0")){
+							Log.e("called", "2");
+
 							read_flag=false;
+//						
+//								pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+//										getActivity().getResources().getString(R.string.txt_please_wait), false);
+							Log.e("called", "3");
+
+							messageid=inboxlist.get(position).getMessage_id();
+							//new AsyncTaskSetasReadMessage().execute();
+							Log.e("called", "4");
+
+						
 						}
 						else{
+							Log.e("called", "5");
+
 							read_flag=true;
 
 						}
@@ -414,6 +430,50 @@ public class FragmentSentMessage extends Fragment{
 		dbInstance.insertOrUpdateThreadMessageInboxList(messagelist.getIndividualThreadlist());
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 		dbInstance.close();
+	}
+	
+	private class AsyncTaskSetasReadMessage extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"inbox/markmessageAsread/"+messageid;
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("res", result.getjObj().toString());
+//			if(pd.isShowing()&&(pd!=null)){
+//				pd.dismiss();
+//			}
+			JSONObject job=result.getjObj();
+
+			try {
+				String status=job.getString("status");
+				if(status.equals("success")){
+//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+//					FragmentInbox.oncreatecalledstate=true;
+				}
+				else{
+					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import com.lipberry.fragment.FragmentWriteTopic;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleList;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -13,6 +14,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	public static ArticleList articlelist;
 	public static boolean STATECALLPDFORMENU=false;
 	public static int GOTABFROMWRITETOPIC;
 	public static boolean GOARTCLEPAGEFROMMEMBER=false; 

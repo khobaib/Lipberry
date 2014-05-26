@@ -42,7 +42,7 @@ public class LisAlertDialogForComment {
 	public void show_alert() {
 		ListView list_alert1;
 		Button cancel_button;
-		final Dialog dia = new Dialog(context);
+		final Dialog dia = new Dialog(context,R.style.CustomDialog);
 		dia.setContentView(R.layout.list_alert);
 		cancel_button=(Button) dia.findViewById(R.id.cancel_button);
 		dia.setTitle(activity.getResources().getString(R.string.app_name_arabic));

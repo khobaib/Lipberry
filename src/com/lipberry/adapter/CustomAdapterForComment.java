@@ -115,7 +115,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 		ImageView img_avatar;
 		ImageView img_like;
 		ImageView img_comment;
-		ImageView img_report_abuse;
+	//	ImageView img_report_abuse;
 		TextView txt_name;
 		TextView txt_title;
 
@@ -134,7 +134,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 			holder.img_comment=(ImageView) convertView.findViewById(R.id.img_comment);
 			holder.txt_name=(TextView) convertView.findViewById(R.id.txt_name);
 			holder.txt_title=(TextView) convertView.findViewById(R.id.txt_title);
-			holder.img_report_abuse=(ImageView) convertView.findViewById(R.id.img_report_abuse);
+			//holder.img_report_abuse=(ImageView) convertView.findViewById(R.id.img_report_abuse);
 			holder.txt_title.setTypeface(Utility.getTypeface2(activity));
 			holder.txt_name.setTypeface(Utility.getTypeface2(activity));
 
@@ -142,17 +142,17 @@ public class CustomAdapterForComment extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		if(list.get(position).getabusecomment_flag()){
-			holder.img_report_abuse.setVisibility(View.GONE);
-		}
-		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+//		if(list.get(position).getabusecomment_flag()){
+//			holder.img_report_abuse.setVisibility(View.GONE);
+//		}
+//		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
 		if(list.get(position).getlikeommentFlag()){
 			holder.img_like.setImageResource(R.drawable.unlike);
 		}
@@ -173,20 +173,20 @@ public class CustomAdapterForComment extends BaseAdapter {
 
 			}
 		});
-		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-					index=position;
-					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
-							activity.getResources().getString(R.string.txt_please_wait), false);
-					pd.show();
-					 new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
-				
-				
-			}
-		});
+//		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				
+//					index=position;
+//					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
+//							activity.getResources().getString(R.string.txt_please_wait), false);
+//					pd.show();
+//					 new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
+//				
+//				
+//			}
+//		});
 
 		holder.img_comment.setOnClickListener(new OnClickListener() {
 

@@ -209,6 +209,7 @@ public class FragmentProfileSetting extends Fragment {
 								10000).show();
 
 					}else{
+						state=1;
 						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 								getActivity().getResources().getString(R.string.txt_retreiving_country), false);
 						new AsyncTaskGetCity().execute();
@@ -249,13 +250,13 @@ public class FragmentProfileSetting extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				if(selectedcountryposition!=-1){
-					loginObj.put("country_id",countrylist.get(selectedcountryposition));
+					loginObj.put("country_id",countrylist.get(selectedcountryposition).getId());
 				}
 				if(selectedcityposition!=-1){
-					loginObj.put("city_id",citylist.get(selectedcityposition));
+					loginObj.put("city_id",citylist.get(selectedcityposition).getId());
 				}
 				if(selectedcityposition!=-1){
-					loginObj.put("city_id",citylist.get(selectedcityposition));
+					loginObj.put("city_id",citylist.get(selectedcityposition).getId());
 				}
 				if(!password.equals("")){
 					loginObj.put("password",password);
@@ -295,14 +296,17 @@ public class FragmentProfileSetting extends Fragment {
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
+//05-25 21:05:51.194: E/res(11296): {"status":"failure","description":"Invalid nickname ,it contains dot"}
 
 			try {
 				String status=job.getString("status");
+				String description=job.getString("description");
 				if(status.equals("success")){
 					setusercred();
 				}
 				else{
 				}
+				Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -334,6 +338,8 @@ public class FragmentProfileSetting extends Fragment {
 		if(!siteurl.equals("")){
 			ucred.setSiteUrl(brief);
 		}
+		ucred.setCity(citylist.get(selectedcityposition).getId());
+		ucred.setCountry(countrylist.get(selectedcountryposition).getId());
 		appInstance.setUserCred(ucred);
 
 	}
@@ -424,14 +430,20 @@ public class FragmentProfileSetting extends Fragment {
 			}
 		});
 		if(state==0){
+			//Toast.makeText(getActivity(), "calling",2000).show();
 			int inexforcity=10;
 			for (int i=0;i<citylist.size();i++){
 				if(citylist.get(i).getId().equals(appInstance.getUserCred().getCity())){
 					inexforcity=i;
 				}
 			}
-			s_city.setSelection(20);
+		//	Toast.makeText(getActivity(), ""+inexforcity, 2000).show();
+//			s_country.setSelection(position+1);
+//			selectedcountryposition=position;
+			
 			selectedcityposition=inexforcity;
+			s_city.setSelection(selectedcityposition+1);
+			
 		}
 	
 	}
@@ -449,6 +461,7 @@ public class FragmentProfileSetting extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Log.e("response", result.getjObj().toString());
 					try {
 						
 						String country=result.getjObj().getString("country_list");
@@ -525,7 +538,7 @@ public class FragmentProfileSetting extends Fragment {
 				position=i;
 			}
 		}
-		Log.e("tag", "4");
+		
 
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -548,7 +561,7 @@ public class FragmentProfileSetting extends Fragment {
 				selectedcountryposition=position-1;
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
-				state=1;
+				
 			}
 
 			@Override
@@ -556,7 +569,8 @@ public class FragmentProfileSetting extends Fragment {
 				selectedcountryposition=-1;
 			}
 		});
-		s_country.setSelection(position);
+		//Toast.makeText(getActivity(), ""+position, 2000).show();
+		s_country.setSelection(position+1);
 		selectedcountryposition=position;
 		t_city.setVisibility(View.VISIBLE);
 		s_city.setVisibility(View.GONE);

@@ -49,6 +49,11 @@ public class CategoryTabFragment extends TabFragment{
 	public void onStart( ) {
 		Constants.GOTABFROMWRITETOPIC=3;
 
+		if(Constants.catgeory){
+			startFragmentSubCategoriesList(Constants.caturl,
+					Constants.caname,Constants.articlelist);
+			Constants.catgeory=false;
+		}
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

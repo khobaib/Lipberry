@@ -241,7 +241,7 @@ public class UserCred {
 	public String getCountry() {
 		return country;
 	}
-
+	
 	public String getCity() {
 		return city;
 	}

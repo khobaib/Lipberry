@@ -277,7 +277,14 @@ public class LoginActivity extends Activity {
 				finish();
 			}
 			else{
-				Toast.makeText(LoginActivity.this,descrip, 10000).show();
+			//	String descrip=job.getString("description");
+				if(descrip.equals("Inactive email")){
+					 resenlinktomail();
+				}
+				else{
+					Toast.makeText(LoginActivity.this,descrip, Toast.LENGTH_SHORT).show();
+
+				}
 			}
 
 
@@ -298,5 +305,33 @@ public class LoginActivity extends Activity {
 		}
 
 	}
+	public void resenlinktomail() {
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				LoginActivity.this);
+		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
+		alertDialogBuilder
+		.setMessage(getResources().getString(R.string.txt_resend_aciviation))
+		.setCancelable(false)
+		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				Intent intent=new  Intent(LoginActivity.this, ResendActiviationEmail.class);
+				startActivity(intent);
+				finish();
+
+				
+
+			}
+		})
+		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+			}
+		});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
+
 
 }

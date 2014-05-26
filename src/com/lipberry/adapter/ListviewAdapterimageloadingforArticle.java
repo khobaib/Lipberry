@@ -28,6 +28,7 @@ import com.lipberry.customalertdilog.LisAlertDialogForComment;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleList;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
@@ -91,6 +92,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ProgressDialog mProgress;
 	EditText et_comment;
 	ImageLoader imageLoader;
+	//05-21 19:48:05.190: D/JsonParser(756): sb = {"status":"success","article_list":[]}
 
 	public ListviewAdapterimageloadingforArticle(Activity activity,
 			ArrayList<Article> list,CategoryTabFragment parent3) {
@@ -176,7 +178,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
 			holder.image_comments=(ImageView) convertView.findViewById(R.id.image_comments);
 			holder.img_article_pro_pic=(ImageView) convertView.findViewById(R.id.img_article_pro_pic);
-			
 			holder.text_user_name=(TextView) convertView.findViewById(R.id.text_user_name);
 			holder.text_date_other=(TextView) convertView.findViewById(R.id.text_date_other);
 			holder.txt_articl_ename=(TextView) convertView.findViewById(R.id.txt_articl_ename);
@@ -459,13 +460,23 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			@Override
 			public void onClick(View arg0) {
 				if(parent!=null){
+					if(Constants.isOnline(activity)){
+						pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+								activity.getResources().getString(R.string.txt_please_wait), false);
+						new AsyncTaskgetSubCategories(position).execute();
+					}
+					else{
+						Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
+								Toast.LENGTH_SHORT).show();
+					}
+						
 					
-					Constants.catgeory=true;
-					Constants.caturl=list.get(position).getArticle_category_url();
-					Constants.caname=list.get(position).getCategory_name();
-							
-					((HomeActivity)activity).mTabHost.setCurrentTab(3);
-					
+//					Constants.catgeory=true;
+//					Constants.caturl=list.get(position).getArticle_category_url();
+//					Constants.caname=list.get(position).getCategory_name();
+//							
+//					((HomeActivity)activity).mTabHost.setCurrentTab(3);
+//					
 				}
 				
 				
@@ -798,6 +809,128 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					
 				}
 			} catch (JSONException e) {
+			}
+		}
+	}
+	private class AsyncTaskgetSubCategories extends AsyncTask<Void, Void, ServerResponse> {
+		int position ;
+		public AsyncTaskgetSubCategories(int position){
+			this.position=position;
+		}
+		
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				loginObj.put( "startIndex","0");
+				loginObj.put( "endIndex","10");
+				String loginData = loginObj.toString();
+				//05-25 13:16:29.336: D/JsonParser(8336): url after param added = http://www.lipberry.com/API/category/postslist/beauty/1/
+
+				String url=list.get(position).getArticle_category_url();//+"/"+articledetails.getMember_id();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) { 
+				if((pd.isShowing())&&(pd!=null)){
+					pd.dismiss();
+				}
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("response", result.getjObj().toString());
+			
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject res=result.getjObj();
+			if(result.getjObj().toString().equals("[]")){
+				Toast.makeText(activity,activity.getResources().getString(R.string.Toast_article_found),
+						Toast.LENGTH_SHORT).show();
+			}
+			else{
+				try {
+					String status=res.getString("status");
+					if(status.equals("success")){
+						ArticleList article=new ArticleList();
+						article=article.getArticlelist(res);
+						if(article.getArticlelist().size()>0){
+							//parent.startFragmentSubCategoriesList(list.get(position).getArticle_category_url(),list.get(position).getCategory_name(),article);
+							Constants.catgeory=true;
+							Constants.caturl=list.get(position).getArticle_category_url();
+							
+							
+							
+							if(list.get(position).getCategory_name()!=null){
+								Constants.caname=list.get(position).getCategory_name();
+
+							}
+							else{
+								if(list.get(position).getcategory().equals("1")){
+									Constants.caname=activity.getResources().getString(R.string.txt_cat1);
+									//((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat1));
+								}
+								if(list.get(position).getcategory().equals("2")){
+									if(list.get(position).getArticle_category_url().contains("shexp")){
+										Constants.caname=activity.getResources().getString(R.string.txt_cat2_shpx);
+
+										//((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
+
+									}
+									else{
+										Constants.caname=activity.getResources().getString(R.string.txt_cat2);
+
+										//((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
+
+									}
+								}
+								if(list.get(position).getcategory().equals("3")){
+									Constants.caname=activity.getResources().getString(R.string.txt_cat3);
+
+									//((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat3));
+								}
+								if(list.get(position).getcategory().equals("5")){
+									Constants.caname=activity.getResources().getString(R.string.txt_cat5);
+
+									//((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat5));
+								}
+								if(list.get(position).getcategory().equals("8")){
+									Constants.caname=activity.getResources().getString(R.string.txt_cat8);
+
+									//((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat8));
+								}
+							}
+							
+							
+							
+							
+							
+							Constants.articlelist=	article;	
+							Log.d("name", "a  "+list.get(position).getCategory_name());
+							((HomeActivity)activity).mTabHost.setCurrentTab(3);
+
+//							((HomeActivity)activity).mTabHost.setCurrentTab(3);
+						}
+						else{
+							Toast.makeText(activity,activity.getResources().
+									getString(R.string.Toast_article_found)
+									, Toast.LENGTH_SHORT).show(); 
+						}
+					}
+					else{
+						Toast.makeText(activity, activity.getResources().getString(R.string.Toast_article_found), 
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					Toast.makeText(activity, activity.getResources().getString(R.string.Toast_article_found),
+							Toast.LENGTH_SHORT).show();
+					e.printStackTrace();
+				}
 			}
 		}
 	}

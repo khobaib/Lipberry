@@ -90,7 +90,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
+		Log.d("name", "a  "+catname);
 		((HomeActivity)getActivity()).welcome_title.setText(catname);
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sub_categories,

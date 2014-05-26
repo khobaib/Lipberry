@@ -127,9 +127,9 @@ public class FragmentMessage extends Fragment{
 		}
 		if(Constants.isOnline(getActivity())){
 			if(!read_flag){
-				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-						getActivity().getResources().getString(R.string.txt_please_wait), false);
-				new AsyncTaskSetasReadMessage().execute();
+//				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+//						getActivity().getResources().getString(R.string.txt_please_wait), false);
+//				new AsyncTaskSetasReadMessage().execute();
 			}
 				
 		}

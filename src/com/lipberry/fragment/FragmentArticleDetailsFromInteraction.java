@@ -106,8 +106,9 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	View view_gap_list,view_gap_list2;
 	String member_id;
 	WebView web_view;
+	String memberid;
 	public FragmentArticleDetailsFromInteraction(String article_id){
-		this.article_id=article_id;
+	this.article_id=article_id;
 	}
 	@SuppressLint("NewApi")
 
@@ -126,28 +127,28 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	}
 	public static void setListViewHeightBasedOnChildren(ListView listView)
 	{
-	    ListAdapter listAdapter = listView.getAdapter();
-	    if(listAdapter == null) return;
-	    if(listAdapter.getCount() <= 0) return;
+		ListAdapter listAdapter = listView.getAdapter();
+		if(listAdapter == null) return;
+		if(listAdapter.getCount() <= 0) return;
 
-	    int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
-	    int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-	   
-	    int totalHeight = 0;
-	    View view = null;
-	    for(int i = 0; i < listAdapter.getCount(); i++)
-	    {
-	        view = listAdapter.getView(i, view, listView);
-	        if (view instanceof ViewGroup) {
-	        	view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
+		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+
+		int totalHeight = 0;
+		View view = null;
+		for(int i = 0; i < listAdapter.getCount(); i++)
+		{
+			view = listAdapter.getView(i, view, listView);
+			if (view instanceof ViewGroup) {
+				view.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			}
-	        view.measure(widthMeasureSpec, heightMeasureSpec);
-	        totalHeight += view.getMeasuredHeight();
-	    }
-	    ViewGroup.LayoutParams params = listView.getLayoutParams();
-	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-	    listView.setLayoutParams(params);
-	    listView.requestLayout();
+			view.measure(widthMeasureSpec, heightMeasureSpec);
+			totalHeight += view.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
 
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
@@ -170,9 +171,9 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		params.height = totalHeight-5;
 		listView.setLayoutParams(params);
 	}
-	
+
 	public void setmemberlist1(){
-		 list_comment.setFocusable(false);
+		list_comment.setFocusable(false);
 		if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
@@ -181,22 +182,22 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			setListViewHeightBasedOnChildren(list_comment);
 			scrollView1.scrollTo(0, 0);
 			scrollView1.fullScroll(View.FOCUS_UP);
-		
+
 		}
 		else{
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
 			scrollView1.scrollTo(0, 0);
-			
+
 
 		}
-		 img_pro_pic.requestFocus();
-		
+		img_pro_pic.requestFocus();
 
-	//	scrollView1.fullScroll(View.FOCUS_UP);
+
+		//	scrollView1.fullScroll(View.FOCUS_UP);
 	}
 
-	
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -220,7 +221,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		return v;
 	}
 	@Override
-	
+
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -232,7 +233,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			public void onClick(View v) {
 				if(state==0){
 					parent.onBackPressed();
-					
+
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(2);
 				}
 				else{
@@ -392,13 +393,13 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		else{
 			btn_photo_album.setVisibility(View.VISIBLE);
 		}
-//		if(articledetails.getArticle_gallery().size()<1){
-//			btn_photo_album.setVisibility(View.GONE);
-//		}
-//		else{
-//			btn_photo_album.setVisibility(View.VISIBLE);
-//		}
-		
+		//		if(articledetails.getArticle_gallery().size()<1){
+		//			btn_photo_album.setVisibility(View.GONE);
+		//		}
+		//		else{
+		//			btn_photo_album.setVisibility(View.VISIBLE);
+		//		}
+
 		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
 			play_vedio.setVisibility(View.GONE);
 		}
@@ -456,24 +457,24 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		text_user_name.setText(articledetails.getMember_name());
 		text_date_other.setText(articledetails.getMember_username());
 		text_user_name.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Constants.userid=articledetails.getMember();
 				parent.startMemberFragment(0);
-				
+
 			}
 		});
 		img_pro_pic.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Constants.userid=articledetails.getMember();
 				parent.startMemberFragment(0);
-				
+
 			}
 		});
-		
+
 		txt_articl_ename.setText(articledetails.getTitle());
 		if(articledetails.getVisit_counter().equals("")){
 			txt_viewd.setText("");
@@ -564,9 +565,9 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 
 				}
-			
-			//	05-21 15:36:33.156: D/JsonParser(10751): url after param added = 
-			//	05-21 15:36:33.166: D/JsonParser(10751): content body = {"session_id":"c9vqt65hdf85bl8sll4hfltfn2","endIndex":"10","startIndex":"0"}
+
+				//	05-21 15:36:33.156: D/JsonParser(10751): url after param added = 
+				//	05-21 15:36:33.166: D/JsonParser(10751): content body = {"session_id":"c9vqt65hdf85bl8sll4hfltfn2","endIndex":"10","startIndex":"0"}
 
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
@@ -640,19 +641,32 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				img_like.setBackgroundResource(R.drawable.like);
 			}
 		}
-		if(followstate){
-			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+		if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_show_self_follow));
+
 		}
 		else{
-			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
+			if(followstate){
+				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+				btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+			}
+			else{
+				btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
+			}
 		}
 
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				buttonfollowclicked();
+				if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
+
+				}
+				else{
+					buttonfollowclicked();
+
+				}
 			}
 		});
 
@@ -934,7 +948,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	public void showCustomDialog(){
 		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
 		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
-	
+
 		dialog.setContentView(R.layout.custom_dilog);
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
 		Button  btn_cancel = (Button) dialog.findViewById(R.id.btn_cancel);

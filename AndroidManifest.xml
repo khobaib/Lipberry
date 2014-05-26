@@ -96,6 +96,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/HomeActivityTheme" >
         </activity>
+         <activity
+            android:name="com.lipberry.ResendActiviationEmail"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeActivityTheme" >
+        </activity>
         <activity
             android:name=".HomeActivity"
             android:configChanges="orientation"

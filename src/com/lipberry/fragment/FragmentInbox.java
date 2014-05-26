@@ -78,6 +78,7 @@ public class FragmentInbox extends Fragment{
 	LipberryApplication appInstance;
 	ArrayList<InboxMessage>inboxlist;
 	ListView listviewforinbbox;
+	String messageid;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -359,6 +360,8 @@ public class FragmentInbox extends Fragment{
 						boolean read_flag;
 						if(inboxlist.get(position).getRead_flag().equals("0")){
 							read_flag=false;
+							messageid=inboxlist.get(position).getMessage_id();
+							new AsyncTaskSetasReadMessage().execute();
 						}
 						else{
 							read_flag=true;
@@ -448,6 +451,48 @@ public class FragmentInbox extends Fragment{
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 		dbInstance.close();
 	}
+	
+	private class AsyncTaskSetasReadMessage extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
 
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"inbox/markmessageAsread/"+messageid;
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("res", result.getjObj().toString());
+//			if(pd.isShowing()&&(pd!=null)){
+//				pd.dismiss();
+//			}
+			JSONObject job=result.getjObj();
+
+			try {
+				String status=job.getString("status");
+//				if(status.equals("success")){
+//					
+//				}
+//				else{
+//					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+//				}
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
 

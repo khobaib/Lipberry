@@ -16,8 +16,16 @@
             android:layout_height="wrap_content"
             android:background="#d22843"
             tools:ignore="NewApi" >
-
-            <Button
+            
+             <RelativeLayout
+                android:id="@+id/re_backholder"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+               android:layout_centerHorizontal="true"
+               android:gravity="center"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true">
+                 <Button
                 android:id="@+id/backbuttonoftab"
                android:layout_width="60dp"
             	android:layout_height="32dp"
@@ -26,33 +34,35 @@
                 android:layout_marginLeft="8dp"
                 android:background="@drawable/lbtn_back"
                 android:textColor="#ffffff" />
+            </RelativeLayout>
+
 
             <RelativeLayout
                 android:id="@+id/re_la_mid"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="60dp"
                android:layout_centerHorizontal="true"
                android:gravity="center"
-                android:layout_marginLeft="70dp"
-                android:layout_marginRight="70dp" >
+                android:layout_toRightOf="@+id/re_backholder"
+                android:layout_toLeftOf="@+id/img_icon_to_bar">
 
                  
                 <TextView
                     android:id="@+id/welcome_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="60dp"
                     android:layout_marginRight="2dp"
-                    android:layout_toLeftOf="@+id/img_cat_icon"
                     android:gravity="center"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:singleLine="true"
+                   android:textSize="13sp"
                     android:textStyle="bold" />
                  <ImageView
                     android:id="@+id/img_cat_icon"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:visibility="gone"
-                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/welcome_title"
                    android:layout_centerVertical="true"
                    android:src="@drawable/l2" />
 

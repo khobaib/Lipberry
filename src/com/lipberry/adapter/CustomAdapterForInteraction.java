@@ -124,7 +124,10 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 		}
 		if(list.get(position).geTread_flag().equals("0")){
 			holder.text_msz.setTextColor(Color.parseColor("#ffffff"));
-			holder.re_top.setBackgroundColor(Color.parseColor("#F0E68C"));
+			holder.text_name.setTextColor(Color.parseColor("#ffffff"));
+			holder.text_date_other.setTextColor(Color.parseColor("#ffffff"));
+
+			holder.re_top.setBackgroundColor(Color.parseColor("#881e35"));
 		}else{
 			holder.text_msz.setTextColor(Color.parseColor("#000000"));
 			holder.re_top.setBackgroundColor(Color.parseColor("#ffffff"));

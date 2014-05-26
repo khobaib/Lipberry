@@ -611,20 +611,37 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		}
 
-		if(followstate){
-			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+		if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+
+			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_show_self_follow));
+
+
 		}
 		else{
-			btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
+			if(followstate){
+				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
+				btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+			}
+			else{
+				btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
+			}
 		}
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				buttonfollowclicked();
+				
+				if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
+
+				}
+				else{
+					buttonfollowclicked();
+
+				}
 			}
 		});
+
 
 		image_comments.setOnClickListener(new OnClickListener() {
 
