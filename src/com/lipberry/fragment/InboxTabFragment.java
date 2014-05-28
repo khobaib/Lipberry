@@ -58,6 +58,17 @@ public class InboxTabFragment extends TabFragment{
 		super.onStart();
 	}
 	
+	public void StartFragmentMessageSettingFromInbo() {
+		FragmentMessageSettingFromInbo newFragment = new FragmentMessageSettingFromInbo();
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	public void startMessagefragment(ThreadMessageList messagelist,String messageid,boolean read_flag,int from) {
 		FragmentMessage newFragment=new FragmentMessage(messagelist, messageid, read_flag,from);
 		//FragmentMessage newFragment = new FragmentMessage(messagelist,messageid,read_flag);

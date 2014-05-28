@@ -48,10 +48,10 @@
             android:layout_height="120dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:background="@color/gray70"
+            			android:background="@drawable/image_boarder"
             android:padding="1.5dp"
             android:scaleType="fitXY"
-            android:src="@drawable/ic_launcher" />
+           />
 
         <TextView
             android:id="@+id/txt_bio"

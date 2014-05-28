@@ -167,6 +167,8 @@ public class FragmentSendMessageFormHome extends Fragment{
 					base64Str = Base64.encodeBytes(ba);
 					loginObj.put("subject",base64Str);
 				}
+				ba =userid.getBytes();
+				base64Str = Base64.encodeBytes(ba);
 				loginObj.put("tomember",userid);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"inbox/sendmessage/";

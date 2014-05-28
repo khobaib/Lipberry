@@ -108,7 +108,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	WebView web_view;
 	String memberid;
 	public FragmentArticleDetailsFromInteraction(String article_id){
-	this.article_id=article_id;
+		this.article_id=article_id;
 	}
 	@SuppressLint("NewApi")
 
@@ -177,7 +177,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
-			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article_id);
+			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article_id,0,null,null,this);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
 			scrollView1.scrollTo(0, 0);
@@ -279,7 +279,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			try {
 				String status=jobj.getString("status");
 				if(status.equals("success")){
-					new AsyncTaskGetComments().execute();
+					new AsyncTaskGetComments(0).execute();
 					articledetails=ArticleDetails.getArticleDetails(jobj);
 					if(articledetails.getFollow_flag()!=null){
 						if(!articledetails.getFollow_flag().equals("Not a follower")){
@@ -626,9 +626,10 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			}
 		};
 		if((articledetails.getPhoto().equals("")||(articledetails.getPhoto()==null))){
-
+			img_article.setVisibility(View.GONE);
 		}
 		else{
+			img_article.setVisibility(View.VISIBLE);
 
 			imageLoader.loadImage(articledetails.getPhoto(), imll);
 		}
@@ -650,6 +651,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			if(followstate){
 				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
 				btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_already_following));
+
 			}
 			else{
 				btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
@@ -787,7 +790,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
 				if(status.equals("success")){
-					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_like_success), 
+							Toast.LENGTH_SHORT).show();					
 					img_like.setBackgroundResource(R.drawable.unlike);
 					articledetails.setUserAlreadylikeThis("Yes");
 				}
@@ -1025,7 +1029,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
 
-							new AsyncTaskGetComments().execute();
+							new AsyncTaskGetComments(1).execute();
 							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 						}
 						else{
@@ -1049,6 +1053,10 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	}
 
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+		int a;
+		public AsyncTaskGetComments(int a){
+			this.a=a;;
+		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
@@ -1086,7 +1094,14 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 					commentslist=Commentslist.getCommentsListInstance(jobj);
 
 					if(commentslist.getCommentslist().size()>0){
-						setmemberlist1();
+						Log.e("comment", "8");
+						if(a==0){
+							setmemberlist1();
+						}
+						else{
+							adapter1.notifyDataSetChanged();
+						}
+						
 					}
 				}
 				else{
@@ -1112,6 +1127,11 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+			}
 			Log.e("error", result.getjObj().toString());
 			JSONObject jobj=result.getjObj();
 			try {
@@ -1127,6 +1147,17 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		}
 	}
 
-
+	public void callback(){
+		if(Constants.isOnline(getActivity())){
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetComments(1).execute();
+		}
+		else{
+			
+			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
+					Toast.LENGTH_SHORT).show();
+		}
+	}
 }
 

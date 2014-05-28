@@ -21,11 +21,11 @@
             android:layout_height="65dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentStart="true"
-            android:scaleType="fitXY"
+            android:background="@drawable/image_boarder"
             android:paddingBottom="2dp"
             android:paddingLeft="2dp"
             android:paddingTop="2dp"
-            android:src="@android:color/darker_gray" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/text_name"
@@ -50,9 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_name"
             android:layout_marginBottom="8dp"
-           android:layout_marginLeft="50dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginRight="10dp"
-           android:layout_toLeftOf="@+id/img_pro_pic"
+            android:layout_toLeftOf="@+id/img_pro_pic"
             android:gravity="right"
             android:text="Lipberry"
             android:textColor="#000000"

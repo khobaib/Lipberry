@@ -157,7 +157,8 @@ public class FragmentSetting extends Fragment {
 				Intent intent=new Intent(getActivity(), Splash2Activity.class);
 				intent.putExtra("fromhome", true);
 				getActivity().finish();
-				Toast.makeText(getActivity(), job.getString("description"), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_logout_success),
+						Toast.LENGTH_SHORT).show();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

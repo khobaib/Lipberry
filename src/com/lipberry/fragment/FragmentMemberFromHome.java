@@ -13,7 +13,9 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -254,11 +256,13 @@ public class FragmentMemberFromHome extends Fragment {
 		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				webview_member.setVisibility(View.VISIBLE);
-				WebSettings webSettings = webview_member.getSettings();
-				webSettings.setJavaScriptEnabled(true);
-				webview_member.setWebViewClient(new Callback());
-				webview_member.loadUrl(singleMember.getSiteurl());
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
+				startActivity(browserIntent);
+//				webview_member.setVisibility(View.VISIBLE);
+//				WebSettings webSettings = webview_member.getSettings();
+//				webSettings.setJavaScriptEnabled(true);
+//				webview_member.setWebViewClient(new CustomWebViewClient());
+//				webview_member.loadUrl(singleMember.getSiteurl());
 			}
 		});
 
@@ -283,10 +287,10 @@ public class FragmentMemberFromHome extends Fragment {
 				// TODO Auto-generated method stub
 				if(followstate){
 					//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
-					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
 				}
 				else{
-					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
 //					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
 //							Toast.LENGTH_SHORT).show();
 				}
@@ -399,12 +403,19 @@ public class FragmentMemberFromHome extends Fragment {
 			}
 		}
 	}
-	private class Callback extends WebViewClient{  
-		@Override
-		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			return (false);
-		}
-	}
+	private class CustomWebViewClient extends WebViewClient {
+        @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        	if (true){
+                Uri uri = Uri.parse(url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                return true; //the webview will not load the URL
+            } else {
+                return false; //the webview will handle it
+            }
+            }
+        }
 	private class AsyncTaskGetmemberPost extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {

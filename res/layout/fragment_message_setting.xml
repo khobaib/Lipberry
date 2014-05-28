@@ -12,7 +12,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="45dp" >
+        android:layout_marginTop="12dp" >
 
         <CheckBox
             android:id="@+id/check_weekly_news"
@@ -43,7 +43,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="7dp" >
+        android:layout_marginTop="5dp" >
 
         <CheckBox
             android:id="@+id/check_stop_emailmessage"
@@ -74,7 +74,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="7dp" >
+        android:layout_marginTop="5dp" >
 
         <CheckBox
             android:id="@+id/check_stop_privatemessage"
@@ -105,7 +105,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="7dp" >
+        android:layout_marginTop="5dp" >
 
         <CheckBox
             android:id="@+id/check_stop_commentMails"
@@ -136,7 +136,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="7dp" >
+        android:layout_marginTop="5dp" >
 
         <CheckBox
             android:id="@+id/check_stop_followerMails"
@@ -167,7 +167,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="7dp" >
+        android:layout_marginTop="5dp" >
 
         <CheckBox
             android:id="@+id/check_stop_likeArtMails"
@@ -200,7 +200,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
-        android:layout_marginTop="7dp" >
+        android:layout_marginTop="5dp" >
 
         <CheckBox
             android:id="@+id/check_push_new_msz"
@@ -233,7 +233,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/re_check_push_new_msz"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+         android:layout_marginTop="5dp"
         android:paddingLeft="5dp"
                 android:paddingRight="5dp"
          android:background="@drawable/rounded_password"

@@ -155,8 +155,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		ImageView img_article_pro_pic;
 		TextView text_user_name;
 		TextView text_date_other;
-		TextView txt_loading;
-		ProgressBar progress_loading;
 		TextView txt_articl_ename;
 		TextView text_topic_text;
 		TextView txt_like;
@@ -172,8 +170,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.post_inflate,
 					null);
 			holder = new ViewHolder();
-			holder.progress_loading=(ProgressBar) convertView.findViewById(R.id.progress_loading);
-			holder.txt_loading=(TextView) convertView.findViewById(R.id.txt_loading);
+			
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.img_some_icon=(ImageView) convertView.findViewById(R.id.img_some_icon);
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
@@ -371,8 +368,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
 				}
-				holder.txt_loading.setVisibility(View.GONE);
-				holder.progress_loading.setVisibility(View.GONE);
+				
 				holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
 
 			}
@@ -398,8 +394,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
 					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
 					holder.img_article_pro_pic.setImageBitmap(bitmap);
-					holder.txt_loading.setVisibility(View.GONE);
-					holder.progress_loading.setVisibility(View.GONE);
+					
 				
 				}
 				
@@ -408,8 +403,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			@Override
 			public void onLoadingCancelled(String imageUri, View view) {
 				// TODO Auto-generated method stub
-				holder.txt_loading.setVisibility(View.GONE);
-				holder.progress_loading.setVisibility(View.GONE);
+				
 				holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
 				if((mProgress.isShowing())&&(mProgress!=null)){
 					mProgress.dismiss();
@@ -418,13 +412,12 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		};
 		Log.i("x "+position, "null  "+list.get(position).getArticle_photo());
 		if((list.get(position).getArticle_photo()==null)||(list.get(position).getArticle_photo().equals(""))){
-			holder.txt_loading.setVisibility(View.GONE);
-			holder.progress_loading.setVisibility(View.GONE);
-			holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
+			holder.img_article_pro_pic.setVisibility(View.GONE);
+			//holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
 		}
 		else{
-			holder.txt_loading.setVisibility(View.VISIBLE);
-			holder.progress_loading.setVisibility(View.VISIBLE);
+			holder.img_article_pro_pic.setVisibility(View.VISIBLE);
+
 			imageLoader.loadImage(list.get(position).getArticle_photo(),imll);
 
 
@@ -649,6 +642,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				String description=jobj.getString("description");
 				if(status.equals("success")){
 					stateoflike=true;
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_like_success), 
+							Toast.LENGTH_SHORT).show();
 					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
 					holder2.img_like.setBackgroundResource(R.drawable.unlike);
 					list.get(index).setUserAlreadylikeThis("Yes");

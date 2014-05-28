@@ -13,7 +13,7 @@
             android:padding="8dp"
             android:gravity="right|center_vertical"
             android:text="Lipberry"
-           	android:textColor="#7dba1e"
+           	android:textColor="#60AC39"
             android:textSize="24dp" />
    
 </RelativeLayout>

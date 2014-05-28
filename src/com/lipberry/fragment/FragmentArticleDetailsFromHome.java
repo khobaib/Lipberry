@@ -154,31 +154,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		listView.requestLayout();
 
 	}
-	//	public static void setListViewHeightBasedOnChildren(ListView listView) {
-	//		ListAdapter listAdapter = listView.getAdapter();
-	//		if (listAdapter == null) {
-	//			return;
-	//		}
-	//
-	//		int totalHeight = listView.getPaddingTop() + listView.getPaddingBottom();
-	//		Log.e("totalHeight pad", ""+totalHeight);
-	//		for (int i = 0; i < listAdapter.getCount(); i++) {
-	//			View listItem = listAdapter.getView(i, null, listView);
-	//			if (listItem instanceof ViewGroup) {
-	//				listItem.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-	//			}
-	//			listItem.measure(0, 0);
-	//			totalHeight += listItem.getMeasuredHeight();
-	//			Log.e("totalHeight view", ""+listItem.getMeasuredHeight());
-	//
-	//		}
-	//
-	//		ViewGroup.LayoutParams params = listView.getLayoutParams();
-	//		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-	//		listView.setLayoutParams(params);
-	//		Log.e("totalHeight", ""+(listView.getDividerHeight() * (listAdapter.getCount() - 1))+"  "+params.height);
-	//		
-	//	}
+
 
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView,int height) {
 		ListAdapter listAdapter = listView.getAdapter();
@@ -207,7 +183,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			Log.e("comment", "10");
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
-			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
+			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id(),0,this,null,null);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
 			list_comment.requestFocus();
@@ -369,7 +345,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			try {
 				String status=jobj.getString("status");
 				if(status.equals("success")){
-					new AsyncTaskGetComments().execute();
+					new AsyncTaskGetComments(0).execute();
 					articledetails=ArticleDetails.getArticleDetails(jobj);
 					if(articledetails.getFollow_flag()!=null){
 						if(!articledetails.getFollow_flag().equals("Not a follower")){
@@ -647,10 +623,15 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				});
 			}
 		};
+		
+		
+		
+		
 		if((articledetails.getPhoto().equals("")||(articledetails.getPhoto()==null))){
-
+			img_article.setVisibility(View.GONE);
 		}
 		else{
+			img_article.setVisibility(View.VISIBLE);
 
 			imageLoader.loadImage(articledetails.getPhoto(), imll);
 		}
@@ -674,6 +655,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			if(followstate){
 				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
 				btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_already_following));
+
 			}
 			else{
 				btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
@@ -828,7 +811,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
 				if(status.equals("success")){
-					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_like_success), 
+							Toast.LENGTH_SHORT).show();
 					img_like.setBackgroundResource(R.drawable.unlike);
 					article.setUserAlreadylikeThis("Yes");
 				}
@@ -1105,7 +1089,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
 
-							new AsyncTaskGetComments().execute();
+							new AsyncTaskGetComments(1).execute();
 							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 						}
 						else{
@@ -1129,6 +1113,10 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	}
 
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+		int a;
+		public AsyncTaskGetComments(int a){
+			this.a=a;;
+		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
@@ -1181,7 +1169,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					Log.e("comment", "7");
 					if(commentslist.getCommentslist().size()>0){
 						Log.e("comment", "8");
-						setmemberlist();
+						if(a==0){
+							setmemberlist();
+						}
+						else{
+							adapter1.notifyDataSetChanged();
+						}
+						
 					}
 
 				}
@@ -1208,7 +1202,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
+			
 			super.onPostExecute(result);
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+			}
 			Log.e("error", result.getjObj().toString());
 			JSONObject jobj=result.getjObj();
 			try {
@@ -1226,7 +1226,18 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	
 	
 
-	
+	public void callback(){
+		if(Constants.isOnline(getActivity())){
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetComments(1).execute();
+		}
+		else{
+			
+			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
+					Toast.LENGTH_SHORT).show();
+		}
+	}
 
 
 }

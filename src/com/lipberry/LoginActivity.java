@@ -24,6 +24,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -101,6 +103,41 @@ public class LoginActivity extends Activity {
 		        return false;
 		    }
 		});
+		e_uname.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_uname.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+
+		e_pass.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_pass.setBackgroundResource(R.drawable.lbackgound_bottombar);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
 
 
 	}
@@ -116,8 +153,10 @@ public class LoginActivity extends Activity {
 			else{
 				if  (!Constants.namecheck(username)) {
 					 
+	            	e_uname.setBackgroundResource(R.drawable.rounded_text_nofield);
 
 					if(username.length()<3){
+						
 						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
 								Toast.LENGTH_SHORT).show();
 					}
@@ -132,8 +171,10 @@ public class LoginActivity extends Activity {
 								10000).show();
 					}
 				}
-
+				
 				else if(password.trim().equals("")){
+	            	e_pass.setBackgroundResource(R.drawable.rounded_txt_forgotpass);
+
 					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
 							10000).show();
 				}
@@ -158,6 +199,23 @@ public class LoginActivity extends Activity {
 		//et_email,bt_enter,email
 		bt_enter=(Button) findViewById(R.id.bt_enter);
 		et_email=(EditText) findViewById(R.id.et_email);
+		et_email.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	et_email.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
 		bt_enter.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -165,6 +223,8 @@ public class LoginActivity extends Activity {
 				email=et_email.getText().toString();
 				if(Constants.isOnline(LoginActivity.this)){
 					if  (!Constants.isValidEmail(email)) {
+		            	et_email.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 						Toast.makeText(LoginActivity.this,  getResources().getString(R.string.txt_please_enter_email),
 								10000).show();
 					}

@@ -42,10 +42,10 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="2dp"
-                        android:background="@color/gray70"
+            			android:background="@drawable/image_boarder"
                         android:padding="1.5dp"
                         android:scaleType="fitXY"
-                        android:src="@drawable/ic_launcher" />
+                        />
 
                     <TextView
                         android:id="@+id/text_user_name"
@@ -74,6 +74,7 @@
                         android:layout_toRightOf="@+id/btn_follow_her"
                         android:gravity="right"
                         android:textColor="#5D933D"
+                        
                          android:singleLine="true"
                         android:textSize="18dp" />
 

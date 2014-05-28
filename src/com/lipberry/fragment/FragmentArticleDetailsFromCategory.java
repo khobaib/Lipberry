@@ -179,7 +179,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		 if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
-			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id());
+			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id(),0,null,this,null);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
 			list_comment.requestFocus();
@@ -320,7 +320,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				String status=jobj.getString("status");
 				if(status.equals("success")){
 					articledetails=ArticleDetails.getArticleDetails(jobj);
-					new AsyncTaskGetComments().execute();
+					new AsyncTaskGetComments(0).execute();
 					articledetails=ArticleDetails.getArticleDetails(jobj);
 					if(articledetails.getFollow_flag()!=null){
 						if(!articledetails.getFollow_flag().equals("Not a follower")){
@@ -597,7 +597,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				});
 			}
 		};
-		if((articledetails.getPhoto()!=null)||(!articledetails.getPhoto().equals(""))){
+		if((articledetails.getPhoto().equals("")||(articledetails.getPhoto()==null))){
+			img_article.setVisibility(View.GONE);
+		}
+		else{
+			img_article.setVisibility(View.VISIBLE);
+
 			imageLoader.loadImage(articledetails.getPhoto(), imll);
 		}
 
@@ -622,6 +627,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			if(followstate){
 				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_following));
 				btn_follow_her.setBackgroundResource(R.drawable.lfollowher_button);
+				btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_already_following));
 			}
 			else{
 				btn_follow_her.setBackgroundResource(R.drawable.lbtn_follow);
@@ -722,6 +728,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		else
 			return myView.getBottom() + getRelativeBottom((View) myView.getParent());
 	}
+//05-27 21:56:43.740: I/rtes(12176): {"status":"failure","description":"Invalid session id"}
 
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -795,7 +802,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
 				if(status.equals("success")){
-					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_like_success), 
+							Toast.LENGTH_SHORT).show();
 					img_like.setBackgroundResource(R.drawable.unlike);
 					article.setUserAlreadylikeThis("Yes");
 				}
@@ -1007,7 +1015,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 							getString(R.string.txt_comments));
 					if(Constants.isOnline(getActivity())){
 
-						new AsyncTaskGetComments().execute();
+						new AsyncTaskGetComments(1).execute();
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 					}
 					else{
@@ -1030,6 +1038,10 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		}
 	}
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
+		int a;
+		public AsyncTaskGetComments(int a){
+			this.a=a;;
+		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
@@ -1076,12 +1088,19 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				if(status.equals("success")){
 					commentslist=Commentslist.getCommentsListInstance(jobj);
 					if(commentslist.getCommentslist().size()>0){
-						setmemberlist();
+						Log.e("comment", "8");
+						if(a==0){
+							setmemberlist();
+						}
+						else{
+							adapter1.notifyDataSetChanged();
+						}
+						
 					}
 				}
 				else{
 					String description=jobj.getString("message");
-					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+					//Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
 			}
@@ -1145,6 +1164,19 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				}
 			} catch (JSONException e) {
 			}
+		}
+	}
+	
+	public void callback(){
+		if(Constants.isOnline(getActivity())){
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetComments(1).execute();
+		}
+		else{
+			
+			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 }

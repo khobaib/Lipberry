@@ -12,12 +12,16 @@ import org.json.JSONObject;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.fragment.CategoryTabFragment;
+import com.lipberry.fragment.FragmentArticleDetailsFromCategory;
+import com.lipberry.fragment.FragmentArticleDetailsFromHome;
+import com.lipberry.fragment.FragmentArticleDetailsFromInteraction;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.Comments;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
@@ -30,6 +34,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,10 +81,20 @@ public class CustomAdapterForComment extends BaseAdapter {
 	int index=0;
 	HomeTabFragment parent;
 	CategoryTabFragment parent3;
+	FragmentArticleDetailsFromCategory lisenar2;
+	FragmentArticleDetailsFromHome lisenar1;
+	FragmentArticleDetailsFromInteraction lisenar3;
+	int from;
 	public CustomAdapterForComment(Activity activity,
-			ArrayList<Comments>  list,String url) {
+			ArrayList<Comments> list,String url,int form,FragmentArticleDetailsFromHome lisenar1,
+			FragmentArticleDetailsFromCategory lisenar2,FragmentArticleDetailsFromInteraction lisenar3) {
 
 		super();
+		this.lisenar1=lisenar1;
+		this.lisenar2=lisenar2;
+		this.lisenar3=lisenar3;
+
+		this.from=from;
 		this.url=url;
 		appInstance = (LipberryApplication) activity.getApplication();
 		this.list=list;
@@ -196,10 +211,20 @@ public class CustomAdapterForComment extends BaseAdapter {
 				showCustomDialog();
 			}
 		});
+		if(from==1){
+			holder.txt_title.setTextColor(Color.parseColor(""));
+		}
+		else{
+			
+		}
 		holder.txt_title.setText(Html.fromHtml(list.get(position).getComment()));
 		ShowHtmlText showtext=new ShowHtmlText(holder.txt_title, activity);
 		showtext.updateImages(true,list.get(position).getComment());
 		holder.txt_name.setText(list.get(position).getMember_name());
+		
+			holder.txt_name.setTextColor(Color.parseColor("#777777"));
+			holder.txt_title.setTextColor(Color.parseColor("#777777"));
+		
 		if(list.get(position).getMember_avatar()!=null){
 			imageLoader.displayImage(list.get(position).getMember_avatar(), holder.img_avatar);
 		}
@@ -245,7 +270,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 					Log.e("imageview", "1 "+this.imgview_like);
 					list.get(index).setlikeommentFlag(true);
 					notifyDataSetChanged();
-					Toast.makeText(activity,description, 10000).show();
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_suc_like_comments), 10000).show();
 				}
 				else{
 					Toast.makeText(activity,description, 10000).show();
@@ -360,7 +385,7 @@ public class CustomAdapterForComment extends BaseAdapter {
 	}
 
 	public void showCustomDialog(){
-		final Dialog dialog=new Dialog(activity);
+		final Dialog dialog=new Dialog(activity,R.style.CustomDialog);
 		dialog.setContentView(R.layout.custom_dilog);
 		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
@@ -403,7 +428,9 @@ public class CustomAdapterForComment extends BaseAdapter {
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("comment", comment);
+				byte[] ba = comment.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("comment", base64Str);
 				String loginData = loginObj.toString();
 				String url =list.get(index).getReplyon_url();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST,
@@ -475,6 +502,17 @@ public class CustomAdapterForComment extends BaseAdapter {
 						list.clear();
 						list=commentslist.getCommentslist();
 						notifyDataSetChanged();
+						if(lisenar1!=null){
+							lisenar1.callback();
+						}
+						else if(lisenar2!=null){
+							lisenar2.callback();
+
+						}
+						else if(lisenar3!=null){
+							lisenar3.callback();
+
+						}
 					}
 				}
 				else{

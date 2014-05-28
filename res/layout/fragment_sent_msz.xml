@@ -10,7 +10,7 @@
     <ListView
         android:id="@+id/listviewforinbbox"
         android:layout_width="match_parent"
-        android:dividerHeight="1.5dp"
+        	android:dividerHeight="2dp"
         android:divider="@android:color/darker_gray"
         android:layout_height="wrap_content" >
     </ListView>

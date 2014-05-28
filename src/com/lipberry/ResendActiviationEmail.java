@@ -27,6 +27,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -60,6 +62,40 @@ public class ResendActiviationEmail extends Activity {
 		et_uname=(EditText) findViewById(R.id.et_uname);
 		et_pass=(EditText) findViewById(R.id.et_pass);
 		bt_enter=(Button) findViewById(R.id.bt_enter);
+		et_uname.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	et_uname.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+		et_pass.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	et_pass.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
 		bt_enter.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -67,7 +103,15 @@ public class ResendActiviationEmail extends Activity {
 				// TODO Auto-generated method stub
 				username=et_uname.getText().toString();
 				password=et_pass.getText().toString();
-				if(Constants.isOnline(ResendActiviationEmail.this)){
+				if(username.trim().equals("")){
+					et_uname.setBackgroundResource(R.drawable.rounded_text_nofield);
+
+				}
+				else if(password.trim().equals("")){
+	            	et_pass.setBackgroundResource(R.drawable.rounded_text_nofield);
+
+				}
+				else if(Constants.isOnline(ResendActiviationEmail.this)){
 					
 						pd=ProgressDialog.show(ResendActiviationEmail.this, getResources().getString(R.string.app_name_arabic),
 								getResources().getString(R.string.txt_loading), true);

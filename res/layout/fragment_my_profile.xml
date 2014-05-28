@@ -29,7 +29,8 @@
                     android:layout_marginLeft="22dp"
                     android:layout_marginRight="22dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/noimage" />
+            			android:background="@drawable/image_boarder"
+                    />
 
                 <TextView
                     android:id="@+id/txt_name"

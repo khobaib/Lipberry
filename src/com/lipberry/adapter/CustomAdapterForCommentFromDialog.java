@@ -30,6 +30,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -76,6 +77,8 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 	int index=0;
 	HomeTabFragment parent;
 	CategoryTabFragment parent3;
+	int form;
+	
 	public CustomAdapterForCommentFromDialog(Activity activity,
 			ArrayList<Comments>  list,String url,HomeTabFragment parent, CategoryTabFragment parent3) {
 
@@ -205,6 +208,8 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		if(list.get(position).getMember_avatar()!=null){
 			imageLoader.displayImage(list.get(position).getMember_avatar(), holder.img_avatar);
 		}
+		holder.txt_name.setTextColor(Color.parseColor("#60AC39"));
+		holder.txt_title.setTextColor(Color.parseColor("#60AC39"));
 		return convertView;
 	}
 
@@ -247,7 +252,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 					Log.e("imageview", "1 "+this.imgview_like);
 					list.get(index).setlikeommentFlag(true);
 					notifyDataSetChanged();
-					Toast.makeText(activity,description, 10000).show();
+					Toast.makeText(activity,activity.getResources().getString(R.string.txt_suc_like_comments), 10000).show();
 				}
 				else{
 					Toast.makeText(activity,description, 10000).show();

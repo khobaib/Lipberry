@@ -118,13 +118,13 @@ public class CustomAdapterMessage extends BaseAdapter {
 		if(list.get(position).getFrom_id().equals(appInstance.getUserCred().getId())){
 			holder.iv_pic.setVisibility(View.GONE);
 			holder.iv_pic_own.setVisibility(View.VISIBLE);
-			holder.tv_conv_desc.setBackgroundResource(R.drawable.blue);
+			holder.tv_conv_desc.setBackgroundResource(R.drawable.rounded_text_gren);
 			imageLoader.displayImage(list.get(0).getFrom_avatar(),holder.iv_pic_own);
 		}
 		else{
 			holder.iv_pic_own.setVisibility(View.GONE);
 			holder.iv_pic.setVisibility(View.VISIBLE);
-			holder.tv_conv_desc.setBackgroundResource(R.drawable.yellow);
+			holder.tv_conv_desc.setBackgroundResource(R.drawable.rounded_text_pink);
 			imageLoader.displayImage(list.get(0).getTo_avatar(), holder.iv_pic);
 		}
 		

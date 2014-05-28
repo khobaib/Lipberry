@@ -63,9 +63,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view1"
-        android:layout_marginLeft="5dp"
+      
         android:layout_toLeftOf="@+id/iv_pic_own"
         android:layout_toRightOf="@+id/iv_pic"
+        android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+        
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="4"

@@ -12,7 +12,9 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -238,11 +240,13 @@ public class FragmentMemberFromCategories extends Fragment {
 		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				webview_member.setVisibility(View.VISIBLE);
-				WebSettings webSettings = webview_member.getSettings();
-				webSettings.setJavaScriptEnabled(true);
-				webview_member.setWebViewClient(new Callback());
-				webview_member.loadUrl(singleMember.getSiteurl());
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
+				startActivity(browserIntent);
+//				webview_member.setVisibility(View.VISIBLE);
+//				WebSettings webSettings = webview_member.getSettings();
+//				webSettings.setJavaScriptEnabled(true);
+//				webview_member.setWebViewClient(new Callback());
+//				webview_member.loadUrl(singleMember.getSiteurl());
 			}
 		});
 		

@@ -81,7 +81,8 @@ public class FragmentProfileSetting extends Fragment {
 	int stateofcalloncreate=0;
 	DisplayImageOptions defaultOptions;
 	ArrayAdapter<String> adapter ;
-	EditText e_nickname,et_new_pass,et_email,et_site_url,et_brief;
+	EditText e_nickname,et_new_pass,et_site_url,et_brief;
+	TextView et_email,et_email_msz;
 	Button btn_change_photo;
 	SingleMember singleMember;
 	String  nickname,email,country_id="",city_id="",brief,password,siteurl;
@@ -131,10 +132,12 @@ public class FragmentProfileSetting extends Fragment {
 		bt_update_profile=(Button) v.findViewById(R.id.bt_update_profile);
 		e_nickname=(EditText) v.findViewById(R.id.e_nickname);
 		et_new_pass=(EditText) v.findViewById(R.id.et_new_pass);
-		et_email=(EditText) v.findViewById(R.id.et_email);
+		et_email=(TextView) v.findViewById(R.id.et_email);
+		et_email_msz=(TextView) v.findViewById(R.id.et_email_msz);
+
 		et_site_url=(EditText) v.findViewById(R.id.et_site_url);
 		et_brief=(EditText) v.findViewById(R.id.et_brief);
-		
+		et_email_msz.setTypeface(Utility.getTypeface2(getActivity()));
 		t_city.setTypeface(Utility.getTypeface2(getActivity()));
 		e_nickname.setTypeface(Utility.getTypeface2(getActivity()));
 		et_new_pass.setTypeface(Utility.getTypeface2(getActivity()));
@@ -169,7 +172,7 @@ public class FragmentProfileSetting extends Fragment {
 				nickname=e_nickname.getText().toString();
 				password=et_new_pass.getText().toString();
 				brief=et_brief.getText().toString();
-				email=et_email.getText().toString();
+				
 				siteurl=et_site_url.getText().toString();
 				if((!nickname.equals(""))||(!password.equals(""))||(!brief.equals(""))||(!email.equals(""))||(!siteurl.equals(""))||
 						(selectedcityposition!=-1)||(selectedcountryposition!=-1)){
@@ -274,9 +277,9 @@ public class FragmentProfileSetting extends Fragment {
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("brief", base64Str);
 				}
-				if(Constants.isValidEmail(email)){
-					loginObj.put("email", email);
-				}
+//				if(Constants.isValidEmail(email)){
+//					loginObj.put("email", email);
+//				}
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"settings/profilesettings/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,

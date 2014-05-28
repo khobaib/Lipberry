@@ -24,7 +24,8 @@
             android:layout_marginTop="8dp"
             android:padding="2dp"
             android:scaleType="fitXY"
-            android:background="@android:color/darker_gray" />
+            android:background="@drawable/image_boarder"
+            />
 
         <Button
             android:id="@+id/btn_follow_her"

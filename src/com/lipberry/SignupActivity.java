@@ -20,7 +20,6 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -28,9 +27,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -180,7 +182,112 @@ public class SignupActivity extends Activity {
 				}
 			}
 		});
+		configEdittxt();
+	}
+	
+	public void configEdittxt(){
+		e_password.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+    			e_password.setBackgroundResource(R.drawable.rounded_edittext);
 
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+		e_email.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_email.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+		e_username.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_username.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+		e_name.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_name.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+		e_nickname.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_nickname.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
+		e_confirmpass.addTextChangedListener(new TextWatcher() {          
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+            	e_confirmpass.setBackgroundResource(R.drawable.rounded_edittext);
+
+            }                       
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                    int after) {
+                // TODO Auto-generated method stub                          
+            }                       
+            @Override
+            public void afterTextChanged(Editable s) {
+                // TODO Auto-generated method stub                          
+
+            }
+        });
 	}
 
 	private void signup(){
@@ -197,9 +304,11 @@ public class SignupActivity extends Activity {
 			if(e_username.length()<3){
 				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
 						Toast.LENGTH_SHORT).show();
+				e_username.setBackgroundResource(R.drawable.rounded_text_nofield);
 			}
 
 			else if(e_username.length()>10){
+				e_username.setBackgroundResource(R.drawable.rounded_text_nofield);
 				Toast.makeText(SignupActivity.this,  getResources().getString(R.string.txt_uname_cant_more),
 						Toast.LENGTH_SHORT).show();
 			}
@@ -210,54 +319,72 @@ public class SignupActivity extends Activity {
 
 		}
 		else if  (name.trim().equals("")) {
+			e_name.setBackgroundResource(R.drawable.rounded_text_nofield);
 
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_name),Toast.LENGTH_SHORT).show();
 		}
 		else if  (nickname.trim().equals("")) {
+			e_nickname.setBackgroundResource(R.drawable.rounded_text_nofield);
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_nicknamename),Toast.LENGTH_SHORT).show();
 		}
 
 		else if  ((nickname.length()<3)||(nickname.length()>10)) {
 			if(nickname.length()<3){
+				e_nickname.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_condition_nickname),
 						Toast.LENGTH_SHORT).show();
 			}
 
 			else if(nickname.length()>10){
+				e_nickname.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 				Toast.makeText(SignupActivity.this,  getResources().getString(R.string.txt_condition_nicknamemore),
 						Toast.LENGTH_SHORT).show();
 			}
 		}
 		else if  (!Constants.isValidEmail(email)) {
+			e_email.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_email),
 					Toast.LENGTH_SHORT).show();
 		}
 		else if  (password.trim().equals("")) {
+			e_password.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_password),
 					Toast.LENGTH_SHORT).show();
 		}
 		else if  (confirmpass.trim().equals("")) {
+			e_confirmpass.setBackgroundResource(R.drawable.rounded_text_nofield);
 
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_confirm),
 					Toast.LENGTH_SHORT).show();
 		}
 		else if  (selectedcountryposition==-1) {
+			s_country.setBackgroundResource(R.drawable.rounded_text_nofield);
 
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_select_country),
 					Toast.LENGTH_SHORT).show();
 		}
 		else if  (selectedcityposition==-1) {
-			
+			s_city.setBackgroundResource(R.drawable.rounded_text_nofield);
+			t_city.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_select_city),
 					Toast.LENGTH_SHORT).show();
 		}
 		else if  (selectedknowposition==-1) {
+			s_kowaboutus.setBackgroundResource(R.drawable.rounded_text_nofield);
 
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_select_know_us),
 					Toast.LENGTH_SHORT).show();
 		}
 
 		else if (!(password.equalsIgnoreCase(confirmpass))) {
+			e_password.setBackgroundResource(R.drawable.rounded_text_nofield);
+			e_confirmpass.setBackgroundResource(R.drawable.rounded_text_nofield);
+
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_match_pass),
 					Toast.LENGTH_SHORT).show();
 		}
@@ -289,6 +416,8 @@ public class SignupActivity extends Activity {
 				selectedcountryposition=position-1;
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
+				s_country.setBackgroundResource(R.drawable.rounded_edittext);
+
 			}
 
 			@Override
@@ -312,6 +441,8 @@ public class SignupActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
 				selectedcityposition=position-1;
+				s_city.setBackgroundResource(R.drawable.rounded_edittext);
+				t_city.setBackgroundResource(R.drawable.rounded_edittext);
 			}
 
 			@Override
@@ -337,6 +468,8 @@ public class SignupActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position,
 					long arg3){
 				selectedknowposition=position-1;
+				s_kowaboutus.setBackgroundResource(R.drawable.rounded_edittext);
+
 			}
 
 			@Override
@@ -456,7 +589,6 @@ public class SignupActivity extends Activity {
 	}
 
 	public void loadcountrylist(String result){
-
 		JSONObject json_data;
 		try {
 			JSONArray jsonArray = new JSONArray(result);

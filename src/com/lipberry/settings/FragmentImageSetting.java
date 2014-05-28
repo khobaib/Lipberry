@@ -223,9 +223,14 @@ public class FragmentImageSetting extends Fragment {
 			try {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
-				Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 				if(status.equals("success")){
 					parent.onBackPressed();
+					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_upload_success), Toast.LENGTH_SHORT).show();
+
+				}
+				else{
+					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+
 				}
 				
 			} catch (JSONException e) {
