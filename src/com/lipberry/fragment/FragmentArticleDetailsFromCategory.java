@@ -53,7 +53,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
-
 import com.lipberry.HomeActivity;
 import com.lipberry.LoginActivity;
 import com.lipberry.R;
@@ -88,7 +87,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	ListView lst_imag;
 	int state=0;
 	boolean followstate=false;
-	CategoryTabFragment parent;
+	public CategoryTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
 	ImageView img_pro_pic,img_article,img_like,image_comments,play_vedio,image_share;
 	Button btn_photo_album,btn_follow_her,back,btn_report;
@@ -397,14 +396,13 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				String shareBody = articledetails.getShort_url();
-				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, articledetails.getTitle());
+				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url()+"\n"+
+				getActivity().getResources().getString(R.string.txt_thanks);
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-				startActivity(Intent.createChooser(sharingIntent, "Share via"));
-
+				startActivity(Intent.createChooser(sharingIntent,getActivity().getResources().getString(R.string.
+						txt_shared_via)));
 			}
 		} );
 		txt_like.setOnClickListener(new OnClickListener() {
@@ -444,10 +442,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		});
 
-		text_topic_text.setText(Html.fromHtml(articledetails.getBody()));
+		String text=articledetails.getBody();
+		text=text.replaceAll("\n","<br />");
+		text_topic_text.setText(Html.fromHtml(text));
 		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
-		showtext.updateImages(true,articledetails.getBody());
+		showtext.updateImages(true,text);
 		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getMember_username());
 
@@ -1015,7 +1015,13 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 							getString(R.string.txt_comments));
 					if(Constants.isOnline(getActivity())){
 
-						new AsyncTaskGetComments(1).execute();
+						if(commentslist!=null){
+							new AsyncTaskGetComments(1).execute();
+						}
+						else{
+							new AsyncTaskGetComments(0).execute();
+
+						}
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 					}
 					else{
@@ -1093,7 +1099,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 							setmemberlist();
 						}
 						else{
-							adapter1.notifyDataSetChanged();
+							setmemberlist();
 						}
 						
 					}
@@ -1171,7 +1177,13 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetComments(1).execute();
+			if(commentslist!=null){
+				new AsyncTaskGetComments(1).execute();
+			}
+			else{
+				new AsyncTaskGetComments(0).execute();
+
+			}
 		}
 		else{
 			

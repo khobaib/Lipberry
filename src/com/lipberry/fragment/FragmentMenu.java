@@ -14,7 +14,12 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -60,16 +65,16 @@ public class FragmentMenu extends Fragment {
 				container, false);
 		list_menu_item=(ListView) v.findViewById(R.id.list_menu_item);
 		menuarray = getActivity().getResources().getStringArray(R.array.menuarray);
-		
+
 		int layout=R.layout.custom_textview;
 		ArrayList<String>list=new ArrayList<String>(Arrays.asList(menuarray));
-	
+
 		CustomAdapterForMenu adapter1=new CustomAdapterForMenu(getActivity(), list);
-//		ArrayAdapter adapter = new ArrayAdapter<String>(
-//				getActivity(),
-//				R.layout.custom_textview,
-//				menuarray);
-//	
+		//		ArrayAdapter adapter = new ArrayAdapter<String>(
+		//				getActivity(),
+		//				R.layout.custom_textview,
+		//				menuarray);
+		//	
 		list_menu_item.setAdapter(adapter1);
 		setlistviewonitemclick();
 		if(	Constants.MESSAGESETTINGSTATE){
@@ -100,7 +105,7 @@ public class FragmentMenu extends Fragment {
 					long arg3) {
 				switch (position) {
 				case 0:
-						((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 					break;
 				case 1:
 					parent.startFragmentSetting();
@@ -115,27 +120,28 @@ public class FragmentMenu extends Fragment {
 					parent.startFragmentMyProfile();
 					break;
 				case 5:
-					
-					Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-					emailIntent.setType("jpeg/image");
-					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
-	                new String[] { "" });
-				
-					
-					emailIntent.setType("text/plain");
-					emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
-				
-					//emailIntent.putExtra(Intent.EXTRA_TEXT, info.getText().toString());
-					startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-					
-					
-//					Intent intent = new Intent(Intent.ACTION_SEND);
-//					intent.setType("text/html");
-//					intent.putExtra(Intent.EXTRA_EMAIL, "contact@lipberry.com");
-//					intent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
-//					intent.putExtra(Intent.EXTRA_TEXT, "I'm email body. Email test");
+					onShareClick() ;
+
+//					Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+//					emailIntent.setType("jpeg/image");
+//					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+//							new String[] { "" });
 //
-//					startActivity(Intent.createChooser(intent, "Send Email"));
+//
+//					emailIntent.setType("text/plain");
+//					emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
+//
+//					//emailIntent.putExtra(Intent.EXTRA_TEXT, info.getText().toString());
+//					startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+
+					//					Intent intent = new Intent(Intent.ACTION_SEND);
+					//					intent.setType("text/html");
+					//					intent.putExtra(Intent.EXTRA_EMAIL, "contact@lipberry.com");
+					//					intent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
+					//					intent.putExtra(Intent.EXTRA_TEXT, "I'm email body. Email test");
+					//
+					//					startActivity(Intent.createChooser(intent, "Send Email"));
 					//parent.startFragmentContactUs();
 					break;
 
@@ -145,5 +151,46 @@ public class FragmentMenu extends Fragment {
 			}
 		});
 	}
+
+	public void onShareClick() {
+		Resources resources = getResources();
+		Intent emailIntent = new Intent();
+		emailIntent.setAction(Intent.ACTION_SEND);
+		emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
+		emailIntent.setType("message/rfc822");
+		PackageManager pm = getActivity().getPackageManager();
+		Intent sendIntent = new Intent(Intent.ACTION_SEND);     
+		//sendIntent.setType("text/plain");
+		sendIntent.setType("message/rfc822");
+
+		Intent openInChooser = Intent.createChooser(emailIntent, getActivity().getResources().getString(R.string.txt_send_mail));
+
+		List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+		List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();        
+		for (int i = 0; i < resInfo.size(); i++) {
+			// Extract the label, append it, and repackage it in a LabeledIntent
+			ResolveInfo ri = resInfo.get(i);
+			String packageName = ri.activityInfo.packageName;
+			if(packageName.contains("android.email")) {
+				emailIntent.setPackage(packageName);
+			} 
+//			else if( packageName.contains("android.gm")) {
+//				Intent intent = new Intent();
+//				intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+//				intent.setAction(Intent.ACTION_SEND);
+//				intent.setType("text/plain");
+//			
+//
+//				intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.icon));
+//			}
+		}
+
+		// convert intentList to array
+		LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
+
+		openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+		startActivity(openInChooser);       
+	}
+
 }
 

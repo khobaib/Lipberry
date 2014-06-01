@@ -165,6 +165,9 @@ public class FragmentWriteTopic extends Fragment {
 					filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
 					bitmap=BitmapFactory.decodeFile(filepath);
 				}
+//				body= txt_text.getText().toString();
+//				body=body.replaceAll("\n", "<br/>");
+		
 
 				startwritetopic();
 			}
@@ -360,7 +363,6 @@ public class FragmentWriteTopic extends Fragment {
 	public void startwritetopic(){
 		//String title,category_id,category_prefix,body,photo,video;
 		title=txt_topic.getText().toString();
-		body=txt_text.getText().toString();
 		body=txt_text.getText().toString();
 		video=txt_tag.getText().toString();
 		if(title.trim().equals("")){

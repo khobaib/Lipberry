@@ -1,6 +1,7 @@
 
 package com.lipberry.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,16 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -94,7 +101,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	ListView lst_imag;
 	CustomAdapterForComment adapter1;
 	boolean followstate=false;
-	HomeTabFragment parent;
+	public HomeTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
 	ImageView img_pro_pic,img_article,img_like,image_comments,image_share;
 	Button btn_photo_album,btn_follow_her,visit,btn_report;
@@ -406,6 +413,81 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			return (false);
 		}
 	}
+	private void initShareIntent(String type) {
+	    boolean found = false;
+	    Intent share = new Intent(android.content.Intent.ACTION_SEND);
+	    share.setType("image/jpeg");
+
+	    // gets the list of intents that can be loaded.
+	    List<ResolveInfo> resInfo = getActivity().getPackageManager().queryIntentActivities(share, 0);
+	    if (!resInfo.isEmpty()){
+	        for (ResolveInfo info : resInfo) {
+	            if (info.activityInfo.packageName.toLowerCase().contains(type) || 
+	                    info.activityInfo.name.toLowerCase().contains(type) ) {
+	                share.putExtra(Intent.EXTRA_SUBJECT,  "subject");
+	                share.putExtra(Intent.EXTRA_TEXT,     "your text");
+	             //   share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(myPath)) ); // Optional, just if you wanna share an image.
+	                share.setPackage(info.activityInfo.packageName);
+	                found = true;
+	                break;
+	            }
+	        }
+	        if (!found)
+	            return;
+
+	        startActivity(Intent.createChooser(share, "Select"));
+	    }
+	}
+	
+	public void onShareClick() {
+	    Resources resources = getResources();
+
+	    Intent emailIntent = new Intent();
+	    emailIntent.setAction(Intent.ACTION_SEND);
+	    emailIntent.putExtra(Intent.EXTRA_TEXT, "Html.fromHtml(resources.getString(R.string.share_email_native");
+	    emailIntent.putExtra(Intent.EXTRA_SUBJECT," resources.getString(R.string.share_email_subject");
+	    emailIntent.setType("message/rfc822");
+	    PackageManager pm = getActivity().getPackageManager();
+	    Intent sendIntent = new Intent(Intent.ACTION_SEND);     
+	    sendIntent.setType("text/plain");
+	    Intent openInChooser = Intent.createChooser(emailIntent, "resources.getString(R.string.share_chooser_text");
+	    List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+	    List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();        
+	    for (int i = 0; i < resInfo.size(); i++) {
+	        // Extract the label, append it, and repackage it in a LabeledIntent
+	        ResolveInfo ri = resInfo.get(i);
+	        String packageName = ri.activityInfo.packageName;
+	        if(packageName.contains("android.email")) {
+	            emailIntent.setPackage(packageName);
+	        } else if(packageName.contains("twitter") || packageName.contains("facebook") || packageName.contains("mms") || packageName.contains("android.gm")) {
+	            Intent intent = new Intent();
+	            intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+	            intent.setAction(Intent.ACTION_SEND);
+	            intent.setType("text/plain");
+	            if(packageName.contains("twitter")) {
+	                intent.putExtra(Intent.EXTRA_TEXT, "R.string.share_twitter");
+	            } else if(packageName.contains("facebook")) {
+	                // Warning: Facebook IGNORES our text. They say "These fields are intended for users to express themselves. Pre-filling these fields erodes the authenticity of the user voice."
+	                // One workaround is to use the Facebook SDK to post, but that doesn't allow the user to choose how they want to share. We can also make a custom landing page, and the link
+	                // will show the <meta content ="..."> text from that page with our link in Facebook.
+	                intent.putExtra(Intent.EXTRA_TEXT, "R.string.share_facebook");
+	            } 
+	            else if(packageName.contains("android.gm")) {
+	                intent.putExtra(Intent.EXTRA_TEXT, "R.string.share_email_gmail");
+	                intent.putExtra(Intent.EXTRA_SUBJECT, "R.string.share_email_subject");               
+	                intent.setType("message/rfc822");
+	            }
+
+	            intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.icon));
+	        }
+	    }
+
+	    // convert intentList to array
+	    LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
+
+	    openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+	    startActivity(openInChooser);       
+	}
 
 	public void setview(){
 		if(articledetails.getArticle_gallery().size()<1){
@@ -421,10 +503,11 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onClick(View v) {
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				String shareBody = articledetails.getShort_url();
-				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, articledetails.getTitle());
+				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url()+"\n"+
+				getActivity().getResources().getString(R.string.txt_thanks);
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-				startActivity(Intent.createChooser(sharingIntent, "Share via"));
+				startActivity(Intent.createChooser(sharingIntent,getActivity().getResources().getString(R.string.
+						txt_shared_via)));
 
 			}
 		} );
@@ -466,10 +549,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			btn_report.setVisibility(View.GONE);
 		}
 		//text_topic_text.setText(article.getArticle_description());
-		text_topic_text.setText(Html.fromHtml(articledetails.getBody()));
+		String text=articledetails.getBody();
+		text=text.replaceAll("\n","<br />");
+		text_topic_text.setText(Html.fromHtml(text));
 		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
-		showtext.updateImages(true,articledetails.getBody());
+		showtext.updateImages(true,text);
+		
 		text_user_name.setText(article.getMember_nickname());
 		text_date_other.setText(articledetails.getMember_username());
 
@@ -1088,8 +1174,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 						text_comment.setText(articledetails.getComment_count()+ " "+getResources().
 								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
+							if(commentslist!=null){
+								new AsyncTaskGetComments(1).execute();
+							}
+							else{
+								new AsyncTaskGetComments(0).execute();
 
-							new AsyncTaskGetComments(1).execute();
+							}
 							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 						}
 						else{
@@ -1120,7 +1211,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				int endindex;
+				int endindex=1;
 
 				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
 					endindex=Integer.parseInt(article.getComment_count())+1;
@@ -1129,6 +1220,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					endindex=20;
 				}
 
+				Log.e("endindex",endindex+"");
 
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
@@ -1173,7 +1265,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 							setmemberlist();
 						}
 						else{
-							adapter1.notifyDataSetChanged();
+							setmemberlist();
+							//adapter1.notifyDataSetChanged();
 						}
 						
 					}
@@ -1230,7 +1323,14 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetComments(1).execute();
+			if(commentslist!=null){
+				new AsyncTaskGetComments(1).execute();
+			}
+			else{
+				new AsyncTaskGetComments(0).execute();
+
+			}
+			//new AsyncTaskGetComments(1).execute();
 		}
 		else{
 			

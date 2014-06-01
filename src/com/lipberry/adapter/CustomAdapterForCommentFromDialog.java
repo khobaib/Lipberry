@@ -78,11 +78,13 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 	HomeTabFragment parent;
 	CategoryTabFragment parent3;
 	int form;
-	
+	Dialog dia;
+
 	public CustomAdapterForCommentFromDialog(Activity activity,
-			ArrayList<Comments>  list,String url,HomeTabFragment parent, CategoryTabFragment parent3) {
+			ArrayList<Comments>  list,String url,HomeTabFragment parent, CategoryTabFragment parent3,Dialog dia) {
 
 		super();
+		this.dia=dia;
 		this.parent=parent;
 		this.parent3=parent3;
 		this.url=url;
@@ -179,17 +181,17 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 			}
 		});
 		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
-					index=position;
-					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
-							activity.getResources().getString(R.string.txt_please_wait), false);
-					pd.show();
-					 new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
-				
-				
+
+				index=position;
+				pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
+						activity.getResources().getString(R.string.txt_please_wait), false);
+				pd.show();
+				new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
+
+
 			}
 		});
 
@@ -210,7 +212,40 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		}
 		holder.txt_name.setTextColor(Color.parseColor("#60AC39"));
 		holder.txt_title.setTextColor(Color.parseColor("#60AC39"));
+		holder.img_avatar.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(dia!=null){
+					dia.cancel();
+				}
+				callmemberpage( position);
+
+			}
+		});
+		holder.txt_name.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(dia!=null){
+					dia.cancel();
+				}
+				callmemberpage( position);
+			}
+		});
 		return convertView;
+	}
+	public void callmemberpage(int position){
+		if(parent!=null){
+			Constants.userid=list.get(position).getMember_id();
+			parent.startMemberFragment(0);
+		}
+		else if(parent3!=null){
+			Constants.userid=list.get(position).getMember_id();
+			parent3.startFragmentMemberFromCategories();
+		}
+
 	}
 
 	private class AsyncTaskLike extends AsyncTask<Void, Void, ServerResponse> {
@@ -310,7 +345,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 					list.get(index).setabusecomment_flag(true);
 					notifyDataSetChanged();
 				}
-				
+
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

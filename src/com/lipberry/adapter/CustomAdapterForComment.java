@@ -157,20 +157,27 @@ public class CustomAdapterForComment extends BaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-//		if(list.get(position).getabusecomment_flag()){
-//			holder.img_report_abuse.setVisibility(View.GONE);
-//		}
-//		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
+
 		if(list.get(position).getlikeommentFlag()){
 			holder.img_like.setImageResource(R.drawable.unlike);
 		}
+		holder.img_avatar.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				callmemberpage( position);
+
+			}
+		});
+		holder.txt_name.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				callmemberpage( position);
+			}
+		});
+		
 		holder.img_like.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -188,20 +195,6 @@ public class CustomAdapterForComment extends BaseAdapter {
 
 			}
 		});
-//		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {
-//				
-//					index=position;
-//					pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
-//							activity.getResources().getString(R.string.txt_please_wait), false);
-//					pd.show();
-//					 new AsyncTaskRepoertAbuse(holder.img_report_abuse).execute();
-//				
-//				
-//			}
-//		});
 
 		holder.img_comment.setOnClickListener(new OnClickListener() {
 
@@ -229,6 +222,20 @@ public class CustomAdapterForComment extends BaseAdapter {
 			imageLoader.displayImage(list.get(position).getMember_avatar(), holder.img_avatar);
 		}
 		return convertView;
+	}
+	public void callmemberpage(int position){
+		if(lisenar1!=null){
+			Constants.userid=list.get(position).getMember_id();
+			lisenar1.parent.startMemberFragment(0);
+		}
+		else if(lisenar2!=null){
+			Constants.userid=list.get(position).getMember_id();
+			lisenar2.parent.startFragmentMemberFromCategories();
+		}
+		else if(lisenar3!=null){
+			Constants.userid=list.get(position).getMember_id();
+			lisenar3.parent.startMemberFragment(0);
+		}
 	}
 
 	private class AsyncTaskLike extends AsyncTask<Void, Void, ServerResponse> {

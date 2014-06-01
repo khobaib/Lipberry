@@ -21,11 +21,14 @@
         android:cacheColorHint="@android:color/transparent"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="2dp"
-        
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         android:listSelector="@android:color/transparent"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         >
     </ListView>
-
+    
     <View
         android:id="@+id/lv_vw_btm"
         android:layout_width="fill_parent"

@@ -28,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings.Secure;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -63,10 +64,13 @@ public class Splash1Activity extends Activity {
 		txt_title.setTypeface(Utility.getTypeface2(Splash1Activity.this));
 		Utility.getDeviceWidth(Splash1Activity.this);
 
-		String android_id = Secure.getString(Splash1Activity.this.getContentResolver(),
-		                                                    Secure.ANDROID_ID); 
-		Utility.DEVICE_ID=android_id;
-		Log.e("deviceid ", android_id);
+		TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+		String a=telephonyManager.getDeviceId();                                             
+	//	05-31 16:12:25.659: E/deviceid(6864): 359255044527924
+
+		Utility.DEVICE_ID=a;
+		Log.e("deviceid ", a);
 		Handler handler=new Handler();
 		handler.postDelayed(new Runnable() {
 

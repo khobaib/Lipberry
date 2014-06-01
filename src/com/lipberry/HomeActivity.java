@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -103,6 +105,8 @@ public class HomeActivity extends FragmentActivity {
 	public TextView welcome_title;
 	FragmentImageSetting imgsetting;
 	String a="normal";
+	Timer myTimer ;
+	MyTimerTask myTimerTask;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -110,6 +114,7 @@ public class HomeActivity extends FragmentActivity {
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.main);
+		
 		img_cat_icon=(ImageView) findViewById(R.id.img_cat_icon);
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
@@ -147,9 +152,22 @@ public class HomeActivity extends FragmentActivity {
 //
 //			}
 //		},4000);
-		
-		
-
+	}
+	
+	
+	private class MyTimerTask extends TimerTask {
+	    @Override
+	    public void run() {
+	        runOnUiThread(new Runnable() {
+	            @Override
+	            public void run() {
+	               //code to get and send location information
+	            	if(Constants.isOnline(HomeActivity.this)){
+	        			new AsyncTaskGetNotificationCount().execute();
+	        		}
+	            }
+	        });
+	    }
 	}
 	private void setTabs() {
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
@@ -166,21 +184,12 @@ public class HomeActivity extends FragmentActivity {
 	}
 
 	private void addTab(String labelId, int drawableId, Class<?> c) {
-
-
-
-		//	if(labelId!="Inbox"){
 		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
 		View tabIndicator = LayoutInflater.from(this).inflate(
 				R.layout.tab_indicator, mTabsPlaceHoler, false);
 		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
 		text_notification_no=(TextView) tabIndicator.findViewById(R.id.text_notification_no);
-
-
-
-
-		if(labelId.equals("Interaction")){
-
+		if(labelId.equals(getResources().getString(R.string.txt_interaction))){
 			text_notification_no_fromactivity=text_notification_no;
 			text_notification_no_fromactivity.setVisibility(View.GONE);
 			getnotificationcount();
@@ -214,11 +223,19 @@ public class HomeActivity extends FragmentActivity {
 		// TODO Auto-generated method stub
 		super.onStart();
 	}
-
+	@Override
+	protected void onPause() {
+	// TODO Auto-generated method stub
+	super.onPause();
+	//myTimer.cancel();
+	}
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+//		 myTimer = new Timer();
+//		 myTimerTask= new MyTimerTask();
+//		 myTimer.scheduleAtFixedRate(myTimerTask, 0, 10000); 
 	}
 
 	@Override
@@ -267,8 +284,6 @@ public class HomeActivity extends FragmentActivity {
 	public void finisssh(){
 		super.onBackPressed();
 	}
-
-
 	public void captureimage(boolean from){
 		galary=from;
 		createfolder();
@@ -314,7 +329,6 @@ public class HomeActivity extends FragmentActivity {
 		this.imgsetting=imgsetting;
 		photofromcamera=System.currentTimeMillis()+".jpg";
 		photo = new File(Environment.getExternalStorageDirectory(),photofromcamera);
-
 		final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photo));
 		startActivityForResult(intent, 4);
@@ -622,11 +636,13 @@ public class HomeActivity extends FragmentActivity {
 	public void runonUI(){
 		HomeActivity.this.runOnUiThread(new Runnable(){
 			public void run(){
+				
 				text_notification_no_fromactivity.setVisibility(View.VISIBLE);
 				text_notification_no_fromactivity.setText(""+count);
 			}
 		});
 	}
+	
 	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {

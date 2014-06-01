@@ -1,15 +1,14 @@
 <resources>
-                <string name="txt_suc_like_comments">"تم اعجابك بالتعليق"</string>
-    
-            <string name="txt_already_following">"تتابعينها"</string>
-     
-            <string name="txt_like_success">"تم الاعجاب بنجاح"</string>
-    
-        <string name="txt_upload_success">"تم تحديث الصورة بنجاح"</string>
-            <string name="txt_logout_success">"تم تسجيل خروجك بنجاح"</string>
+    <string name="txt_send_mail">"إرسال بريد إلكتروني"</string>
+        <string name="txt_thanks">"شكراً لك"</string>
+        <string name="txt_shared_via">"نشر بواسطة"</string>
         
-    
-    
+    <string name="txt_deleted_succesfully">"تم مسح هذه الرسلة"</string>
+    <string name="txt_suc_like_comments">"تم اعجابك بالتعليق"</string>
+    <string name="txt_already_following">"تتابعينها"</string>
+    <string name="txt_like_success">"تم الاعجاب بنجاح"</string>
+    <string name="txt_upload_success">"تم تحديث الصورة بنجاح"</string>
+    <string name="txt_logout_success">"تم تسجيل خروجك بنجاح"</string>
     <string name="txt_no_member_found2">"لا يوجد مشتركة بهذا الاسم ، الرجاء البحث بإسم المستخدم فقط"</string>
     <string name="txt_show_self_follow">"لا يمكنك متابعة نفسك "</string>
     <string name="txt_mszsendto_email">"لقد تم ارسال الرسالة بنجاح. فضلاً التحقق من بريدك الالكتروني "</string>
@@ -109,18 +108,17 @@
     <string name="txt_from_cancel"> "إلغاء"</string>
     <string name="txt_you_have_selcect_image"> "لقد تم اختيار صورة "</string>
     <string name="txt_failed_to_select_an_image"> "فشل في اختيار صورة "</string>
-    
     <string name="txt_resend_aciviation"> "لم يتم تسجيل دخولك لأن حسابك غير مفعل.فضلاً التحقق من بريدك المسجل و بريد الغير هام (Junk, Spam) .إذا لم تصلك رسالة التفعيل عبر بريدك المسجل يمكنك طلبها مره اخرى من "</string>
 
     <!--
 App Specific
-ا
+ا
     -->
 
 
     <!--
 Inbox
-ا
+ا
     -->
     <string name="txt_my_page">"صفحتي"</string>
     <string name="inbox_msz">"الرسائل"</string>
@@ -185,7 +183,7 @@ Inbox
     <string name="et_type_your_comment_here">"اكتب تعليقك هنا "</string>
     <!--
      Type your comment here
-     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
+     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
     -->
     <string name="txt_make_up">"المكياج"</string>
     <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>

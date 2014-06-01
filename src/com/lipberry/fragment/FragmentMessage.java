@@ -52,12 +52,14 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.CustomAdapterForIInboxMessage;
 import com.lipberry.adapter.CustomAdapterMessage;
+
 import com.lipberry.model.Article;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.InboxMessgaeList;
 import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.ThreadMessageList;
+import com.lipberry.model.TndividualThreadMessage;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
@@ -73,7 +75,7 @@ public class FragmentMessage extends Fragment{
 	int endex=10;
 	private ArrayAdapter<String> mAdapter;
 	RelativeLayout re_sent_msz,re_new_msz,re_setting;
-	CustomAdapterForIInboxMessage adapter;
+	//CustomAdapterForIInboxMessage adapter;
 	String messageid;
 	boolean oncreatecalledstate=false;
 	JsonParser jsonParser;
@@ -87,6 +89,8 @@ public class FragmentMessage extends Fragment{
 	String replymessage;
 	EditText et_msg_body;
 	boolean read_flag;
+	CustomAdapterMessage adapter;
+	ArrayList<TndividualThreadMessage> threadlist;
 	int from;
 	@SuppressLint("NewApi")
 
@@ -105,6 +109,79 @@ public class FragmentMessage extends Fragment{
 		appInstance = (LipberryApplication)getActivity().getApplication();
 
 	}
+private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
+		
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"inbox/findmessagebyid/"+messageid;
+
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("res", result.getjObj().toString());
+			if(pd.isShowing()&&(pd!=null)){
+				pd.dismiss();
+			}
+			JSONObject job=result.getjObj();
+			Log.e("testing", "1");
+			try {
+				Log.e("testing", "2");
+
+				String status=job.getString("status");
+				Log.e("testing", "3");
+
+				if(status.equals("success")){
+					Log.e("testing", "4");
+
+					messagelist=ThreadMessageList.getList(job);
+					Log.e("testing", "5");
+
+					threadlist=messagelist.getIndividualThreadlist();
+					Log.e("testing", "6");
+
+					if(threadlist.size()>0){
+						adapter=new CustomAdapterMessage(getActivity(),threadlist);
+						Log.e("testing", "7");
+						//adapter.notifyDataSetChanged();
+						lv_thread_messages.setAdapter(adapter);
+
+						Log.e("testing", "8");
+
+					}
+					else{
+						Log.e("testing", "9");
+
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
+						
+						
+					}
+
+				}   
+				else{
+					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+//06-01 18:42:24.349: D/serverreponse(30100): {"how you know about us _list":["جوجل","الفيسبوك","تويتر","دعوة من صديق","الاعلام","رابط من موقع","أخرى"]}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -112,8 +189,11 @@ public class FragmentMessage extends Fragment{
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.thread_message,
 				container, false);
 		lv_thread_messages=(ListView) v.findViewById(R.id.lv_thread_messages);
-		CustomAdapterMessage adapter=new CustomAdapterMessage(getActivity(), messagelist.getIndividualThreadlist());
+		threadlist=new ArrayList<TndividualThreadMessage>();
+		threadlist=messagelist.getIndividualThreadlist();
+		adapter=new CustomAdapterMessage(getActivity(),threadlist);
 		lv_thread_messages.setAdapter(adapter);
+		
 		b_reply=(Button) v.findViewById(R.id.b_reply);
 		b_reply.setTypeface(Utility.getTypeface2(getActivity()));
 		b_delete=(Button) v.findViewById(R.id.b_delete);
@@ -139,6 +219,8 @@ public class FragmentMessage extends Fragment{
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				replymessage=et_msg_body.getText().toString();
+				et_msg_body.setText("");
+
 				if(Constants.isOnline(getActivity())){
 					if(!replymessage.equalsIgnoreCase("")){
 						pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
@@ -229,9 +311,7 @@ public class FragmentMessage extends Fragment{
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
-				pd.dismiss();
-			}
+			
 			JSONObject job=result.getjObj();
 
 			try {
@@ -239,10 +319,22 @@ public class FragmentMessage extends Fragment{
 				if(status.equals("success")){
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
 					Toast.makeText(getActivity(),getActivity().getString(R.string.txt_msz_is_sent), Toast.LENGTH_SHORT).show();
-					parent.onBackPressed();
+					if(Constants.isOnline(getActivity())){
+//
+//						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+//								getActivity().getResources().getString(R.string.txt_please_wait), false);
+						LoadThreadMessage individualmessage=new LoadThreadMessage(); 
+						individualmessage.execute();
+					}
+					//	parent.onBackPressed();
 				}
+				//05-31 21:10:21.080: E/res(28686): {"status":"failure","description":"‫تم تعطيل هذه الخاصية من قبل المشتركة لا يمكنك ارسال رسالة خاصة‬‎"}
+
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					if(pd.isShowing()&&(pd!=null)){
+						pd.dismiss();
+					}
+					Toast.makeText(getActivity(),job.getString("description"), Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {
@@ -251,6 +343,7 @@ public class FragmentMessage extends Fragment{
 			}
 		}
 	}
+	
 	
 	
 	
@@ -285,7 +378,8 @@ public class FragmentMessage extends Fragment{
 				String status=job.getString("status");
 				if(status.equals("success")){
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					Toast.makeText(getActivity(),"Message is deleted successfully", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_deleted_succesfully), 
+							Toast.LENGTH_SHORT).show();
 					FragmentInbox.oncreatecalledstate=true;
 					parent.onBackPressed();
 				//list_view_inbox.onRefreshComplete();

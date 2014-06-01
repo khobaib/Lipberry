@@ -90,7 +90,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	int state=0;
 	CustomAdapterForComment adapter1;
 	boolean followstate=false;
-	HomeTabFragment parent;
+	public HomeTabFragment parent;
 	TextView text_user_name,text_date_other,txt_articl_ename,text_topic_text,txt_like,text_comment,txt_viewd;
 	ImageView img_pro_pic,img_article,img_like,image_comments,image_share;
 	Button btn_photo_album,btn_follow_her,visit,btn_report;
@@ -423,10 +423,11 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				String shareBody = articledetails.getShort_url();
-				sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, articledetails.getTitle());
+				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url()+"\n"+
+				getActivity().getResources().getString(R.string.txt_thanks);
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-				startActivity(Intent.createChooser(sharingIntent, "Share via"));
+				startActivity(Intent.createChooser(sharingIntent,getActivity().getResources().getString(R.string.
+						txt_shared_via)));
 
 			}
 		} );
@@ -450,14 +451,15 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		else{
 			btn_report.setVisibility(View.GONE);
 		}
-		text_topic_text.setText(Html.fromHtml(articledetails.getBody()));
+		String text=articledetails.getBody();
+		text=text.replaceAll("\n","<br />");
+		text_topic_text.setText(Html.fromHtml(text));
 		text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
-		showtext.updateImages(true,articledetails.getBody());
+		showtext.updateImages(true,text);
 		text_user_name.setText(articledetails.getMember_name());
 		text_date_other.setText(articledetails.getMember_username());
 		text_user_name.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				Constants.userid=articledetails.getMember();
@@ -1029,7 +1031,13 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
 
-							new AsyncTaskGetComments(1).execute();
+							if(commentslist!=null){
+								new AsyncTaskGetComments(1).execute();
+							}
+							else{
+								new AsyncTaskGetComments(0).execute();
+
+							}						
 							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 						}
 						else{
@@ -1099,7 +1107,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 							setmemberlist1();
 						}
 						else{
-							adapter1.notifyDataSetChanged();
+							setmemberlist1();
 						}
 						
 					}
@@ -1151,8 +1159,15 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetComments(1).execute();
+			if(commentslist!=null){
+				new AsyncTaskGetComments(1).execute();
+			}
+			else{
+				new AsyncTaskGetComments(0).execute();
+
+			}
 		}
+		
 		else{
 			
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 

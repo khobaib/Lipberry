@@ -170,7 +170,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.post_inflate,
 					null);
 			holder = new ViewHolder();
-			
 			holder.img_pro_pic=(ImageView) convertView.findViewById(R.id.img_pro_pic);
 			holder.img_some_icon=(ImageView) convertView.findViewById(R.id.img_some_icon);
 			holder.img_like=(ImageView) convertView.findViewById(R.id.img_like);
@@ -187,7 +186,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.image_comments.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				positionforcomments=position;
@@ -229,10 +227,12 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		holder.text_date_other.setText(list.get(position).getCreated_at());
 		holder.txt_articl_ename.setText(list.get(position).getArticle_title());
 		holder.txt_articl_ename.setTypeface(Utility.getTypeface2(activity));
-		holder.text_topic_text.setText(Html.fromHtml(list.get(position).getArticle_description()));
+		String text=list.get(position).getArticle_description();
+		text=text.replaceAll("\n","<br />");
+		holder.text_topic_text.setText(Html.fromHtml(text));
 		holder.text_topic_text.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_topic_text, activity);
-		showtext.updateImages(true,list.get(position).getArticle_description());
+		showtext.updateImages(true,text);
 		holder.text_comment.setText(list.get(position).getComment_count()+ " "+activity.getResources().
 				getString(R.string.txt_comments));
 		String liketext="";

@@ -48,7 +48,7 @@ public class LisAlertDialogForComment {
 		dia.setTitle(activity.getResources().getString(R.string.app_name_arabic));
 		dia.setCancelable(true);
 		list_alert1 = (ListView) dia.findViewById(R.id.alert_list);
-		CustomAdapterForCommentFromDialog adapter=new CustomAdapterForCommentFromDialog(activity, comments, url, parent, parent3);
+		CustomAdapterForCommentFromDialog adapter=new CustomAdapterForCommentFromDialog(activity, comments, url, parent, parent3,dia);
 		cancel_button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
