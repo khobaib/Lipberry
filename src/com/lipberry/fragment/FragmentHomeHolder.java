@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
+import com.lipberry.utility.Constants;
 import com.viewpagerindicator.TabPageIndicator;
 
 
@@ -65,10 +66,10 @@ public class FragmentHomeHolder extends Fragment {
 		indicator = (TabPageIndicator)v.findViewById(R.id.indicator);
 		 adapter = new PostRetreiveAdapter(getChildFragmentManager());
 		pager.setAdapter(adapter);
-		
+		indicator.setViewPager(pager,1);
 		//pager.setCurrentItem(0);
 		Log.e("current item", pager.getCurrentItem()+"");
-		indicator.setViewPager(pager,1);
+		
 	
 		Log.e("onCreateView", "homeonCreateView");
 
@@ -77,6 +78,12 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+//		if(Constants.writetopicsuccess){
+//			indicator.setViewPager(pager,0);
+//			Constants.writetopicsuccess=false;
+//		}
+	
+		
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));

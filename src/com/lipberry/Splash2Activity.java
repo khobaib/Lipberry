@@ -56,6 +56,15 @@ public class Splash2Activity extends Activity {
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.splash2);
+		
+//		try {
+//			if (getIntent().getExtras().getBoolean("fromhome")){
+//				finish();
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		txt_title=(TextView) findViewById(R.id.txt_title);
 		txt_title.setTypeface(Utility.getTypeface2(Splash2Activity.this));
 
@@ -69,7 +78,7 @@ public class Splash2Activity extends Activity {
 	public void goLoginpage(View view){
 		Intent  intent=new Intent(Splash2Activity.this, LoginActivity.class);
 		startActivity(intent);
-	//	finish();
+		finish();
 	}
 	public void goRegisterscreen(View view){
 		Intent intent=new Intent(Splash2Activity.this, SignupActivity.class);

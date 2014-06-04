@@ -154,9 +154,10 @@ public class FragmentSetting extends Fragment {
 			try {
 				String status=job.getString("status");
 				appInstance.setRememberMe(false);
-				Intent intent=new Intent(getActivity(), Splash2Activity.class);
-				intent.putExtra("fromhome", true);
+//				Intent intent=new Intent(getActivity(), Splash2Activity.class);
+//				intent.putExtra("fromhome", true);
 				getActivity().finish();
+				System.exit(0);
 				Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_logout_success),
 						Toast.LENGTH_SHORT).show();
 			} catch (JSONException e) {

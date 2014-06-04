@@ -41,6 +41,7 @@ import com.lipberry.LoginActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.adapter.CustomAdapterForInteraction;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
@@ -76,7 +77,7 @@ public class FragmentInteraction extends Fragment {
 					getActivity().getResources().getString(R.string.txt_please_wait), true);
 			new AsyncTaskGetNotification().execute();
 			//if(Constants.notificationcount>0){
-				new AsyncTasksetNotificationToggle().execute();
+				
 			//}
 			
 				
@@ -141,6 +142,7 @@ public class FragmentInteraction extends Fragment {
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
+					new AsyncTasksetNotificationToggle().execute();
 					notificationList=NotificationList.getNotificationList(result.getjObj());
 					if(notificationList.getnotificationslist().size()>0){
 						setlistinteraction();
@@ -177,11 +179,31 @@ public class FragmentInteraction extends Fragment {
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 				}
 				else{
-					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
-					Constants.GOARTCLEPAGE=true;
-					Constants.INTER_ARTICLE_ID=notificationList.getnotificationslist().get(position).getArticle_id();
-				//	Constants.INTER_MEMBER_ID=notificationList.getnotificationslist().get(position).getArticle_id();
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+					
+					if(Constants.isOnline(getActivity())){
+						
+						
+						
+						if((notificationList.getnotificationslist().get(position).getArticle_id()!=null)
+								){
+							pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+									getActivity().getResources().getString(R.string.txt_please_wait), false);
+							new AsyncTaskgetArticleDetails(position).execute();
+						}
+						else{
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_articleid_not_found),
+									Toast.LENGTH_SHORT).show();
+						}
+					}
+					else{
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+								Toast.LENGTH_SHORT).show();
+					}
+//					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
+//					Constants.GOARTCLEPAGE=true;
+//					Constants.INTER_ARTICLE_ID=notificationList.getnotificationslist().get(position).getArticle_id();
+//				//	Constants.INTER_MEMBER_ID=notificationList.getnotificationslist().get(position).getArticle_id();
+//					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 				}
 				
 			}
@@ -214,9 +236,7 @@ public class FragmentInteraction extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
-				pd.dismiss();
-			}
+			
 			JSONObject job=result.getjObj();
 			
 			try {
@@ -230,6 +250,54 @@ public class FragmentInteraction extends Fragment {
 				else{
 				}
 				
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		int position;
+		public AsyncTaskgetArticleDetails(int position){
+			this.position=position;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url=Constants.baseurl+"article/findarticlebyid/"+notificationList.getnotificationslist().get(position).getArticle_id();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("details", result.getjObj().toString());
+			if((pd!=null)&&(pd.isShowing())){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status=jobj.getString("status");
+				if(status.equals("success")){
+					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					Constants.GOARTCLEPAGE=true;
+					Constants.articledetails=articledetails;
+					Constants.from=2;
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+				}
+				else{
+					String message=jobj.getString("description");
+					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}

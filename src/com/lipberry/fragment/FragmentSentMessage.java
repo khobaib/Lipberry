@@ -53,6 +53,7 @@ import com.lipberry.adapter.CustomAdapterForIInboxMessage;
 import com.lipberry.adapter.CustomAdapterForISentMessage;
 import com.lipberry.db.LipberryDatabase;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.InboxMessgaeList;
 import com.lipberry.model.NotificationList;
@@ -98,26 +99,26 @@ public class FragmentSentMessage extends Fragment{
 				container, false);
 		listviewforinbbox =(ListView) v.findViewById(R.id.listviewforinbbox);
 
-	
-//		if(oncreatecalledstate){
-			if(Constants.isOnline(getActivity())){
-				startindex=0;
-				endex=10;
-				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-						getActivity().getResources().getString(R.string.txt_please_wait), false);
-				new AsyncTaskGetMessage().execute();
-			}
-			else{
-				getinbox_list();
-				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-						Toast.LENGTH_SHORT).show();
-			}
-//		}
-//		else{
-//			if(inboxlist.size()>0){
-//				LoadListView();
-//			}
-//		}
+
+		//		if(oncreatecalledstate){
+		if(Constants.isOnline(getActivity())){
+			startindex=0;
+			endex=10;
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetMessage().execute();
+		}
+		else{
+			getinbox_list();
+			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		//		}
+		//		else{
+		//			if(inboxlist.size()>0){
+		//				LoadListView();
+		//			}
+		//		}
 		oncreatecalledstate=false;
 		return v;
 	}
@@ -177,62 +178,62 @@ public class FragmentSentMessage extends Fragment{
 		}
 	}
 
-//	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
-//		@Override
-//		protected ServerResponse doInBackground(Void... params) {
-//
-//			try {
-//				JSONObject loginObj = new JSONObject();
-//				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-//				loginObj.put("startIndex",""+startindex);
-//				loginObj.put("endIndex",""+endex);
-//				String loginData = loginObj.toString();
-//				String url =Constants.baseurl+"inbox/sentmessages/";
-//
-//				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-//						loginData, null);
-//				return response;
-//			} catch (JSONException e) {                
-//				e.printStackTrace();
-//				return null;
-//			}
-//		}
-//
-//		@Override
-//		protected void onPostExecute(ServerResponse result) {
-//			super.onPostExecute(result);
-//			Log.e("res", result.getjObj().toString());
-//			if(pd.isShowing()&&(pd!=null)){
-//				pd.dismiss();
-//			}
-//			JSONObject job=result.getjObj();
-//
-//			try {
-//				String status=job.getString("status");
-//				if(status.equals("success")){
-//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-//					if(messagelist.getinboxlist().size()>0){
-//						inboxlist.addAll(messagelist.getinboxlist());
-//						startindex=endex+1;
-//						endex=endex+6;
-//						adapter.notifyDataSetChanged();
-//
-//					}
-//					else{
-//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
-//					}
-//					list_view_inbox.onRefreshComplete();
-//				}
-//				else{
-//					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
-//				}
-//
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	//	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
+	//		@Override
+	//		protected ServerResponse doInBackground(Void... params) {
+	//
+	//			try {
+	//				JSONObject loginObj = new JSONObject();
+	//				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+	//				loginObj.put("startIndex",""+startindex);
+	//				loginObj.put("endIndex",""+endex);
+	//				String loginData = loginObj.toString();
+	//				String url =Constants.baseurl+"inbox/sentmessages/";
+	//
+	//				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+	//						loginData, null);
+	//				return response;
+	//			} catch (JSONException e) {                
+	//				e.printStackTrace();
+	//				return null;
+	//			}
+	//		}
+	//
+	//		@Override
+	//		protected void onPostExecute(ServerResponse result) {
+	//			super.onPostExecute(result);
+	//			Log.e("res", result.getjObj().toString());
+	//			if(pd.isShowing()&&(pd!=null)){
+	//				pd.dismiss();
+	//			}
+	//			JSONObject job=result.getjObj();
+	//
+	//			try {
+	//				String status=job.getString("status");
+	//				if(status.equals("success")){
+	//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+	//					if(messagelist.getinboxlist().size()>0){
+	//						inboxlist.addAll(messagelist.getinboxlist());
+	//						startindex=endex+1;
+	//						endex=endex+6;
+	//						adapter.notifyDataSetChanged();
+	//
+	//					}
+	//					else{
+	//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
+	//					}
+	//					list_view_inbox.onRefreshComplete();
+	//				}
+	//				else{
+	//					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+	//				}
+	//
+	//			} catch (JSONException e) {
+	//				// TODO Auto-generated catch block
+	//				e.printStackTrace();
+	//			}
+	//		}
+	//	}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -328,23 +329,23 @@ public class FragmentSentMessage extends Fragment{
 					messagelist=ThreadMessageList.getList(job);
 
 					if(messagelist.getIndividualThreadlist().size()>0){
-						
+
 						boolean read_flag;
 						Log.e("called", "1");
 						if(inboxlist.get(position).getRead_flag().equals("0")){
 							Log.e("called", "2");
 
 							read_flag=false;
-//						
-//								pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-//										getActivity().getResources().getString(R.string.txt_please_wait), false);
+							//						
+							//								pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+							//										getActivity().getResources().getString(R.string.txt_please_wait), false);
 							Log.e("called", "3");
 
 							messageid=inboxlist.get(position).getMessage_id();
 							//new AsyncTaskSetasReadMessage().execute();
 							Log.e("called", "4");
 
-						
+
 						}
 						else{
 							Log.e("called", "5");
@@ -354,14 +355,27 @@ public class FragmentSentMessage extends Fragment{
 						}
 						if(messagelist.getIndividualThreadlist().get(0).getArticle_flag().equals("0")){
 							saveindb(inboxlist.get(position).getMessage_id());
-							parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id(),read_flag,1); 
+							parent.startMessagefragment(messagelist,""+inboxlist.get(position).getMessage_id(),read_flag,2); 
 
 						}
 						else{
-						//	Constants.userid=inboxlist.get(position).getFrom_id();
-							Constants.GOARTCLEPAGE=true;
-							Constants.INTER_ARTICLE_ID=messagelist.getIndividualThreadlist().get(0).getArticle_id();
-							((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+							//	Constants.userid=inboxlist.get(position).getFrom_id();
+							if(Constants.isOnline(getActivity())){
+								if(messagelist.getIndividualThreadlist().get(0).getArticle_id()!=null){
+									pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+											getActivity().getResources().getString(R.string.txt_please_wait), false);
+									new AsyncTaskgetArticleDetails(position).execute();
+								}
+								else{
+									Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_articleid_not_found),
+											Toast.LENGTH_SHORT).show();
+								}
+							
+							}
+							else{
+								Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+										Toast.LENGTH_SHORT).show();
+							}
 						}
 					}
 					else{
@@ -379,7 +393,7 @@ public class FragmentSentMessage extends Fragment{
 			}
 		}
 	}
-	
+
 	public void tryfromdb(String parent_id){
 		//messagelist.getIndividualThreadlist()
 		ArrayList<TndividualThreadMessage>inbox_message=new ArrayList<TndividualThreadMessage>();
@@ -392,26 +406,26 @@ public class FragmentSentMessage extends Fragment{
 			e.printStackTrace();
 		}
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
-		
+
 		for(int i=0;i<inbox_list.size();i++){
 			Log.e("parent id", "1 "+inbox_list.get(i).getParent_id());
 			if(inbox_list.get(i).getParent_id().equals(parent_id)){
 				inbox_message.add(inbox_list.get(i));
-				
+
 			}
 		}
 		if(inbox_message.size()>0){
 			messagelist=new ThreadMessageList();
 			messagelist.setIndividualThreadlist(inbox_message);
 			parent.startMessagefragment(messagelist,parent_id,true,2); 
-			
+
 		}
 		else{
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
-		
+
+
 		dbInstance.close();
 	}
 	public void saveindb(String parent_id){
@@ -423,7 +437,7 @@ public class FragmentSentMessage extends Fragment{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		for(int i=0;i<messagelist.getIndividualThreadlist().size();i++){
 			messagelist.getIndividualThreadlist().get(i).setParent_flag(parent_id);
 		}
@@ -431,7 +445,7 @@ public class FragmentSentMessage extends Fragment{
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 		dbInstance.close();
 	}
-	
+
 	private class AsyncTaskSetasReadMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -454,16 +468,16 @@ public class FragmentSentMessage extends Fragment{
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-//			if(pd.isShowing()&&(pd!=null)){
-//				pd.dismiss();
-//			}
+			//			if(pd.isShowing()&&(pd!=null)){
+			//				pd.dismiss();
+			//			}
 			JSONObject job=result.getjObj();
 
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
-//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-//					FragmentInbox.oncreatecalledstate=true;
+					//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
+					//					FragmentInbox.oncreatecalledstate=true;
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -476,5 +490,51 @@ public class FragmentSentMessage extends Fragment{
 		}
 	}
 
+	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		int position;
+		public AsyncTaskgetArticleDetails(int position){
+			this.position=position;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url=Constants.baseurl+"article/findarticlebyid/"+messagelist.getIndividualThreadlist().get(0).getArticle_id();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("details", result.getjObj().toString());
+			if((pd!=null)&&(pd.isShowing())){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status=jobj.getString("status");
+				if(status.equals("success")){
+					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					Constants.GOARTCLEPAGE=true;
+					Constants.articledetails=articledetails;
+					Constants.from=1;
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+				}
+				else{
+					String message=jobj.getString("description");
+					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
 

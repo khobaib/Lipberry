@@ -101,14 +101,15 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	ImageView play_vedio;
 	Commentslist commentslist;
 	static Activity activity;
-	String article_id;
 	LinearLayout vedio_view_holder;
 	View view_gap_list,view_gap_list2;
 	String member_id;
 	WebView web_view;
 	String memberid;
-	public FragmentArticleDetailsFromInteraction(String article_id){
-		this.article_id=article_id;
+	int from;
+	public FragmentArticleDetailsFromInteraction(ArticleDetails articledetails,int from){
+		this.articledetails=articledetails;
+		this.from=from;
 	}
 	@SuppressLint("NewApi")
 
@@ -130,10 +131,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		ListAdapter listAdapter = listView.getAdapter();
 		if(listAdapter == null) return;
 		if(listAdapter.getCount() <= 0) return;
-
 		int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(Utility.getDeviceWidth(activity), View.MeasureSpec.AT_MOST);
 		int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-
 		int totalHeight = 0;
 		View view = null;
 		for(int i = 0; i < listAdapter.getCount(); i++)
@@ -177,7 +176,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
-			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article_id,0,null,null,this);
+			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+articledetails.getId(),0,null,null,this);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
 			scrollView1.scrollTo(0, 0);
@@ -192,9 +191,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 		}
 		img_pro_pic.requestFocus();
-
-
-		//	scrollView1.fullScroll(View.FOCUS_UP);
 	}
 
 
@@ -210,9 +206,18 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				container, false);
 		initview(v);
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskgetArticleDetails().execute();
+			
+			new AsyncTaskGetComments(0).execute();
+			if(articledetails.getFollow_flag()!=null){
+				if(!articledetails.getFollow_flag().equals("Not a follower")){
+					followstate=true;
+				}
+				else{
+					followstate=false;
+				}
+			}
+			setview();
+			//new AsyncTaskgetArticleDetails().execute();
 		}
 		else{
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet),
@@ -233,8 +238,13 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			public void onClick(View v) {
 				if(state==0){
 					parent.onBackPressed();
-
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(2);
+					if(from==10){
+						((HomeActivity)getActivity()).mTabHost.setCurrentTab(0);
+					}
+					else{
+						((HomeActivity)getActivity()).mTabHost.setCurrentTab(from);
+					}
+					
 				}
 				else{
 					vedio_view_holder.setVisibility(View.GONE);
@@ -253,53 +263,53 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 		super.onPause();
 	}
-	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
-		@Override
-		protected ServerResponse doInBackground(Void... params) {
-			try {
-				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/findarticlebyid/"+article_id;
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-						loginData, null);
-				return response;
-			} catch (JSONException e) {                
-				e.printStackTrace();
-				return null;
-			}
-		}
-		@Override
-		protected void onPostExecute(ServerResponse result) {
-			super.onPostExecute(result);
-			if((pd!=null)&&(pd.isShowing())){
-				pd.dismiss();
-			}
-			JSONObject jobj=result.getjObj();
-			try {
-				String status=jobj.getString("status");
-				if(status.equals("success")){
-					new AsyncTaskGetComments(0).execute();
-					articledetails=ArticleDetails.getArticleDetails(jobj);
-					if(articledetails.getFollow_flag()!=null){
-						if(!articledetails.getFollow_flag().equals("Not a follower")){
-							followstate=true;
-						}
-						else{
-							followstate=false;
-						}
-					}
-					setview();
-				}
-				else{
-					String message=jobj.getString("message");
-					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+//	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+//		@Override
+//		protected ServerResponse doInBackground(Void... params) {
+//			try {
+//				JSONObject loginObj = new JSONObject();
+//				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+//				String loginData = loginObj.toString();
+//				String url =Constants.baseurl+"article/findarticlebyid/"+article_id;
+//				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+//						loginData, null);
+//				return response;
+//			} catch (JSONException e) {                
+//				e.printStackTrace();
+//				return null;
+//			}
+//		}
+//		@Override
+//		protected void onPostExecute(ServerResponse result) {
+//			super.onPostExecute(result);
+//			if((pd!=null)&&(pd.isShowing())){
+//				pd.dismiss();
+//			}
+//			JSONObject jobj=result.getjObj();
+//			try {
+//				String status=jobj.getString("status");
+//				if(status.equals("success")){
+//					new AsyncTaskGetComments(0).execute();
+//					articledetails=ArticleDetails.getArticleDetails(jobj);
+//					if(articledetails.getFollow_flag()!=null){
+//						if(!articledetails.getFollow_flag().equals("Not a follower")){
+//							followstate=true;
+//						}
+//						else{
+//							followstate=false;
+//						}
+//					}
+//					setview();
+//				}
+//				else{
+//					String message=jobj.getString("message");
+//					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+//				}
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 	public void initview(ViewGroup v){
 		scrollView1=(ScrollView) v.findViewById(R.id.scrollView1);
 		visit=(Button) v.findViewById(R.id.visit);
@@ -331,7 +341,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		text_comment.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_report.setTypeface(Utility.getTypeface2(getActivity()));
-
 		scrollView1.scrollTo(0, 0);
 
 	}
@@ -393,13 +402,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		else{
 			btn_photo_album.setVisibility(View.VISIBLE);
 		}
-		//		if(articledetails.getArticle_gallery().size()<1){
-		//			btn_photo_album.setVisibility(View.GONE);
-		//		}
-		//		else{
-		//			btn_photo_album.setVisibility(View.VISIBLE);
-		//		}
-
 		if((articledetails.getVideo().equals(""))||(articledetails.getVideo()==null)){
 			play_vedio.setVisibility(View.GONE);
 		}
@@ -423,8 +425,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url()+"\n"+
-				getActivity().getResources().getString(R.string.txt_thanks);
+				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url();
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent,getActivity().getResources().getString(R.string.
 						txt_shared_via)));
@@ -564,13 +565,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 					int y=img_article.getTop();
 					int h=img_article.getHeight();
 					int w=img_article.getWidth();
-
-
 				}
-
-				//	05-21 15:36:33.156: D/JsonParser(10751): url after param added = 
-				//	05-21 15:36:33.166: D/JsonParser(10751): content body = {"session_id":"c9vqt65hdf85bl8sll4hfltfn2","endIndex":"10","startIndex":"0"}
-
 				if(articledetails.getArticle_gallery().size()>0){
 					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
 					lst_imag.setAdapter(adapter);
@@ -893,6 +888,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				String url =Constants.baseurl+"account/followmember/"+articledetails.getMember_id()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
+				
 				return response;
 			} catch (JSONException e) {                
 				e.printStackTrace();
@@ -1062,8 +1058,11 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
 		int a;
+		ProgressDialog pd2;
 		public AsyncTaskGetComments(int a){
 			this.a=a;;
+			pd2=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), true);
 		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -1075,7 +1074,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				loginObj.put("startIndex", "0");
 				loginObj.put("endIndex", ""+endindex);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/commentlist/"+article_id;
+				String url =Constants.baseurl+"article/commentlist/"+articledetails.getId();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -1087,10 +1086,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd!=null){
-				if(pd.isShowing()){
-					pd.dismiss();
-				}
+			if((pd2!=null)&&(pd2.isShowing())){
+				pd2.dismiss();
 			}
 			view_gap_list.setVisibility(View.GONE);
 			view_gap_list2.setVisibility(View.GONE);
@@ -1140,18 +1137,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 					pd.dismiss();
 				}
 			}
-			Log.e("error", result.getjObj().toString());
-			JSONObject jobj=result.getjObj();
-			try {
-				String status= jobj.getString("status");
-				if(status.equals("success")){
-				}
-				else{
-					String description=jobj.getString("message");
-					//Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
-				}
-			} catch (JSONException e) {
-			}
+			
 		}
 	}
 

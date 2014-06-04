@@ -181,7 +181,6 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 		}
 	}
 
-//06-01 18:42:24.349: D/serverreponse(30100): {"how you know about us _list":["جوجل","الفيسبوك","تويتر","دعوة من صديق","الاعلام","رابط من موقع","أخرى"]}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -223,9 +222,17 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 
 				if(Constants.isOnline(getActivity())){
 					if(!replymessage.equalsIgnoreCase("")){
-						pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
-								getActivity().getResources().getString(R.string.txt_please_wait), false);
-						new AsyncTaskReplyMessage().execute();
+						if((messagelist.getIndividualThreadlist().get(0).getGserLogedfollow_messageReceiver())&&
+								(messagelist.getIndividualThreadlist().get(0).getMessageReceiverfollow_userLoged())){
+							pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
+									getActivity().getResources().getString(R.string.txt_please_wait), false);
+							new AsyncTaskReplyMessage().execute();
+						}
+						else{
+							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_are_not_following),
+									Toast.LENGTH_SHORT).show();
+						}
+						
 					}
 					else{
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),

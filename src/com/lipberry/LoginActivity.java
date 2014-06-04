@@ -51,6 +51,8 @@ public class LoginActivity extends Activity {
 	LipberryApplication appInstance;
 	TextView txt_title,tv_sign_in;
 	String sk;
+	Activity activity;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -335,6 +337,7 @@ public class LoginActivity extends Activity {
 				Intent intent=new Intent(LoginActivity.this, HomeActivity.class);
 				startActivity(intent);
 				finish();
+				this.getParent().finish();
 			}
 			else{
 			//	String descrip=job.getString("description");
@@ -358,7 +361,11 @@ public class LoginActivity extends Activity {
 		// TODO Auto-generated method stub
 
 		if(stateofbackpress==0){
-			super.onBackPressed();
+			
+				Intent  intent=new Intent(LoginActivity.this, Splash2Activity.class);
+				startActivity(intent);
+				finish();
+			
 		}
 		else{
 			initview();

@@ -18,6 +18,7 @@ import com.lipberry.model.Comments;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
+import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
@@ -445,7 +446,9 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("comment", comment);
+				byte[] ba = comment.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("comment", base64Str);
 				String loginData = loginObj.toString();
 				String url =list.get(index).getReplyon_url();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST,
@@ -460,7 +463,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-
+			dia.cancel();
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");

@@ -4,8 +4,10 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.lipberry.HomeActivity;
 import com.lipberry.fragment.FragmentWriteTopic;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 
 import android.content.Context;
@@ -14,14 +16,24 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 public class Constants {
+	
+
+	public static boolean pushnotificationcalllive=false;
+	
+	public static String type;
+	
+	public static boolean topicwritesuccess=false;
+	public static HomeActivity homeActivity;
 	public static boolean IMAGEPAGECALLED=false; 
 	public static ArticleList articlelist;
 	public static boolean STATECALLPDFORMENU=false;
 	public static int GOTABFROMWRITETOPIC;
 	public static boolean GOARTCLEPAGEFROMMEMBER=false; 
 	public static Article ARTICLETOSEE;
-	
+	public static ArticleDetails articledetails;
 	public static boolean GOARTCLEPAGE=false; 
+	public static int from;
+	
 	public static String INTER_ARTICLE_ID;
 	public static String INTER_MEMBER_ID;
 	

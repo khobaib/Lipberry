@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 import com.lipberry.utility.Constants;
 
@@ -93,9 +94,9 @@ public class CategoryTabFragment extends TabFragment{
 	}
 
 
-	public void startFragmentArticleDetails(Article article) {
+	public void startFragmentArticleDetails(Article article,ArticleDetails articledetails) {
 		FragmentArticleDetailsFromCategory newFragment = new FragmentArticleDetailsFromCategory ();
-		newFragment.setArticle(article);
+		newFragment.setArticle(article,articledetails);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

@@ -66,6 +66,7 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.CustomAdaptergrid;
 import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.Categories;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ImageScale;
@@ -92,6 +93,7 @@ public class FragmentWriteTopic extends Fragment {
 	String catagoryid;
 	ArrayList<String>galarylist=new ArrayList<String>();
 	Bitmap bitmap;
+	String article_id;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
@@ -452,26 +454,32 @@ public class FragmentWriteTopic extends Fragment {
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
+//{"status":"success","article_info":{"article_id":1352}}
 
 				bitmap=null;
 				if(status.equals("success")){
+					
 					FragmentMyCountriesPost.oncreatecallsate=true;
 					FragmentMyFollwerPost.oncreatecallsate1=true;
 					Constants.writetopicsuccess=true;
+					
 					String article_info=jobj.getString("article_info");
 					article_info=article_info.replace("{", "");
 					article_info=article_info.replace("}", "");
 					catagoryid=article_info.substring(article_info.indexOf(":")+1);
+					article_id=catagoryid;
+					Log.e(" Write article_id", catagoryid);
 					if(galarylist.size()>1){
 						addgalarytoserver();
 					}
 					else{
-						if(pd!=null){
-							if((pd.isShowing())){
-								pd.dismiss();
-							}
+						if(Constants.isOnline(getActivity())){
+							new AsyncTaskgetArticleDetails(0).execute();
 						}
-						((HomeActivity)activity).mTabHost.setCurrentTab(4);
+						else{
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+									Toast.LENGTH_SHORT).show();
+						}
 						Toast.makeText(getActivity(),getResources().getString(R.string.txt_write_topic_success), Toast.LENGTH_SHORT).show();
 					}
 
@@ -547,7 +555,13 @@ public class FragmentWriteTopic extends Fragment {
 						else{
 							Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 									Toast.LENGTH_SHORT).show();
-							((HomeActivity)activity).mTabHost.setCurrentTab(4);
+							if(Constants.isOnline(getActivity())){
+								new AsyncTaskgetArticleDetails(0).execute();
+							}
+							else{
+								Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+										Toast.LENGTH_SHORT).show();
+							}
 							String newFolder = "/Lipberryfinal";
 							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 							String drectory= extStorageDirectory + newFolder;
@@ -558,18 +572,21 @@ public class FragmentWriteTopic extends Fragment {
 							deleteDirectory(thumbFolder);
 							deleteDirectory(myNewFolder);
 							createfolder();
-							if(pd!=null){
-								if((pd.isShowing())){
-									pd.dismiss();
-								}
-							}
+							
 						}
 					}
 					else{
 
-						Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity,description,
+								Toast.LENGTH_SHORT).show();
 						Constants.writetopicsuccess=false;
-						((HomeActivity)activity).mTabHost.setCurrentTab(4);
+						if(Constants.isOnline(getActivity())){
+							new AsyncTaskgetArticleDetails(0).execute();
+						}
+						else{
+							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+									Toast.LENGTH_SHORT).show();
+						}
 						String newFolder = "/Lipberryfinal";
 						String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 						String drectory= extStorageDirectory + newFolder;
@@ -581,16 +598,12 @@ public class FragmentWriteTopic extends Fragment {
 						deleteDirectory(thumbFolder);
 						deleteDirectory(myNewFolder);
 						createfolder();
-						if(pd!=null){
-							if((pd.isShowing())){
-								pd.dismiss();
-							}
-						}
+						
 					}
 
 				}
 				else{
-					((HomeActivity)activity).mTabHost.setCurrentTab(4);
+
 					String newFolder = "/Lipberryfinal";
 					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 					String drectory= extStorageDirectory + newFolder;
@@ -602,10 +615,12 @@ public class FragmentWriteTopic extends Fragment {
 					deleteDirectory(myNewFolder);
 					createfolder();
 					Constants.writetopicsuccess=false;
-					if(pd!=null){
-						if((pd.isShowing())){
-							pd.dismiss();
-						}
+					if(Constants.isOnline(getActivity())){
+						new AsyncTaskgetArticleDetails(0).execute();
+					}
+					else{
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+								Toast.LENGTH_SHORT).show();
 					}
 
 					Toast.makeText(activity,description, Toast.LENGTH_SHORT).show();
@@ -645,10 +660,6 @@ public class FragmentWriteTopic extends Fragment {
 		if(Constants.isOnline(activity)){
 			String filepath = galarylist.get(pos);
 			filepath=filepath.replace("/Lipberrythumb","/Lipberryfinal" );
-			//
-			//
-			//			bitmapimage =new ImageScale();
-			//			bitmap=bitmapimage.decodeImage(filepath);
 			bitmap=BitmapFactory.decodeFile(filepath);
 			new AsyncTaskAddGalaryImage().execute();
 
@@ -693,6 +704,52 @@ public class FragmentWriteTopic extends Fragment {
 		myNewFolder.mkdir();
 		File myNewFolderthumb = new File(drectorythumb);
 		myNewFolderthumb.mkdir();
+	}
+	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		int position;
+		public AsyncTaskgetArticleDetails(int position){
+			this.position=position;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url=Constants.baseurl+"article/findarticlebyid/"+article_id;
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("details", result.getjObj().toString());
+			if((pd!=null)&&(pd.isShowing())){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status=jobj.getString("status");
+				if(status.equals("success")){
+					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					Constants.GOARTCLEPAGE=true;
+					Constants.articledetails=articledetails;
+					Constants.from=10;
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+				}
+				else{
+					String message=jobj.getString("description");
+					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
 

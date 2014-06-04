@@ -102,10 +102,12 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	LinearLayout vedio_view_holder;
 	View view_gap_list,view_gap_list2;
 	WebView web_view;
+//	ArticleDetails articledetails;
 	@SuppressLint("NewApi")
 	Article article;
-	public void setArticle(Article article){
+	public void setArticle(Article article,ArticleDetails articledetails){
 		this.article=article;
+		this.articledetails=articledetails;
 	}
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -174,15 +176,15 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 
 	public void setmemberlist(){
-		 list_comment.setFocusable(false);
-		 if(commentslist.getCommentslist().size()>0){
+		list_comment.setFocusable(false);
+		if(commentslist.getCommentslist().size()>0){
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
 			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id(),0,null,this,null);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
 			list_comment.requestFocus();
-			
+
 		}
 		else{
 			view_gap_list.setVisibility(View.GONE);
@@ -201,12 +203,21 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				container, false);
 		initview(v);
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskgetArticleDetails().execute();
+
+			new AsyncTaskGetComments(0).execute();
+			if(articledetails.getFollow_flag()!=null){
+				if(!articledetails.getFollow_flag().equals("Not a follower")){
+					followstate=true;
+				}
+				else{
+					followstate=false;
+				}
+			}
+			setview();
 		}
 		else{
-			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
+			setview();
+			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 
@@ -222,7 +233,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-	
+
 		if(article.getCategory_name()!=null){
 			((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
 
@@ -379,7 +390,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		txt_viewd.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_report.setTypeface(Utility.getTypeface2(getActivity()));
 
-		
+
 
 	}
 
@@ -391,15 +402,14 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		else{
 			btn_photo_album.setVisibility(View.VISIBLE);
 		}
-		
+
 		image_share.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url()+"\n"+
-				getActivity().getResources().getString(R.string.txt_thanks);
+				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url();
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent,getActivity().getResources().getString(R.string.
 						txt_shared_via)));
@@ -637,7 +647,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				
+
 				if(articledetails.getMember_id().equals(appInstance.getUserCred().getId())){
 
 				}
@@ -728,7 +738,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		else
 			return myView.getBottom() + getRelativeBottom((View) myView.getParent());
 	}
-//05-27 21:56:43.740: I/rtes(12176): {"status":"failure","description":"Invalid session id"}
+	//05-27 21:56:43.740: I/rtes(12176): {"status":"failure","description":"Invalid session id"}
 
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -892,6 +902,8 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+					
+
 				}
 			} catch (JSONException e) {
 			}
@@ -1045,14 +1057,16 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	}
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
 		int a;
+		ProgressDialog pd1;
 		public AsyncTaskGetComments(int a){
 			this.a=a;;
+//			pd1=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+//					getActivity().getResources().getString(R.string.txt_please_wait), true);
 		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				int endindex;
-				Log.i("error",  "a "+article.getComment_count());
+				int endindex=1;
 
 				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
 					endindex=Integer.parseInt(article.getComment_count())+1;
@@ -1061,14 +1075,18 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 					endindex=20;
 				}
 
+				Log.e("endindex",endindex+"");
+
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("startIndex", "0");
 				loginObj.put("endIndex", ""+endindex);
-
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+				Log.e("test", "a  "+articledetails.getCommentlist_url());
+				//String url =articledetails.getCommentlist_url();
+				//Toast.makeText(getActivity(), articledetails.getCommentlist_url()+" wgg", 2000).show();
+				
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, articledetails.getCommentlist_url(), null,
 						loginData, null);
 				return response;
 			} catch (JSONException e) {                
@@ -1079,20 +1097,30 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			JSONObject jobj=result.getjObj();
-			view_gap_list.setVisibility(View.GONE);
-			view_gap_list2.setVisibility(View.GONE);
+			Log.e("comment", "1");
+			if((pd1!=null)&&(pd1.isShowing())){
+				Log.e("comment", "2");
+				pd1.dismiss();
+			}
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();
 				}
 			}
+			
+			JSONObject jobj=result.getjObj();
+			Log.e("comment", "3");
 			new AsyncTaskUpdatePageVisit().execute();
-
+			Log.e("comment", "4");
+			view_gap_list.setVisibility(View.GONE);
+			Log.e("comment", "5");
+			view_gap_list2.setVisibility(View.GONE);
 			try {
+				Log.e("comment", "6");
 				String status= jobj.getString("status");
 				if(status.equals("success")){
 					commentslist=Commentslist.getCommentsListInstance(jobj);
+					Log.e("comment", "7");
 					if(commentslist.getCommentslist().size()>0){
 						Log.e("comment", "8");
 						if(a==0){
@@ -1100,23 +1128,25 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 						}
 						else{
 							setmemberlist();
+							//adapter1.notifyDataSetChanged();
 						}
 						
 					}
+
 				}
 				else{
 					String description=jobj.getString("message");
 					//Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
+				Log.e("comment", "9");
 			}
 		}
 	}
-
 	public void showCustomDialog(){
 		final Dialog dialog = new Dialog(activity,R.style.CustomDialog);
 		dialog.setTitle(activity.getResources().getString(R.string.app_name_arabic));
-	
+
 		dialog.setContentView(R.layout.custom_dilog);
 		dialog.setTitle(getActivity().getResources().getString(R.string.app_name_arabic));
 		et_comment =  (EditText) dialog.findViewById(R.id.et_comment);
@@ -1172,7 +1202,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		}
 	}
-	
+
 	public void callback(){
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
@@ -1186,7 +1216,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			}
 		}
 		else{
-			
+
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), 
 					Toast.LENGTH_SHORT).show();
 		}

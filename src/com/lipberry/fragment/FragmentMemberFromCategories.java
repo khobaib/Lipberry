@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -49,6 +50,7 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.adapter.CustomAdapterFormemberPost;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.SingleMember;
@@ -75,7 +77,8 @@ public class FragmentMemberFromCategories extends Fragment {
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio,
 	txt_seen_text,txt_following_text,txt_follower_text,txt_article;
 	ImageView img_member_pic;
-	Button btn_follow_her,btn_send,btn_share,btn_connect;
+	Activity activity;
+	Button btn_follow_her,btn_share,btn_connect,btn_send;
 	ProgressDialog pd;
 	boolean followstate=false;
 	@SuppressLint("NewApi")
@@ -124,7 +127,7 @@ public class FragmentMemberFromCategories extends Fragment {
 		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_share.setTypeface(Utility.getTypeface2(getActivity()));
-		
+		activity=getActivity();
 		txt_seen_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
@@ -271,10 +274,10 @@ public class FragmentMemberFromCategories extends Fragment {
 			public void onClick(View v) {
 				if(followstate){
 						//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
-						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
 					}
 					else{
-						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
 //						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
 //								Toast.LENGTH_SHORT).show();
 					}
@@ -458,8 +461,72 @@ public class FragmentMemberFromCategories extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				parent.startFragmentArticleDetails(articlelistinstance.getArticlelist().get(position));
+				imageviewarticlepicclicked(position);
+			//	parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
 			}
 		});
 	}
+	
+	public void imageviewarticlepicclicked(int position){
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+					activity.getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskgetArticleDetails(position).execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		int position;
+		public AsyncTaskgetArticleDetails(int position){
+			this.position=position;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =articlelistinstance.getArticlelist().get(position).getArticle_url();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("details", result.getjObj().toString());
+			if((pd!=null)&&(pd.isShowing())){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status=jobj.getString("status");
+				if(status.equals("success")){
+					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					GoArticlePage(position,articledetails);
+				}
+				else{
+					String message=jobj.getString("description");
+					Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void GoArticlePage(int position,ArticleDetails articleDetails){
+	
+		parent.startFragmentArticleDetails(articlelistinstance.getArticlelist().get(position),articleDetails);
+			
+	}
+	
 }

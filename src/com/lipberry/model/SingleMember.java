@@ -58,7 +58,7 @@ public class SingleMember {
 			singleMember = gson.fromJson(jsonString, SingleMember.class);
 		}
 
-
+		
 
 		return singleMember;
 	}
@@ -134,8 +134,17 @@ public class SingleMember {
 	public String getWeight(){
 		return this.weight;
 	}
-
+	
 	public String getAvatar(){
+		if(avatar!=null){
+			if(avatar.contains("default")){
+				avatar="http://www.lipberry.com/themes/default/images/userPic.jpg";
+			}
+		}
+		else{
+			avatar="http://www.lipberry.com/themes/default/images/userPic.jpg";
+
+		}
 		return this.avatar;
 	}
 

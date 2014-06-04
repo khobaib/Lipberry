@@ -47,6 +47,7 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.adapter.CustomAdapterFormemberPost;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.SingleMember;
@@ -414,10 +415,73 @@ public class FragmentMyProfile extends Fragment {
 					long arg3) {
 				Constants.GOARTCLEPAGEFROMMEMBER=true; 
 				Constants.ARTICLETOSEE=articlelistinstance.getArticlelist().get(position);
-				((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+				imageviewarticlepicclicked(position);
+				
 				//parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
 			}
 		});
+	}
+	public void imageviewarticlepicclicked(int position){
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+					activity.getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskgetArticleDetails(position).execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		int position;
+		public AsyncTaskgetArticleDetails(int position){
+			this.position=position;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =articlelistinstance.getArticlelist().get(position).getArticle_url();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("details", result.getjObj().toString());
+			if((pd!=null)&&(pd.isShowing())){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status=jobj.getString("status");
+				if(status.equals("success")){
+					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					Constants.articledetails=articledetails;
+					GoArticlePage(position,articledetails);
+				}
+				else{
+					String message=jobj.getString("description");
+					Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void GoArticlePage(int position,ArticleDetails articleDetails){
+		((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+		//parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position),articleDetails);
+			
 	}
 }
 

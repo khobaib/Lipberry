@@ -5,6 +5,7 @@ import java.util.Stack;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.utility.Constants;
 
 
@@ -65,22 +66,32 @@ public class HomeTabFragment extends TabFragment{
 	}
 	public void onStart( ) {
 		Constants.GOTABFROMWRITETOPIC=4;
+		Log.e("test", "1");
+
 		if(Constants.GOMEMBERSTATEFROMINTERACTION){
+			Log.e("test", "2");
 			startMemberFragment(2);
 			Constants.GOMEMBERSTATEFROMINTERACTION=false;
 		}
 		else if(Constants.GOMEMBERSTATEFROMSETTING){
+			Log.e("test", "3");
+
 			startMemberFragment(5);
 			Constants.GOMEMBERSTATEFROMSETTING=false;
 		}
 		else if(Constants.GOARTCLEPAGE){
+			Log.e("test", "4" +" "+Constants.from);
+
 			Constants.GOARTCLEPAGE=false;
-			FragmentArticleDetailsFromInteraction(Constants.INTER_ARTICLE_ID);
+			FragmentArticleDetailsFromInteraction(Constants.articledetails,Constants.from);
 		}
 		else if(Constants.GOARTCLEPAGEFROMMEMBER){
+			Log.e("test", "5");
 			Constants.GOARTCLEPAGEFROMMEMBER=false;
 			startFragmentArticleDetailsFromHome(Constants.ARTICLETOSEE,5);
 		}
+		Log.e("test", "6");
+
 		trackcallhome.peek();
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
@@ -92,8 +103,8 @@ public class HomeTabFragment extends TabFragment{
 	}
 	
 
-	public void FragmentArticleDetailsFromInteraction(String article_id) {
-		FragmentArticleDetailsFromInteraction newFragment = new FragmentArticleDetailsFromInteraction (article_id);
+	public void FragmentArticleDetailsFromInteraction(ArticleDetails articledetails,int from) {
+		FragmentArticleDetailsFromInteraction newFragment = new FragmentArticleDetailsFromInteraction (articledetails,from);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -101,7 +112,7 @@ public class HomeTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
 		backEndStack.push(newFragment);
-		trackcallhome.push(2);
+		trackcallhome.push(from);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
 
@@ -119,9 +130,9 @@ public class HomeTabFragment extends TabFragment{
 		trackcallhome.push(0);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
-	public void startFragmentArticleDetailsFromHome(Article article) {
+	public void startFragmentArticleDetailsFromHome(Article article,ArticleDetails articleDetails) {
 		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();
-		newFragment.setArticle(article);
+		newFragment.setArticle(article, articleDetails);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -134,7 +145,7 @@ public class HomeTabFragment extends TabFragment{
 	}
 	public void startFragmentArticleDetailsFromHome(Article article, int state) {
 		FragmentArticleDetailsFromHome newFragment = new FragmentArticleDetailsFromHome ();
-		newFragment.setArticle(article);
+		newFragment.setArticle(article,Constants.articledetails);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -201,7 +212,13 @@ public class HomeTabFragment extends TabFragment{
 					FragmentTransaction fragmentTransaction = fragmentManager
 							.beginTransaction();
 					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(callstate);
+					if(callstate==10){
+						((HomeActivity)getActivity()).mTabHost.setCurrentTab(0);
+					}
+					else{
+						((HomeActivity)getActivity()).mTabHost.setCurrentTab(callstate);
+					}
+					
 				}
 				
 			}

@@ -17,6 +17,7 @@ public class ArticleDetails {
 	private String video;
 	private String comment_count="0";
 	private String member;
+	String member_nickname;
 	private String follow_flag;
 	private String member_email;
 	private String photo;
@@ -38,6 +39,10 @@ public class ArticleDetails {
 	String abuse_flag;
 	String abuse_url="";
 	String already_like_flag="No";
+	String commentlist_url="";
+	public String getmember_nickname(){
+		return this.member_nickname;
+	}
 	public String getUserAlreadylikeThis(){
 		return this.already_like_flag;
 	}
@@ -102,7 +107,7 @@ public class ArticleDetails {
 		return null;
 	}
 	public String getCommentlist_url(){
-		return this.comment_count;
+		return this.commentlist_url;
 	}
 	public String getCreated_at(){
 		return this.created_at;

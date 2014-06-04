@@ -10,24 +10,6 @@
         android:layout_height="1dp"
          android:layout_alignParentTop="true"
        android:background="@color/android_green" />
-    <ListView
-        android:id="@+id/lv_thread_messages"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-         android:layout_below="@+id/lv_vw_top"
-       android:layout_above="@+id/lv_vw_btm"
-      android:layout_alignParentTop="true"
-        android:cacheColorHint="@android:color/transparent"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="2dp"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-        android:listSelector="@android:color/transparent"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
-        >
-    </ListView>
     
     <View
         android:id="@+id/lv_vw_btm"
@@ -78,5 +60,21 @@
             android:textSize="16dp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_thread_messages"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lv_vw_top"
+        android:layout_above="@+id/et_msg_body"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="2dp"
+        android:listSelector="@android:color/transparent"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:transcriptMode="alwaysScroll" >
+    </ListView>
 
 </RelativeLayout>

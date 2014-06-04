@@ -116,10 +116,15 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	WebView web_view;
 	static Activity activity;
 	@SuppressLint("NewApi")
-	Article article;
-	public void setArticle(Article article){
-		this.article=article;
+	//Article article;
+	public void setArticle(Article article,ArticleDetails articledetails){
+		//this.article=article;
+		this.articledetails=articledetails;
 	}
+//	public void setArticle(Article article){
+//		this.article=article;
+//		//this.articledetails=articledetails;
+//	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -190,7 +195,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			Log.e("comment", "10");
 			view_gap_list.setVisibility(View.VISIBLE);
 			view_gap_list2.setVisibility(View.VISIBLE);
-			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+article.getArticle_id(),0,this,null,null);
+			adapter1=new CustomAdapterForComment(getActivity(), commentslist.getCommentslist(),Constants.baseurl+"article/commentlist/"+articledetails.getId(),0,this,null,null);
 			list_comment.setAdapter(adapter1);
 			setListViewHeightBasedOnChildren(list_comment);
 			list_comment.requestFocus();
@@ -218,11 +223,20 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				container, false);
 		initview(v);
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskgetArticleDetails().execute();
+			
+			new AsyncTaskGetComments(0).execute();
+			if(articledetails.getFollow_flag()!=null){
+				if(!articledetails.getFollow_flag().equals("Not a follower")){
+					followstate=true;
+				}
+				else{
+					followstate=false;
+				}
+			}
+			setview();
 		}
 		else{
+			setview();
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
@@ -233,49 +247,44 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-
-		if(article.getCategory_name()!=null){
-			((HomeActivity)getActivity()).welcome_title.setText(article.getCategory_name());
+		if(articledetails.getCategory_title()!=null){
+			((HomeActivity)getActivity()).welcome_title.setText(articledetails.getCategory_title());
 
 		}
 		else{
-			if(article.getcategory().equals("1")){
+			if(articledetails.getCategory().equals("1")){
 				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat1));
 			}
-			if(article.getcategory().equals("2")){
-				if(article.getArticle_category_url().contains("shexp")){
-					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
+			if(articledetails.getCategory().equals("2")){
+				//				if(articledetails.getca.contains("shexp")){
+				//					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2_shpx));
+				//				}
+				//else{
+				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
 
-				}
-				else{
-					((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat2));
-
-				}
+				//}
 			}
-			if(article.getcategory().equals("3")){
+			if(articledetails.getCategory().equals("3")){
 				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat3));
 			}
-			if(article.getcategory().equals("5")){
+			if(articledetails.getCategory().equals("5")){
 				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat5));
 			}
-			if(article.getcategory().equals("8")){
+			if(articledetails.getCategory().equals("8")){
 				((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_cat8));
 			}
 		}
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.VISIBLE);
 
 
-		if(article.getcategory().equals("2")){
-			if(article.getArticle_category_url().contains("shexp")){
-				int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
-				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
-			}
-			else{
-				int id = getActivity().getResources().getIdentifier("catbl"+article.getcategory(), "drawable", getActivity().getPackageName());
-				((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
-			}
+
+		if(articledetails.getCategory().equals("2")){
+
+			int id = getActivity().getResources().getIdentifier("catbl"+articledetails.getCategory(), "drawable", getActivity().getPackageName());
+			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
+
 		}else{
-			int id = getActivity().getResources().getIdentifier("catl"+article.getcategory(), "drawable", getActivity().getPackageName());
+			int id = getActivity().getResources().getIdentifier("catl"+articledetails.getCategory(), "drawable", getActivity().getPackageName());
 			((HomeActivity)getActivity()).img_cat_icon.setImageResource(id);
 		}
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
@@ -332,7 +341,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/findarticlebyid/"+article.getArticle_id();
+				String url =Constants.baseurl+"article/findarticlebyid/"+articledetails.getId();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -503,8 +512,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onClick(View v) {
 				Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 				sharingIntent.setType("text/plain");
-				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url()+"\n"+
-				getActivity().getResources().getString(R.string.txt_thanks);
+				String shareBody = articledetails.getTitle()+"\n"+articledetails.getShort_url();
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent,getActivity().getResources().getString(R.string.
 						txt_shared_via)));
@@ -533,8 +541,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				LisAlertDialog alert;
-				if(article.getLikedmemberlist().size()>0){
-					alert=new LisAlertDialog(getActivity(), article.getLikedmemberlist(),getActivity(),parent,null);
+				if(articledetails.getLikedmemberlist().size()>0){
+					alert=new LisAlertDialog(getActivity(), articledetails.getLikedmemberlist(),getActivity(),parent,null);
 					alert.show_alert();
 				}
 				else{
@@ -556,7 +564,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		ShowHtmlText showtext=new ShowHtmlText(text_topic_text, getActivity());
 		showtext.updateImages(true,text);
 		
-		text_user_name.setText(article.getMember_nickname());
+		text_user_name.setText(articledetails.getmember_nickname());
 		text_date_other.setText(articledetails.getMember_username());
 
 		txt_articl_ename.setText(articledetails.getTitle());
@@ -722,8 +730,8 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			imageLoader.loadImage(articledetails.getPhoto(), imll);
 		}
 
-		if(article.getUserAlreadylikeThis()!=null){
-			if(!article.getUserAlreadylikeThis().equals("No")){
+		if(articledetails.getUserAlreadylikeThis()!=null){
+			if(!articledetails.getUserAlreadylikeThis().equals("No")){
 				img_like.setBackgroundResource(R.drawable.unlike);
 			}
 			else{
@@ -786,7 +794,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			@Override
 			public void onClick(View v) {
 
-				Constants.userid=article.getMember_id();
+				Constants.userid=articledetails.getMember_id();
 				parent.startMemberFragment(0);
 
 			}
@@ -795,14 +803,14 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				Constants.userid=article.getMember_id();
+				Constants.userid=articledetails.getMember_id();
 				parent.startMemberFragment(0);
 
 			}
 		});
 	}
 	public void imgeviewlikeclicked(){
-		if(!article.getUserAlreadylikeThis().equals("No")){
+		if(!articledetails.getUserAlreadylikeThis().equals("No")){
 			if(Constants.isOnline(getActivity())){
 				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 						getActivity().getResources().getString(R.string.txt_please_wait), false);
@@ -855,13 +863,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					img_like.setBackgroundResource(R.drawable.like);
-					article.setUserAlreadylikeThis("No");
+					articledetails.setUserAlreadylikeThis("No");
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					if(description.equals("You pressed dislike before")){
 						img_like.setBackgroundResource(R.drawable.like);
-						article.setUserAlreadylikeThis("No");
+						articledetails.setUserAlreadylikeThis("No");
 					}
 				}
 			} catch (JSONException e) {
@@ -900,13 +908,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					Toast.makeText(activity,activity.getResources().getString(R.string.txt_like_success), 
 							Toast.LENGTH_SHORT).show();
 					img_like.setBackgroundResource(R.drawable.unlike);
-					article.setUserAlreadylikeThis("Yes");
+					articledetails.setUserAlreadylikeThis("Yes");
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					if(description.equals("You presed like before")){
 						img_like.setBackgroundResource(R.drawable.unlike);
-						article.setUserAlreadylikeThis("Yes");
+						articledetails.setUserAlreadylikeThis("Yes");
 					}
 				}
 			} catch (JSONException e) {
@@ -956,7 +964,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/cancelFollowmember/"+article.getMember_id()+"/";
+				String url =Constants.baseurl+"account/cancelFollowmember/"+articledetails.getMember_id()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -995,10 +1003,12 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				//loginObj.put("member_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/followmember/"+article.getMember_id()+"/";
+				String url =Constants.baseurl+"account/followmember/"+articledetails.getMember_id()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
+				Log.e("res", response.getjObj().toString());
 				return response;
 			} catch (JSONException e) {                
 				e.printStackTrace();
@@ -1170,7 +1180,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				if(status.equals("success")){
 					if(status.equals("success")){
 						articledetails.setCommentcount((Integer.parseInt(articledetails.getComment_count())+1)+"");
-						article.setCommentcount((Integer.parseInt(article.getComment_count())+1)+"");
+						articledetails.setCommentcount((Integer.parseInt(articledetails.getComment_count())+1)+"");
 						text_comment.setText(articledetails.getComment_count()+ " "+getResources().
 								getString(R.string.txt_comments));
 						if(Constants.isOnline(getActivity())){
@@ -1205,16 +1215,19 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 
 	private class AsyncTaskGetComments extends AsyncTask<Void, Void, ServerResponse> {
 		int a;
+		ProgressDialog pd1;
 		public AsyncTaskGetComments(int a){
 			this.a=a;;
+//			pd1=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+//					getActivity().getResources().getString(R.string.txt_please_wait), true);
 		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				int endindex=1;
 
-				if((article.getComment_count()!=null)&&(!article.getComment_count().equals(""))){
-					endindex=Integer.parseInt(article.getComment_count())+1;
+				if((articledetails.getComment_count()!=null)&&(!articledetails.getComment_count().equals(""))){
+					endindex=Integer.parseInt(articledetails.getComment_count())+1;
 				}
 				else{
 					endindex=20;
@@ -1227,8 +1240,11 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				loginObj.put("startIndex", "0");
 				loginObj.put("endIndex", ""+endindex);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"article/commentlist/"+article.getArticle_id();
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+				Log.e("test", "a  "+articledetails.getCommentlist_url());
+				//String url =articledetails.getCommentlist_url();
+				//Toast.makeText(getActivity(), articledetails.getCommentlist_url()+" wgg", 2000).show();
+				
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, articledetails.getCommentlist_url(), null,
 						loginData, null);
 				return response;
 			} catch (JSONException e) {                
@@ -1240,12 +1256,16 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("comment", "1");
+			if((pd1!=null)&&(pd1.isShowing())){
+				Log.e("comment", "2");
+				pd1.dismiss();
+			}
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();
 				}
 			}
-			Log.e("comment", "2");
+			
 			JSONObject jobj=result.getjObj();
 			Log.e("comment", "3");
 			new AsyncTaskUpdatePageVisit().execute();
@@ -1295,25 +1315,13 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
-			
 			super.onPostExecute(result);
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();
 				}
 			}
-			Log.e("error", result.getjObj().toString());
-			JSONObject jobj=result.getjObj();
-			try {
-				String status= jobj.getString("status");
-				if(status.equals("success")){
-				}
-				else{
-					String description=jobj.getString("message");
-					//Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
-				}
-			} catch (JSONException e) {
-			}
+			
 		}
 	}
 	
@@ -1338,7 +1346,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 	}
-
+	
 
 }
 

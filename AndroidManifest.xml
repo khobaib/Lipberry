@@ -99,6 +99,7 @@
          <activity
             android:name="com.lipberry.ResendActiviationEmail"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:theme="@style/HomeActivityTheme" >
         </activity>
         <activity

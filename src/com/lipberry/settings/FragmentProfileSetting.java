@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -57,6 +58,8 @@ import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 @SuppressLint("NewApi")
 public class FragmentProfileSetting extends Fragment {
 	public MenuTabFragment parent;
@@ -65,6 +68,7 @@ public class FragmentProfileSetting extends Fragment {
 	Spinner  s_city,s_country;
 	int selectedcityposition=-1;
 	int statetocallpd=0;
+	public Bitmap bitmap;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
 	TextView t_city;
@@ -86,10 +90,12 @@ public class FragmentProfileSetting extends Fragment {
 	Button btn_change_photo;
 	SingleMember singleMember;
 	String  nickname,email,country_id="",city_id="",brief,password,siteurl;
+	FragmentProfileSetting lisenar;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		lisenar=this;
 		stateofcalloncreate=1;
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
@@ -152,7 +158,7 @@ public class FragmentProfileSetting extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				parent.startFragmentImageSetting(singleMember);
+				parent.startFragmentImageSetting(singleMember,lisenar);
 			}
 		});
 		btn_change_photo.setOnClickListener(new OnClickListener() {
@@ -160,7 +166,7 @@ public class FragmentProfileSetting extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				parent.startFragmentImageSetting(singleMember);
+				parent.startFragmentImageSetting(singleMember,lisenar);
 			}
 		});
 		bt_update_profile.setOnClickListener(new OnClickListener() {
@@ -174,25 +180,22 @@ public class FragmentProfileSetting extends Fragment {
 				brief=et_brief.getText().toString();
 				
 				siteurl=et_site_url.getText().toString();
-				if((!nickname.equals(""))||(!password.equals(""))||(!brief.equals(""))||(!email.equals(""))||(!siteurl.equals(""))||
-						(selectedcityposition!=-1)||(selectedcountryposition!=-1)){
-					if(!email.equals("")){
-						if(Constants.isValidEmail(email)){
-							//AsyncTasksetUpdateProfile
-							//	AsyncTasksetUpdateProfile 
+			//	Toast.makeText(getActivity(), selectedcountryposition+"  "+selectedcityposition,2000).show();
+				if((selectedcountryposition!=-1)&&(selectedcityposition==-1)){
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_select_city), Toast.LENGTH_SHORT).show();
+				}
+				else if((!nickname.equals(""))||(!password.equals(""))||(!brief.equals(""))||(!siteurl.equals("")))
+				{
+					
+						
+							 country_id=countrylist.get(selectedcountryposition).getId();
+							 city_id=citylist.get(selectedcityposition).getId();
 							pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 									getActivity().getResources().getString(R.string.txt_please_wait), false);
 							new AsyncTasksetUpdateProfile().execute();
-						}
-						else{
-							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_please_enter_email), Toast.LENGTH_SHORT).show();
-						}
-					}
-					else{
-						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-								getActivity().getResources().getString(R.string.txt_please_wait), false);
-						new AsyncTasksetUpdateProfile().execute();
-					}
+						
+					
+					
 
 				}
 				else{
@@ -242,6 +245,7 @@ public class FragmentProfileSetting extends Fragment {
 		
 		return v;
 	}
+	//public void callparent
 	
 
 
@@ -252,16 +256,14 @@ public class FragmentProfileSetting extends Fragment {
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				if(selectedcountryposition!=-1){
+				if((selectedcountryposition!=-1)&&(selectedcityposition!=-1)){
 					loginObj.put("country_id",countrylist.get(selectedcountryposition).getId());
-				}
-				if(selectedcityposition!=-1){
 					loginObj.put("city_id",citylist.get(selectedcityposition).getId());
-				}
-				if(selectedcityposition!=-1){
-					loginObj.put("city_id",citylist.get(selectedcityposition).getId());
+
 				}
 				if(!password.equals("")){
+					byte[] ba = brief.getBytes();
+					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("password",password);
 				}
 				if(!siteurl.equals("")){
@@ -322,9 +324,7 @@ public class FragmentProfileSetting extends Fragment {
 			ucred.setPassword(password);
 		}
 
-		if(!email.equals("")){
-			ucred.setEmail(email);
-		}
+		
 		if(!brief.equals("")){
 			ucred.setbBrief(brief);
 		}
@@ -341,7 +341,9 @@ public class FragmentProfileSetting extends Fragment {
 		if(!siteurl.equals("")){
 			ucred.setSiteUrl(brief);
 		}
-		ucred.setCity(citylist.get(selectedcityposition).getId());
+		if(selectedcityposition!=-1){
+			ucred.setCity(citylist.get(selectedcityposition).getId());
+		}
 		ucred.setCountry(countrylist.get(selectedcountryposition).getId());
 		appInstance.setUserCred(ucred);
 
@@ -424,12 +426,12 @@ public class FragmentProfileSetting extends Fragment {
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
-				selectedcityposition=position-1;
+				selectedcityposition=position;
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				selectedcityposition=-1;
+				
 			}
 		});
 		if(state==0){
@@ -509,6 +511,9 @@ public class FragmentProfileSetting extends Fragment {
 		// TODO Auto-generated method stub
 		Log.e("tag", "onCreateView");
 		super.onResume();
+		if(bitmap!=null){
+			img_profile.setImageBitmap(bitmap);
+		}
 		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_my_page));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
@@ -558,6 +563,7 @@ public class FragmentProfileSetting extends Fragment {
 					long arg3){
 				
 				selectedcountryposition=position-1;
+				selectedcityposition=-1;
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
 				
@@ -617,14 +623,37 @@ public class FragmentProfileSetting extends Fragment {
 		}
 	}
 	public void setMemberObjectView(){
+		ImageLoadingListener imll=new ImageLoadingListener() {
+
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+			}
+
+			@Override
+			public void onLoadingFailed(String imageUri, View view,
+					FailReason failReason) {
+			}
+
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				bitmap=loadedImage;
+				img_profile.setImageBitmap(bitmap);
+			}
+
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+			}
+		};
 		ImageLoader.getInstance().getMemoryCache().clear();
 		ImageLoader.getInstance().getDiscCache().clear();
-		ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
+		ImageLoader.getInstance().loadImage(singleMember.getAvatar(), imll);
+		//ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
 		Log.e("url", "a  "+ singleMember.getAvatar());
 		e_nickname.setText(singleMember.getNickname());
 		et_email.setText(singleMember.getEmail());
 		et_site_url.setText(singleMember.getSiteurl());
 		et_brief.setText(singleMember.getBrief());
+		
 	}
 }
 

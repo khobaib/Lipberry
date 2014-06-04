@@ -1,5 +1,5 @@
 
-package com.lipberry.fragment;
+package com.lipberry.settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +13,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -49,6 +47,7 @@ import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.adapter.CustomAdapterFormemberPost;
+import com.lipberry.fragment.MenuTabFragment;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 import com.lipberry.model.ServerResponse;
@@ -64,7 +63,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 @SuppressLint({ "NewApi", "ValidFragment" })
-public class FragmentMemberFromHome extends Fragment {
+public class FragmentSingleMember extends Fragment {
 	ImageLoader imageLoader;
 	LipberryApplication appInstance;
 	JsonParser jsonParser;
@@ -73,17 +72,17 @@ public class FragmentMemberFromHome extends Fragment {
 	SingleMember singleMember;
 	ArticleList  articlelistinstance;
 	Activity activity;
-	int statefromcallesd=0;
-	HomeTabFragment parent;
+	public MenuTabFragment parent;
 	TextView txt_num_seen,txt_num_following,txt_num_follower,txt_name,txt_nick_name,txt_bio,
 	txt_seen_text,txt_following_text,txt_follower_text,txt_article;
 	ImageView img_member_pic;
 	Button btn_follow_her,btn_send,btn_share,btn_connect;
 	ProgressDialog pd;
 	boolean followstate=false;
-	int callstatefromtab=0;
-	String userid;
-	
+	String member_id;
+	public FragmentSingleMember(String member_id){
+		this.member_id=member_id;
+	}
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -97,10 +96,15 @@ public class FragmentMemberFromHome extends Fragment {
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-	}
-	public FragmentMemberFromHome(int callstatefromtab,String userid){
-		this.callstatefromtab=callstatefromtab;
-		this.userid=userid;
+		if(Constants.isOnline(getActivity())){
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskGetSinleMember().execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,7 +115,6 @@ public class FragmentMemberFromHome extends Fragment {
 		txt_following_text=(TextView) v.findViewById(R.id.txt_following_text);
 		txt_follower_text=(TextView) v.findViewById(R.id.txt_follower_text);
 		txt_article=(TextView) v.findViewById(R.id.txt_article);
-
 		txt_num_seen=(TextView) v.findViewById(R.id.txt_num_seen);
 		txt_num_following=(TextView) v.findViewById(R.id.txt_num_following);
 		txt_num_follower=(TextView) v.findViewById(R.id.txt_num_follower);
@@ -126,14 +129,12 @@ public class FragmentMemberFromHome extends Fragment {
 		webview_member=(WebView) v.findViewById(R.id.webview_member);
 		btn_connect=(Button) v.findViewById(R.id.btn_connect);
 		activity=getActivity();
-
 		txt_num_seen.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_follower.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_num_following.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_name.setTypeface(Utility.getTypeface1(getActivity()));
 		txt_nick_name.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_bio.setTypeface(Utility.getTypeface2(getActivity()));
-
 		btn_connect.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_follow_her.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_send.setTypeface(Utility.getTypeface2(getActivity()));
@@ -142,16 +143,6 @@ public class FragmentMemberFromHome extends Fragment {
 		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_article.setTypeface(Utility.getTypeface2(getActivity()));
-		if(Constants.isOnline(activity)){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetSinleMember().execute();
-		}
-		else{
-			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -170,43 +161,22 @@ public class FragmentMemberFromHome extends Fragment {
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(callstatefromtab==0){
-					parent.onBackPressed();
-				}
-				else{
-					parent.onBackPressed();
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(callstatefromtab);
-				}
-				
+				parent.onBackPressed();
 			}
 		});
 	}
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			
-	
-			try {
-				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/findmemberbyid/"+userid+"/";
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-						loginData, null);
-				return response;
-			} catch (JSONException e) {                
-				e.printStackTrace();
-				return null;
-			}
-		
-
+			String url =Constants.baseurl+"account/findmemberbyid/"+member_id+"/";
+			ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_GET, url, null,
+					null, null);
+			return response;
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("result", "1   "+result.getjObj().toString());
 			setMemberObject(result.getjObj().toString());
-			Log.e("result", "1   "+result.getjObj().toString());
 		}
 	}
 
@@ -232,19 +202,18 @@ public class FragmentMemberFromHome extends Fragment {
 	public void setUserInterface(){
 		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)activity).welcome_title.setText(singleMember.getName());
-		Log.e("null",singleMember.getId() +" a "+appInstance.getUserCred().getId());
 		if(singleMember.getId().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setVisibility(View.GONE);
 			btn_send.setVisibility(View.GONE);
-			btn_share.setVisibility(View.GONE);
-
 		}
 		else{
 			btn_follow_her.setVisibility(View.VISIBLE);
 			btn_send.setVisibility(View.VISIBLE);
 		}
+		
 		txt_name.setText(singleMember.getNickname());
 		txt_nick_name.setText(singleMember.getUsername());
+		txt_bio.setText(singleMember.getBrief());
 		txt_bio.setText(singleMember.getBrief());
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
@@ -254,49 +223,31 @@ public class FragmentMemberFromHome extends Fragment {
 		txt_num_following.setText(singleMember.getNumber_of_following());
 		txt_num_seen.setText(singleMember.getPublicpage_visit());                                                                                                        
 		imageLoader.displayImage(singleMember.getAvatar(), img_member_pic);
+		btn_share.setVisibility(View.GONE);
 		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
-				startActivity(browserIntent);
-//				webview_member.setVisibility(View.VISIBLE);
-//				WebSettings webSettings = webview_member.getSettings();
-//				webSettings.setJavaScriptEnabled(true);
-//				webview_member.setWebViewClient(new CustomWebViewClient());
-//				webview_member.loadUrl(singleMember.getSiteurl());
+				webview_member.setVisibility(View.VISIBLE);
+				WebSettings webSettings = webview_member.getSettings();
+				webSettings.setJavaScriptEnabled(true);
+				webview_member.setWebViewClient(new Callback());
+				webview_member.loadUrl(singleMember.getSiteurl());
 			}
 		});
-
+		
 		if(!singleMember.getAlready_followin().equals("Yes")){
 			followstate=false;
 		}
 		else{
 			followstate=true;
 		}
-
+		
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
-			btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
 		}
 		else{
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
-		btn_send.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if(followstate){
-					//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
-					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
-				}
-				else{
-					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
-//					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
-//							Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
 	}
 	public void buttonfollowclicked(){
 		if(!followstate){
@@ -404,19 +355,12 @@ public class FragmentMemberFromHome extends Fragment {
 			}
 		}
 	}
-	private class CustomWebViewClient extends WebViewClient {
-        @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-        	if (true){
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-                return true; //the webview will not load the URL
-            } else {
-                return false; //the webview will handle it
-            }
-            }
-        }
+	private class Callback extends WebViewClient{  
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url) {
+			return (false);
+		}
+	}
 	private class AsyncTaskGetmemberPost extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -426,7 +370,7 @@ public class FragmentMemberFromHome extends Fragment {
 				loginObj.put("startIndex", "0");
 				loginObj.put("endIndex" , "10");
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/memberpostsbyid/"+Constants.userid;
+				String url =Constants.baseurl+"account/memberpostsbyid/"+member_id;
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -474,12 +418,14 @@ public class FragmentMemberFromHome extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
+				Constants.GOARTCLEPAGEFROMMEMBER=true; 
+				Constants.ARTICLETOSEE=articlelistinstance.getArticlelist().get(position);
 				imageviewarticlepicclicked(position);
-			//	parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
+				
+				//parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
 			}
 		});
 	}
-	
 	public void imageviewarticlepicclicked(int position){
 		if(Constants.isOnline(activity)){
 			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
@@ -524,6 +470,7 @@ public class FragmentMemberFromHome extends Fragment {
 				String status=jobj.getString("status");
 				if(status.equals("success")){
 					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					Constants.articledetails=articledetails;
 					GoArticlePage(position,articledetails);
 				}
 				else{
@@ -537,8 +484,8 @@ public class FragmentMemberFromHome extends Fragment {
 	}
 	
 	public void GoArticlePage(int position,ArticleDetails articleDetails){
-	
-				parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position),articleDetails);
+		((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+		//parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position),articleDetails);
 			
 	}
 }

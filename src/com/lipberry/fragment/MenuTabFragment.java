@@ -10,6 +10,7 @@ import com.lipberry.settings.FragmentFindamember;
 import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.settings.FragmentMessageSetting;
 import com.lipberry.settings.FragmentProfileSetting;
+import com.lipberry.settings.FragmentSingleMember;
 import com.lipberry.utility.Constants;
 
 
@@ -123,11 +124,22 @@ public class MenuTabFragment extends TabFragment{
 		backEndStack.push(newFragment);
 		fragmentTransaction.commitAllowingStateLoss();
 	}
+	public void startFragmentSingleMember(String member_id) {
+		FragmentSingleMember newFragment = new FragmentSingleMember( member_id);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	
-	//
+	//FragmentSingleMember
 	
-	public void startFragmentImageSetting(SingleMember singleMember) {
-		FragmentImageSetting newFragment = new FragmentImageSetting(singleMember);
+	public void startFragmentImageSetting(SingleMember singleMember,FragmentProfileSetting lisenar) {
+		FragmentImageSetting newFragment = new FragmentImageSetting(singleMember,lisenar);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

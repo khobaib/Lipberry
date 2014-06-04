@@ -106,6 +106,7 @@ public class HomeActivity extends FragmentActivity {
 	FragmentImageSetting imgsetting;
 	String a="normal";
 	Timer myTimer ;
+	int k=4;
 	MyTimerTask myTimerTask;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -121,25 +122,42 @@ public class HomeActivity extends FragmentActivity {
 		backbuttonoftab.setVisibility(View.GONE);
 		topBar=(RelativeLayout) findViewById(R.id.topBar);
 		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
-		newgetGCMDeviceID();
+		
 		setTabs();
+		Log.e("tag", "1");
 		try {
+			Log.e("tag", "2");
+
 			a=getIntent().getExtras().getString("type");
+			Log.e("tag", "3");
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			Log.e("tag", "4");
+
 			e.printStackTrace();
 			a="normal";
 		}
 		if(a.equals("normal")){
-			mTabHost.setCurrentTab(4);
+			Log.e("tag", "5");
+
+			k=4;
+			//mTabHost.setCurrentTab(4);
 		}
 		else if(a.equals("inbox message")){
-			mTabHost.setCurrentTab(1);
+			Log.e("tag", "6");
+
+			k=1;
+			//mTabHost.setCurrentTab(1);
 
 		}
 		else{
-			mTabHost.setCurrentTab(2);
+			Log.e("tag", "7");
+
+			k=2;
 		}
+		mTabHost.setCurrentTab(k);
+
 //		Handler handler=new Handler();
 //		handler.postDelayed(new Runnable() {
 //
@@ -152,6 +170,10 @@ public class HomeActivity extends FragmentActivity {
 //
 //			}
 //		},4000);
+		Constants.homeActivity=HomeActivity.this;
+		if(k==4){
+			newgetGCMDeviceID();
+		}
 	}
 	
 	
@@ -233,6 +255,14 @@ public class HomeActivity extends FragmentActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+        if(Constants.pushnotificationcalllive){
+        	Constants.pushnotificationcalllive=false;
+        	String type=Constants.type;
+        	int callno;
+        	
+        	
+        }
+		Log.e(" onResume", " onResume");
 //		 myTimer = new Timer();
 //		 myTimerTask= new MyTimerTask();
 //		 myTimer.scheduleAtFixedRate(myTimerTask, 0, 10000); 
@@ -270,6 +300,7 @@ public class HomeActivity extends FragmentActivity {
 			public void onClick(DialogInterface dialog,int id) {
 				Intent intent=new  Intent(HomeActivity.this, LoginActivity.class);
 				finisssh();
+				System.exit(0);
 			}
 		})
 		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
@@ -343,6 +374,7 @@ public class HomeActivity extends FragmentActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		Log.e("request code", "q "+requestCode);
 		drectory=Constants.drectory;
 		photofromcamera=Constants.photofromcamera;
 

@@ -80,8 +80,10 @@ public class FragmentImageSetting extends Fragment {
 	int selectedcountryposition=-1;
 	ProgressDialog pd;
 	public SingleMember singleMember;
-	public FragmentImageSetting(SingleMember singleMember){
+	FragmentProfileSetting lisenar;
+	public FragmentImageSetting(SingleMember singleMember,FragmentProfileSetting lisenar){
 		this.singleMember=singleMember;
+		this.lisenar=lisenar;
 	}
 	
 
@@ -225,6 +227,7 @@ public class FragmentImageSetting extends Fragment {
 				String description=jobj.getString("description");
 				if(status.equals("success")){
 					parent.onBackPressed();
+					lisenar.bitmap=bitmap;
 					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_upload_success), Toast.LENGTH_SHORT).show();
 
 				}

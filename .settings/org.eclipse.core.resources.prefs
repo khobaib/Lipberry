@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/com/lipberry/GCMIntentService.java=UTF-8
 encoding//src/com/lipberry/HomeActivity.java=UTF-8
 encoding//src/com/lipberry/SignupActivity.java=UTF-8
 encoding//src/com/lipberry/adapter/ListviewAdapterMember.java=UTF-8
@@ -9,3 +10,4 @@ encoding//src/com/lipberry/fragment/FragmentMyCountriesPost.java=UTF-8
 encoding//src/com/lipberry/fragment/FragmentMyFollwerPost.java=UTF-8
 encoding//src/com/lipberry/fragment/FragmentWriteTopic.java=UTF-8
 encoding//src/com/lipberry/model/Categories.java=UTF-8
+encoding//src/com/lipberry/model/TndividualThreadMessage.java=UTF-8

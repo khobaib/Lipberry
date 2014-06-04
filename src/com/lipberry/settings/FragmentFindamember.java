@@ -204,20 +204,12 @@ public class FragmentFindamember extends Fragment{
 		
 		spn_uname.setOnItemSelectedListener(new OnItemSelectedListener(){
 
-			public void onItemSelected(AdapterView<?> parent, View arg1, int position, 
+			public void onItemSelected(AdapterView<?> parent1, View arg1, int position, 
 					long arg3){
 				if(position>0){
 					et_username.setText(memberListobject.getMemberlistForSendMessage().get(position-1).getUsername());
 					Constants.userid=memberListobject.getMemberlistForSendMessage().get(position-1).getId();
-					if(Constants.isOnline(getActivity())){
-						pd=ProgressDialog.show(getActivity(),getActivity().getResources().getString(R.string.app_name_arabic),
-								getActivity().getResources().getString(R.string.txt_please_wait),false);
-						new AsyncTaskGetSinleMember().execute();
-					}
-					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-								Toast.LENGTH_SHORT).show();
-					}
+					parent.startFragmentSingleMember(memberListobject.getMemberlistForSendMessage().get(position-1).getId());
 				}
 								
 			}
@@ -400,6 +392,7 @@ public class FragmentFindamember extends Fragment{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				parent.startFragmentMyProfile();
 				Constants.GOMEMBERSTATEFROMSETTING=true;
 				((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 

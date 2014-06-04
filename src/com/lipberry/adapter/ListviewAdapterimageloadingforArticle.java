@@ -27,7 +27,9 @@ import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.customalertdilog.LisAlertDialogForComment;
 import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
+
 import com.lipberry.model.Article;
+import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
@@ -92,8 +94,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ProgressDialog mProgress;
 	EditText et_comment;
 	ImageLoader imageLoader;
-	//05-21 19:48:05.190: D/JsonParser(756): sb = {"status":"success","article_list":[]}
-
 	public ListviewAdapterimageloadingforArticle(Activity activity,
 			ArrayList<Article> list,CategoryTabFragment parent3) {
 		super();
@@ -283,18 +283,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(parent3==null){
-					if(list.get(position)!=null){
-						parent.startFragmentArticleDetailsFromHome(list.get(position));
-					}
-					
-				}
-				else{
-					if(list.get(position)!=null){
-						parent3.startFragmentArticleDetails(list.get(position));
-
-					}
-				}
+				imageviewarticlepicclicked(position);
+				
 			}
 		});
 		holder.text_comment.setOnClickListener(new OnClickListener() {
@@ -489,20 +479,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		return convertView;
 	}
 
-	public void imageviewarticlepicclicked(int position){
-		if(parent3==null){
-			if(list.get(position)!=null){
-				parent.startFragmentArticleDetailsFromHome(list.get(position));
-			}
-			
-		}
-		else{
-			if(list.get(position)!=null){
-				parent3.startFragmentArticleDetails(list.get(position));
-
-			}
-		}
-	}
+	
 
 	public void imageviewcommentsclicked(){
 
@@ -589,13 +566,13 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					Toast.makeText(activity,activity.getResources().getString(R.string.txt_comment), Toast.LENGTH_SHORT).show();
 					if(parent3==null){
 						if(list.get(positionforcomments)!=null){
-							parent.startFragmentArticleDetailsFromHome(list.get(positionforcomments));
+							imageviewarticlepicclicked(index);
 						}
 						
 					}
 					else{
 						if(list.get(positionforcomments)!=null){
-							parent3.startFragmentArticleDetails(list.get(positionforcomments));
+							imageviewarticlepicclicked(index);
 
 						}
 					}
@@ -611,6 +588,9 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 
 		}
 	}
+	
+	
+	
 	private class AsyncTaskSeLike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -935,6 +915,78 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 							Toast.LENGTH_SHORT).show();
 					e.printStackTrace();
 				}
+			}
+		}
+	}
+	public void imageviewarticlepicclicked(int position){
+		if(Constants.isOnline(activity)){
+			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+					activity.getResources().getString(R.string.txt_please_wait), false);
+			new AsyncTaskgetArticleDetails(position).execute();
+		}
+		else{
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
+		
+	}
+	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		int position;
+		public AsyncTaskgetArticleDetails(int position){
+			this.position=position;
+		}
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =list.get(position).getArticle_url();
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			Log.e("details", result.getjObj().toString());
+			if((pd!=null)&&(pd.isShowing())){
+				pd.dismiss();
+			}
+			JSONObject jobj=result.getjObj();
+			try {
+				String status=jobj.getString("status");
+				if(status.equals("success")){
+					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
+					GoArticlePage(position,articledetails);
+				}
+				else{
+					String message=jobj.getString("description");
+					list.remove(position);
+					notifyDataSetChanged();
+					Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void GoArticlePage(int position,ArticleDetails articleDetails){
+		if(parent3==null){
+			if(list.get(position)!=null){
+				parent.startFragmentArticleDetailsFromHome(list.get(position),articleDetails);
+			}
+			
+		}
+		else{
+			if(list.get(position)!=null){
+				parent3.startFragmentArticleDetails(list.get(position),articleDetails);
+
 			}
 		}
 	}

@@ -506,11 +506,12 @@ public class SignupActivity extends Activity {
 				for(int i=0;i<ary.length;i++){
 					String item=ary[i];
 					if(i==0){
-						item=item.substring(2, item.length()-2);
+						item=item.substring(2, item.length()-1);
 					}
 					else{
-						item=item.substring(1, item.length()-2);
+						item=item.substring(1, item.length()-1);
 					}
+					item=item.replaceAll("\"", "");
 					knowList.add(item);
 				}
 				if(knowList.size()>0){
