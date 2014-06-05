@@ -124,7 +124,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 					}
 					else{
 						if(!appInstance.getUserCred().getUsername().equals(from_username)){
-							sendNotification(receivedMsg,type);
+							sendNotificationOnlive(receivedMsg,type,foregroud);
 						}	
 					}
 					
@@ -135,7 +135,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 						}
 						else{
 							if(!appInstance.getUserCred().getUsername().equals(from_username)){
-								sendNotificationOnlive(receivedMsg,type);
+								sendNotificationOnlive(receivedMsg,type,foregroud);
 							}	
 						}
 				 }
@@ -175,18 +175,20 @@ public class GCMIntentService extends GCMBaseIntentService {
 //		
 //
 //	}
-private void sendNotificationOnlive(String msg,String type) {
+private void sendNotificationOnlive(String msg,String type,boolean foregroud) {
 		Log.e("type", "type");
 		Intent myIntent;
 		int MY_NOTIFICATION_ID=1;
 		
 		myIntent = new Intent(this, WebViewActtivity.class);
 		myIntent.putExtra("type", type);
+		myIntent.putExtra("foregroud", foregroud);
+		//PendingIntent.g
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				this, 
 				0, 
 				myIntent, 
-				PendingIntent.FLAG_UPDATE_CURRENT);
+				PendingIntent.FLAG_CANCEL_CURRENT);
 		
 		
 		Notification  myNotification = new NotificationCompat.Builder(this)
@@ -205,36 +207,36 @@ private void sendNotificationOnlive(String msg,String type) {
 		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
 	}
 	
-	private void sendNotification(String msg,String type) {
-		
-		Intent myIntent;
-		int MY_NOTIFICATION_ID=1;
-		
-		myIntent = new Intent(this, HomeActivity.class);
-		myIntent.putExtra("type", type);
-		
-		PendingIntent pendingIntent = PendingIntent.getActivity(
-				this, 
-				0, 
-				myIntent, 
-				PendingIntent.FLAG_UPDATE_CURRENT);
-		
-		
-		Notification  myNotification = new NotificationCompat.Builder(this)
-		.setContentTitle("Lipberry")
-		.setContentText(msg)
-		.setTicker("Notification!")
-		.setWhen(System.currentTimeMillis())
-		.setContentIntent(pendingIntent)
-		.setDefaults(Notification.DEFAULT_SOUND)
-		.setAutoCancel(true)
-		.setSmallIcon(R.drawable.ic_launcher)
-		.build();
-
-		NotificationManager  notificationManager = 
-				(NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
-	}
+//	private void sendNotification(String msg,String type) {
+//		
+//		Intent myIntent;
+//		int MY_NOTIFICATION_ID=1;
+//		
+//		myIntent = new Intent(this, HomeActivity.class);
+//		myIntent.putExtra("type", type);
+//		
+//		PendingIntent pendingIntent = PendingIntent.getActivity(
+//				this, 
+//				0, 
+//				myIntent, 
+//				PendingIntent.FLAG_UPDATE_CURRENT);
+//		
+//		
+//		Notification  myNotification = new NotificationCompat.Builder(this)
+//		.setContentTitle("Lipberry")
+//		.setContentText(msg)
+//		.setTicker("Notification!")
+//		.setWhen(System.currentTimeMillis())
+//		.setContentIntent(pendingIntent)
+//		.setDefaults(Notification.DEFAULT_SOUND)
+//		.setAutoCancel(true)
+//		.setSmallIcon(R.drawable.ic_launcher)
+//		.build();
+//
+//		NotificationManager  notificationManager = 
+//				(NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
+//		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
+//	}
 	 
     class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
 

@@ -61,10 +61,6 @@ public class FragmentInteraction extends Fragment {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication)getActivity().getApplication();
-
-		
- // -- token android.os.BinderProxy@41a9c5c0 is not valid; is your activity running?
-
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,15 +69,8 @@ public class FragmentInteraction extends Fragment {
 				container, false);
 		lst_interaction=(ListView) v.findViewById(R.id.lst_interaction);
 		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), true);
+			
 			new AsyncTaskGetNotification().execute();
-			//if(Constants.notificationcount>0){
-				
-			//}
-			
-				
-			
 		}
 		else{
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
@@ -106,23 +95,43 @@ public class FragmentInteraction extends Fragment {
 		});
 	}
 	private class AsyncTaskGetNotification extends AsyncTask<Void, Void, ServerResponse> {
+		ProgressDialog pd2=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+				getActivity().getResources().getString(R.string.txt_please_wait), true);
+		@Override
+		protected void onPreExecute() {
+			
+		};
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 
 			try {
+				Log.e("test", "1");
 				int i=Constants.notificationcount+20;
+				Log.e("test", "2");
 				JSONObject loginObj = new JSONObject();
+				Log.e("test", "3");
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				Log.e("test", "4");
 				loginObj.put("startIndex","0");
+				Log.e("test", "5");
 				loginObj.put("endIndex",""+i);
+				Log.e("test", "6");
 				String loginData = loginObj.toString();
+				Log.e("test", "7");
 				String url =Constants.baseurl+"account/notifications/";
+				Log.e("test", "8");
 				
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
+				Log.e("test", "49");
+				Log.e("res", "ab   "+response.getjObj().toString());
+
 				return response;
+				
 			} catch (JSONException e) {                
 				e.printStackTrace();
+				Log.e("test", "50");
+
 				return null;
 			}
 		}
@@ -131,10 +140,12 @@ public class FragmentInteraction extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
-				pd.dismiss();
+			if(pd2!=null){
+				if(pd2.isShowing()){
+					pd2.cancel();
+				}
 			}
-			//
+			
 			
 			
 			JSONObject job=result.getjObj();

@@ -15,11 +15,14 @@ public class WebViewActtivity extends FragmentActivity   {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		String type;
+		String type="normal";
+		boolean foregroud=false;
+		int callno=2;
 		try {
 			
 			type=getIntent().getExtras().getString("type");
-			int callno;
+			foregroud=getIntent().getExtras().getBoolean("foregroud");
+			
 			if(type.equals("inbox message")){
 				Log.e("tag", "6");
 
@@ -33,7 +36,17 @@ public class WebViewActtivity extends FragmentActivity   {
 				callno=2;
 			}
 	    	
-			Constants.homeActivity.mTabHost.setCurrentTab(callno);
+			if(foregroud){
+				Constants.homeActivity.mTabHost.setCurrentTab(callno);
+				finish();
+			}
+			else{
+				Intent intent=new Intent(WebViewActtivity.this, HomeActivity.class);
+				intent.putExtra("type", type);
+				startActivity(intent);
+				finish();
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
 			
 		} catch (Exception e) {
 			
@@ -41,9 +54,7 @@ public class WebViewActtivity extends FragmentActivity   {
 		
 		//.mTabHost.setCurrentTab(5);
 	
-//		Intent intent=new Intent(WebViewActtivity.this, HomeActivity.class);
-//		startActivity(intent);
-		finish();
+		
 		
 	}
 
