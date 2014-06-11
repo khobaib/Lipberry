@@ -2,6 +2,16 @@
 *.apk
 *.ap_
 
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+
 # files for the dex VM
 *.dex
 
@@ -11,6 +21,7 @@
 # generated files
 bin/
 gen/
+out/
 
 # Local configuration file (sdk path, etc)
 local.properties
