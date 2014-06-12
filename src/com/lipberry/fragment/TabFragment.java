@@ -7,17 +7,10 @@ import com.lipberry.HomeActivity;
 import android.support.v4.app.Fragment;
 
 public abstract class TabFragment extends Fragment {
-
-	 @Override
-	    public void onResume(){
-	    
-		 ((HomeActivity)getActivity()).activeFragment=this;
-	    	 super.onResume();
-	    }
-
-	 public abstract void onBackPressed();
-	
-	
-	
-
+	@Override
+	public void onResume(){
+		((HomeActivity)getActivity()).activeFragment=this;
+		super.onResume();
+	}
+	public abstract void onBackPressed();
 }

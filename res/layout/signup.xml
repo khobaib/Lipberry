@@ -2,339 +2,342 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/lsplash"
     android:layoutDirection="rtl"
-    android:background="@drawable/splash"    
     android:orientation="vertical" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-   		 android:layoutDirection="rtl"
-       >
+  
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:layoutDirection="rtl"
-            android:orientation="vertical" >
-            
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-             	 android:layoutDirection="rtl"
-              >
+                android:layoutDirection="rtl" >
 
-           
+                <ImageView
+                    android:id="@+id/img_icon_to_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                     android:layout_marginTop="7dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/licon_for_topbar"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/e_name"
-                 	android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                  
-                    android:layout_alignParentEnd="true"
-                     android:layout_alignParentRight="true"
-                  	 android:background="@drawable/rounded_edittext"
-                  	 android:textAlignment="viewStart"
-                  	  android:gravity="right"
-                  	 android:textDirection="rtl"
-                  	 android:layout_marginLeft="22dp"
-                    android:layout_marginEnd="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginStart="22dp"
-                 	android:layout_marginTop="40dp"
-               		android:textSize="24dp"
-               		android:textColor="#000000"
-                    android:padding="7dp"
-                    android:hint="@string/et_signup_name"
-                    android:ems="10" >
-				 	
-				 </EditText>
-				 
-                
-                <RelativeLayout 
-                    android:id="@+id/re_username"
-                    android:layout_below="@+id/e_name"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    
-                    <EditText
-                    android:id="@+id/e_username"
-                   
-                    android:hint="@string/et_signup_username"
-                  	android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_below="@+id/img_icon_to_bar"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:ems="10"
                     android:gravity="right"
-                    android:layout_alignParentLeft="true"
-                  	android:background="@drawable/rounded_edittext"
-                   	android:textColor="#000000"
-                    android:textSize="24dp"
+                    android:hint="@string/et_signup_name"
                     android:padding="7dp"
-                    android:ems="10" >
-                    
-                     
-               	
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textDirection="rtl"
+                    android:textSize="24dp" >
                 </EditText>
-                
-                    
-                    
-             </RelativeLayout>
-                
-			
-                
-                    
-                    
+
+                <RelativeLayout
+                    android:id="@+id/re_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/e_name"
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp" >
+
                     <EditText
+                        android:id="@+id/e_username"
+                        android:layout_width="match_parent"
+                         android:layout_height="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="@drawable/rounded_edittext"
+                        android:ems="10"
+                        android:gravity="right"
+                        android:hint="@string/et_signup_username"
+                        android:padding="7dp"
+                        android:textColor="#000000"
+                        android:textSize="24dp" >
+                    </EditText>
+                </RelativeLayout>
+
+                <EditText
                     android:id="@+id/e_nickname"
+                    android:layout_width="match_parent"
+                     android:layout_height="42dp"
+                    android:layout_alignParentLeft="true"
                     android:layout_below="@+id/re_username"
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:ems="10"
+                    android:gravity="right"
                     android:hint="@string/et_signup_nickname"
-                  	android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_alignParentLeft="true"
-                  	android:background="@drawable/rounded_edittext"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
-                     	android:textColor="#000000"
-                    android:textSize="24dp"
                     android:padding="7dp"
-                    android:ems="10" >
-				</EditText>
-                
-                  <EditText
-                    android:id="@+id/e_password"
-                    android:layout_below="@+id/e_nickname"
-                 	android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                  
-                    android:layout_alignParentLeft="true"
-                  
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
-                    android:textSize="24dp"
-                    android:padding="7dp"
-                     	android:textColor="#000000"
-                      android:hint="@string/et_signup_password"
-                    android:inputType="textPassword"
-                    	android:background="#ffffff" >
-				
+                    android:textColor="#000000"
+                    android:textSize="24dp" >
                 </EditText>
-                
-                 <EditText
+
+                <EditText
+                    android:id="@+id/e_password"
+                    android:layout_width="match_parent"
+                     android:layout_height="42dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/e_nickname"
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:gravity="right"
+                    android:hint="@string/et_signup_password"
+                    android:inputType="textPassword"
+                    android:padding="7dp"
+                    android:textColor="#000000"
+                    android:textSize="24dp" >
+                </EditText>
+
+                <EditText
                     android:id="@+id/e_confirmpass"
+                    android:layout_width="match_parent"
+                     android:layout_height="42dp"
+                    android:layout_alignParentLeft="true"
                     android:layout_below="@+id/e_password"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                  android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_edittext"
+                    android:ems="10"
+                    android:gravity="right"
                     android:hint="@string/et_signup_confirmpass"
                     android:inputType="textPassword"
-                  	android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_alignParentLeft="true"
-                  	android:background="@drawable/rounded_edittext"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                     	android:textColor="#000000"
-                    android:layout_marginTop="12dp"
-                    android:textSize="24dp"
                     android:padding="7dp"
-                    android:ems="10" >
-				
+                    android:textColor="#000000"
+                    android:textSize="24dp" >
                 </EditText>
-                
-                 
-                 
-                 
-                 
-                   <RelativeLayout 
+
+                <RelativeLayout
                     android:id="@+id/re_email"
-                    android:layout_below="@+id/e_confirmpass"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    
-                    <EditText
-                    android:id="@+id/e_email"
-                   
-                    android:hint="@string/et_signup_email"
-                  	android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_alignParentLeft="true"
-                  	android:background="@drawable/rounded_edittext"
-                    	android:textColor="#000000"
-                    android:textSize="24dp"
-                    android:padding="7dp"
-                    android:ems="10" >
-                    
-                    
-               	
-                </EditText>
-              
-                    
-                    
-             </RelativeLayout>
-                     
+                    android:layout_below="@+id/e_confirmpass"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp" >
+
+                    <EditText
+                        android:id="@+id/e_email"
+                        android:layout_width="match_parent"
+                         android:layout_height="42dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="@drawable/rounded_edittext"
+                        android:ems="10"
+                        android:gravity="right"
+                        android:hint="@string/et_signup_email"
+                        android:padding="7dp"
+                        android:textColor="#000000"
+                        android:textSize="24dp" >
+                    </EditText>
+                </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/re_cityandcountry"
-                    android:layout_below="@+id/re_email"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
-                    
-                    >
-				 	
-                         <TextView 
-                      		android:id="@+id/t_dummy"
-                   	 		android:layout_width="10dp"
-                   			android:layout_height="10dp"
-                   			android:layout_centerVertical="true"
-                   			android:layout_centerHorizontal="true"
-                   		>
-                  	 	</TextView>
+                     android:layout_height="42dp"
+                    android:layout_below="@+id/re_email"
+                   android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp" >
+
+                    <TextView
+                        android:id="@+id/t_dummy"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true" >
+                    </TextView>
+
+                    <RelativeLayout
+                        android:id="@+id/re_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@+id/t_dummy"
+                         >
+
+                        <Spinner
+                            android:id="@+id/s_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/rounded_edittext"
+                            android:gravity="center" 
+                            android:paddingLeft="42dp"
+							android:textSize="22dp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/t_city"
+                            android:layout_width="match_parent"
+                             android:layout_height="42dp"
+                            android:padding="7dp"
+                            android:gravity="center"
+                            android:background="@drawable/rounded_edittext"
+                            android:text="@string/et_signup_city"
+                            android:textColor="#808080"
+                            android:textSize="20dp" >
+                        </TextView>
                         
-                         
-                         <RelativeLayout
-                             android:id="@+id/re_city"
-                             android:layout_width="200dp"
-                   			 android:layout_height="wrap_content"
-                   			  android:layout_toLeftOf="@+id/t_dummy"
-                   			 android:background="@drawable/rounded_edittext"
-                   			android:layout_alignParentLeft="true"
-                   			 >
-                   		
-                             
-                   		<Spinner
-                   			 android:id="@+id/s_city"
-                   		android:background="@drawable/rounded_button"
-                   			android:layout_width="200dp"
-                   			 android:layout_height="wrap_content"
-                   			android:visibility="gone"
-                   			 android:padding="7dp"
-                   			 android:textSize="22dp"
-                   		
-                   			 />
-                   		
-                   		
-                   		<TextView
-                   			  
-                   				 android:id="@+id/t_city"
-                   			 	android:layout_width="200dp"
-                   			 	android:layout_height="wrap_content"
-                   			 	android:padding="7dp"
-                   			 	android:text="@string/et_signup_city"
-                   				 android:textSize="20dp">
-                   			    
-                   			</TextView>
-                        </RelativeLayout>
-                        
-                        
-                         
-                         
-                         
-                         
-                         
-                          <RelativeLayout
-                             android:layout_width="200dp"
-                   			 android:layout_height="wrap_content"
-                   			  android:layout_toRightOf="@+id/t_dummy"
-                   			 android:background="@drawable/rounded_edittext"
-                   			android:layout_alignParentRight="true"
-                   			 >
-                   		
-                   			<Spinner
-                   				 android:id="@+id/s_country"
-                   			 	android:layout_width="200dp"
-                   			 	android:layout_height="wrap_content"
-                   			 	android:padding="7dp"
-                   			 	android:background="@drawable/rounded_button"
-                   			 	android:visibility="gone"
-                   				 android:textSize="24dp"
-                   		
-                   			 />
-                   			<TextView
-                   			  
-                   				 android:id="@+id/t_country"
-                   			 	android:layout_width="200dp"
-                   			 	android:layout_height="wrap_content"
-                   			 	android:padding="7dp"
-                   			 	android:text="@string/et_signup_country"
-                   				 android:textSize="20dp">
-                   			    
-                   			</TextView>
-                   		
-                   		
-                   		
-                   		
-                   			
-                        </RelativeLayout>
-                        
-              	 	 
-              	 
-                    
+                        <ImageView
+                            android:id="@+id/img_link"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                          android:layout_marginLeft="5dp"
+                            android:src="@drawable/lknowus" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/t_dummy" >
+
+                        <Spinner
+                            android:id="@+id/s_country"
+                            android:layout_width="match_parent"
+                            android:layout_height="42dp"
+                            android:paddingLeft="42dp"
+       
+                          android:gravity="center"  
+                            android:background="@drawable/rounded_edittext"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/t_country"
+                            android:layout_width="200dp"
+                            android:layout_height="52dp"
+                            android:padding="7dp"
+                            android:text="@string/et_signup_country"
+                            android:visibility="gone"
+                            android:textColor="#000000"
+                            android:textSize="20dp" >
+                        </TextView>
+
+                      
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                          android:layout_marginLeft="5dp"
+                            android:src="@drawable/lknowus" />
+
+                    </RelativeLayout>
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/re_kowaboutus"
-                    android:layout_below= "@+id/re_cityandcountry"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginRight="22dp"
-                    android:layout_marginTop="12dp"
-                     android:background="@drawable/rounded_edittext"
-                    >
-                    <Spinner
-                   			 android:id="@+id/s_kowaboutus"
-                   			 android:background="@drawable/rounded_button"
-                   			android:layout_width="match_parent"
-                   			  android:layout_height="wrap_content"
-                   			 android:padding="7dp"
-                   			 android:visibility="gone"
-                   	/>
-                    
-                     <TextView
-                   			 android:id="@+id/t_kowaboutus"
-                   			android:layout_width="match_parent"
-                   			  android:layout_height="wrap_content"
-                   			  android:text="@string/et_signup_knowing"
-                   			  android:textSize="20dp"
-                   			 android:padding="7dp"
-                   	/>
-                 </RelativeLayout>
-                
-              	 <Button
-              	      android:id="@+id/b_register"
-              	      android:layout_below="@+id/re_kowaboutus"
-                   	  android:layout_width="match_parent"
-                   	  android:layout_height="50dp"
-                   	  android:layout_marginLeft="22dp"
-                      android:layout_marginRight="22dp"
-                      android:textColor="#ffffff"
-                      android:layout_centerHorizontal="true"
-                       android:layout_centerVertical="true"
-                      android:layout_marginTop="12dp"
-                      android:text="@string/et_signup_register"
-                      android:background="@drawable/rounded_button">
-              	     	
-              	 </Button>		
-              	 	 
-              
-                
-            </RelativeLayout>
-            
-        </LinearLayout>
-    </ScrollView>
+                     android:layout_height="42dp"
+                    android:layout_below="@+id/re_cityandcountry"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                     android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_edittext" >
 
-  
+                    <Spinner
+                        android:id="@+id/s_kowaboutus"
+                        android:layout_width="match_parent"
+                        android:layout_height="42dp"
+                        android:gravity="center" 
+                        android:background="@drawable/rounded_edittext"
+                       
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/t_kowaboutus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="7dp"
+                        android:visibility="gone"
+                        android:text="@string/et_signup_knowing"
+                        android:textSize="18dp" />
+
+                    <ImageView
+                        android:id="@+id/imageView1"
+                        android:layout_width="37dp"
+                        android:layout_height="37dp"
+                        android:paddingLeft="5dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/lknowus" />
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/b_register"
+                    android:layout_width="match_parent"
+                     android:layout_height="42dp"
+                    android:layout_below="@+id/re_kowaboutus"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                  
+                     android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="12dp"
+                    android:textSize="25dp"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_button"
+                    android:text="@string/et_signup_register"
+                    android:textColor="#ffffff" >
+                </Button>
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="42dp"
+                    android:layout_below="@+id/re_kowaboutus"
+                    android:layout_alignParentLeft="true"
+                    android:padding="5dp"
+                    android:layout_marginLeft="12dp"
+                      android:layout_marginTop="7dp"
+                    android:src="@drawable/lsign_yes" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                  android:layout_marginTop="19dp"
+                    android:src="@drawable/lsignupmsz" />
+
+            </RelativeLayout>
+       
 
 </RelativeLayout>

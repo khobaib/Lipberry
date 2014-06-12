@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/background_login" >
+
+        <RelativeLayout
+            android:id="@+id/rlTopButtons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <Button
+                android:id="@+id/b_take_pic"
+                android:layout_width="125dp"
+                android:layout_height="37dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rounded_signin"
+                android:text="@string/txt_take_picture"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/b_go_gallery"
+                android:layout_width="125dp"
+                android:layout_height="37dp"
+                android:layout_alignTop="@+id/b_take_pic"
+                android:layout_toRightOf="@+id/b_take_pic"
+                android:background="@drawable/rounded_signin"
+                android:text="@string/txt_goto_gallery"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_profile_pic"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/rlTopButtons"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitXY" />
+
+        <Button
+            android:id="@+id/b_update"
+            android:layout_width="70dp"
+            android:layout_height="37dp"
+            android:layout_below="@+id/iv_profile_pic"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/rounded_signin"
+            android:text="@string/txt_update"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+    </RelativeLayout>
+
+</RelativeLayout>

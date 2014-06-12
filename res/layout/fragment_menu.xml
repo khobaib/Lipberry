@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:orientation="vertical" >
+    android:layout_gravity="center_vertical"
+    android:background="#881e35" >
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/img_icon_to_bar"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/licon_for_topbar"
+        android:textStyle="bold" />
+
+    <ListView
+        
+        android:id="@+id/list_menu_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_below="@+id/img_icon_to_bar"
+        android:divider="#79443B"
+        android:dividerHeight="1sp" >
+    </ListView>
 
-        <com.viewpagerindicator.TabPageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"/>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

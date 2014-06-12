@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true" >
+
+    <AutoCompleteTextView
+        android:id="@+id/act_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="@string/txt_to"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+    
+    <EditText
+        android:id="@+id/et_su"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/act_to"
+        android:hint="@string/txt_subject"
+        android:textSize="18dp" />
+
+    <EditText
+        android:id="@+id/et_msg_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/b_send"
+        android:layout_alignLeft="@+id/act_to"
+        android:layout_alignRight="@+id/act_to"
+        android:hint="@string/txt_enter_msz"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/b_send"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+       android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+      	android:paddingLeft="5dp"
+      	android:paddingRight="5dp"
+        android:text="@string/txt_send"
+        android:textColor="@color/white"
+    	  android:background="@drawable/rounded_password"
+    	  android:gravity="center"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold" />
+
+</RelativeLayout>

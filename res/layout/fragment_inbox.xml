@@ -2,13 +2,119 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:background="#f1f6f2"
+    android:orientation="vertical"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="6dp" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/re_holder"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:background="#d8d8d8"
+        android:orientation="horizontal"
+        android:weightSum="3" >
+
+        <RelativeLayout
+            android:id="@+id/re_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:paddingBottom="13dp"
+            android:paddingLeft="13dp"
+            android:paddingTop="13dp" >
+
+            <ImageView
+                android:id="@+id/img_text_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="3dp"
+                android:src="@drawable/ltextsettings" />
+
+            <ImageView
+                android:id="@+id/img_setting"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/img_text_setting"
+                android:src="@drawable/lsettings" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_sent_msz"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:paddingBottom="13dp"
+            android:paddingLeft="13dp"
+            android:paddingTop="13dp" >
+
+            <ImageView
+                android:id="@+id/txt_sent_msz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/ltxt_sent_msz" />
+
+            <ImageView
+                android:id="@+id/img_sent_msz"
+                android:layout_width="35dp"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_toRightOf="@+id/txt_sent_msz"
+                android:src="@drawable/lsentmsz" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_new_msz"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:paddingBottom="13dp"
+            android:paddingRight="13dp"
+            android:paddingTop="13dp" >
+
+            <ImageView
+                android:id="@+id/txt_new_msz"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
+                android:layout_toLeftOf="@+id/img_new_msz"
+                android:background="@drawable/ltxt_newmsz" />
+
+            <ImageView
+                android:id="@+id/img_new_msz"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/lnewmsz" />
+        </RelativeLayout>
+    </LinearLayout>
+
+   
+      	<ListView
+        	android:id="@+id/listviewforinbbox"
+       	 	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:dividerHeight="2dp"
+        	 >
+    	</ListView>
+
+    <ListView
+        android:id="@+id/list_thread_msz"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Inbox" />
+        android:visibility="gone" >
+    </ListView>
 
 </LinearLayout>

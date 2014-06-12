@@ -1,6 +1,9 @@
+
 package com.lipberry.fragment;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -11,268 +14,183 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-import com.viewpagerindicator.TabPageIndicator;
-
-
-
+import com.lipberry.adapter.CustomAdapterForMenu;
+import com.lipberry.utility.Constants;
 @SuppressLint("NewApi")
 public class FragmentMenu extends Fragment {
-	
-	 private static final String[] CONTENT = new String[] {"جديد الكل","جديد من أتابعهم"};
-	 LayoutInflater inflater1 ;
-	FragmentTab1 parent;
-	ViewGroup view;
-	 ViewPager pager;
-	 TabPageIndicator indicator;
+	MenuTabFragment parent;
+	String[]menuarray;
+	ListView list_menu_item;
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		}
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-	
-	
-		
-		
-		
-		inflater1=inflater;
-		
-
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_menu,
 				container, false);
-		view=container;
-		//PagerAdapter
-		 // FragmentPagerAdapter adapter = new PagerAdapter(getActivity().getSupportFragmentManager(), fragments);
-		 pager = (ViewPager) v.findViewById(R.id.pager);
-		 indicator = (TabPageIndicator)v.findViewById(R.id.indicator);
+		list_menu_item=(ListView) v.findViewById(R.id.list_menu_item);
+		menuarray = getActivity().getResources().getStringArray(R.array.menuarray);
 
-			List<Fragment> fragments=new ArrayList<Fragment>();
-			Log.i("crash", "2");
-			Fragment newfrag=new FragmentMyCountriesPost();
-			Log.i("crash", "3");
-			 fragments.add(newfrag);
-				Log.i("crash", "4");
-			 newfrag=new FragmentMyFollwerPost();
-				Log.i("crash", "5");
-			 fragments.add(newfrag);
-				Log.i("crash", "6");
-			 FragmentPagerAdapter adapter = new GoogleMusicAdapter(getChildFragmentManager());
-				Log.i("crash", "7");
-			 pager.setAdapter(adapter);
-				Log.i("crash", "8");
-		     indicator.setViewPager(pager);
-		     
-		
+		int layout=R.layout.custom_textview;
+		ArrayList<String>list=new ArrayList<String>(Arrays.asList(menuarray));
+
+		CustomAdapterForMenu adapter1=new CustomAdapterForMenu(getActivity(), list);
+		//		ArrayAdapter adapter = new ArrayAdapter<String>(
+		//				getActivity(),
+		//				R.layout.custom_textview,
+		//				menuarray);
+		//	
+		list_menu_item.setAdapter(adapter1);
+		setlistviewonitemclick();
+		if(	Constants.MESSAGESETTINGSTATE){
+			parent.startFragmentSetting();
+		}
 		return v;
 	}
-	
-	
-	
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//topbar_new_article
-		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
-		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
-	}
-
-	@Override
-	public void onStart() {
-		
-		// TODO Auto-generated method stub
-		super.onStart();
-		
-
-		Log.i("crash", "1");
-		
-		
-		Log.i("onStartm", "onStart");
-	}
-	
-
-	
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		  
-		
-		//fragmentTransaction.remove(yourfragment).commit()
+		((HomeActivity)getActivity()).topBar.setVisibility(View.VISIBLE);
 	}
-	
-	class GoogleMusicAdapter extends FragmentPagerAdapter {
-       
-		@Override
-		public Parcelable saveState() {
-			// TODO Auto-generated method stub
-			return super.saveState();
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		((HomeActivity)getActivity()).topBar.setVisibility(View.GONE);
+		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		((HomeActivity)getActivity()).welcome_title.setText(getResources().getString(R.string.txt_menu));
+	}
+
+	public void setlistviewonitemclick(){
+		list_menu_item.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+					long arg3) {
+				switch (position) {
+				case 0:
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+					break;
+				case 1:
+					parent.startFragmentSetting();
+					break;
+				case 2:
+					parent.startFragmentFindamember();
+					break;
+				case 3:
+					((HomeActivity)getActivity()).mTabHost.setCurrentTab(0);
+					break;
+				case 4:
+					parent.startFragmentMyProfile();
+					break;
+				case 5:
+					onShareClick() ;
+
+//					Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+//					emailIntent.setType("jpeg/image");
+//					emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+//							new String[] { "" });
+//
+//
+//					emailIntent.setType("text/plain");
+//					emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
+//
+//					//emailIntent.putExtra(Intent.EXTRA_TEXT, info.getText().toString());
+//					startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+
+
+					//					Intent intent = new Intent(Intent.ACTION_SEND);
+					//					intent.setType("text/html");
+					//					intent.putExtra(Intent.EXTRA_EMAIL, "contact@lipberry.com");
+					//					intent.putExtra(Intent.EXTRA_SUBJECT, "Lipberry");
+					//					intent.putExtra(Intent.EXTRA_TEXT, "I'm email body. Email test");
+					//
+					//					startActivity(Intent.createChooser(intent, "Send Email"));
+					//parent.startFragmentContactUs();
+					break;
+
+				default:
+					break;
+				}
+			}
+		});
+	}
+
+	public void onShareClick() {
+		Resources resources = getResources();
+		Intent emailIntent = new Intent();
+		emailIntent.setAction(Intent.ACTION_SEND);
+		emailIntent.putExtra(Intent.EXTRA_EMAIL  , new String[]{"contact@lipberry.com"});
+		emailIntent.setType("message/rfc822");
+		PackageManager pm = getActivity().getPackageManager();
+		Intent sendIntent = new Intent(Intent.ACTION_SEND);     
+		//sendIntent.setType("text/plain");
+		sendIntent.setType("message/rfc822");
+
+		Intent openInChooser = Intent.createChooser(emailIntent, getActivity().getResources().getString(R.string.txt_send_mail));
+
+		List<ResolveInfo> resInfo = pm.queryIntentActivities(sendIntent, 0);
+		List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();        
+		for (int i = 0; i < resInfo.size(); i++) {
+			// Extract the label, append it, and repackage it in a LabeledIntent
+			ResolveInfo ri = resInfo.get(i);
+			String packageName = ri.activityInfo.packageName;
+			if(packageName.contains("android.email")) {
+				emailIntent.setPackage(packageName);
+			} 
+//			else if( packageName.contains("android.gm")) {
+//				Intent intent = new Intent();
+//				intent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+//				intent.setAction(Intent.ACTION_SEND);
+//				intent.setType("text/plain");
+//			
+//
+//				intentList.add(new LabeledIntent(intent, packageName, ri.loadLabel(pm), ri.icon));
+//			}
 		}
-		public GoogleMusicAdapter(FragmentManager fm) {
-            super(fm);
-        }
-        @Override
-      
-        public Fragment getItem(int position) {
-        	
-        
-        	
-        	 if (position == 0) {
-        		 Fragment newfrag=new FragmentMyCountriesPost();
-              	return newfrag;
-             } else if (position == 1) {
-            	 Fragment newfrag=new FragmentMyFollwerPost();
-             	return newfrag;
-             } else
-                 return null;
-        	
-        }
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return CONTENT[position % CONTENT.length].toUpperCase();
-        }
 
-        @Override
-        public int getCount() {
-            return CONTENT.length;
-        }
-    }
-	
-	
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		Log.i("onDestroy", "onDestroy");
+		// convert intentList to array
+		LabeledIntent[] extraIntents = intentList.toArray( new LabeledIntent[ intentList.size() ]);
+
+		openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+		startActivity(openInChooser);       
 	}
-	
-	@Override
-	public void onDestroyView() {
-		// TODO Auto-generated method stub
-		super.onDestroyView();
-		Log.i("onDestroyView", "onDestroyView");
-	}
-	
-	
-	public class PagerAdapter extends FragmentPagerAdapter {
-		 
-	    private List<Fragment> fragments;
-	    /**
-	     * @param fm
-	     * @param fragments
-	     */
-	    public PagerAdapter(FragmentManager fm, List<Fragment> fragments) {
-	        super(fm);
-	        this.fragments = fragments;
-	    }
-	    /* (non-Javadoc)
-	     * @see android.support.v4.app.FragmentPagerAdapter#getItem(int)
-	     */
-	    @Override
-	    public Fragment getItem(int position) {
-	        return this.fragments.get(position);
-	    }
-	 
-	    /* (non-Javadoc)
-	     * @see android.support.v4.view.PagerAdapter#getCount()
-	     */
-	    @Override
-	    public int getCount() {
-	        return this.fragments.size();
-	    }
-	}
-	
-	
-	
-	
-	/*public class MyAdapter extends FragmentPagerAdapter
-	{
-	    static final int NUM_ITEMS = 2;
-	    private final FragmentManager mFragmentManager;
-	    private Fragment mFragmentAtPos0;
-
-	    public MyAdapter(FragmentManager fm)
-	    {
-	        super(fm);
-	        mFragmentManager = fm;
-	    }
-
-	    @Override
-	    public Fragment getItem(int position)
-	    {
-	    	 if (position == 0)
-	         {
-	             if (mFragmentAtPos0 == null)
-	             {
-	                 mFragmentAtPos0 = FragmentMyCountriesPost.newInstance(new FirstPageFragmentListener()
-	                 {
-	                     public void onSwitchToNextFragment()
-	                     {
-	                         mFragmentManager.beginTransaction().remove(mFragmentAtPos0).commit();
-	                         mFragmentAtPos0 = NextFragment.newInstance();
-	                         notifyDataSetChanged();
-	                     }
-	                 });
-	             }
-	             return mFragmentAtPos0;
-	         }
-	        else{
-
-            	Fragment newfrag=new FragmentMyFollwerPost();
-            	return newfrag;
-	        }
-	           // return SecondPageFragment.newInstance();
-	    }
-
-	    @Override
-	    public int getCount()
-	    {
-	        return NUM_ITEMS;
-	    }
-
-	    @Override
-	    public int getItemPosition(Object object)
-	    {
-	        if (object instanceof FragmentMyCountriesPost && mFragmentAtPos0 instanceof NextFragment)
-	            return POSITION_NONE;
-	        return POSITION_UNCHANGED;
-	    }
-	}
-
-	
-	public interface FirstPageFragmentListener
-	{
-	    void onSwitchToNextFragment();
-	}*/
-	
 
 }
+

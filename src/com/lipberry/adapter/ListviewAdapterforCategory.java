@@ -8,6 +8,7 @@ import java.util.List;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -61,18 +62,16 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 	public ListviewAdapterforCategory(FragmentActivity activity,
 			ArrayList<Categories> list) {
 		super();
-
 		this.activity = activity;
 		this.list = list;
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-				.cacheInMemory(true).cacheOnDisc(true).build();
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
-				defaultOptions).build();
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -91,80 +90,90 @@ public class ListviewAdapterforCategory extends BaseAdapter {
 		return 0;
 	}
 	private class ViewHolder {
-		ImageView img_app_icon;
+		ImageView img_big_img;
+	 
 		ImageView img_category_pro_pic;
 		TextView txt_cat_name;
-	
-		
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-
-		// TODO Auto-generated method stub
-	
 		LayoutInflater inflater = activity.getLayoutInflater();
-
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.categories_inflate,
 					null);
 			holder = new ViewHolder();
-			holder.img_app_icon=(ImageView) convertView.findViewById(R.id.img_app_icon);
+			holder.img_big_img=(ImageView) convertView.findViewById(R.id.img_big_img);
 			holder.img_category_pro_pic=(ImageView) convertView.findViewById(R.id.img_category_pro_pic);
 			holder.txt_cat_name=(TextView) convertView.findViewById(R.id.txt_cat_name);
+			holder.txt_cat_name.setTypeface(Utility.getTypeface1(activity));
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		holder.txt_cat_name.setText(list.get(position).getName());
-		
-		
-		ImageLoadingListener imll=new ImageLoadingListener() {
-			
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				mProgress=new ProgressDialog(activity);
-				mProgress.setTitle("Image is  Loading");
+		if(list.get(position).getId().equals("2")){
+			if(list.get(position).getPrefix().equalsIgnoreCase("beauty")){
+				int id = activity.getResources().getIdentifier("bl"+list.get(position).getId(), "drawable", activity.getPackageName());
+				holder.img_category_pro_pic.setImageResource(id);
+				
+				id = activity.getResources().getIdentifier("bll"+list.get(position).getId(), "drawable", activity.getPackageName());
+				Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),id);
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(activity);
+					int devicewidth=Utility.getDeviceWidth(activity);
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					holder.img_big_img.setImageBitmap(bitmap);
+				}
+			}
+			else{
+				int id = activity.getResources().getIdentifier("l"+list.get(position).getId(), "drawable", activity.getPackageName());
+				holder.img_category_pro_pic.setImageResource(id);
+				id = activity.getResources().getIdentifier("ll"+list.get(position).getId(), "drawable", activity.getPackageName());
+				Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),id);
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(activity);
+					int devicewidth=Utility.getDeviceWidth(activity);
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					holder.img_big_img.setImageBitmap(bitmap);
+				}
+			}
 		}
+		else{
+			int id = activity.getResources().getIdentifier("l"+list.get(position).getId(), "drawable", activity.getPackageName());
+			holder.img_category_pro_pic.setImageResource(id);
+			id = activity.getResources().getIdentifier("ll"+list.get(position).getId(), "drawable", activity.getPackageName());
 			
-			@Override
-			public void onLoadingFailed(String imageUri, View view,
-					FailReason failReason) {
-				
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				
-				
+			Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),id);
+			if(bitmap!=null){
+				int bitmapheight=bitmap.getHeight();
+				int bitmapweight=bitmap.getWidth();
+				int deviceheight=Utility.getDeviceHeight(activity);
+				int devicewidth=Utility.getDeviceWidth(activity);
+				float ratio=(float)devicewidth/(float)bitmapweight;
+				int resizebitmapwidth=devicewidth;
+				float a=(bitmapheight*ratio);
+				int resizebitmaphight=(int)a ;
+				bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+				holder.img_big_img.setImageBitmap(bitmap);
 			}
-			
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// TODO Auto-generated method stub
-				
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				Bitmap bitmap=loadedImage;
-				holder.img_category_pro_pic.setImageBitmap(bitmap);
-			}
-			
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-			}
-		};
+			//holder.img_big_img.setImageResource(id);
+		}
 		
 		
+
 		return convertView;
 	}
-	
-	
-
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+      <style name="CustomDialog" parent="@android:style/Theme.Dialog"> 
+      <item name="android:windowTitleStyle">@style/MyDialogWindowTitle</item> 
+      </style> 
+      <style name="MyDialogWindowTitle" parent="@android:style/TextAppearance.DialogWindowTitle"> 
+          <item name="android:textColor">#ff60AC39</item> 
+           <item name="android:background">#ff881e35</item> 
+          <item name="android:gravity">right</item> </style>
+</resources>

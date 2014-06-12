@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/lsplash"
+    android:layoutDirection="rtl" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/llogo" />
+
+    <EditText
+        android:id="@+id/et_uname"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginEnd="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:gravity="right"
+        android:hint="@string/et_signup_username"
+        android:padding="7dp"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textDirection="rtl"
+        android:textSize="24dp" >
+    </EditText>
+    
+    <EditText
+        android:id="@+id/et_pass"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/et_uname"
+        android:layout_marginEnd="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/rounded_edittext"
+        android:ems="10"
+        android:gravity="right"
+        android:hint="@string/et_signup_password"
+        android:padding="7dp"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textDirection="rtl"
+        android:textSize="24dp" >
+    </EditText>
+
+    <Button
+        android:id="@+id/bt_enter"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:layout_below="@+id/et_pass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="22dp"
+        android:layout_marginLeft="22dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/lbackgound_bottombar"
+        android:text="استرجاع"
+        android:textColor="#ffffff"
+        android:textSize="22dp" />
+
+</RelativeLayout>

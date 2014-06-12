@@ -2,47 +2,146 @@
     package="com.lipberry"
     android:versionCode="4"
     android:versionName="4.0" >
-  <uses-sdk
+
+    <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="17" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+        android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.lipberry.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.lipberry.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-   
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    
+    
+    
+
+    <uses-permission android:name="com.sec.android.provider.badge.permission.READ" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="com.progmaatic.mobiletakeway.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- for card.io card scanning -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
+    <!-- for most things, including card.io & paypal -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-            android:name=".utility.LipberryApplication"
-         android:supportsRtl="true"
+        android:name=".utility.LipberryApplication"
         android:allowBackup="true"
+        android:configChanges="orientation"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        >
-        
-        
-            <activity
-            android:name="com.lipberry.SplashActivity"
+        android:supportsRtl="true" >
+        <activity
+            android:name="com.lipberry.Splash1Activity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeActivityTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-            
-         <activity android:name=".HomeActivity"
-               android:theme="@style/HomeActivityTheme"
-                 android:screenOrientation="portrait" >
-         </activity>
-         
-         
-          <activity android:name="com.lipberry.WebViewActtivity"
-                 android:screenOrientation="portrait" >
-         </activity>
-     	  <activity android:name=".SignupActivity"
-                 android:screenOrientation="portrait" >
-         </activity>
-         
-     	 
+        <activity
+            android:name="com.lipberry.Splash2Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeActivityTheme" >
+        </activity>
+         <activity
+            android:name="com.lipberry.ResendActiviationEmail"
+            android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
+            android:theme="@style/HomeActivityTheme" >
+        </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeActivityTheme" >
+        </activity>
+        <activity
+            android:name="com.lipberry.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeActivityTheme">
+        </activity>
+        <activity
+            android:name="com.lipberry.WebViewActtivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeActivityTheme" >
+        </activity>
+        <activity
+            android:name=".ActivityVideoViewDemo"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+            <receiver
+            android:name="com.google.android.gcm.GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.lipberry" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMIntentService" />
     </application>
 
 </manifest>

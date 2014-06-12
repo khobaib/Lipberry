@@ -1,0 +1,80 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+  >
+
+    <View
+        android:id="@+id/lv_vw_top"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+         android:layout_alignParentTop="true"
+       android:background="@color/android_green" />
+    
+    <View
+        android:id="@+id/lv_vw_btm"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/et_msg_body"
+        android:background="@color/android_green" />
+
+    <EditText
+        android:id="@+id/et_msg_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_send_to"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/txt_write_msz"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_send_to"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp" >
+
+        <Button
+            android:id="@+id/b_reply"
+            android:layout_width="60dp"
+            android:layout_height="34dp"
+            android:background="@drawable/rounded_password"
+            android:text="@string/txt_reply"
+            android:textColor="@color/white"
+             android:gravity="center_horizontal"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/b_delete"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/delete"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_thread_messages"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lv_vw_top"
+        android:layout_above="@+id/et_msg_body"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="2dp"
+        android:listSelector="@android:color/transparent"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        android:transcriptMode="alwaysScroll" >
+    </ListView>
+
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<resources>  
+    <string-array name="menuarray">  
+        <item>الرئيسيه</item> 
+         <item>الإعدادات</item>   
+        <item>ابحث عن مشتركة</item>  
+        <item>اكتبي مشاركة</item>  
+        <item>صفحتي</item>  
+       <item>اتصلي بنا</item>  
+   </string-array>
+</resources>

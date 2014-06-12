@@ -14,157 +14,153 @@ import android.widget.SpinnerAdapter;
  */
 public class NothingSelectedSpinnerAdapter implements SpinnerAdapter, ListAdapter {
 
-    protected static final int EXTRA = 1;
-    protected SpinnerAdapter adapter;
-    protected Context context;
-    protected int nothingSelectedLayout;
-    protected int nothingSelectedDropdownLayout;
-    protected LayoutInflater layoutInflater;
+	protected static final int EXTRA = 1;
+	protected SpinnerAdapter adapter;
+	protected Context context;
+	protected int nothingSelectedLayout;
+	protected int nothingSelectedDropdownLayout;
+	protected LayoutInflater layoutInflater;
 
-    /**
-     * Use this constructor to have NO 'Select One...' item, instead use
-     * the standard prompt or nothing at all.
-     * @param spinnerAdapter wrapped Adapter.
-     * @param nothingSelectedLayout layout for nothing selected, perhaps
-     * you want text grayed out like a prompt...
-     * @param context
-     */
-    public NothingSelectedSpinnerAdapter(
-      SpinnerAdapter spinnerAdapter,
-      int nothingSelectedLayout, Context context) {
-    	
-    	
-    	
-        this(spinnerAdapter, nothingSelectedLayout, -1, context);
-    }
+	/**
+	 * Use this constructor to have NO 'Select One...' item, instead use
+	 * the standard prompt or nothing at all.
+	 * @param spinnerAdapter wrapped Adapter.
+	 * @param nothingSelectedLayout layout for nothing selected, perhaps
+	 * you want text grayed out like a prompt...
+	 * @param context
+	 */
+	public NothingSelectedSpinnerAdapter(
+			SpinnerAdapter spinnerAdapter,
+			int nothingSelectedLayout, Context context) {
 
-    /**
-     * Use this constructor to Define your 'Select One...' layout as the first
-     * row in the returned choices.
-     * If you do this, you probably don't want a prompt on your spinner or it'll
-     * have two 'Select' rows.
-     * @param spinnerAdapter wrapped Adapter. Should probably return false for isEnabled(0)
-     * @param nothingSelectedLayout layout for nothing selected, perhaps you want
-     * text grayed out like a prompt...
-     * @param nothingSelectedDropdownLayout layout for your 'Select an Item...' in
-     * the dropdown.
-     * @param context
-     */
-    public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
-            int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
-        this.adapter = spinnerAdapter;
-        this.context = context;
-        this.nothingSelectedLayout = nothingSelectedLayout;
-        this.nothingSelectedDropdownLayout = nothingSelectedDropdownLayout;
-        layoutInflater = LayoutInflater.from(context);
-    }
 
-    @Override
-    public final View getView(int position, View convertView, ViewGroup parent) {
-        // This provides the View for the Selected Item in the Spinner, not
-        // the dropdown (unless dropdownView is not set).
-        if (position == 0) {
-            return getNothingSelectedView(parent);
-        }
-        return adapter.getView(position - EXTRA, null, parent); // Could re-use
-                                                 // the convertView if possible.
-    }
 
-    /**
-     * View to show in Spinner with Nothing Selected
-     * Override this to do something dynamic... e.g. "37 Options Found"
-     * @param parent
-     * @return
-     */
-    protected View getNothingSelectedView(ViewGroup parent) {
-        return layoutInflater.inflate(nothingSelectedLayout, parent, false);
-    }
+		this(spinnerAdapter, nothingSelectedLayout, -1, context);
+	}
 
-    @Override
-    public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        // BUG! Vote to fix!! http://code.google.com/p/android/issues/detail?id=17128 -
-        // Spinner does not support multiple view types
-        if (position == 0) {
-            return nothingSelectedDropdownLayout == -1 ?
-              new View(context) :
-              getNothingSelectedDropdownView(parent);
-        }
+	/**
+	 * Use this constructor to Define your 'Select One...' layout as the first
+	 * row in the returned choices.
+	 * If you do this, you probably don't want a prompt on your spinner or it'll
+	 * have two 'Select' rows.
+	 * @param spinnerAdapter wrapped Adapter. Should probably return false for isEnabled(0)
+	 * @param nothingSelectedLayout layout for nothing selected, perhaps you want
+	 * text grayed out like a prompt...
+	 * @param nothingSelectedDropdownLayout layout for your 'Select an Item...' in
+	 * the dropdown.
+	 * @param context
+	 */
+	public NothingSelectedSpinnerAdapter(SpinnerAdapter spinnerAdapter,
+			int nothingSelectedLayout, int nothingSelectedDropdownLayout, Context context) {
+		this.adapter = spinnerAdapter;
+		this.context = context;
+		this.nothingSelectedLayout = nothingSelectedLayout;
+		this.nothingSelectedDropdownLayout = nothingSelectedDropdownLayout;
+		layoutInflater = LayoutInflater.from(context);
+	}
 
-        // Could re-use the convertView if possible, use setTag...
-        return adapter.getDropDownView(position - EXTRA, null, parent);
-    }
+	@Override
+	public final View getView(int position, View convertView, ViewGroup parent) {
+		// This provides the View for the Selected Item in the Spinner, not
+		// the dropdown (unless dropdownView is not set).
+		if (position == 0) {
+			return getNothingSelectedView(parent);
+		}
+		return adapter.getView(position - EXTRA, null, parent); // Could re-use
+		// the convertView if possible.
+	}
 
-    /**
-     * Override this to do something dynamic... For example, "Pick your favorite
-     * of these 37".
-     * @param parent
-     * @return
-     */
-    protected View getNothingSelectedDropdownView(ViewGroup parent) {
-        return layoutInflater.inflate(nothingSelectedDropdownLayout, parent, false);
-    }
+	/**
+	 * View to show in Spinner with Nothing Selected
+	 * Override this to do something dynamic... e.g. "37 Options Found"
+	 * @param parent
+	 * @return
+	 */
+	protected View getNothingSelectedView(ViewGroup parent) {
+		return layoutInflater.inflate(nothingSelectedLayout, parent, false);
+	}
 
-    @Override
-    public int getCount() {
-        int count = adapter.getCount();
-        return count == 0 ? 0 : count + EXTRA;
-    }
+	@Override
+	public View getDropDownView(int position, View convertView, ViewGroup parent) {
+		// BUG! Vote to fix!! http://code.google.com/p/android/issues/detail?id=17128 -
+		// Spinner does not support multiple view types
+		if (position == 0) {
+			return nothingSelectedDropdownLayout == -1 ?
+					new View(context) :
+						getNothingSelectedDropdownView(parent);
+		}
 
-    @Override
-    public Object getItem(int position) {
-        return position == 0 ? null : adapter.getItem(position - EXTRA);
-    }
+		// Could re-use the convertView if possible, use setTag...
+		return adapter.getDropDownView(position - EXTRA, null, parent);
+	}
 
-    @Override
-    public int getItemViewType(int position) {
-        // Doesn't work!! Vote to Fix! http://code.google.com/p/android/issues/detail?id=17128 -
-        // Spinner does not support multiple view types
-        // This method determines what is the convertView, this should
-        // return 1 for pos 0 or return 0 otherwise.
-        return position == 0 ?
-               getViewTypeCount() - EXTRA :
-               adapter.getItemViewType(position - EXTRA);
-    }
+	/**
+	 * Override this to do something dynamic... For example, "Pick your favorite
+	 * of these 37".
+	 * @param parent
+	 * @return
+	 */
+	protected View getNothingSelectedDropdownView(ViewGroup parent) {
+		return layoutInflater.inflate(nothingSelectedDropdownLayout, parent, false);
+	}
 
-    @Override
-    public int getViewTypeCount() {
-        return adapter.getViewTypeCount() + EXTRA;
-    }
+	@Override
+	public int getCount() {
+		int count = adapter.getCount();
+		return count == 0 ? 0 : count + EXTRA;
+	}
 
-    @Override
-    public long getItemId(int position) {
-        return adapter.getItemId(position - EXTRA);
-    }
+	@Override
+	public Object getItem(int position) {
+		return position == 0 ? null : adapter.getItem(position - EXTRA);
+	}
 
-    @Override
-    public boolean hasStableIds() {
-        return adapter.hasStableIds();
-    }
+	@Override
+	public int getItemViewType(int position) {
+		return position == 0 ?
+				getViewTypeCount() - EXTRA :
+					adapter.getItemViewType(position - EXTRA);
+	}
 
-    @Override
-    public boolean isEmpty() {
-        return adapter.isEmpty();
-    }
+	@Override
+	public int getViewTypeCount() {
+		return adapter.getViewTypeCount() + EXTRA;
+	}
 
-    @Override
-    public void registerDataSetObserver(DataSetObserver observer) {
-        adapter.registerDataSetObserver(observer);
-    }
+	@Override
+	public long getItemId(int position) {
+		return adapter.getItemId(position - EXTRA);
+	}
 
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-        adapter.unregisterDataSetObserver(observer);
-    }
+	@Override
+	public boolean hasStableIds() {
+		return adapter.hasStableIds();
+	}
 
-    @Override
-    public boolean areAllItemsEnabled() {
-        return false;
-    }
+	@Override
+	public boolean isEmpty() {
+		return adapter.isEmpty();
+	}
 
-    @Override
-    public boolean isEnabled(int position) {
-        return position == 0 ? false : true; // Don't allow the 'nothing selected'
-                                             // item to be picked.
-    }
+	@Override
+	public void registerDataSetObserver(DataSetObserver observer) {
+		adapter.registerDataSetObserver(observer);
+	}
+
+	@Override
+	public void unregisterDataSetObserver(DataSetObserver observer) {
+		adapter.unregisterDataSetObserver(observer);
+	}
+
+	@Override
+	public boolean areAllItemsEnabled() {
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+		return position == 0 ? false : true; // Don't allow the 'nothing selected'
+		// item to be picked.
+	}
 
 }

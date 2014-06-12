@@ -3,55 +3,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
- 
-    tools:context=".MainActivity" >
-		 <LinearLayout
-       		android:layout_width="match_parent"
-        	android:layout_height="match_parent"
-       		 android:orientation="vertical" >
-			 <RelativeLayout
-              android:id="@+id/topBar"
-              android:layout_width="match_parent"
-              android:layout_height="60dp"
-              android:background="@android:color/holo_green_dark"
-              tools:ignore="NewApi" >
+    android:layout_height="fill_parent" >
 
-            <Button
-                android:id="@+id/backbuttonoftab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_centerVertical="true"
-              	android:text="@string/back_string"
-              	android:textColor="#000000"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#d22843"
+            tools:ignore="NewApi" >
+            
+             <RelativeLayout
+                android:id="@+id/re_backholder"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+               android:layout_centerHorizontal="true"
+               android:gravity="center"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true">
+                 <Button
+                android:id="@+id/backbuttonoftab"
+               android:layout_width="60dp"
+            	android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:background="@drawable/lbtn_back"
+                android:textColor="#ffffff" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/re_la_mid"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+               android:layout_centerHorizontal="true"
+               android:gravity="center"
+                android:layout_toRightOf="@+id/re_backholder"
+                android:layout_toLeftOf="@+id/img_icon_to_bar">
+
+                 
+                <TextView
+                    android:id="@+id/welcome_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="2dp"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:singleLine="true"
+                   android:textSize="13sp"
+                    android:textStyle="bold" />
+                 <ImageView
+                    android:id="@+id/img_cat_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:visibility="gone"
+                    android:layout_toRightOf="@+id/welcome_title"
+                   android:layout_centerVertical="true"
+                   android:src="@drawable/l2" />
+
               
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/welcome_title"
-                android:layout_width="wrap_content"
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/img_icon_to_bar"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
-              
-                android:layout_centerHorizontal="true"
-               	android:layout_centerVertical="true"
-             	android:textColor="#ffffff"
-                android:textSize="23sp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/licon_for_topbar"
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <FrameLayout
+       
+        
+         <FrameLayout
             android:id="@android:id/tabcontent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1" />
 
         <TabWidget
             android:id="@android:id/tabs"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:background="#000000"
+            android:background="#7f1325"
             android:orientation="horizontal" />
     </LinearLayout>
 
