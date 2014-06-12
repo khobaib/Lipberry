@@ -158,9 +158,9 @@ public class SignupActivity extends Activity {
 				if(Constants.isOnline(SignupActivity.this)){
 					t_country.setVisibility(View.GONE);
 					s_country.setVisibility(View.VISIBLE);
-					pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
-							"Retreving countrylist", true);
-					new AsyncTaskGetCountry().execute();;
+					pd=ProgressDialog.show(SignupActivity.this, getResources().getString(R.string.app_name_arabic),
+							 getResources().getString(R.string.txt_please_wait), true);
+					new AsyncTaskGetCountry().execute();
 
 				}
 				else{
@@ -653,14 +653,15 @@ public class SignupActivity extends Activity {
 				byte[] ba = name.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
 				loginObj.put("name",base64Str);
-				ba = username.getBytes();
-				base64Str = Base64.encodeBytes(ba);
-				loginObj.put("username",base64Str);
+//				ba = username.getBytes();
+//				base64Str = Base64.encodeBytes(ba);
+				loginObj.put("username",username);
 				ba = nickname.getBytes();
 				base64Str = Base64.encodeBytes(ba);
 				loginObj.put("nickname",base64Str);
 				ba = password.getBytes();
 				base64Str = Base64.encodeBytes(ba);
+				//base64Str=Utility.getEncodedpassword(base64Str);
 				loginObj.put("password",base64Str);
 				loginObj.put("country_id", countrylist.get(selectedcountryposition).getId());
 				loginObj.put("city_id", citylist.get(selectedcityposition).getId());
@@ -694,7 +695,11 @@ public class SignupActivity extends Activity {
 			String  status=response.getString("status");
 			String msz=response.getString("message");
 			if(status.equals("success")){
-				Toast.makeText(SignupActivity.this, msz, 10000).show();
+				if(msz.equals("email sent successfully to activate your account")){
+					Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_emailis_sent_toactiviate), 
+							10000).show();
+
+				}
 				Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
 				startActivity(intent);
 				finish();

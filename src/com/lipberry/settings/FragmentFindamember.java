@@ -245,7 +245,7 @@ public class FragmentFindamember extends Fragment{
 //				loginObj.put("endIndex",""+1500);
 				byte[] ba = username.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
-				loginObj.put("username",base64Str);
+				loginObj.put("username",username);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"account/memberlist/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,

@@ -279,6 +279,7 @@ public class FragmentMemberFromHome extends Fragment {
 			btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
 		}
 		else{
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
 		btn_send.setOnClickListener(new OnClickListener() {
@@ -344,6 +345,8 @@ public class FragmentMemberFromHome extends Fragment {
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
+
 			JSONObject jobj=result.getjObj();
 			try {
 				String status= jobj.getString("status");
@@ -388,6 +391,8 @@ public class FragmentMemberFromHome extends Fragment {
 			try {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
+				btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
+
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));

@@ -168,10 +168,23 @@ public class FragmentSingleMember extends Fragment {
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			String url =Constants.baseurl+"account/findmemberbyid/"+member_id+"/";
-			ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_GET, url, null,
-					null, null);
-			return response;
+			
+			try {
+				JSONObject loginObj = new JSONObject();
+				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
+				String loginData = loginObj.toString();
+				String url =Constants.baseurl+"account/findmemberbyid/"+member_id+"/";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+
+			}
+			
 		}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
@@ -210,6 +223,22 @@ public class FragmentSingleMember extends Fragment {
 			btn_follow_her.setVisibility(View.VISIBLE);
 			btn_send.setVisibility(View.VISIBLE);
 		}
+		btn_send.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if(followstate){
+					//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+					parent.StartFragmentSendMessageFormMenu(singleMember.getNickname(),singleMember.getUsername());
+				}
+				else{
+				//	parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
+							Toast.LENGTH_SHORT).show();
+				}
+				
+			}
+		});
 		
 		txt_name.setText(singleMember.getNickname());
 		txt_nick_name.setText(singleMember.getUsername());
@@ -241,11 +270,13 @@ public class FragmentSingleMember extends Fragment {
 		else{
 			followstate=true;
 		}
-		
+
 		if(followstate){
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
 		}
 		else{
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
 	}
@@ -280,7 +311,7 @@ public class FragmentSingleMember extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/cancelFollowmember/"+Constants.userid+"/";
+				String url =Constants.baseurl+"account/cancelFollowmember/"+singleMember.getId()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -299,7 +330,10 @@ public class FragmentSingleMember extends Fragment {
 			try {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
+
 				if(status.equals("success")){
+					btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
+
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 					followstate=false;
@@ -320,7 +354,7 @@ public class FragmentSingleMember extends Fragment {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"account/followmember/"+Constants.userid+"/";
+				String url =Constants.baseurl+"account/followmember/"+singleMember.getId()+"/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -342,12 +376,16 @@ public class FragmentSingleMember extends Fragment {
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
+					btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
+
 					followstate=true;
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					if(description.equals("Already followed")){
 						btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
+						btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
+
 						followstate=true;
 					}
 				}

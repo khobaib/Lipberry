@@ -1,9 +1,12 @@
 <resources>
- 
+    
+              <string name="txt_there_is_no_follower">"لا يوجد هناك من تتابعينهن"</string>
+    
              <string name="txt_articleid_not_found">"This article was not found "</string>
     
                  <string name="txt_you_are_not_following">"لا يمكن ارسال رسالة خاصة للمشتركة لانك لا تتابعيها"</string>
-             
+                         <string name="txt_emailis_sent_toactiviate">" تم ارسال بريد الكتروني لتفعيل تسجيلك"</string>
+                 
             <string name="txt_follow_success">"تم اضافه الصور للألبوم "</string>
     
         <string name="txt_img_upload_succes">"تم اضافه الصور للألبوم "</string>

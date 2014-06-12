@@ -1,5 +1,7 @@
 package com.lipberry.utility;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,6 +32,34 @@ public class Utility {
 	 public static final String SENDER_ID ="975975527814";//"631054890646";// 
 	 public static final String DISPLAY_MESSAGE_ACTION =
 	            "com.google.android.gcm.demo.app.DISPLAY_MESSAGE";
+	 public static String getEncodedpassword(String pass){
+		  String passwordToHash = pass;
+	        String generatedPassword = null;
+	        try {
+	            // Create MessageDigest instance for MD5
+	            MessageDigest md = MessageDigest.getInstance("MD5");
+	            //Add password bytes to digest
+	            md.update(passwordToHash.getBytes());
+	            //Get the hash's bytes
+	            byte[] bytes = md.digest();
+	            //This bytes[] has bytes in decimal format;
+	            //Convert it to hexadecimal format
+	            StringBuilder sb = new StringBuilder();
+	            for(int i=0; i< bytes.length ;i++)
+	            {
+	                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+	            }
+	            //Get complete hashed password in hex format
+	            generatedPassword = sb.toString();
+	            return generatedPassword;
+	        }
+	        catch (NoSuchAlgorithmException e)
+	        {
+	            e.printStackTrace();
+		        return null;
+
+	        }
+	 }
 	public static String getFormattedTime(String dateTime) {
 		if (dateTime == null)
 			return null;
@@ -104,8 +134,6 @@ public class Utility {
 	}
 	public static String formatTOdayTime(long millis) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTimeInMillis(millis);
-
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm a");
 		dateFormat.setCalendar(cal);
 		return dateFormat.format(cal.getTime());

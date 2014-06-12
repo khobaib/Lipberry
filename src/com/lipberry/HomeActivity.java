@@ -106,6 +106,7 @@ public class HomeActivity extends FragmentActivity {
 	FragmentImageSetting imgsetting;
 	String a="normal";
 	Timer myTimer ;
+	String kkr;
 	int k=4;
 	MyTimerTask myTimerTask;
 	protected void onCreate(Bundle savedInstanceState) {

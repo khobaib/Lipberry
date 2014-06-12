@@ -268,7 +268,14 @@ public class FragmentMyCountriesPost extends Fragment {
 			}
 			else{
 				String message=result.getString("description");
-				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+				if(message.equals("There is no followers")){
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+							Toast.LENGTH_SHORT).show();
+				}
+				else{
+					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+	
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -289,7 +296,14 @@ public class FragmentMyCountriesPost extends Fragment {
 			}
 			else{
 				String message=result.getString("description");
-				Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+				if(message.equals("There is no followers")){
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+							Toast.LENGTH_SHORT).show();
+				}
+				else{
+					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+	
+				}
 				loadmemberlist( a);
 			}
 		} catch (JSONException e) {
@@ -309,7 +323,7 @@ public class FragmentMyCountriesPost extends Fragment {
 	}
 	public void setlistformember(ArrayList<Member>memberList){
 		FragmentActivity  activity=getActivity();
-		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity());
+		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity(),parent);
 		listviewforarticle.setAdapter(ladapter);
 	}
 	public void  loadlistview(boolean from){

@@ -267,8 +267,17 @@ public class FragmentMyFollwerPost extends Fragment {
 				list_view_latest_post2.onRefreshComplete();
 			}
 			else{
-				String message=result.getString("description");
-				Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+//				String message=result.getString("description");
+//				if(message.equals("There is no followers")){
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+							Toast.LENGTH_SHORT).show();
+//				}
+//				else{
+//					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+//	
+//				}
+//				String message=result.getString("description");
+//				Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -288,8 +297,17 @@ public class FragmentMyFollwerPost extends Fragment {
 				loadlistview(true);
 			}
 			else{
-				String message=result.getString("description");
-				Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+				//06-08 21:44:44.739: D/JsonParser(21070): sb = {"status":"failure","description":"There is no followers","memberstofollow":[{"member_id":"9028","member_nickname":"\u0645\u0631\u064a\u0645 \u0627\u0644\u0639\u064a\u062f","member_username":"mariam","member_bio":"\u0627\u062e\u0635\u0627\u0626\u064a\u0629 \u062a\u063a\u0630\u064a\u0629  \u062d\u0627\u0635\u0644\u0629 \u0639\u0644\u0649 \u0634\u0647\u0627\u062f\u0629 \u0627\u0644\u0645\u0627\u062c\u0633\u062a\u064a\u0631 .. \u062a\u0633\u0639\u062f\u0646\u064a \u0642\u0631\u0627\u0626\u062a\u0643\u0645 \u0644\u0643\u062a\u0627\u0628\u0627\u062a\u064a \u0627\u0644\u062a\u064a \u0627\u0633\u0639\u0649 \u0641\u064a\u0647\u0627 \u0644\u0627\u0641\u0627\u062f\u062a\u0643\u0645 \r\n\u0627\u0644\u062a\u063a\u0630\u064a\u0629 \u0637\u0631\u064a\u0642 \u0627\u0644\u062c\u0645\u0627\u0644 .. \u062a\u0627\u0628\u0639\u0648\u0646\u064a \u0628\u0627\u0644\u0636\u063a\u0637 \u0639\u0644\u0649 \u0632\u0631 \u0627\u0644\u0645\u062a\u0627\u0628\u0639\u0647 :) \u062d\u064a\u0627\u0643\u0645","member_photo":"http:\/\/www.lipberry.com\/uploaded_content\/member\/member_9028.jpg","member_url":"http:\/\/www.lipberry.com\/user\/mariam\/"},{"member_id":"9575","member_nickname":"manalll14","member_username":"manalll14","member_bio":"\u0645\u0646\u0627\u0644....\u0627\u062d\u0628 \u0643\u0644 \u0634\u064a \u064a\u062e\u0635 \u0627\u0644\u062c\u0645\u0627\u0644 \u0648\u0627\u0644\u0645\u0643\u064a\u0627\u062c \u0648\u0627\u062d\u0628 \u0627\u0641\u064a\u062f \u063a\u064a\u0631\u064a \u0628\u062a\u062c\u0627\u0631\u0628\u064a","member_photo":"http:\/\/www.lipberry.com\/uploaded_content\/member\/member_9575.jpg","member_url":"http:\/\/www.lipberry.com\/user\/manalll14\/"},{"member_id":"9625","member_nickname":"\u0645\u0631\u0648\u0647","member_username":"marwa","member_bio":"\u0645\u062f\u0648\u0646\u0629  \u0645\u0647\u062a\u0645\u0629 \u0628\u0627\u0644\u0645\u0643\u064a\u0627\u062c \u0648 \u0627\u0644\u0627\u0632\u064a\u0627\u0621 \u0648 \u0627\u0646\u0634\u0631 \u0627\u0644\u0644\u0627\u0634\u064a\u0627\u0621 \u0627\u0644\u0644\u064a \u062a\u0639\u062c\u0628\u0646\u064a :) .. \u062a\u0627\u0628\u0639\u064a \u0635\u0641\u062d\u062a\u064a \u0639\u0634\u0627\u0646 \u064a\u0648\u0635\u0644\u0643 \u062c\u062f\u064a\u062f\u064a \r\n\u062d\u0627\u0644\u064a\u0627 \u0627\u0646\u0634\u0631 \u0627\u0632\u064a\u0627\u0621 2014 \u0644\u0644\u0645\u0635\u0645\u0645\u064a\u0646","member_photo":"http:\/\/www.lipberry.com\/uploaded_content\/member\/member_9625.jpg","member_url":"http:\/\/www.lipberry.com\/user\/marwa\/"}]}
+
+//				String message=result.getString("description");
+//				if(message.equals("There is no followers")){
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+							Toast.LENGTH_SHORT).show();
+//				}
+//				else{
+//					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+//	
+//				}
 				loadmemberlist( a);
 			}
 		} catch (JSONException e) {
@@ -309,7 +327,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	}
 	public void setlistformember(ArrayList<Member>memberList){
 		FragmentActivity  activity=getActivity();
-		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity());
+		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity(),parent);
 		listviewforarticle.setAdapter(ladapter);
 	}
 	public void  loadlistview(boolean from){

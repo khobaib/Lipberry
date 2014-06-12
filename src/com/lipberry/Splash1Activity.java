@@ -174,9 +174,11 @@ public class Splash1Activity extends Activity {
 				JSONObject loginObj = new JSONObject();
 				byte[] ba = username.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
-				loginObj.put("username", base64Str);
+				loginObj.put("username", username);
 				ba=password.getBytes();
 				base64Str=Base64.encodeBytes(ba);
+				//base64Str=Utility.getEncodedpassword(base64Str);
+
 				loginObj.put("password", base64Str);
 				String loginData = loginObj.toString();
 				String url = Constants.baseurl+"account/login";

@@ -10,6 +10,7 @@ import com.lipberry.settings.FragmentFindamember;
 import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.settings.FragmentMessageSetting;
 import com.lipberry.settings.FragmentProfileSetting;
+import com.lipberry.settings.FragmentSendMessageFormMenuTab;
 import com.lipberry.settings.FragmentSingleMember;
 import com.lipberry.utility.Constants;
 
@@ -76,6 +77,20 @@ public class MenuTabFragment extends TabFragment{
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
+	}
+	
+	public void StartFragmentSendMessageFormMenu(String nickname,String username) {
+		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
+
+		FragmentSendMessageFormMenuTab newFragment = new FragmentSendMessageFormMenuTab (nickname,username);
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
 	}
 	
 	

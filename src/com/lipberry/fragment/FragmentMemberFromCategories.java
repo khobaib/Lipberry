@@ -259,12 +259,12 @@ public class FragmentMemberFromCategories extends Fragment {
 		else{
 			followstate=true;
 		}
-		
 		if(followstate){
-			btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
 		}
 		else{
+			btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
 		
@@ -340,6 +340,8 @@ public class FragmentMemberFromCategories extends Fragment {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
 				if(status.equals("success")){
+					btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
+
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 					followstate=false;
@@ -379,6 +381,8 @@ public class FragmentMemberFromCategories extends Fragment {
 			try {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
+				btn_follow_her.setBackgroundResource(R.drawable.rounded_pink);
+
 				if(status.equals("success")){
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
 					btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_unfollow));
