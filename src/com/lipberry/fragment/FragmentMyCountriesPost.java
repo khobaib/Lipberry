@@ -267,15 +267,15 @@ public class FragmentMyCountriesPost extends Fragment {
 				list_view_latest_post2.onRefreshComplete();
 			}
 			else{
-				String message=result.getString("description");
-				if(message.equals("There is no followers")){
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+//				String message=result.getString("description");
+//				if(message.equals("There is no followers")){
+				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
 							Toast.LENGTH_SHORT).show();
-				}
-				else{
-					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-	
-				}
+//				}
+//				else{
+//					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+//	
+//				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -295,15 +295,15 @@ public class FragmentMyCountriesPost extends Fragment {
 				loadlistview(true);
 			}
 			else{
-				String message=result.getString("description");
-				if(message.equals("There is no followers")){
+//				String message=result.getString("description");
+//				if(message.equals("There is no followers")){
 					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
 							Toast.LENGTH_SHORT).show();
-				}
-				else{
-					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
-	
-				}
+//				}
+//				else{
+//					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
+//	
+//				}
 				loadmemberlist( a);
 			}
 		} catch (JSONException e) {
