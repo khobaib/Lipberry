@@ -178,62 +178,7 @@ public class FragmentSentMessage extends Fragment{
 		}
 	}
 
-	//	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
-	//		@Override
-	//		protected ServerResponse doInBackground(Void... params) {
-	//
-	//			try {
-	//				JSONObject loginObj = new JSONObject();
-	//				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-	//				loginObj.put("startIndex",""+startindex);
-	//				loginObj.put("endIndex",""+endex);
-	//				String loginData = loginObj.toString();
-	//				String url =Constants.baseurl+"inbox/sentmessages/";
-	//
-	//				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-	//						loginData, null);
-	//				return response;
-	//			} catch (JSONException e) {                
-	//				e.printStackTrace();
-	//				return null;
-	//			}
-	//		}
-	//
-	//		@Override
-	//		protected void onPostExecute(ServerResponse result) {
-	//			super.onPostExecute(result);
-	//			Log.e("res", result.getjObj().toString());
-	//			if(pd.isShowing()&&(pd!=null)){
-	//				pd.dismiss();
-	//			}
-	//			JSONObject job=result.getjObj();
-	//
-	//			try {
-	//				String status=job.getString("status");
-	//				if(status.equals("success")){
-	//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-	//					if(messagelist.getinboxlist().size()>0){
-	//						inboxlist.addAll(messagelist.getinboxlist());
-	//						startindex=endex+1;
-	//						endex=endex+6;
-	//						adapter.notifyDataSetChanged();
-	//
-	//					}
-	//					else{
-	//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
-	//					}
-	//					list_view_inbox.onRefreshComplete();
-	//				}
-	//				else{
-	//					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
-	//				}
-	//
-	//			} catch (JSONException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//	}
+	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -333,19 +278,8 @@ public class FragmentSentMessage extends Fragment{
 						boolean read_flag;
 						Log.e("called", "1");
 						if(inboxlist.get(position).getRead_flag().equals("0")){
-							Log.e("called", "2");
-
 							read_flag=false;
-							//						
-							//								pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-							//										getActivity().getResources().getString(R.string.txt_please_wait), false);
-							Log.e("called", "3");
-
 							messageid=inboxlist.get(position).getMessage_id();
-							//new AsyncTaskSetasReadMessage().execute();
-							Log.e("called", "4");
-
-
 						}
 						else{
 							Log.e("called", "5");

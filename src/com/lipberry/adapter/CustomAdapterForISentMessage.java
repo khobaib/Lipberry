@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.fragment.FragmentInbox;
@@ -13,6 +14,7 @@ import com.lipberry.fragment.FragmentSentMessage;
 import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.Notifications;
+import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -132,6 +134,17 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
               }
         });
 		imageLoader.displayImage(list.get(position).getTo_avatar(), holder.img_pro_pic);
+		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Constants.userid=list.get(position).getTo_id();
+				Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+				((HomeActivity)activity).mTabHost.setCurrentTab(4);
+
+			}
+		});
 		if(list.get(position).getRead_flag().equals("0")){
 			//holder.text_name.setTextColor(Color.parseColor("#5D933D"));
 			holder.text_msz.setTextColor(Color.parseColor("#000000"));

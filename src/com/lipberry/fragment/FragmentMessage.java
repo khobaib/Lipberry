@@ -109,8 +109,14 @@ public class FragmentMessage extends Fragment{
 		appInstance = (LipberryApplication)getActivity().getApplication();
 
 	}
-private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
-		
+	private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			
+
+		}
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 
@@ -133,9 +139,13 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
-				pd.dismiss();
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.dismiss();
+				}
+
 			}
+
 			JSONObject job=result.getjObj();
 			Log.e("testing", "1");
 			try {
@@ -166,8 +176,8 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 						Log.e("testing", "9");
 
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
-						
-						
+
+
 					}
 
 				}   
@@ -192,7 +202,7 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 		threadlist=messagelist.getIndividualThreadlist();
 		adapter=new CustomAdapterMessage(getActivity(),threadlist);
 		lv_thread_messages.setAdapter(adapter);
-		
+
 		b_reply=(Button) v.findViewById(R.id.b_reply);
 		b_reply.setTypeface(Utility.getTypeface2(getActivity()));
 		b_delete=(Button) v.findViewById(R.id.b_delete);
@@ -206,11 +216,11 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 		}
 		if(Constants.isOnline(getActivity())){
 			if(!read_flag){
-//				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-//						getActivity().getResources().getString(R.string.txt_please_wait), false);
-//				new AsyncTaskSetasReadMessage().execute();
+				//				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+				//						getActivity().getResources().getString(R.string.txt_please_wait), false);
+				//				new AsyncTaskSetasReadMessage().execute();
 			}
-				
+
 		}
 		b_reply.setOnClickListener(new OnClickListener() {
 
@@ -232,7 +242,7 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_are_not_following),
 									Toast.LENGTH_SHORT).show();
 						}
-						
+
 					}
 					else{
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),
@@ -251,13 +261,13 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+
 				if(Constants.isOnline(getActivity())){
-					
-						pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
-								getActivity().getResources().getString(R.string.txt_please_wait), false);
-						new AsyncTaskDeleteMessage().execute();
-				
+
+					pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
+							getActivity().getResources().getString(R.string.txt_please_wait), false);
+					new AsyncTaskDeleteMessage().execute();
+
 
 				}
 				else{
@@ -272,6 +282,12 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		if(Constants.isOnline(getActivity())){
+			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			LoadThreadMessage individualmessage=new LoadThreadMessage(); 
+			individualmessage.execute();
+		}
 		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_inbox));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
@@ -299,10 +315,10 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 				else{
 					toid=messagelist.getIndividualThreadlist().get(0).getFrom_id();
 				}
-				
+
 				loginObj.put("tomember",toid);
 				String loginData = loginObj.toString();
-				
+
 				String url =Constants.baseurl+"inbox/replyTo/"+messagelist.getIndividualThreadlist().get(0).getId();
 
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -318,7 +334,7 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-			
+
 			JSONObject job=result.getjObj();
 
 			try {
@@ -327,9 +343,9 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
 					Toast.makeText(getActivity(),getActivity().getString(R.string.txt_msz_is_sent), Toast.LENGTH_SHORT).show();
 					if(Constants.isOnline(getActivity())){
-//
-//						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-//								getActivity().getResources().getString(R.string.txt_please_wait), false);
+						//
+						//						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+						//								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						LoadThreadMessage individualmessage=new LoadThreadMessage(); 
 						individualmessage.execute();
 					}
@@ -350,10 +366,10 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 			}
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 	private class AsyncTaskDeleteMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -389,7 +405,7 @@ private class LoadThreadMessage extends AsyncTask<Void, Void, ServerResponse> {
 							Toast.LENGTH_SHORT).show();
 					FragmentInbox.oncreatecalledstate=true;
 					parent.onBackPressed();
-				//list_view_inbox.onRefreshComplete();
+					//list_view_inbox.onRefreshComplete();
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("description"), Toast.LENGTH_SHORT).show();

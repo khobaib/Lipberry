@@ -141,13 +141,7 @@ public class FragmentInbox extends Fragment{
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		//	//	}
-		//		else{
-		//			if(inboxlist.size()>0){
-		//				LoadListView();
-		//			}
-		//		}
-		////		oncreatecalledstate=false;
+		
 		return v;
 	}
 
@@ -212,62 +206,7 @@ public class FragmentInbox extends Fragment{
 		}
 	}
 
-	//	private class AsyncTaskRefreshMessage extends AsyncTask<Void, Void, ServerResponse> {
-	//		@Override
-	//		protected ServerResponse doInBackground(Void... params) {
-	//
-	//			try {
-	//				JSONObject loginObj = new JSONObject();
-	//				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-	//				loginObj.put("startIndex",""+startindex);
-	//				loginObj.put("endIndex",""+endex);
-	//				String loginData = loginObj.toString();
-	//				String url =Constants.baseurl+"inbox/inbox/";
-	//
-	//				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
-	//						loginData, null);
-	//				return response;
-	//			} catch (JSONException e) {                
-	//				e.printStackTrace();
-	//				return null;
-	//			}
-	//		}
-	//
-	//		@Override
-	//		protected void onPostExecute(ServerResponse result) {
-	//			super.onPostExecute(result);
-	//			Log.e("res", result.getjObj().toString());
-	//			if(pd.isShowing()&&(pd!=null)){
-	//				pd.dismiss();
-	//			}
-	//			JSONObject job=result.getjObj();
-	//
-	//			try {
-	//				String status=job.getString("status");
-	//				if(status.equals("success")){
-	//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-	//					if(messagelist.getinboxlist().size()>0){
-	//						inboxlist.addAll(messagelist.getinboxlist());
-	//						startindex=endex+1;
-	//						endex=endex+6;
-	//						adapter.notifyDataSetChanged();
-	//
-	//					}
-	//					else{
-	//						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
-	//					}
-	//					list_view_inbox.onRefreshComplete();
-	//				}
-	//				else{
-	//					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
-	//				}
-	//
-	//			} catch (JSONException e) {
-	//				// TODO Auto-generated catch block
-	//				e.printStackTrace();
-	//			}
-	//		}
-	//	}
+	
 	public void saveindb(ArrayList<InboxMessage>inboxlist){
 		deletetable();
 		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());

@@ -73,6 +73,11 @@ public class HomeTabFragment extends TabFragment{
 			startMemberFragment(2);
 			Constants.GOMEMBERSTATEFROMINTERACTION=false;
 		}
+		else if(Constants.GOMEMBERSTATEFROMIMESSAGE){
+			Log.e("test", "2");
+			startMemberFragment(1);
+			Constants.GOMEMBERSTATEFROMIMESSAGE=false;
+		}
 		else if(Constants.GOMEMBERSTATEFROMSETTING){
 			Log.e("test", "3");
 

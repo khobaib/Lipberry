@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.model.ArticleGallery;
@@ -58,18 +59,18 @@ public class CustomAdapterMessage extends BaseAdapter {
 	ImageLoader imageLoader;
 	LipberryApplication appInstance;
 	public CustomAdapterMessage(Activity activity,
-		ArrayList<TndividualThreadMessage>list) {
+			ArrayList<TndividualThreadMessage>list) {
 		super();
 		this.list=list;
 		this.activity=activity;
 		appInstance = (LipberryApplication) activity.getApplication();
-//		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-//		.cacheInMemory(false).cacheOnDisc(false).build();
-//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-//				activity.getApplicationContext()).defaultDisplayImageOptions(
-//						defaultOptions).build();
+		//		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		//		.cacheInMemory(false).cacheOnDisc(false).build();
+		//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+		//				activity.getApplicationContext()).defaultDisplayImageOptions(
+		//						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-//		ImageLoader.getInstance().init(config);
+		//		ImageLoader.getInstance().init(config);
 
 	}
 
@@ -125,9 +126,37 @@ public class CustomAdapterMessage extends BaseAdapter {
 			holder.iv_pic_own.setVisibility(View.GONE);
 			holder.iv_pic.setVisibility(View.VISIBLE);
 			holder.tv_conv_desc.setBackgroundResource(R.drawable.rounded_text_pink);
-			imageLoader.displayImage(list.get(0).getTo_avatar(), holder.iv_pic);
+			imageLoader.displayImage(list.get(position).getFrom_id(), holder.iv_pic);
+
+		//	imageLoader.displayImage(list.get(0).getTo_avatar(), holder.iv_pic);
 		}
-		
+
+		holder.iv_pic_own.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Constants.userid=appInstance.getUserCred().getId();
+					Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+					((HomeActivity)activity).mTabHost.setCurrentTab(4);
+
+			}
+		});
+		holder.iv_pic.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(list.get(0).getFrom_id().equals(appInstance.getUserCred().getId())){
+					Constants.userid=list.get(0).getTo_id();
+				}
+				else{
+					Constants.userid=list.get(0).getFrom_id();
+				}
+				
+				Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+				((HomeActivity)activity).mTabHost.setCurrentTab(4);
+			}
+		});
+
 		holder.tv_name.setText(list.get(position).getFrom_nickname());
 		holder.tv_timestamp.setText(list.get(position).getCreated_at());
 		holder.tv_conv_desc.setText(list.get(position).getMessage());

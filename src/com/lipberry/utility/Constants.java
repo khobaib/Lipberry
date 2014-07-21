@@ -36,7 +36,7 @@ public class Constants {
 	
 	public static String INTER_ARTICLE_ID;
 	public static String INTER_MEMBER_ID;
-	
+	public static boolean GOMEMBERSTATEFROMIMESSAGE=false; 
 	public static boolean GOMEMBERSTATEFROMINTERACTION=false; 
 	public static boolean GOMEMBERSTATEFROMSETTING=false; 
 	
