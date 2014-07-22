@@ -151,7 +151,6 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_toLeftOf="@+id/re_right"
                     android:layout_toRightOf="@+id/re_Left"
                     android:background="#ffffff" >
                 </RelativeLayout>
