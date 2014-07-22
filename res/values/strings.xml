@@ -51,7 +51,7 @@
     <string name="txt_subject">"العنوان "</string>
     <string name="txt_to">"إلى"</string>
     <string name="txt_send">"إرسال"</string>
-    <string name="txt_enter_member">"الرجاء ادخال اسم المشتركة "</string>
+    <string name="txt_enter_member">"فشل في الارسال. يمكنك ارسال رساله فقط للمشتركات التي تتابعينهن ‎‎"</string>
     <string name="txt_sent_msz">"ارسلي رسالة"</string>
     <string name="txt_msz_is_sent">"تم ارسال الرساله بنجاح"</string>
     <string name="txt_enter_msz">"الرجاء كتابة نص الرسالة "</string>

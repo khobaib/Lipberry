@@ -106,8 +106,10 @@ public class FragmentSendMessage extends Fragment{
 		inboxlist=new ArrayList<InboxMessage>();
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication)getActivity().getApplication();
+		
 
 	}
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -129,14 +131,26 @@ public class FragmentSendMessage extends Fragment{
 				replymessage=et_msg_body.getText().toString();
 				subject=et_su.getText().toString();
 				if(Constants.isOnline(getActivity())){
-					if(replymessage.equalsIgnoreCase("")){
+					String id=act_to.getText().toString();
+					  int pos = -1;
+
+				        for (int i = 0; i < membername.size(); i++) {
+				            if (membername.get(i).equals(id)) {
+				                pos = i;
+				                break;
+				            }
+				        }
+				   
+					selectedpos= pos;
+					
+					if (selectedpos==-1){
+						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_member),
+								Toast.LENGTH_SHORT).show();
+					}
+					else if(replymessage.equalsIgnoreCase("")){
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),
 								Toast.LENGTH_SHORT).show();
 						
-					}
-					else if (selectedpos==-1){
-						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_member),
-								Toast.LENGTH_SHORT).show();
 					}
 					else{
 						if(memberListobject.getMemberlistForSendMessage().get(selectedpos).getStopPrivateMsz().equals("0")){
@@ -295,8 +309,7 @@ public class FragmentSendMessage extends Fragment{
 						                break;
 						            }
 						        }
-							
-							
+						   
 							selectedpos= pos;
 							
 							
@@ -315,6 +328,7 @@ public class FragmentSendMessage extends Fragment{
 	}
 	private void generateautocomplete(AutoCompleteTextView autextview,String[] arrayToSpinner){
 		ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(
+				
 				getActivity(),  R.layout.my_autocomplete_text_style, arrayToSpinner);
 		autextview.setAdapter(myAdapter);
 

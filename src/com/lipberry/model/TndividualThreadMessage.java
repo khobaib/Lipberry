@@ -3,7 +3,8 @@ package com.lipberry.model;
 public class TndividualThreadMessage {
 	String parent_id="",article_title="",subject="",to_nickname="",child_flag="",from_nickname="",article_url="",read_flag="",message="",id="",
 	category_prefix="",article_id="",article_flag="",to_id="",from_id="",created_at="",from_username="",from_avatar="",to_avatar="";
-	boolean userLogedfollow_messageReceiver=false,messageReceiverfollow_userLoged=false;
+	boolean userLogedfollow_messageReceiver=false,messageReceiverfollow_userLoged=false,userLogedfollow_messageSender=false
+			,messageSenderfollow_userLoged=false;
 	public TndividualThreadMessage(String parent_id,String article_title,String subject,String to_nickname,String child_flag,String from_nickname,
 			String article_url,String read_flag,String message,String id,String category_prefix,String article_id,
 			String article_flag,String to_id,
@@ -30,6 +31,13 @@ public class TndividualThreadMessage {
 		//06-04 21:41:28.434: E/Sending(5313): {"status":"failure","description":"لا يمكن ارسال رسالة خاصة للمشتركة لانك لا تتابعيها"}
 
 	}
+	public boolean getMessageSenderfollow_userLoged(){
+		return this.messageSenderfollow_userLoged;
+	}
+	public boolean getUserLogedfollow_messageSender(){
+		return this.userLogedfollow_messageSender;
+	}
+	
 	public boolean getMessageReceiverfollow_userLoged(){
 		return this.messageReceiverfollow_userLoged;
 	}

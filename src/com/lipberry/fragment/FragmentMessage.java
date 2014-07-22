@@ -232,17 +232,35 @@ public class FragmentMessage extends Fragment{
 
 				if(Constants.isOnline(getActivity())){
 					if(!replymessage.equalsIgnoreCase("")){
-						if((messagelist.getIndividualThreadlist().get(0).getGserLogedfollow_messageReceiver())&&
-								(messagelist.getIndividualThreadlist().get(0).getMessageReceiverfollow_userLoged())){
-							pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
-									getActivity().getResources().getString(R.string.txt_please_wait), false);
-							new AsyncTaskReplyMessage().execute();
+						
+						if(messagelist.getIndividualThreadlist().get(0).getFrom_id().equals(
+								appInstance.getUserCred().getId())){
+							if(messagelist.getIndividualThreadlist().get(0).getGserLogedfollow_messageReceiver()){
+								pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
+										getActivity().getResources().getString(R.string.txt_please_wait), false);
+								new AsyncTaskReplyMessage().execute();
+							}
+							else{
+								Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_are_not_following),
+										Toast.LENGTH_SHORT).show();
+							}
+							
 						}
-						else{
-							Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_are_not_following),
-									Toast.LENGTH_SHORT).show();
+						else if(messagelist.getIndividualThreadlist().get(0).getTo_id().equals(
+								appInstance.getUserCred().getId())){
+							if(messagelist.getIndividualThreadlist().get(0).getUserLogedfollow_messageSender()){
+								pd=ProgressDialog.show(getActivity(),  getActivity().getResources().getString(R.string.app_name_arabic),
+										getActivity().getResources().getString(R.string.txt_please_wait), false);
+								new AsyncTaskReplyMessage().execute();
+							}
+							else{
+								Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_are_not_following),
+										Toast.LENGTH_SHORT).show();
+							}
+							
 						}
-
+						
+						
 					}
 					else{
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),
