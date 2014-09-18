@@ -159,7 +159,7 @@ public class SignupActivity extends Activity {
 					t_country.setVisibility(View.GONE);
 					s_country.setVisibility(View.VISIBLE);
 					pd=ProgressDialog.show(SignupActivity.this, getResources().getString(R.string.app_name_arabic),
-							 getResources().getString(R.string.txt_please_wait), true);
+							getResources().getString(R.string.txt_please_wait), true);
 					new AsyncTaskGetCountry().execute();
 
 				}
@@ -184,110 +184,110 @@ public class SignupActivity extends Activity {
 		});
 		configEdittxt();
 	}
-	
+
 	public void configEdittxt(){
 		e_password.addTextChangedListener(new TextWatcher() {          
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
-    			e_password.setBackgroundResource(R.drawable.rounded_edittext);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+				e_password.setBackgroundResource(R.drawable.rounded_edittext);
 
-            }                       
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub                          
-            }                       
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub                          
 
-            }
-        });
+			}
+		});
 		e_email.addTextChangedListener(new TextWatcher() {          
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
-            	e_email.setBackgroundResource(R.drawable.rounded_edittext);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+				e_email.setBackgroundResource(R.drawable.rounded_edittext);
 
-            }                       
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub                          
-            }                       
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub                          
 
-            }
-        });
+			}
+		});
 		e_username.addTextChangedListener(new TextWatcher() {          
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
-            	e_username.setBackgroundResource(R.drawable.rounded_edittext);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+				e_username.setBackgroundResource(R.drawable.rounded_edittext);
 
-            }                       
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub                          
-            }                       
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub                          
 
-            }
-        });
+			}
+		});
 		e_name.addTextChangedListener(new TextWatcher() {          
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
-            	e_name.setBackgroundResource(R.drawable.rounded_edittext);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+				e_name.setBackgroundResource(R.drawable.rounded_edittext);
 
-            }                       
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub                          
-            }                       
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub                          
 
-            }
-        });
+			}
+		});
 		e_nickname.addTextChangedListener(new TextWatcher() {          
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
-            	e_nickname.setBackgroundResource(R.drawable.rounded_edittext);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+				e_nickname.setBackgroundResource(R.drawable.rounded_edittext);
 
-            }                       
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub                          
-            }                       
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub                          
 
-            }
-        });
+			}
+		});
 		e_confirmpass.addTextChangedListener(new TextWatcher() {          
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
-            	e_confirmpass.setBackgroundResource(R.drawable.rounded_edittext);
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {                                   
+				e_confirmpass.setBackgroundResource(R.drawable.rounded_edittext);
 
-            }                       
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                    int after) {
-                // TODO Auto-generated method stub                          
-            }                       
-            @Override
-            public void afterTextChanged(Editable s) {
-                // TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub                          
+			}                       
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub                          
 
-            }
-        });
+			}
+		});
 	}
 
 	private void signup(){
@@ -437,7 +437,7 @@ public class SignupActivity extends Activity {
 		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
 				adapter2, R.drawable.contact_spinner_row_nothing_selected_city, this));
 		s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
-			
+
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
 				selectedcityposition=position-1;
@@ -647,14 +647,14 @@ public class SignupActivity extends Activity {
 	private class AsyncTaskSignUp extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			
+
 			try {
 				JSONObject loginObj = new JSONObject();
 				byte[] ba = name.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
 				loginObj.put("name",base64Str);
-//				ba = username.getBytes();
-//				base64Str = Base64.encodeBytes(ba);
+				//				ba = username.getBytes();
+				//				base64Str = Base64.encodeBytes(ba);
 				loginObj.put("username",username);
 				ba = nickname.getBytes();
 				base64Str = Base64.encodeBytes(ba);
@@ -695,15 +695,24 @@ public class SignupActivity extends Activity {
 			String  status=response.getString("status");
 			String msz=response.getString("message");
 			if(status.equals("success")){
-				if(msz.equals("email sent successfully to activate your account")){
-					Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_emailis_sent_toactiviate), 
-							10000).show();
-
-				}
-				Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
-				startActivity(intent);
-				finish();
-
+//				if(msz.equals("email sent successfully to activate your account")){
+//					Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_emailis_sent_toactiviate), 
+//							10000).show();
+//				}
+				new AlertDialog.Builder(this)
+			    .setTitle(getResources().getString(R.string.app_name))
+			    .setMessage(getResources().getString(R.string.txt_signup_success3))
+			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			        	dialog.cancel();
+			        	Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
+						startActivity(intent);
+						finish();
+			        }
+			     }).show();
+				
+				
+				
 			}
 			else{
 				Toast.makeText(SignupActivity.this, msz, 10000).show();
@@ -734,8 +743,6 @@ public class SignupActivity extends Activity {
 		AlertDialog alertDialog = alertDialogBuilder.create();
 		alertDialog.show();
 	}
-
-
 	public void activiateuse(){
 		stateofbackpressed=1;
 		setContentView(R.layout.activiate_user);
@@ -756,7 +763,6 @@ public class SignupActivity extends Activity {
 					Toast.makeText(SignupActivity.this, "Please enter key",
 							10000).show();
 				}
-
 				else{
 					Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
 					startActivity(intent);

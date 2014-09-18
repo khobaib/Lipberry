@@ -1,5 +1,8 @@
 <resources>
     
+                 <string name="txt_cancelll">"اغلاق"</string>
+    
+    <string name="txt_signup_success3">"تم تسجيلك في ليب بيري بنجاح ولكن حسابك غير مفعل. فضلاً التحقق من بريدك المسجل و بريد الغير هام (junk, Spam)"</string>
               <string name="txt_there_is_no_follower">"لا يوجد هناك من تتابعينهن"</string>
     
              <string name="txt_articleid_not_found">"This article was not found "</string>
@@ -152,9 +155,9 @@ Inbox
 
     <string name="txt_write_topic">"اكتبي مشاركة"</string>
     <string name="et_signup_name">"اسمك"</string>
-    <string name="et_signup_username">"اسم المستخدم"</string>
+    <string name="et_signup_username">"اسم المستخدم بالانجليزيه 3-10 حروف "</string>
     <string name="et_signup_nickname">"الاسم المستعار"</string>
-    <string name="et_signup_password">"كلمة السر"</string>
+    <string name="et_signup_password">"كلمة المرور يجب ان لا تقل عن 6 حروف\ أرقام "</string>
     <string name="et_signup_confirmpass">"تأكيد كلمة السر"</string>
     <string name="et_signup_email">"البريد الإلكتروني"</string>
     <string name="et_signup_city">"المدينة"</string>
