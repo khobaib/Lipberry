@@ -126,7 +126,6 @@ public class FragmentFindamember extends Fragment{
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-
 	}
 
 	@Override

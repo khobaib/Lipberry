@@ -1,13 +1,27 @@
 package com.lipberry.adapter;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
@@ -16,7 +30,6 @@ import com.lipberry.fragment.FragmentArticleDetailsFromCategory;
 import com.lipberry.fragment.FragmentArticleDetailsFromHome;
 import com.lipberry.fragment.FragmentArticleDetailsFromInteraction;
 import com.lipberry.fragment.HomeTabFragment;
-import com.lipberry.model.ArticleGallery;
 import com.lipberry.model.Comments;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
@@ -28,42 +41,6 @@ import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import android.app.Dialog;
-import android.app.Fragment;
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
-
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.sax.StartElementListener;
-import android.text.Html;
-
-
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebView.FindListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class CustomAdapterForComment extends BaseAdapter {
 	ArrayList<Comments> list;

@@ -94,6 +94,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ProgressDialog mProgress;
 	EditText et_comment;
 	ImageLoader imageLoader;
+	DisplayImageOptions defaultOptions;
 	public ListviewAdapterimageloadingforArticle(Activity activity,
 			ArrayList<Article> list,CategoryTabFragment parent3) {
 		super();
@@ -102,8 +103,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.list = list;
 		this.parent3=parent3;
 		appInstance = (LipberryApplication) activity.getApplication();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(true).cacheOnDisc(true).build();
+		 defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -120,7 +121,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.list = list;
 		this.parent=parent;
 		appInstance = (LipberryApplication) activity.getApplication();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(false).cacheOnDisc(false).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
@@ -408,11 +409,62 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		else{
 			holder.img_article_pro_pic.setVisibility(View.VISIBLE);
 
-			imageLoader.loadImage(list.get(position).getArticle_photo(),imll);
+			imageLoader.displayImage(list.get(position).getArticle_photo(), holder.img_article_pro_pic, defaultOptions, new ImageLoadingListener() {
+				
+				@Override
+				public void onLoadingStarted(String imageUri, View view) {
+					// TODO Auto-generated method stub
+					mProgress=new ProgressDialog(activity);
+					mProgress.setTitle("Image is  Loading");
+					holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
+				}
+				
+				@Override
+				public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+					// TODO Auto-generated method stub
+					if((mProgress.isShowing())&&(mProgress!=null)){
+						mProgress.dismiss();
+					}
+					
+					holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
+				}
+				
+				@Override
+				public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+					if((mProgress.isShowing())&&(mProgress!=null)){
+						mProgress.dismiss();
+					}
+					Bitmap bitmap=loadedImage;
+					
+					if(bitmap!=null){
+						int bitmapheight=bitmap.getHeight();
+						int bitmapweight=bitmap.getWidth();
+						int deviceheight=Utility.getDeviceHeight(activity);
+						int devicewidth=Utility.getDeviceWidth(activity);
+						float ratio=(float)devicewidth/(float)bitmapweight;
+						int resizebitmapwidth=devicewidth;
+						float a=(bitmapheight*ratio);
+						int resizebitmaphight=(int)a ;
+						Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
+						bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+						holder.img_article_pro_pic.setImageBitmap(bitmap);
+					}
+				}
+				
+				@Override
+				public void onLoadingCancelled(String imageUri, View view) {
+					// TODO Auto-generated method stub
+					if((mProgress.isShowing())&&(mProgress!=null)){
+						mProgress.dismiss();
+					}
+					
+					holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
+				}
+			});
 
 
 		}
-
+		
 		holder.text_user_name.setOnClickListener(new OnClickListener() {
 
 			@Override

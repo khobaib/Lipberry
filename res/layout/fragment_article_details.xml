@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="#f6f5f5"
     android:layoutDirection="rtl"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:ignore="UnusedAttribute,ContentDescription,HardcodedText" >
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -16,7 +17,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
             android:orientation="vertical" >
@@ -42,10 +43,9 @@
                         android:layout_alignParentStart="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="2dp"
-            			android:background="@drawable/image_boarder"
+                        android:background="@drawable/image_boarder"
                         android:padding="1.5dp"
-                        android:scaleType="fitXY"
-                        />
+                        android:scaleType="fitXY" />
 
                     <TextView
                         android:id="@+id/text_user_name"
@@ -55,12 +55,12 @@
                         android:layout_marginRight="16dp"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="8dp"
-                                                android:gravity="right"
-                        android:singleLine="true"
-                        android:layout_toRightOf="@+id/btn_follow_her"
                         android:layout_toLeftOf="@+id/img_pro_pic"
+                        android:layout_toRightOf="@+id/btn_follow_her"
+                        android:gravity="right"
+                        android:singleLine="true"
                         android:textColor="#777777"
-                        android:textSize="24dp" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/text_date_other"
@@ -73,10 +73,9 @@
                         android:layout_toLeftOf="@+id/img_pro_pic"
                         android:layout_toRightOf="@+id/btn_follow_her"
                         android:gravity="right"
+                        android:singleLine="true"
                         android:textColor="#5D933D"
-                        
-                         android:singleLine="true"
-                        android:textSize="18dp" />
+                        android:textSize="18sp" />
 
                     <Button
                         android:id="@+id/btn_follow_her"
@@ -87,12 +86,10 @@
                         android:layout_marginLeft="17dp"
                         android:background="@android:color/transparent"
                         android:gravity="center"
-                       
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
-                        
                         android:textColor="#ffffff"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <Button
                         android:id="@+id/visit"
@@ -101,9 +98,10 @@
                         android:layout_alignBaseline="@+id/text_date_other"
                         android:layout_alignBottom="@+id/text_date_other"
                         android:layout_alignLeft="@+id/text_date_other"
-                        android:text="Vist"
+                        android:text="Visit"
                         android:textColor="#000000"
                         android:visibility="gone" />
+
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -133,25 +131,27 @@
                         android:layout_marginLeft="10dp"
                         android:background="@android:color/transparent"
                         android:divider="@android:color/transparent"
-                        android:dividerHeight="5dp" >
+                        android:dividerHeight="5dp"
+                        tools:ignore="NestedScrolling" >
+
                     </ListView>
 
-                    <Button
-                        android:id="@+id/btn_photo_album"
-                        android:layout_width="65dp"
-                        android:layout_height="34dp"
-                        android:layout_alignParentLeft="true"
-                        android:layout_below="@+id/img_article"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/lbtn_photo_album" />
+                    <!-- <Button -->
+                    <!-- android:id="@+id/btn_photo_albusm" -->
+                    <!-- android:layout_width="65dp" -->
+                    <!-- android:layout_height="34dp" -->
+                    <!-- android:layout_alignParentLeft="true" -->
+                    <!-- android:layout_marginLeft="10dp" -->
+                    <!-- android:layout_marginTop="10dp" -->
+                    <!-- android:background="@drawable/lbtn_photo_album" /> -->
+
 
                     <ImageView
                         android:id="@+id/play_vedio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:layout_below="@+id/btn_photo_album"
+                        android:layout_below="@+id/img_article"
                         android:layout_marginLeft="13dp"
                         android:layout_marginTop="5dp"
                         android:src="@drawable/playvedio" />
@@ -163,13 +163,13 @@
                         android:layout_below="@+id/img_article"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="2dp"
-                        android:layout_toRightOf="@+id/btn_photo_album"
+                        android:layout_toRightOf="@+id/play_vedio"
                         android:gravity="right|center_vertical"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingTop="2dp"
                         android:textColor="#5D933D"
-                        android:textSize="22dp"
+                        android:textSize="22sp"
                         tools:ignore="NotSibling" />
                 </RelativeLayout>
 
@@ -183,7 +183,7 @@
                     android:paddingLeft="15dp"
                     android:paddingRight="15dp"
                     android:textColor="#777777"
-                    android:textSize="18dp" />
+                    android:textSize="18sp" />
 
                 <RelativeLayout
                     android:id="@+id/re_report"
@@ -201,9 +201,9 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
                         android:background="@drawable/rounded_report_abuse"
+                        android:gravity="center"
                         android:paddingLeft="5dp"
-                         android:paddingRight="5dp"
-                         android:gravity="center"
+                        android:paddingRight="5dp"
                         android:text="@string/txt_report"
                         android:textColor="#ffffff" />
                 </RelativeLayout>
@@ -254,7 +254,7 @@
                         android:layout_marginLeft="17dp"
                         android:text="200"
                         android:textColor="#777777"
-                        android:textSize="24dp" />
+                        android:textSize="24sp" />
 
                     <ImageView
                         android:id="@+id/icon_eye"
@@ -297,7 +297,7 @@
                         android:gravity="right|center_vertical"
                         android:padding="5dp"
                         android:textColor="#777777"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/text_comment"
@@ -309,7 +309,7 @@
                         android:gravity="center_vertical|left"
                         android:paddingLeft="10dp"
                         android:textColor="#777777"
-                        android:textSize="15dp" />
+                        android:textSize="15sp" />
                 </RelativeLayout>
             </RelativeLayout>
 
@@ -331,7 +331,9 @@
                     android:layout_height="0dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:background="#ffffff" >
+                    android:background="#ffffff"
+                    tools:ignore="NestedScrolling" >
+
                 </ListView>
             </RelativeLayout>
 
