@@ -201,9 +201,9 @@ public class FragmentSendMessage extends Fragment{
 					base64Str = Base64.encodeBytes(ba);
 					loginObj.put("subject",base64Str);
 				}
-				 ba =memberListobject.getMemberlistForSendMessage().get(selectedpos).getUsername().getBytes();
+				 ba =memberListobject.getMemberlistForSendMessage().get(selectedpos).getUserName().getBytes();
 				 base64Str = Base64.encodeBytes(ba);
-				loginObj.put("tomember",memberListobject.getMemberlistForSendMessage().get(selectedpos).getUsername());
+				loginObj.put("tomember",memberListobject.getMemberlistForSendMessage().get(selectedpos).getUserName());
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"inbox/sendmessage/";
 
@@ -291,7 +291,7 @@ public class FragmentSendMessage extends Fragment{
 					memberListobject=MemberListForSendMessage.getMemberlist(result.getjObj());
 					membername.clear();
 					for (int i=0;i<memberListobject.getMemberlistForSendMessage().size();i++){
-						membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickname());
+						membername.add(memberListobject.getMemberlistForSendMessage().get(i).getNickName());
 					}
 					generateautocomplete(act_to, membername.toArray(new String[membername.size()]));
 					act_to.setThreshold(1);

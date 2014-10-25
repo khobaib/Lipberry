@@ -1,19 +1,18 @@
 package com.lipberry.utility;
 
 import java.io.File;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Environment;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.fragment.FragmentWriteTopic;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Environment;
 
 public class Constants {
 	
@@ -84,12 +83,12 @@ public class Constants {
 	public static final int REQUEST_TYPE_PUT = 3;
 	public static final int REQUEST_TYPE_DELETE = 4;
 	
-	private String weekly_news;
-	private String stop_privateMails;
-	private String stop_privateMessages;
-	private String stop_commentMails;
-	private String stop_followerMails;
-	private String stop_likeArtMails;
+	// private String weekly_news;
+	// private String stop_privateMails;
+	// private String stop_privateMessages;
+	// private String stop_commentMails;
+	// private String stop_followerMails;
+	// private String stop_likeArtMails;
 	
 	public static final String PUSHNEWMESSAGE = "pushnewmessage1";
 	public static final String WEEKLY_NEWS = "weeklynews";

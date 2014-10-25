@@ -3,6 +3,7 @@ package com.lipberry.fragment;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -333,11 +334,9 @@ public class FragmentWriteTopic extends Fragment {
 		else if ((!body.equals("")) || (video.equals("")) || (bitmap != null)) {
 
 			if (Constants.isOnline(getActivity())) {
-
 				pd = new ProgressDialog(getActivity());
 				pd.setMessage(getActivity().getResources().getString(R.string.txt_writing_topic));
 				pd.show();
-
 				new AsyncTaskWriteTopic().execute();
 			} else {
 				Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
@@ -354,21 +353,21 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				JSONObject loginObj = new JSONObject();
-				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
-				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
+				JSONObject articleObj = new JSONObject();
+				articleObj.put("session_id", appInstance.getUserCred().getSession_id());
+				articleObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
+				articleObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
 				byte[] ba1;
 				String base64StrString;
 				if (!body.equals("")) {
 					ba1 = body.getBytes();
 					base64StrString = Base64.encodeBytes(ba1);
-					loginObj.put("body", base64StrString);
+					articleObj.put("body", base64StrString);
 				}
 
 				ba1 = title.getBytes();
 				base64StrString = Base64.encodeBytes(ba1);
-				loginObj.put("title", base64StrString);
+				articleObj.put("title", base64StrString);
 				String filepath;
 				if (galarylist.size() > 0) {
 					filepath = galarylist.get(0);
@@ -377,7 +376,6 @@ public class FragmentWriteTopic extends Fragment {
 
 						bitmap = BitmapFactory.decodeFile(filepath);
 					}
-
 				}
 
 				if (bitmap != null) {
@@ -385,10 +383,11 @@ public class FragmentWriteTopic extends Fragment {
 					bitmap.compress(CompressFormat.JPEG, 100, bao);
 					byte[] ba = bao.toByteArray();
 					String base64Str = Base64.encodeBytes(ba);
-					loginObj.put("photo", base64Str);
+					articleObj.put("photo", base64Str);
 				}
-				loginObj.put("video", video);
-				String loginData = loginObj.toString();
+				articleObj.put("video", video);// FIXME !!
+				articleObj.put("tags", getTagArray(video));// FIXME !!
+				String loginData = articleObj.toString();
 				String url = Constants.baseurl + "article/addarticle/";
 				ServerResponse response = jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
@@ -602,6 +601,24 @@ public class FragmentWriteTopic extends Fragment {
 		}
 
 		return inFiles;
+	}
+
+	public JSONArray getTagArray(String tagString) {
+		JSONArray tagArray = new JSONArray();
+
+		StringTokenizer tokens = new StringTokenizer(tagString, " ");
+		while (tokens.hasMoreTokens()) {
+			try {
+				String tag = tokens.nextToken();
+				JSONObject jt = new JSONObject();
+				jt.put("tag_name", tag);
+				tagArray.put(jt);
+			} catch (JSONException je) {
+				je.printStackTrace();
+			}
+		}
+		Log.i("Touhid", "getTagArray : " + tagArray.toString());
+		return tagArray;
 	}
 
 	private void addgalarytoserver() {

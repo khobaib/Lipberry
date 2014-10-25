@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/lsplash"
@@ -58,7 +59,7 @@
                     android:textAlignment="viewStart"
                     android:textColor="#777777"
                     android:textDirection="rtl"
-                    android:textSize="18dp" >
+                    android:textSize="18sp" >
                 </EditText>
 
                 <EditText
@@ -79,7 +80,7 @@
                     android:textAlignment="viewStart"
                     android:textColor="#777777"
                     android:textDirection="rtl"
-                    android:textSize="18dp" >
+                    android:textSize="18sp" >
                 </EditText>
 
                 <Spinner
@@ -106,7 +107,8 @@
                     android:layout_marginRight="28dp"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="15dp"
-                    android:src="@drawable/lknowus" />
+                    android:src="@drawable/lknowus"
+                    tools:ignore="ContentDescription" />
 
                 <Button
                     android:id="@+id/btn_select_photo"
@@ -118,11 +120,11 @@
                     android:layout_marginRight="22dp"
                     android:layout_marginStart="22dp"
                     android:layout_marginTop="10dp"
-                    android:paddingLeft="45dp"
                     android:background="@drawable/rounded_edittext"
+                    android:paddingLeft="45dp"
                     android:text="@string/txt_select_photo"
                     android:textColor="#777777"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/img_add_photo_icon"
@@ -152,7 +154,7 @@
                     android:background="@drawable/rounded_login"
                     android:text="@string/txt_enter"
                     android:textColor="#ffffff"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <GridView
                     android:id="@+id/grid_image"

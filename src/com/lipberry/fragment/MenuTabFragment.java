@@ -2,6 +2,16 @@ package com.lipberry.fragment;
 
 import java.util.Stack;
 
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import android.widget.TextView;
+
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.SingleMember;
@@ -13,23 +23,6 @@ import com.lipberry.settings.FragmentProfileSetting;
 import com.lipberry.settings.FragmentSendMessageFormMenuTab;
 import com.lipberry.settings.FragmentSingleMember;
 import com.lipberry.utility.Constants;
-
-
-
-
-
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.ViewParent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.TextView;
-import android.widget.Toast;
 public class MenuTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	@Override
