@@ -133,8 +133,8 @@ public class HomeTabFragment extends TabFragment {
 	}
 
 	public void FragmentArticleDetailsFromInteraction(ArticleDetails articledetails, int from) {
-		FragmentArticleDetailsFromInteraction newFragment = new FragmentArticleDetailsFromInteraction(articledetails,
-				from);
+		FragmentArticleDetailsFromInteraction newFragment = FragmentArticleDetailsFromInteraction.newInstance(
+				articledetails, from);
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction

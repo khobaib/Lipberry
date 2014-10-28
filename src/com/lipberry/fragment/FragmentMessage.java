@@ -2,61 +2,33 @@
 package com.lipberry.fragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.webkit.WebView.FindListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import com.bugsense.trace.Utils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
+
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-import com.lipberry.adapter.CustomAdapterForIInboxMessage;
 import com.lipberry.adapter.CustomAdapterMessage;
-
-import com.lipberry.model.Article;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.InboxMessgaeList;
-import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.ThreadMessageList;
 import com.lipberry.model.TndividualThreadMessage;

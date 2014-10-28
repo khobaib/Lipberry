@@ -62,7 +62,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	LipberryApplication appInstance;
 	ImageLoader imageLoader;
 	ProgressDialog pd;
-	ArticleDetails articledetails;
+	private static ArticleDetails articledetails;
 	ScrollView scrollView1;
 	ListView list_comment;
 	ListView lst_imag;
@@ -85,11 +85,12 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	String member_id;
 	WebView web_view;
 	String memberid;
-	int from;
+	private static int from;
 
-	public FragmentArticleDetailsFromInteraction(ArticleDetails articledetails, int from) {
-		this.articledetails = articledetails;
-		this.from = from;
+	public static FragmentArticleDetailsFromInteraction newInstance(ArticleDetails articledetails, int from) {
+		FragmentArticleDetailsFromInteraction.articledetails = articledetails;
+		FragmentArticleDetailsFromInteraction.from = from;
+		return new FragmentArticleDetailsFromInteraction();
 	}
 
 	@SuppressLint("NewApi")
@@ -405,7 +406,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
 				startActivity(Intent.createChooser(sharingIntent,
 						getActivity().getResources().getString(R.string.txt_shared_via)));
-
 			}
 		});
 		txt_like.setOnClickListener(new OnClickListener() {
@@ -1126,12 +1126,8 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 				new AsyncTaskGetComments(1).execute();
 			} else {
 				new AsyncTaskGetComments(0).execute();
-
 			}
-		}
-
-		else {
-
+		} else {
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT)
 					.show();
 		}
