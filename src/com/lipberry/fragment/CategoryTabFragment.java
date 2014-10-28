@@ -48,7 +48,7 @@ public class CategoryTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
-		Constants.GOTABFROMWRITETOPIC=3;
+		Constants.GOT_AB_FROM_WRITE_TOPIC=3;
 
 		if(Constants.catgeory){
 			startFragmentSubCategoriesList(Constants.caturl,

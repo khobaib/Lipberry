@@ -62,7 +62,7 @@ public class MenuTabFragment extends TabFragment{
 		}
 		
 		
-		Constants.GOTABFROMWRITETOPIC=5;
+		Constants.GOT_AB_FROM_WRITE_TOPIC=5;
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

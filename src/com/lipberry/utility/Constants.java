@@ -26,18 +26,18 @@ public class Constants {
 	public static boolean IMAGEPAGECALLED=false; 
 	public static ArticleList articlelist;
 	public static boolean STATECALLPDFORMENU=false;
-	public static int GOTABFROMWRITETOPIC;
-	public static boolean GOARTCLEPAGEFROMMEMBER=false; 
+	public static int GOT_AB_FROM_WRITE_TOPIC;
+	public static boolean GO_ARTCLE_PAGE_FROM_MEMBER=false; 
 	public static Article ARTICLETOSEE;
 	public static ArticleDetails articledetails;
-	public static boolean GOARTCLEPAGE=false; 
+	public static boolean GO_ARTCLE_PAGE=false; 
 	public static int from;
 	
 	public static String INTER_ARTICLE_ID;
 	public static String INTER_MEMBER_ID;
-	public static boolean GOMEMBERSTATEFROMIMESSAGE=false; 
-	public static boolean GOMEMBERSTATEFROMINTERACTION=false; 
-	public static boolean GOMEMBERSTATEFROMSETTING=false; 
+	public static boolean GO_MEMBER_STATE_FROM_IMESSAGE=false; 
+	public static boolean GO_MEMBER_STATE_FROM_INTERACTION=false; 
+	public static boolean GO_MEMBER_STATE_FROM_SETTING=false; 
 	
 	public static boolean MESSAGESETTINGSTATE=false;
 	public static boolean catgeory=false;

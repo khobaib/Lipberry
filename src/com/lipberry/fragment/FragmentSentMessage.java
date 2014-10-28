@@ -456,7 +456,7 @@ public class FragmentSentMessage extends Fragment{
 				String status=jobj.getString("status");
 				if(status.equals("success")){
 					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
-					Constants.GOARTCLEPAGE=true;
+					Constants.GO_ARTCLE_PAGE=true;
 					Constants.articledetails=articledetails;
 					Constants.from=1;
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);

@@ -140,7 +140,7 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Constants.userid=list.get(position).getTo_id();
-				Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+				Constants.GO_MEMBER_STATE_FROM_IMESSAGE=true;
 				((HomeActivity)activity).mTabHost.setCurrentTab(4);
 
 			}

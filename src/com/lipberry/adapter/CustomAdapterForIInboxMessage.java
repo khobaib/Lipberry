@@ -140,7 +140,7 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 			public void onClick(View v) {
 				
 					Constants.userid=list.get(position).getFrom_id();
-				Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+				Constants.GO_MEMBER_STATE_FROM_IMESSAGE=true;
 				((HomeActivity)activity).mTabHost.setCurrentTab(4);
 			}
 		});

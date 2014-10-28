@@ -1,46 +1,24 @@
 package com.lipberry.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-import com.lipberry.utility.Constants;
 import com.viewpagerindicator.TabPageIndicator;
 
 
 
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "DefaultLocale" })
 public class FragmentHomeHolder extends Fragment {
 
 	private static final String[] CONTENT = new String[] {"جديد الكل","جديد من أتابعهم"};
@@ -113,11 +91,11 @@ public class FragmentHomeHolder extends Fragment {
 		public Fragment getItem(int position) {
 			if (position == 0) {
 				FragmentMyCountriesPost newfrag=new FragmentMyCountriesPost();
-				newfrag.parent=parent;
+				FragmentMyCountriesPost.parent=parent;
 				return newfrag;
 			} else if (position == 1) {
 				FragmentMyFollwerPost newfrag=new FragmentMyFollwerPost();
-				newfrag.parent=parent;
+				FragmentMyFollwerPost.parent=parent;
 				return newfrag;
 			} else
 				return null;
@@ -140,7 +118,6 @@ public class FragmentHomeHolder extends Fragment {
 
 	@Override
 	public void onDestroyView() {
-		// TODO Auto-generated method stub
 		super.onDestroyView();
 	}
 

@@ -186,7 +186,7 @@ public class FragmentInteraction extends Fragment {
 				// TODO Auto-generated method stub
 				if(notificationList.getnotificationslist().get(position).getInteraction_types()!=0){
 					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
-					Constants.GOMEMBERSTATEFROMINTERACTION=true;
+					Constants.GO_MEMBER_STATE_FROM_INTERACTION=true;
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
 				}
 				else{
@@ -300,7 +300,7 @@ public class FragmentInteraction extends Fragment {
 				String status=jobj.getString("status");
 				if(status.equals("success")){
 					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
-					Constants.GOARTCLEPAGE=true;
+					Constants.GO_ARTCLE_PAGE=true;
 					Constants.articledetails=articledetails;
 					Constants.from=2;
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);

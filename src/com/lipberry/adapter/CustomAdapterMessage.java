@@ -136,7 +136,7 @@ public class CustomAdapterMessage extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Constants.userid=appInstance.getUserCred().getId();
-					Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+					Constants.GO_MEMBER_STATE_FROM_IMESSAGE=true;
 					((HomeActivity)activity).mTabHost.setCurrentTab(4);
 
 			}
@@ -152,7 +152,7 @@ public class CustomAdapterMessage extends BaseAdapter {
 					Constants.userid=list.get(0).getFrom_id();
 				}
 				
-				Constants.GOMEMBERSTATEFROMIMESSAGE=true;
+				Constants.GO_MEMBER_STATE_FROM_IMESSAGE=true;
 				((HomeActivity)activity).mTabHost.setCurrentTab(4);
 			}
 		});

@@ -54,13 +54,16 @@ import com.lipberry.utility.Utility;
 
 @SuppressLint({ "NewApi", "DefaultLocale" })
 public class FragmentWriteTopic extends Fragment {
+
+	private final String TAG_T = "FragmentWriteTopic_Touhid";
+
 	// btn_add_more_photo
 	EditText txt_topic, txt_text, txt_tag;
 	Button btn_select_photo, btn_go;
 	WriteTopicTabFragment parent;
 	int pos = 1;
 	Spinner spinner_category;
-	int selsectedspinnerposition = 0;
+	int selectedSpinnerPos = 0;
 	Activity activity;
 	boolean writetopicsuccess = false;
 	Bitmap scaledBmp;
@@ -99,7 +102,7 @@ public class FragmentWriteTopic extends Fragment {
 
 	@Override
 	public void onPause() {
-		selsectedspinnerposition = 0;
+		selectedSpinnerPos = 0;
 		super.onPause();
 	}
 
@@ -224,7 +227,6 @@ public class FragmentWriteTopic extends Fragment {
 						loginData, null);
 				return response;
 			} catch (JSONException e) {
-
 				return null;
 			}
 		}
@@ -305,17 +307,17 @@ public class FragmentWriteTopic extends Fragment {
 				((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#777777"));
 				((TextView) parent.getChildAt(0)).setTypeface(Utility.getTypeface2(getActivity()));
 				((TextView) parent.getChildAt(0)).setGravity(Gravity.CENTER);
-				selsectedspinnerposition = position - 1;
+				selectedSpinnerPos = position - 1;
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				selsectedspinnerposition = 0;
+				selectedSpinnerPos = 0;
 			}
 		});
 	}
 
-	public void startwritetopic() {
+	private void startwritetopic() {
 		// String title,category_id,category_prefix,body,photo,video;
 		title = txt_topic.getText().toString();
 		body = txt_text.getText().toString();
@@ -325,7 +327,7 @@ public class FragmentWriteTopic extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 
-		else if (selsectedspinnerposition == -1) {
+		else if (selectedSpinnerPos == -1) {
 			Toast.makeText(activity, getActivity().getResources().getString(R.string.txt_please_select_category),
 					Toast.LENGTH_SHORT).show();
 		}
@@ -333,6 +335,7 @@ public class FragmentWriteTopic extends Fragment {
 		else if ((!body.equals("")) || (tags.equals("")) || (bitmap != null)) {
 
 			if (Constants.isOnline(getActivity())) {
+				Log.i(TAG_T, "Body=" + body + ", tag=" + tags + ", selected category pos. = " + selectedSpinnerPos);
 				pd = new ProgressDialog(getActivity());
 				pd.setMessage(getActivity().getResources().getString(R.string.txt_writing_topic));
 				pd.show();
@@ -351,11 +354,12 @@ public class FragmentWriteTopic extends Fragment {
 	private class AsyncTaskWriteTopic extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
+			Log.i(TAG_T, "Category item id: " + categorylist.get(selectedSpinnerPos).getId());
 			try {
 				JSONObject articleObj = new JSONObject();
 				articleObj.put("session_id", appInstance.getUserCred().getSession_id());
-				articleObj.put("category_id", categorylist.get(selsectedspinnerposition).getId());
-				articleObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
+				articleObj.put("category_id", categorylist.get(selectedSpinnerPos).getId());
+				articleObj.put("category_prefix", categorylist.get(selectedSpinnerPos).getPrefix());
 				byte[] ba1;
 				String base64StrString;
 				if (!body.equals("")) {
@@ -459,7 +463,7 @@ public class FragmentWriteTopic extends Fragment {
 
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				loginObj.put("category_prefix", categorylist.get(selsectedspinnerposition).getPrefix());
+				loginObj.put("category_prefix", categorylist.get(selectedSpinnerPos).getPrefix());
 
 				if (bitmap != null) {
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -704,7 +708,7 @@ public class FragmentWriteTopic extends Fragment {
 				String status = jobj.getString("status");
 				if (status.equals("success")) {
 					ArticleDetails articledetails = ArticleDetails.getArticleDetails(jobj);
-					Constants.GOARTCLEPAGE = true;
+					Constants.GO_ARTCLE_PAGE = true;
 					Constants.articledetails = articledetails;
 					Constants.from = 10;
 					((HomeActivity) getActivity()).mTabHost.setCurrentTab(4);

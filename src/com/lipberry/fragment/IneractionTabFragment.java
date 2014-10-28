@@ -73,7 +73,7 @@ public class IneractionTabFragment extends TabFragment{
 	}
 	@Override
 	public void onBackPressed() {
-		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOTABFROMWRITETOPIC);
+		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOT_AB_FROM_WRITE_TOPIC);
 //		if (backEndStack.size()==1) {
 //			((HomeActivity) getActivity()).close();
 //		}

@@ -48,7 +48,7 @@ public class InboxTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
-		Constants.GOTABFROMWRITETOPIC=1;
+		Constants.GOT_AB_FROM_WRITE_TOPIC=1;
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

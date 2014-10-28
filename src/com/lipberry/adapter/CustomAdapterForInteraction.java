@@ -146,7 +146,7 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				Constants.userid=list.get(position).getFrom_id();
-				Constants.GOMEMBERSTATEFROMINTERACTION=true;
+				Constants.GO_MEMBER_STATE_FROM_INTERACTION=true;
 				((HomeActivity)activity).mTabHost.setCurrentTab(4);
 
 			}
