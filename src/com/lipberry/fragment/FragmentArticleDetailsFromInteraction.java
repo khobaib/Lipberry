@@ -74,7 +74,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	ImageView img_pro_pic, img_article, img_like, image_comments, image_share;
 	Button btn_follow_her, visit, btn_report;// btn_photo_album
 	JsonParser jsonParser;
-	ImageLoadingListener imll;
+	DisplayImageOptions defaultOptions;
 	EditText et_comment;
 	String commentstext;
 	ImageView play_vedio;
@@ -97,14 +97,13 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisc(false)
+		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
 				.defaultDisplayImageOptions(defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 		activity = getActivity();
-		Log.e("details", "onCreate");
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -131,7 +130,12 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		listView.setLayoutParams(params);
 		listView.requestLayout();
 	}
-
+@Override
+public void onAttach(Activity activity) {
+	// TODO Auto-generated method stub
+	super.onAttach(activity);
+	activity=activity;
+}
 	public static void setListViewHeightBasedOnChildrenImage(ListView listView, int height) {
 		ListAdapter listAdapter = listView.getAdapter();
 		if (listAdapter == null) {
@@ -176,8 +180,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.e("details", "onCreateView");
-
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser = new JsonParser();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details, container, false);
@@ -205,8 +207,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		Log.e("details", "onResume");
-
 		((HomeActivity) getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
 		((HomeActivity) getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
@@ -230,8 +230,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
-		Log.e("details", "onPause");
-
 		((HomeActivity) getActivity()).img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -462,147 +460,12 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		txt_like.setText(articledetails.getLikemember_text());
 		text_comment.setText(articledetails.getComment_count() + " " + getResources().getString(R.string.txt_comments));
 		imageLoader.displayImage(articledetails.getMember_avatar(), img_pro_pic);
-		imll = new ImageLoadingListener() {
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-				getActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						getActivity().runOnUiThread(new Runnable() {
-							public void run() {
-								pd = ProgressDialog.show(getActivity(),
-										getActivity().getResources().getString(R.string.app_name_arabic), getActivity()
-												.getResources().getString(R.string.txt_please_wait), false);
-							}
-						});
-					}
-				});
-			}
-
-			@Override
-			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-				getActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						if ((pd.isShowing()) && (pd != null)) {
-							pd.dismiss();
-						}
-					}
-				});
-
-				if (articledetails.getArticle_gallery().size() > 0) {
-					CustomAdapter adapter = new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
-					lst_imag.setAdapter(adapter);
-					lst_imag.setOnTouchListener(new OnTouchListener() {
-						@Override
-						public boolean onTouch(View v, MotionEvent event) {
-							v.getParent().requestDisallowInterceptTouchEvent(true);
-							return false;
-						}
-
-					});
-					lst_imag.setOnItemClickListener(new OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-							imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(),
-									imll);
-						}
-					});
-				}
-			}
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				getActivity().runOnUiThread(new Runnable() {
-					public void run() {
-
-						if ((pd.isShowing()) && (pd != null)) {
-							pd.dismiss();
-							Log.e("pd", "3");
-						}
-					}
-				});
-				int imageheight = Utility.getDeviceHeight(getActivity()) / 8;
-				Bitmap bitmap = loadedImage;
-				if (bitmap != null) {
-					int bitmapheight = bitmap.getHeight();
-					int bitmapweight = bitmap.getWidth();
-					int deviceheight = Utility.getDeviceHeight(getActivity());
-					int devicewidth = Utility.getDeviceWidth(getActivity());
-					float ratio = (float) devicewidth / (float) bitmapweight;
-					int resizebitmapwidth = devicewidth;
-					float a = (bitmapheight * ratio);
-					int resizebitmaphight = (int) a;
-					imageheight = resizebitmaphight - 00;
-					bitmap = Bitmap.createScaledBitmap(bitmap, resizebitmapwidth, resizebitmaphight, false);
-					img_article.setImageBitmap(bitmap);
-					int x = img_article.getLeft();
-					int y = img_article.getTop();
-					int h = img_article.getHeight();
-					int w = img_article.getWidth();
-				}
-				if (articledetails.getArticle_gallery().size() > 0) {
-					CustomAdapter adapter = new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
-					lst_imag.setAdapter(adapter);
-					setListViewHeightBasedOnChildrenImage(lst_imag, imageheight);
-					lst_imag.setOnTouchListener(new OnTouchListener() {
-						@Override
-						public boolean onTouch(View v, MotionEvent event) {
-							v.getParent().requestDisallowInterceptTouchEvent(true);
-							return false;
-						}
-
-					});
-
-					lst_imag.setOnItemClickListener(new OnItemClickListener() {
-
-						@Override
-						public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-							imageLoader.loadImage(articledetails.getArticle_gallery().get(position).getImage_src(),
-									imll);
-						}
-					});
-				}
-			}
-
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-				getActivity().runOnUiThread(new Runnable() {
-					public void run() {
-						if ((pd.isShowing()) && (pd != null)) {
-							pd.dismiss();
-						}
-
-						if (articledetails.getArticle_gallery().size() > 0) {
-							CustomAdapter adapter = new CustomAdapter(getActivity(), articledetails
-									.getArticle_gallery());
-							lst_imag.setAdapter(adapter);
-							lst_imag.setOnTouchListener(new OnTouchListener() {
-								@Override
-								public boolean onTouch(View v, MotionEvent event) {
-									v.getParent().requestDisallowInterceptTouchEvent(true);
-									return false;
-								}
-
-							});
-							lst_imag.setOnItemClickListener(new OnItemClickListener() {
-
-								@Override
-								public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-									imageLoader.loadImage(articledetails.getArticle_gallery().get(position)
-											.getImage_src(), imll);
-								}
-							});
-						}
-					}
-				});
-			}
-		};
 		if ((articledetails.getPhoto().equals("") || (articledetails.getPhoto() == null))) {
 			img_article.setVisibility(View.GONE);
 		} else {
 			img_article.setVisibility(View.VISIBLE);
 
-			imageLoader.loadImage(articledetails.getPhoto(), imll);
+			loadImage(articledetails.getPhoto());
 		}
 
 		if (articledetails.getUserAlreadylikeThis() != null) {
@@ -1076,7 +939,6 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 					commentslist = Commentslist.getCommentsListInstance(jobj);
 
 					if (commentslist.getCommentslist().size() > 0) {
-						Log.e("comment", "8");
 						if (a == 0) {
 							setmemberlist1();
 						} else {
@@ -1131,5 +993,143 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT)
 					.show();
 		}
+	}
+	public void loadImage(String url){
+		imageLoader.displayImage(url, img_article, defaultOptions, new ImageLoadingListener() {
+
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+				// TODO Auto-generated method stub
+				activity.runOnUiThread(new Runnable(){
+					public void run(){
+						activity.runOnUiThread(new Runnable(){
+							public void run(){
+								pd=ProgressDialog.show(activity,activity.getResources().getString(R.string.app_name_arabic),
+										activity.getResources().getString(R.string.txt_please_wait), false);
+							}
+						});
+					}
+				});
+			}
+
+			@Override
+			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+				getActivity().runOnUiThread(new Runnable(){
+					public void run(){
+						if((pd.isShowing())&&(pd!=null)){
+							pd.dismiss();
+						}
+					}
+				});
+
+				if(articledetails.getArticle_gallery().size()>0){
+					CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
+					lst_imag.setAdapter(adapter);
+					lst_imag.setOnTouchListener(new OnTouchListener() {
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							v.getParent().requestDisallowInterceptTouchEvent(true);
+							return false;
+						}
+
+					});
+					lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int position, long arg3) {
+							loadImage(articledetails.getArticle_gallery().get(position).getImage_src());
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				activity.runOnUiThread(new Runnable(){
+					public void run(){
+
+						if((pd.isShowing())&&(pd!=null)){
+							pd.dismiss();
+						}
+					}
+				});
+				int imageheight=Utility.getDeviceHeight(getActivity())/8;
+				Bitmap bitmap=loadedImage;
+				if(bitmap!=null){
+					int bitmapheight=bitmap.getHeight();
+					int bitmapweight=bitmap.getWidth();
+					int deviceheight=Utility.getDeviceHeight(getActivity());
+					int devicewidth=Utility.getDeviceWidth(getActivity());
+					float ratio=(float)devicewidth/(float)bitmapweight;
+					int resizebitmapwidth=devicewidth;
+					float a=(bitmapheight*ratio);
+					int resizebitmaphight=(int)a ;
+					imageheight=resizebitmaphight-00;
+					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+					img_article.setImageBitmap(bitmap);
+					int x=img_article.getLeft();
+					int y=img_article.getTop();
+					int h=img_article.getHeight();
+					int w=img_article.getWidth();
+
+
+				}
+				if(articledetails.getArticle_gallery().size()>0){
+					CustomAdapter adapter=new CustomAdapter(activity, articledetails.getArticle_gallery());
+					lst_imag.setAdapter(adapter);
+					setListViewHeightBasedOnChildrenImage(lst_imag, imageheight);
+					lst_imag.setOnTouchListener(new OnTouchListener() {
+						@Override
+						public boolean onTouch(View v, MotionEvent event) {
+							v.getParent().requestDisallowInterceptTouchEvent(true);
+							return false;
+						}
+
+					});
+
+					lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+						@Override
+						public void onItemClick(AdapterView<?> arg0, View arg1,
+								int position, long arg3) {
+							loadImage(articledetails.getArticle_gallery().get(position).getImage_src());
+						}
+					});
+				}
+			}
+
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+				activity.runOnUiThread(new Runnable(){
+					public void run(){
+						if((pd.isShowing())&&(pd!=null)){
+							pd.dismiss();
+						}
+
+						if(articledetails.getArticle_gallery().size()>0){
+							CustomAdapter adapter=new CustomAdapter(getActivity(), articledetails.getArticle_gallery());
+							lst_imag.setAdapter(adapter);
+							lst_imag.setOnTouchListener(new OnTouchListener() {
+								@Override
+								public boolean onTouch(View v, MotionEvent event) {
+									v.getParent().requestDisallowInterceptTouchEvent(true);
+									return false;
+								}
+
+							});
+							lst_imag.setOnItemClickListener(new OnItemClickListener() {
+
+								@Override
+								public void onItemClick(AdapterView<?> arg0, View arg1,
+										int position, long arg3) {
+									loadImage(articledetails.getArticle_gallery().get(position).getImage_src());
+								}
+							});
+						}
+					}
+				});
+			}
+		});
 	}
 }

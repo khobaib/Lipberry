@@ -35,15 +35,12 @@ import android.widget.VideoView;
 
 public class ActivityVideoViewDemo extends Activity implements
 OnPreparedListener, OnCompletionListener {
-
 	private final static String START_LOADING_VIDEO = "start";
 	private final static String STOP_LOADING_VIDEO = "stop";
-
 	private MyHandler handler;
 	private VideoView videoView;
 	private EditText editText;
 	private ProgressDialog progressBar;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -166,13 +163,9 @@ OnPreparedListener, OnCompletionListener {
 
 	@Override
 	public void onCompletion(MediaPlayer mp) {
-		Log.i("ON COMPLETION", "" + mp.getCurrentPosition());
 	}
-
 	@Override
 	public void onPrepared(MediaPlayer mp) {
-		Log.i("ON PREPARED", "" + mp.getCurrentPosition());
-
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {

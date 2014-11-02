@@ -31,8 +31,6 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.e("onCreate", "homeonCreate");
-
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,34 +43,19 @@ public class FragmentHomeHolder extends Fragment {
 		 adapter = new PostRetreiveAdapter(getChildFragmentManager());
 		pager.setAdapter(adapter);
 		indicator.setViewPager(pager,1);
-		//pager.setCurrentItem(0);
-		Log.e("current item", pager.getCurrentItem()+"");
-		
-	
-		Log.e("onCreateView", "homeonCreateView");
-
 		return v;
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
-//		if(Constants.writetopicsuccess){
-//			indicator.setViewPager(pager,0);
-//			Constants.writetopicsuccess=false;
-//		}
-	
-		
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
-		Log.e("onResume", "homeonResume");
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-		Log.e("onStart", "homeonStart");
-
 	}
 	@Override
 	public void onPause() {
@@ -107,7 +90,6 @@ public class FragmentHomeHolder extends Fragment {
 		}
 		@Override
 		public int getCount() {
-			Log.e("count", ""+CONTENT.length);
 			return CONTENT.length;
 		}
 	}

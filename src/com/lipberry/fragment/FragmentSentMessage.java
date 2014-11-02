@@ -117,7 +117,6 @@ public class FragmentSentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -232,7 +231,6 @@ public class FragmentSentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -246,16 +244,12 @@ public class FragmentSentMessage extends Fragment{
 					if(messagelist.getIndividualThreadlist().size()>0){
 
 						boolean read_flag;
-						Log.e("called", "1");
 						if(inboxlist.get(position).getRead_flag().equals("0")){
 							read_flag=false;
 							messageid=inboxlist.get(position).getMessage_id();
 						}
 						else{
-							Log.e("called", "5");
-
 							read_flag=true;
-
 						}
 						if(messagelist.getIndividualThreadlist().get(0).getArticle_flag().equals("0")){
 							saveindb(inboxlist.get(position).getMessage_id());
@@ -263,7 +257,6 @@ public class FragmentSentMessage extends Fragment{
 
 						}
 						else{
-							//	Constants.userid=inboxlist.get(position).getFrom_id();
 							if(Constants.isOnline(getActivity())){
 								if(messagelist.getIndividualThreadlist().get(0).getArticle_id()!=null){
 									pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
@@ -312,7 +305,6 @@ public class FragmentSentMessage extends Fragment{
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 
 		for(int i=0;i<inbox_list.size();i++){
-			Log.e("parent id", "1 "+inbox_list.get(i).getParent_id());
 			if(inbox_list.get(i).getParent_id().equals(parent_id)){
 				inbox_message.add(inbox_list.get(i));
 
@@ -371,17 +363,10 @@ public class FragmentSentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
-			//			if(pd.isShowing()&&(pd!=null)){
-			//				pd.dismiss();
-			//			}
 			JSONObject job=result.getjObj();
-
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
-					//					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					//					FragmentInbox.oncreatecalledstate=true;
 				}
 				else{
 					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
@@ -417,7 +402,6 @@ public class FragmentSentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

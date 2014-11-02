@@ -17,7 +17,7 @@
     <string name="txt_send_mail">"إرسال بريد إلكتروني"</string>
         <string name="txt_thanks">"شكراً لك"</string>
         <string name="txt_shared_via">"نشر بواسطة"</string>
-        
+        <string name="txt_find_member">"ابحثي عن مشتركة "</string>
     <string name="txt_deleted_succesfully">"تم مسح هذه الرسلة"</string>
     <string name="txt_suc_like_comments">"تم اعجابك بالتعليق"</string>
     <string name="txt_already_following">"تتابعينها"</string>

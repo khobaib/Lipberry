@@ -41,7 +41,6 @@ public class LipberryApplication extends Application {
 		editor.commit();        
 	}
 	public void setUserCred(UserCred userCred){
-		Log.e("push",  userCred.getPush_new_msz());
 		Editor editor = User.edit();
 		editor.putString(Constants.PUSHNEWMESSAGE, userCred.getPush_new_msz());
 		editor.putString(Constants.WEEKLY_NEWS, userCred.getWeekly_news());

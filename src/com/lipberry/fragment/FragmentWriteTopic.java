@@ -139,7 +139,7 @@ public class FragmentWriteTopic extends Fragment {
 			public void onClick(View v) {
 				if (galarylist.size() > 0) {
 					String filepath = galarylist.get(0);
-					filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal");
+					filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
 					bitmap = BitmapFactory.decodeFile(filepath);
 				}
 				// body= txt_text.getText().toString();
@@ -182,8 +182,6 @@ public class FragmentWriteTopic extends Fragment {
 			// Bitmap bitmap =
 			// BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString()+
 			// "/Lipberryfinal/"+galarylist.get(0));
-			Log.e("sizebitmap",
-					Environment.getExternalStorageDirectory().toString() + "/Lipberryfinal/" + galarylist.get(0));
 			CustomAdaptergrid adapter = new CustomAdaptergrid(activity, galarylist);
 			grid_image.setAdapter(adapter);
 			grid_image.setOnTouchListener(new OnTouchListener() {
@@ -302,14 +300,12 @@ public class FragmentWriteTopic extends Fragment {
 				R.drawable.contact_spinner_row_nothing_selected_category, getActivity()));
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_category.setOnItemSelectedListener(new OnItemSelectedListener() {
-
 			public void onItemSelected(AdapterView<?> parent, View arg1, int position, long arg3) {
 				((TextView) parent.getChildAt(0)).setTextColor(Color.parseColor("#777777"));
 				((TextView) parent.getChildAt(0)).setTypeface(Utility.getTypeface2(getActivity()));
 				((TextView) parent.getChildAt(0)).setGravity(Gravity.CENTER);
 				selectedSpinnerPos = position - 1;
 			}
-
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 				selectedSpinnerPos = 0;
@@ -375,12 +371,10 @@ public class FragmentWriteTopic extends Fragment {
 				if (galarylist.size() > 0) {
 					filepath = galarylist.get(0);
 					if (filepath != null) {
-						filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal");
-
+						filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
 						bitmap = BitmapFactory.decodeFile(filepath);
 					}
 				}
-
 				if (bitmap != null) {
 					ByteArrayOutputStream bao = new ByteArrayOutputStream();
 					bitmap.compress(CompressFormat.JPEG, 100, bao);
@@ -392,6 +386,8 @@ public class FragmentWriteTopic extends Fragment {
 				articleObj.put("tags", getTagArray(tags));// FIXME !!
 				String loginData = articleObj.toString();
 				String url = Constants.baseurl + "article/addarticle/";
+				Log.e("request", articleObj.toString());
+				jsonParser=new JsonParser();
 				ServerResponse response = jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -399,11 +395,12 @@ public class FragmentWriteTopic extends Fragment {
 				e.printStackTrace();
 				return null;
 			}
-		}
+		} 
 
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Log.e("result", result.getjObj().toString());
 			JSONObject jobj = result.getjObj();
 			try {
 				String status = jobj.getString("status");
@@ -496,7 +493,7 @@ public class FragmentWriteTopic extends Fragment {
 					if (pos < galarylist.size()) {
 						if (Constants.isOnline(activity)) {
 							String filepath = galarylist.get(pos);
-							filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal");
+							filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
 							// bitmapimage =new ImageScale();
 							// bitmap=bitmapimage.decodeImage(filepath);
 							bitmap = BitmapFactory.decodeFile(filepath);
@@ -507,7 +504,7 @@ public class FragmentWriteTopic extends Fragment {
 							// if (f.delete())
 							// Log.i("FragmentWriteTopic-Touhid",
 							// "File deleted: " + filepath);
-							String newFolder = "/Lipberryfinal";
+							String newFolder = "/Lipberryfinal1";
 							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 							String drectory = extStorageDirectory + newFolder;
 							File myNewFolder = new File(drectory);
@@ -529,7 +526,7 @@ public class FragmentWriteTopic extends Fragment {
 										getActivity().getResources().getString(R.string.Toast_check_internet),
 										Toast.LENGTH_SHORT).show();
 							}
-							String newFolder = "/Lipberryfinal";
+							String newFolder = "/Lipberryfinal1";
 							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 							String drectory = extStorageDirectory + newFolder;
 							File myNewFolder = new File(drectory);
@@ -550,7 +547,7 @@ public class FragmentWriteTopic extends Fragment {
 									getActivity().getResources().getString(R.string.Toast_check_internet),
 									Toast.LENGTH_SHORT).show();
 						}
-						String newFolder = "/Lipberryfinal";
+						String newFolder = "/Lipberryfinal1";
 						String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 						String drectory = extStorageDirectory + newFolder;
 
@@ -563,7 +560,7 @@ public class FragmentWriteTopic extends Fragment {
 						createfolder();
 					}
 				} else {
-					String newFolder = "/Lipberryfinal";
+					String newFolder = "/Lipberryfinal1";
 					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 					String drectory = extStorageDirectory + newFolder;
 					File myNewFolder = new File(drectory);
@@ -630,7 +627,7 @@ public class FragmentWriteTopic extends Fragment {
 		pos = 0;
 		if (Constants.isOnline(activity)) {
 			String filepath = galarylist.get(pos);
-			filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal");
+			filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
 			bitmap = BitmapFactory.decodeFile(filepath);
 			new AsyncTaskAddGalaryImage().execute();
 
@@ -660,7 +657,7 @@ public class FragmentWriteTopic extends Fragment {
 	}
 
 	public void createfolder() {
-		String newFolder = "/Lipberryfinal";
+		String newFolder = "/Lipberryfinal1";
 		String thumb = "/Lipberrythumb";
 
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();

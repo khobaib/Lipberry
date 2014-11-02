@@ -47,11 +47,6 @@ public class MenuTabFragment extends TabFragment{
 	
 
 	public void onStart( ) {
-//		Log.e("position", "called");
-//		
-//		for(int i=0;i<(backEndStack.size()-1);i++){
-//			backEndStack.pop();
-//		}
 		Constants.STATECALLPDFORMENU=true;
 		if(!Constants.IMAGEPAGECALLED){
 			backEndStack.clear();

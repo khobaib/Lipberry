@@ -167,7 +167,6 @@ public class FragmentImageSetting extends Fragment {
 		Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_have_selcect_image), Toast.LENGTH_SHORT).show();
 		iv_profile_pic.setImageBitmap(bitmap);
 		this.bitmap=bitmap;
-		Log.e("size", ""+bitmap.getHeight()+"  "+bitmap.getWidth());
 	}
 	public void onimageloadingFailed(){
 		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_failed_to_select_an_image), Toast.LENGTH_SHORT).show();

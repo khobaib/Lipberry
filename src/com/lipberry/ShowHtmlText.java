@@ -56,7 +56,6 @@ public class ShowHtmlText {
 										updateImages(false, textHtml);
 									} catch (Exception e) {
 										e.printStackTrace();
-										Log.e(">>>>>>>>>>>>>>","Failed to download image");
 									}
                                 }
 

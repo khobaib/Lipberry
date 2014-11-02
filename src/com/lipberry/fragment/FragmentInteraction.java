@@ -105,33 +105,19 @@ public class FragmentInteraction extends Fragment {
 		protected ServerResponse doInBackground(Void... params) {
 
 			try {
-				Log.e("test", "1");
 				int i=Constants.notificationcount+20;
-				Log.e("test", "2");
 				JSONObject loginObj = new JSONObject();
-				Log.e("test", "3");
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				Log.e("test", "4");
 				loginObj.put("startIndex","0");
-				Log.e("test", "5");
 				loginObj.put("endIndex",""+i);
-				Log.e("test", "6");
 				String loginData = loginObj.toString();
-				Log.e("test", "7");
 				String url =Constants.baseurl+"account/notifications/";
-				Log.e("test", "8");
-				
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
-				Log.e("test", "49");
-				Log.e("res", "ab   "+response.getjObj().toString());
-
 				return response;
 				
 			} catch (JSONException e) {                
 				e.printStackTrace();
-				Log.e("test", "50");
-
 				return null;
 			}
 		}
@@ -139,7 +125,6 @@ public class FragmentInteraction extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd2!=null){
 				if(pd2.isShowing()){
 					pd2.cancel();
@@ -175,7 +160,6 @@ public class FragmentInteraction extends Fragment {
 	}
 	
 	public void setlistinteraction(){
-		Log.e("size",""+notificationList.getnotificationslist().size());
 		CustomAdapterForInteraction adapter=new CustomAdapterForInteraction(getActivity(), notificationList.getnotificationslist());
 		lst_interaction.setAdapter(adapter);
 		lst_interaction.setOnItemClickListener(new OnItemClickListener() {
@@ -246,8 +230,6 @@ public class FragmentInteraction extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
-			
 			JSONObject job=result.getjObj();
 			
 			try {
@@ -291,7 +273,6 @@ public class FragmentInteraction extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

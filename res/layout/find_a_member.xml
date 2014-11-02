@@ -28,7 +28,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
         android:layout_toRightOf="@+id/btn_go"
-        android:hint="ابحثي عن مشتركة "
+        android:hint="@string/txt_find_member"
         android:padding="5dp"
         android:textColor="@color/black"
         android:textSize="20sp"

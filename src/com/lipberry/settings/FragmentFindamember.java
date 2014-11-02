@@ -54,16 +54,11 @@ public class FragmentFindamember extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		memberListobject = new MemberListForSendMessage();
-		// oncreatecalledstate = true;
-		// inboxlist = new ArrayList<InboxMessage>();
 		jsonParser = new JsonParser();
-		// appInstance = (LipberryApplication) getActivity().getApplication();
-		// membername = new ArrayList<String>();
 		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisc(false)
 				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
 				.defaultDisplayImageOptions(defaultOptions).build();
-		// imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
 
@@ -123,6 +118,8 @@ public class FragmentFindamember extends Fragment {
 				parent.onBackPressed();
 			}
 		});
+		et_username.setText("");
+		et_username.setHint(R.string.txt_find_member);
 	}
 
 	private class AsyncTaskGetMemberListWithName extends AsyncTask<Void, Void, ServerResponse> {
@@ -153,12 +150,12 @@ public class FragmentFindamember extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Constants.debugLog("result", result.getjObj().toString());
 			if (pd.isShowing() && (pd != null)) {
 				pd.dismiss();
 			}
 			if (result == null)
 				return;
-			// Log.e("res", result.getjObj().toString());
 			JSONObject job = result.getjObj();
 			// Log.i("FragFindMem_Touhid", "jObj: " + job.toString());
 
@@ -195,7 +192,6 @@ public class FragmentFindamember extends Fragment {
 		Log.i("Touhid", "showFoundMemberList");
 		fmlAdapter.setData(memberListobject.getMemberlistForSendMessage());
 		fmlAdapter.notifyDataSetChanged();
-		Log.e("Touhid", "Data set changed");
 	}
 }
 

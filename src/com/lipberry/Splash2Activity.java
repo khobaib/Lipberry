@@ -46,7 +46,6 @@ public class Splash2Activity extends Activity {
 	JsonParser jsonParser;
 	ProgressDialog pd;
 	TextView txt_title;
-	
 	LipberryApplication appInstance;
 	boolean system_notification,weekly_newsletter,direct_msz_mail,allow_direct_msz,stop_push_new_message;
 	@Override
@@ -56,15 +55,6 @@ public class Splash2Activity extends Activity {
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.splash2);
-		
-//		try {
-//			if (getIntent().getExtras().getBoolean("fromhome")){
-//				finish();
-//			}
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		txt_title=(TextView) findViewById(R.id.txt_title);
 		txt_title.setTypeface(Utility.getTypeface2(Splash2Activity.this));
 
@@ -83,11 +73,7 @@ public class Splash2Activity extends Activity {
 	public void goRegisterscreen(View view){
 		Intent intent=new Intent(Splash2Activity.this, SignupActivity.class);
 		startActivity(intent);
-	//	finish();
 	}
-
-	
-
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();

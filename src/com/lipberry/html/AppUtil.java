@@ -32,7 +32,6 @@ public class AppUtil {
 			  }
 			  try {
 			   drawable.setBounds(0, 0, width, height);
-			   Log.e(">>>>>>>>>>>>>>", "image width = " + width + " & height = "+ height);
 			  } catch (Exception ex) {
 			  }
 

@@ -1,5 +1,6 @@
 package com.lipberry.fragment;
 
+import java.io.File;
 import java.util.Stack;
 
 import com.lipberry.HomeActivity;
@@ -11,6 +12,7 @@ import com.lipberry.utility.Constants;
 
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -46,6 +48,20 @@ public class WriteTopicTabFragment extends TabFragment{
 	}
 
 	public void onStart( ) {
+//		Log.e("Calling", "Calling");
+//		File file = new File(Environment.getExternalStorageDirectory().toString() + "/Lipberrythumb");
+//		if(file.exists()){
+//			deleteDirectory(file);
+//		}
+//		file = new File(Environment.getExternalStorageDirectory().toString() + "/Lipberryfinal");
+//		if(file.exists()){
+//			deleteDirectory(file);
+//		}
+//		backEndStack.clear();
+//		backEndStack = new Stack<Fragment>();
+//		FragmentWriteTopic initialFragment = new FragmentWriteTopic();
+//		initialFragment.parent = this;
+//		backEndStack.push(initialFragment);
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -69,6 +85,17 @@ public class WriteTopicTabFragment extends TabFragment{
 	public void clearr(){
 		backEndStack.pop();
 	}
+	public void startWriteFragment() {
+		FragmentWriteTopic newFragment = new FragmentWriteTopic() ;
+		newFragment.parent = this;
+		FragmentManager fragmentManager = getChildFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+		fragmentTransaction.addToBackStack(null);
+		backEndStack.push(newFragment);
+		fragmentTransaction.commitAllowingStateLoss();
+	}
 	@Override
 	public void onBackPressed() {
 		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOT_AB_FROM_WRITE_TOPIC);
@@ -89,4 +116,21 @@ public class WriteTopicTabFragment extends TabFragment{
 //			}
 //		}
 	}
+	public static boolean deleteDirectory(File path) {
+	    if( path.exists() ) {
+	      File[] files = path.listFiles();
+	      if (files == null) {
+	          return true;
+	      }
+	      for(int i=0; i<files.length; i++) {
+	         if(files[i].isDirectory()) {
+	           deleteDirectory(files[i]);
+	         }
+	         else {
+	           files[i].delete();
+	         }
+	      }
+	    }
+	    return( path.delete() );
+	  }
 }

@@ -175,20 +175,7 @@ public class FragmentMyCountriesPost extends Fragment {
 		getfromdb();
 			Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
-		}
-
-//
-//		if(Constants.isOnline(getActivity())){
-//			Log.e("Artice befor", ""+articlaList.size());
-//			Log.e("Artice befor", ""+articlaList.size());
-//			//new AsyncTaskRefreashPostFrommyCountries().execute();
-//		}
-//		else{
-//			getfromdb();
-//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-//					Toast.LENGTH_SHORT).show();
-//		}
-//		//		
+		}	
 		return v;
 	}
 	private class AsyncTaskLoadPostFrommyCountries extends AsyncTask<Void, Void, ServerResponse> {
@@ -212,7 +199,6 @@ public class FragmentMyCountriesPost extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("artilce", result.getjObj().toString());
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -241,7 +227,6 @@ public class FragmentMyCountriesPost extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("responses", result.getjObj().toString());
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();

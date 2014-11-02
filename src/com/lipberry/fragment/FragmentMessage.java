@@ -110,7 +110,6 @@ public class FragmentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd!=null){
 				if(pd.isShowing()){
 					pd.dismiss();
@@ -119,37 +118,17 @@ public class FragmentMessage extends Fragment{
 			}
 
 			JSONObject job=result.getjObj();
-			Log.e("testing", "1");
 			try {
-				Log.e("testing", "2");
-
 				String status=job.getString("status");
-				Log.e("testing", "3");
-
 				if(status.equals("success")){
-					Log.e("testing", "4");
-
 					messagelist=ThreadMessageList.getList(job);
-					Log.e("testing", "5");
-
 					threadlist=messagelist.getIndividualThreadlist();
-					Log.e("testing", "6");
-
 					if(threadlist.size()>0){
 						adapter=new CustomAdapterMessage(getActivity(),threadlist);
-						Log.e("testing", "7");
-						//adapter.notifyDataSetChanged();
 						lv_thread_messages.setAdapter(adapter);
-
-						Log.e("testing", "8");
-
 					}
 					else{
-						Log.e("testing", "9");
-
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
-
-
 					}
 
 				}   
@@ -188,9 +167,6 @@ public class FragmentMessage extends Fragment{
 		}
 		if(Constants.isOnline(getActivity())){
 			if(!read_flag){
-				//				pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-				//						getActivity().getResources().getString(R.string.txt_please_wait), false);
-				//				new AsyncTaskSetasReadMessage().execute();
 			}
 
 		}
@@ -323,26 +299,17 @@ public class FragmentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
-
 			JSONObject job=result.getjObj();
-
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
 					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
 					Toast.makeText(getActivity(),getActivity().getString(R.string.txt_msz_is_sent), Toast.LENGTH_SHORT).show();
 					if(Constants.isOnline(getActivity())){
-						//
-						//						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-						//								getActivity().getResources().getString(R.string.txt_please_wait), false);
 						LoadThreadMessage individualmessage=new LoadThreadMessage(); 
 						individualmessage.execute();
 					}
-					//	parent.onBackPressed();
 				}
-				//05-31 21:10:21.080: E/res(28686): {"status":"failure","description":"‫تم تعطيل هذه الخاصية من قبل المشتركة لا يمكنك ارسال رسالة خاصة‬‎"}
-
 				else{
 					if(pd.isShowing()&&(pd!=null)){
 						pd.dismiss();
@@ -381,7 +348,6 @@ public class FragmentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -430,7 +396,6 @@ public class FragmentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}

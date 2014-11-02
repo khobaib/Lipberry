@@ -50,19 +50,13 @@ public class Splash1Activity extends Activity {
 
 		jsonParser = new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
-		Log.e("password", appInstance.getUserCred().getPassword());
 		setContentView(R.layout.splash);
 		txt_title = (TextView) findViewById(R.id.txt_title);
 		txt_title.setTypeface(Utility.getTypeface2(Splash1Activity.this));
 		Utility.getDeviceWidth(Splash1Activity.this);
-
 		TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-
 		String a = telephonyManager.getDeviceId();
-		// 05-31 16:12:25.659: E/deviceid(6864): 359255044527924
-
 		Utility.DEVICE_ID = a;
-		Log.e("deviceid ", a);
 		Handler handler = new Handler();
 		handler.postDelayed(new Runnable() {
 

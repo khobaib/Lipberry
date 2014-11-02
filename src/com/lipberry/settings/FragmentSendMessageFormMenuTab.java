@@ -150,7 +150,6 @@ public class FragmentSendMessageFormMenuTab extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("Sending", result.getjObj().toString());
 			if (pd.isShowing() && (pd != null)) {
 				pd.dismiss();
 			}

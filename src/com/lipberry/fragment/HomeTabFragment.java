@@ -2,6 +2,7 @@ package com.lipberry.fragment;
 
 import java.util.Stack;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,14 +32,18 @@ public class HomeTabFragment extends TabFragment {
 
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
-
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		homeActivity=(HomeActivity)getActivity();
+	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initHomeTab();
 		// sBundle = savedInstanceState;
 	}
-
 	private void initHomeTab() {
 		trackCallHome = new Stack<Integer>();
 		backEndStack = new Stack<Fragment>();
@@ -52,10 +57,6 @@ public class HomeTabFragment extends TabFragment {
 	}
 
 	public void resetHome() {
-		// while(trackcallhome!=null && trackcallhome.size()>0)
-		// trackcallhome.pop();
-		// while(backEndStack!=null && backEndStack.size()>0)
-		// backEndStack.pop();
 		trackCallHome = new Stack<Integer>();
 		backEndStack = new Stack<Fragment>();
 		FragmentHomeHolder initialFragment = new FragmentHomeHolder();
@@ -82,8 +83,8 @@ public class HomeTabFragment extends TabFragment {
 
 	@Override
 	public void onPause() {
-		// Log.e("calling", "calling Tab");
-		// ((HomeActivity) getActivity()).img_cat_icon.setVisibility(View.GONE);
+		Constants.debugLog("msz", "as "+homeActivity);
+		Constants.debugLog("msz1", "as "+homeActivity.img_cat_icon);
 		homeActivity.img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -112,11 +113,9 @@ public class HomeTabFragment extends TabFragment {
 			startMemberFragment(5);
 			Constants.GO_MEMBER_STATE_FROM_SETTING = false;
 		} else if (Constants.GO_ARTCLE_PAGE) {
-			Log.e(TAG, "GO_ARTCLE_PAGE" + " " + Constants.from);
 			Constants.GO_ARTCLE_PAGE = false;
 			FragmentArticleDetailsFromInteraction(Constants.articledetails, Constants.from);
 		} else if (Constants.GO_ARTCLE_PAGE_FROM_MEMBER) {
-			Log.e(TAG, "GO_ARTCLE_PAGE_FROM_MEMBER");
 			Constants.GO_ARTCLE_PAGE_FROM_MEMBER = false;
 			startFragmentArticleDetailsFromHome(Constants.ARTICLETOSEE, 5);
 		}

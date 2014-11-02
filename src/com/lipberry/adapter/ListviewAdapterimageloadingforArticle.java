@@ -77,7 +77,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.parent3=parent3;
 		appInstance = (LipberryApplication) activity.getApplication();
 		 defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -181,17 +181,14 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		if(list.get(position).getcategory().equals("2")){
 			if(list.get(position).getArticle_category_url().contains("shexp")){
 				int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-				Log.e("category", "null"+list.get(position).getcategory());
 				holder.img_some_icon.setImageResource(id);
 			}
 			else{
 				int id = activity.getResources().getIdentifier("bl"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-				Log.e("category", "null"+list.get(position).getcategory());
 				holder.img_some_icon.setImageResource(id);
 			}
 		}else{
 			int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-			Log.e("category", "null"+list.get(position).getcategory());
 			holder.img_some_icon.setImageResource(id);
 		}
 		if(list.get(position).getMember_nickname()!=null){
@@ -315,66 +312,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			}
 		});
 
-		ImageLoadingListener imll=new ImageLoadingListener() {
-
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				mProgress=new ProgressDialog(activity);
-				mProgress.setTitle("Image is  Loading");
-			//	mProgress.show();
-			}
-
-			@Override
-			public void onLoadingFailed(String imageUri, View view,
-					FailReason failReason) {
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				
-				holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
-
-			}
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// TODO Auto-generated method stub
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				Bitmap bitmap=loadedImage;
-				
-				if(bitmap!=null){
-					int bitmapheight=bitmap.getHeight();
-					int bitmapweight=bitmap.getWidth();
-					int deviceheight=Utility.getDeviceHeight(activity);
-					int devicewidth=Utility.getDeviceWidth(activity);
-					float ratio=(float)devicewidth/(float)bitmapweight;
-					int resizebitmapwidth=devicewidth;
-					float a=(bitmapheight*ratio);
-					int resizebitmaphight=(int)a ;
-					Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
-					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
-					holder.img_article_pro_pic.setImageBitmap(bitmap);
-					
-				
-				}
-				
-			}
-
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				
-				holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-			}
-		};
-		Log.i("x "+position, "null  "+list.get(position).getArticle_photo());
 		if((list.get(position).getArticle_photo()==null)||(list.get(position).getArticle_photo().equals(""))){
 			holder.img_article_pro_pic.setVisibility(View.GONE);
 			//holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
@@ -418,7 +355,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 						int resizebitmapwidth=devicewidth;
 						float a=(bitmapheight*ratio);
 						int resizebitmaphight=(int)a ;
-						Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
 						bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
 						holder.img_article_pro_pic.setImageBitmap(bitmap);
 					}
@@ -803,7 +739,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					Commentslist commentslist=Commentslist.getCommentsListInstance(jobj);
 					if(commentslist.getCommentslist().size()>0){
 							alertcomment=new LisAlertDialogForComment(activity, commentslist.getCommentslist(), activity, parent, parent3,article.getComment_url());
-							Log.e("urlcomments", article.getComment_url());
 							alertcomment.show_alert();
 					}
 					else{
@@ -852,8 +787,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("response", result.getjObj().toString());
-			
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -978,7 +911,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

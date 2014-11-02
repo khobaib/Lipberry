@@ -143,7 +143,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -252,7 +251,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -332,7 +330,6 @@ public class FragmentInbox extends Fragment{
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 
 		for(int i=0;i<inbox_list.size();i++){
-			Log.e("parent id", "1 "+inbox_list.get(i).getParent_id());
 			if(inbox_list.get(i).getParent_id().equals(parent_id)){
 				inbox_message.add(inbox_list.get(i));
 
@@ -392,7 +389,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			JSONObject job=result.getjObj();
 
 			try {
@@ -429,7 +425,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

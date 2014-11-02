@@ -154,12 +154,9 @@ public class ResendActiviationEmail extends Activity {
 
 		@Override
 		protected void onPostExecute(ServerResponse result) {
-			Log.e("result", result.getjObj().toString());
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
-			//05-25 18:43:53.774: D/JsonParser(30175): sb = 	
-			//{"status":"success","message":"email sent successfully to activate your account"}
 			try {
 				JSONObject  job=result.getjObj();
 				String descrip=job.getString("message");
@@ -171,9 +168,7 @@ public class ResendActiviationEmail extends Activity {
 					Toast.makeText(ResendActiviationEmail.this,getResources().getString(R.string.txt_mszsendto_email), Toast.LENGTH_SHORT).show();
 				}
 				else{
-			
-						Toast.makeText(ResendActiviationEmail.this,descrip, Toast.LENGTH_SHORT).show();
-
+					Toast.makeText(ResendActiviationEmail.this,descrip, Toast.LENGTH_SHORT).show();
 				}
 
 
