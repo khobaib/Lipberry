@@ -118,7 +118,6 @@ public class FragmentWriteTopic extends Fragment {
 				parent.onBackPressed();
 			}
 		});
-
 	}
 
 	@Override
@@ -142,9 +141,6 @@ public class FragmentWriteTopic extends Fragment {
 					filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
 					bitmap = BitmapFactory.decodeFile(filepath);
 				}
-				// body= txt_text.getText().toString();
-				// body=body.replaceAll("\n", "<br/>");
-
 				startwritetopic();
 			}
 		});
@@ -217,7 +213,6 @@ public class FragmentWriteTopic extends Fragment {
 		protected ServerResponse doInBackground(Void... params) {
 			try {
 				JSONObject loginObj = new JSONObject();
-				Log.e("session id", "a  " + appInstance.getUserCred().getSession_id());
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
 				String url = Constants.baseurl + "category/categorylist";
@@ -231,7 +226,6 @@ public class FragmentWriteTopic extends Fragment {
 
 		@Override
 		protected void onPostExecute(ServerResponse result) {
-			Log.e("msz", result.getjObj().toString());
 			super.onPostExecute(result);
 			if (pd != null) {
 				if ((pd.isShowing())) {
@@ -331,7 +325,6 @@ public class FragmentWriteTopic extends Fragment {
 		else if ((!body.equals("")) || (tags.equals("")) || (bitmap != null)) {
 
 			if (Constants.isOnline(getActivity())) {
-				Log.i(TAG_T, "Body=" + body + ", tag=" + tags + ", selected category pos. = " + selectedSpinnerPos);
 				pd = new ProgressDialog(getActivity());
 				pd.setMessage(getActivity().getResources().getString(R.string.txt_writing_topic));
 				pd.show();
@@ -350,12 +343,12 @@ public class FragmentWriteTopic extends Fragment {
 	private class AsyncTaskWriteTopic extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-			Log.i(TAG_T, "Category item id: " + categorylist.get(selectedSpinnerPos).getId());
 			try {
 				JSONObject articleObj = new JSONObject();
 				articleObj.put("session_id", appInstance.getUserCred().getSession_id());
-				articleObj.put("category_id", categorylist.get(selectedSpinnerPos).getId());
-				articleObj.put("category_prefix", categorylist.get(selectedSpinnerPos).getPrefix());
+				int s_pos=spinner_category.getSelectedItemPosition()-1;
+				articleObj.put("category_id", categorylist.get(s_pos).getId());
+				articleObj.put("category_prefix", categorylist.get(s_pos).getPrefix());
 				byte[] ba1;
 				String base64StrString;
 				if (!body.equals("")) {
@@ -363,7 +356,6 @@ public class FragmentWriteTopic extends Fragment {
 					base64StrString = Base64.encodeBytes(ba1);
 					articleObj.put("body", base64StrString);
 				}
-
 				ba1 = title.getBytes();
 				base64StrString = Base64.encodeBytes(ba1);
 				articleObj.put("title", base64StrString);
@@ -373,6 +365,7 @@ public class FragmentWriteTopic extends Fragment {
 					if (filepath != null) {
 						filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
 						bitmap = BitmapFactory.decodeFile(filepath);
+						
 					}
 				}
 				if (bitmap != null) {
@@ -381,13 +374,15 @@ public class FragmentWriteTopic extends Fragment {
 					byte[] ba = bao.toByteArray();
 					String base64Str = Base64.encodeBytes(ba);
 					articleObj.put("photo", base64Str);
+					
 				}
 				articleObj.put("video", "");// FIXME !!: video was here!
 				articleObj.put("tags", getTagArray(tags));// FIXME !!
 				String loginData = articleObj.toString();
+				Log.e("request", loginData);
 				String url = Constants.baseurl + "article/addarticle/";
-				Log.e("request", articleObj.toString());
 				jsonParser=new JsonParser();
+				
 				ServerResponse response = jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -400,12 +395,9 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("result", result.getjObj().toString());
 			JSONObject jobj = result.getjObj();
 			try {
 				String status = jobj.getString("status");
-				// {"status":"success","article_info":{"article_id":1352}}
-
 				bitmap = null;
 				if (status.equals("success")) {
 
@@ -418,7 +410,6 @@ public class FragmentWriteTopic extends Fragment {
 					article_info = article_info.replace("}", "");
 					catagoryid = article_info.substring(article_info.indexOf(":") + 1);
 					article_id = catagoryid;
-					Log.e(" Write article_id", catagoryid);
 					if (galarylist.size() > 1) {
 						addGalaryToServer();
 					} else {
@@ -457,7 +448,6 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				loginObj.put("category_prefix", categorylist.get(selectedSpinnerPos).getPrefix());
@@ -484,7 +474,6 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("response", result.getjObj().toString());
 			JSONObject jobj = result.getjObj();
 			try {
 				String status = jobj.getString("status");
@@ -494,28 +483,9 @@ public class FragmentWriteTopic extends Fragment {
 						if (Constants.isOnline(activity)) {
 							String filepath = galarylist.get(pos);
 							filepath = filepath.replace("/Lipberrythumb", "/Lipberryfinal1");
-							// bitmapimage =new ImageScale();
-							// bitmap=bitmapimage.decodeImage(filepath);
 							bitmap = BitmapFactory.decodeFile(filepath);
 							new AsyncTaskAddGalaryImage().execute();
 							pos++;
-							// TODO : Touhid : Delete image & clear fields
-							// File f = new File(filepath);
-							// if (f.delete())
-							// Log.i("FragmentWriteTopic-Touhid",
-							// "File deleted: " + filepath);
-							String newFolder = "/Lipberryfinal1";
-							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-							String drectory = extStorageDirectory + newFolder;
-							File myNewFolder = new File(drectory);
-							String thumb = extStorageDirectory + "/Lipberrythumb";
-							File thumbFolder = new File(thumb);
-							deleteDirectory(thumbFolder);
-							deleteDirectory(myNewFolder);
-							createfolder();
-							txt_topic.setText("");
-							txt_text.setText("");
-							txt_tag.setText("");
 						} else {
 							Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 									Toast.LENGTH_SHORT).show();
@@ -526,16 +496,6 @@ public class FragmentWriteTopic extends Fragment {
 										getActivity().getResources().getString(R.string.Toast_check_internet),
 										Toast.LENGTH_SHORT).show();
 							}
-							String newFolder = "/Lipberryfinal1";
-							String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-							String drectory = extStorageDirectory + newFolder;
-							File myNewFolder = new File(drectory);
-							String thumb = extStorageDirectory + "/Lipberrythumb";
-							File thumbFolder = new File(thumb);
-							deleteDirectory(thumbFolder);
-							deleteDirectory(myNewFolder);
-							createfolder();
-
 						}
 					} else {
 						Toast.makeText(activity, description, Toast.LENGTH_SHORT).show();
@@ -560,16 +520,7 @@ public class FragmentWriteTopic extends Fragment {
 						createfolder();
 					}
 				} else {
-					String newFolder = "/Lipberryfinal1";
-					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-					String drectory = extStorageDirectory + newFolder;
-					File myNewFolder = new File(drectory);
-
-					String thumb = extStorageDirectory + "/Lipberrythumb";
-					File thumbFolder = new File(thumb);
-					deleteDirectory(thumbFolder);
-					deleteDirectory(myNewFolder);
-					createfolder();
+					
 					Constants.writetopicsuccess = false;
 					if (Constants.isOnline(getActivity())) {
 						new AsyncTaskgetArticleDetails(0).execute();
@@ -619,8 +570,7 @@ public class FragmentWriteTopic extends Fragment {
 			je.printStackTrace();
 		}
 		// }
-		Log.i("Touhid", "getTagArray : " + tagArray.toString());
-		return tagArray;
+	return tagArray;
 	}
 
 	private void addGalaryToServer() {
@@ -696,7 +646,6 @@ public class FragmentWriteTopic extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if ((pd != null) && (pd.isShowing())) {
 				pd.dismiss();
 			}
@@ -704,6 +653,21 @@ public class FragmentWriteTopic extends Fragment {
 			try {
 				String status = jobj.getString("status");
 				if (status.equals("success")) {
+					txt_topic.setText("");
+					txt_topic.setHint(R.string.txt_title);
+					txt_text.setText("");
+					txt_text.setHint(R.string.txt_article_body);
+					txt_tag.setText("");
+					txt_tag.setHint(R.string.txt_video_url);
+					String newFolder = "/Lipberryfinal1";
+					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+					String drectory = extStorageDirectory + newFolder;
+					File myNewFolder = new File(drectory);
+					String thumb = extStorageDirectory + "/Lipberrythumb";
+					File thumbFolder = new File(thumb);
+					deleteDirectory(thumbFolder);
+					deleteDirectory(myNewFolder);
+					generateSpinner();
 					ArticleDetails articledetails = ArticleDetails.getArticleDetails(jobj);
 					Constants.GO_ARTCLE_PAGE = true;
 					Constants.articledetails = articledetails;
@@ -717,5 +681,19 @@ public class FragmentWriteTopic extends Fragment {
 				e.printStackTrace();
 			}
 		}
+	}
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		String newFolder = "/Lipberryfinal1";
+		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+		String drectory = extStorageDirectory + newFolder;
+		File myNewFolder = new File(drectory);
+		String thumb = extStorageDirectory + "/Lipberrythumb";
+		File thumbFolder = new File(thumb);
+		deleteDirectory(thumbFolder);
+		deleteDirectory(myNewFolder);
+		createfolder();
 	}
 }

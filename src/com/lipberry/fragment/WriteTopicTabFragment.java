@@ -86,15 +86,11 @@ public class WriteTopicTabFragment extends TabFragment{
 		backEndStack.pop();
 	}
 	public void startWriteFragment() {
-		FragmentWriteTopic newFragment = new FragmentWriteTopic() ;
-		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
-		fragmentTransaction.commitAllowingStateLoss();
+		backEndStack.clear();
+		backEndStack = new Stack<Fragment>();
+		FragmentWriteTopic initialFragment = new FragmentWriteTopic();
+		initialFragment.parent = this;
+		backEndStack.push(initialFragment);
 	}
 	@Override
 	public void onBackPressed() {
