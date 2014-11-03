@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.app.FragmentTabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lipberry.fragment.ReclickableTabHost xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
@@ -97,4 +97,4 @@
             android:orientation="horizontal" />
     </LinearLayout>
 
-</android.support.v4.app.FragmentTabHost>
+</com.lipberry.fragment.ReclickableTabHost>

@@ -124,7 +124,7 @@
     <string name="txt_you_have_selcect_image"> "لقد تم اختيار صورة "</string>
     <string name="txt_failed_to_select_an_image"> "فشل في اختيار صورة "</string>
     <string name="txt_resend_aciviation"> "لم يتم تسجيل دخولك لأن حسابك غير مفعل.فضلاً التحقق من بريدك المسجل و بريد الغير هام (Junk, Spam) .إذا لم تصلك رسالة التفعيل عبر بريدك المسجل يمكنك طلبها مره اخرى من "</string>
-
+<string name="txt_password_length"> "Password can't less than 6 characters"</string>
     <!--
 App Specific
 ا-

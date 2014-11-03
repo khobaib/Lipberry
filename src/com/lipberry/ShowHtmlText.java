@@ -32,15 +32,12 @@ public class ShowHtmlText {
 	}
 	public void updateImages(final boolean downloadImages, final String textHtml) {
         if (textHtml == null) return;
-        Log.i("check", "1");
         Spanned spanned = Html.fromHtml(textHtml,
                 new Html.ImageGetter() {
                     @SuppressWarnings("unchecked")
 					@Override
                     public Drawable getDrawable(final String source) {
-                    	  Log.i("check", "1");
-
-                         Drawable drawable = mImageCache.get(source);
+                    	  Drawable drawable = mImageCache.get(source);
                         if (drawable != null) {
                             return drawable;
                         } else if (downloadImages) {

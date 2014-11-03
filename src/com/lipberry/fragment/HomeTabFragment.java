@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.lipberry.HomeActivity;
@@ -25,11 +26,8 @@ public class HomeTabFragment extends TabFragment {
 
 	protected Stack<Fragment> backEndStack;
 	protected Stack<Integer> trackCallHome;
-	// private Bundle sBundle;
 	int callstatefromtab = 0;
-
 	private static HomeActivity homeActivity;
-
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	@Override
@@ -42,6 +40,7 @@ public class HomeTabFragment extends TabFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initHomeTab();
+		homeActivity.mTabHost.AttachHomeFragment(this);
 		// sBundle = savedInstanceState;
 	}
 	private void initHomeTab() {
@@ -51,11 +50,9 @@ public class HomeTabFragment extends TabFragment {
 		initialFragment.parent = this;
 		trackCallHome.push(0);
 		backEndStack.push(initialFragment);
-
 		fragmentManager = getChildFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 	}
-
 	public void resetHome() {
 		trackCallHome = new Stack<Integer>();
 		backEndStack = new Stack<Fragment>();
@@ -99,7 +96,9 @@ public class HomeTabFragment extends TabFragment {
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
-
+	public void restasrtTab(){
+		onStart();
+	}
 	public void onStart() {
 		Constants.GOT_AB_FROM_WRITE_TOPIC = 4;
 
@@ -119,7 +118,14 @@ public class HomeTabFragment extends TabFragment {
 			Constants.GO_ARTCLE_PAGE_FROM_MEMBER = false;
 			startFragmentArticleDetailsFromHome(Constants.ARTICLETOSEE, 5);
 		}
-
+		else{
+			trackCallHome.clear();
+			backEndStack.clear();
+			FragmentHomeHolder initialFragment = new FragmentHomeHolder();
+			initialFragment.parent = this;
+			trackCallHome.push(0);
+			backEndStack.push(initialFragment);
+		}
 		trackCallHome.peek();
 		Fragment fragment = backEndStack.peek();
 		// FragmentManager fragmentManager = getChildFragmentManager();

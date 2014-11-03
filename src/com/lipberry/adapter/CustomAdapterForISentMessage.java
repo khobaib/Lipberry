@@ -19,6 +19,8 @@ import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -59,20 +61,20 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
 	Activity activity;
 	FragmentSentMessage inbox;
 	ImageLoader imageLoader;
+	DisplayImageOptions defaultOptions;
 	public CustomAdapterForISentMessage(Activity activity,
 			ArrayList<InboxMessage> list,FragmentSentMessage inbox) {
 		super();
 		this.list=list;
 		this.activity=activity;
 		this.inbox=inbox;
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
+		defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-
 	}
 
 	@Override
@@ -133,7 +135,26 @@ public class CustomAdapterForISentMessage extends BaseAdapter {
               
               }
         });
-		imageLoader.displayImage(list.get(position).getTo_avatar(), holder.img_pro_pic);
+		imageLoader.displayImage(list.get(position).getTo_avatar(),  holder.img_pro_pic, defaultOptions, new ImageLoadingListener() {
+			
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+				
+			}
+			
+			@Override
+			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+			}
+			
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				Bitmap bitmap=loadedImage;
+			}
+			
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+			}
+		});
 		holder.img_pro_pic.setOnClickListener(new OnClickListener() {
 
 			@Override

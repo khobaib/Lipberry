@@ -355,6 +355,13 @@ public class SignupActivity extends Activity {
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_password),
 					Toast.LENGTH_SHORT).show();
 		}
+		else if  (password.length()<6) {
+			e_password.setBackgroundResource(R.drawable.rounded_text_nofield);
+
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_password_length),
+					Toast.LENGTH_SHORT).show();
+		}
+		
 		else if  (confirmpass.trim().equals("")) {
 			e_confirmpass.setBackgroundResource(R.drawable.rounded_text_nofield);
 
@@ -689,7 +696,7 @@ public class SignupActivity extends Activity {
 	}
 
 	public void completesignup(String result){
-
+		Log.e("result",result);
 		try {
 			JSONObject response=new JSONObject(result);
 			String  status=response.getString("status");
@@ -699,19 +706,20 @@ public class SignupActivity extends Activity {
 //					Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_emailis_sent_toactiviate), 
 //							10000).show();
 //				}
-				new AlertDialog.Builder(this)
-			    .setTitle(getResources().getString(R.string.app_name))
-			    .setMessage(getResources().getString(R.string.txt_signup_success3))
-			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			        	dialog.cancel();
-			        	Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
-						startActivity(intent);
-						finish();
-			        }
-			     }).show();
-				
-				
+//				new AlertDialog.Builder(this)
+//			    .setTitle(getResources().getString(R.string.app_name))
+//			    .setMessage(getResources().getString(R.string.txt_signup_success3))
+//			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
+//			        public void onClick(DialogInterface dialog, int which) { 
+//			        	dialog.cancel();
+//			        	
+//			        }
+//			     }).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_signup_success3)
+						, Toast.LENGTH_LONG).show();
+				Intent intent=new Intent(SignupActivity.this, LoginActivity.class);
+				startActivity(intent);
+				finish();
 				
 			}
 			else{
@@ -723,55 +731,6 @@ public class SignupActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	public void showalerttoactiviateuser(String msz){
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-		alertDialogBuilder.setTitle("Lipberry");
-		alertDialogBuilder
-		.setMessage(msz+"./n" +"Do you want to activiate your account")
-		.setCancelable(false)
-		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				activiateuse();
-			}
-		})
-		.setNegativeButton("No",new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-
-				dialog.cancel();
-			}
-		});
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-	}
-	public void activiateuse(){
-		stateofbackpressed=1;
-		setContentView(R.layout.activiate_user);
-		Button bt_enter;
-		e_activiate_email=(EditText) findViewById(R.id.e_activiate_email);
-		e_activiate_key=(EditText) findViewById(R.id.e_activiate_key);
-		bt_enter=(Button) findViewById(R.id.bt_enter);
-		bt_enter.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				acivitedemail=e_activiate_email.getText().toString();
-				activiatedkey=e_activiate_key.getText().toString();
-				if  (acivitedemail.trim().equals("")) {
-					Toast.makeText(SignupActivity.this, "Please enter  email",
-							10000).show();
-				}
-				else if  (activiatedkey.trim().equals("")) {
-					Toast.makeText(SignupActivity.this, "Please enter key",
-							10000).show();
-				}
-				else{
-					Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
-					startActivity(intent);
-					finish();
-				}
-
-
-			}
-		});
-	}
+	
 
 }

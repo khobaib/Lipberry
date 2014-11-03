@@ -206,8 +206,6 @@ public class FragmentInbox extends Fragment{
 	public void LoadListView(){
 		adapter=new CustomAdapterForIInboxMessage(getActivity(), inboxlist,FragmentInbox.this);
 		listviewforinbbox.setAdapter(adapter);
-
-
 	}
 
 

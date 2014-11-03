@@ -18,6 +18,8 @@ import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -58,20 +60,21 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 	Activity activity;
 	FragmentInbox inbox;
 	ImageLoader imageLoader;
+	DisplayImageOptions defaultOptions;
+	ViewHolder holder;;
 	public CustomAdapterForIInboxMessage(Activity activity,
 			ArrayList<InboxMessage> list,FragmentInbox inbox) {
 		super();
 		this.list=list;
 		this.activity=activity;
 		this.inbox=inbox;
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
+		defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-
 	}
 
 	@Override
@@ -99,7 +102,7 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
+		
 		LayoutInflater inflater = activity.getLayoutInflater();
 		if (convertView == null) {
 			convertView = inflater.inflate(R.layout.inbox_inflate,
@@ -133,7 +136,30 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
               
               }
         });
-		imageLoader.displayImage(list.get(position).getFrom_avatar(), holder.img_pro_pic);
+		imageLoader.displayImage(list.get(position).getFrom_avatar(),  holder.img_pro_pic, defaultOptions, new ImageLoadingListener() {
+			
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+				
+			}
+			
+			@Override
+			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+				 holder.img_pro_pic.setImageResource(R.drawable.image_boarder);
+			}
+			
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				Bitmap bitmap=loadedImage;
+			}
+			
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+				holder.img_pro_pic.setImageResource(R.drawable.image_boarder);
+			}
+		});
+
+		
 		 holder.img_pro_pic.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -161,7 +187,6 @@ public class CustomAdapterForIInboxMessage extends BaseAdapter {
 		holder.text_msz.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(holder.text_msz,activity);
 		showtext.updateImages(true,list.get(position).getMessage());
-		
 		holder.text_name.setText(list.get(position).getFrom_nickname());
 		holder.text_name.setTypeface(Utility.getTypeface1(activity));
 		
