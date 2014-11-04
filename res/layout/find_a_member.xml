@@ -1,21 +1,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true" >
-   <Button
+    android:focusableInTouchMode="true"
+    tools:ignore="HardcodedText" >
+
+    <Button
         android:id="@+id/btn_go"
         android:layout_width="wrap_content"
-         android:layout_height="32dp"
-		 android:layout_alignParentLeft="true"
-         android:layout_marginBottom="5dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
-        android:textColor="#777777"
-        android:layout_marginLeft="5dp"
         android:background="@drawable/rounded_gray_pure"
-        android:text="ابحث" />
+        android:text="ابحث"
+        android:textColor="#777777" />
+
     <EditText
         android:id="@+id/et_username"
         android:layout_width="match_parent"
@@ -23,63 +27,66 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
-        android:hint="ابحثي عن مشتركة "
         android:layout_toRightOf="@+id/btn_go"
+        android:hint="@string/txt_find_member"
         android:padding="5dp"
         android:textColor="@color/black"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
-    
-  
 
-    <RelativeLayout
-        android:id="@+id/re_holder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:background="@drawable/background_login" >
+    <!-- <RelativeLayout -->
+    <!-- android:id="@+id/re_holder" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_centerHorizontal="true" -->
+    <!-- android:layout_centerVertical="true" -->
+    <!-- android:layout_marginLeft="12dp" -->
+    <!-- android:layout_marginRight="12dp" -->
+    <!-- android:background="@drawable/background_login" > -->
 
-        <ImageView
-            android:id="@+id/img_pro_pic"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            			android:background="@drawable/image_boarder"
-            android:padding="1.5dp"
-            android:scaleType="fitXY"
-           />
 
-        <TextView
-            android:id="@+id/txt_bio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/vw_gap"
-            android:gravity="right"
-            android:padding="10dp"
-            android:textColor="#000000" />
+    <!-- <ImageView -->
+    <!-- android:id="@+id/img_pro_pic" -->
+    <!-- android:layout_width="120dp" -->
+    <!-- android:layout_height="120dp" -->
+    <!-- android:layout_alignParentRight="true" -->
+    <!-- android:layout_marginRight="10dp" -->
+    <!-- android:background="@drawable/image_boarder" -->
+    <!-- android:padding="1.5dp" -->
+    <!-- android:scaleType="fitXY" -->
+    <!-- tools:ignore="ContentDescription" /> -->
 
-        <View
-            android:id="@+id/vw_gap"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/img_pro_pic"
-            android:layout_marginTop="10dp"
-            android:background="#ffffff" />
 
-        <TextView
-            android:id="@+id/text_user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/img_pro_pic"
-            android:text="Lipberry"
-            android:textSize="25dp"
-            android:textColor="#f90452" />
-    </RelativeLayout>
+    <!-- <TextView -->
+    <!-- android:id="@+id/txt_bio" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_below="@+id/vw_gap" -->
+    <!-- android:gravity="right" -->
+    <!-- android:padding="10dp" -->
+    <!-- android:textColor="#000000" /> -->
+
+
+    <!-- <View -->
+    <!-- android:id="@+id/vw_gap" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="2dp" -->
+    <!-- android:layout_below="@+id/img_pro_pic" -->
+    <!-- android:layout_marginTop="10dp" -->
+    <!-- android:background="#ffffff" /> -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/text_user_name" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_marginRight="10dp" -->
+    <!-- android:layout_toLeftOf="@+id/img_pro_pic" -->
+    <!-- android:text="Lipberry" -->
+    <!-- android:textColor="#f90452" -->
+    <!-- android:textSize="25sp" /> -->
+    <!-- </RelativeLayout> -->
+
 
     <Spinner
         android:id="@+id/spn_uname"
@@ -90,5 +97,14 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="12dp" />
+
+    <ListView
+        android:id="@+id/lvFoundMemberList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btn_go"
+        android:layout_below="@+id/btn_go"
+        android:layout_marginTop="16dp" >
+    </ListView>
 
 </RelativeLayout>

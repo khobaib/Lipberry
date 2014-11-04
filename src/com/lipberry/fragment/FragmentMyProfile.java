@@ -413,7 +413,7 @@ public class FragmentMyProfile extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				Constants.GOARTCLEPAGEFROMMEMBER=true; 
+				Constants.GO_ARTCLE_PAGE_FROM_MEMBER=true; 
 				Constants.ARTICLETOSEE=articlelistinstance.getArticlelist().get(position);
 				imageviewarticlepicclicked(position);
 				
@@ -456,7 +456,6 @@ public class FragmentMyProfile extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

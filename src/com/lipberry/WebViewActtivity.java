@@ -22,17 +22,10 @@ public class WebViewActtivity extends FragmentActivity   {
 			
 			type=getIntent().getExtras().getString("type");
 			foregroud=getIntent().getExtras().getBoolean("foregroud");
-			
 			if(type.equals("inbox message")){
-				Log.e("tag", "6");
-
 				callno=1;
-				//mTabHost.setCurrentTab(1);
-
 			}
 			else{
-				Log.e("tag", "7");
-
 				callno=2;
 			}
 	    	
@@ -51,11 +44,6 @@ public class WebViewActtivity extends FragmentActivity   {
 		} catch (Exception e) {
 			
 		}
-		
-		//.mTabHost.setCurrentTab(5);
-	
-		
-		
 	}
 
 }

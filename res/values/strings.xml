@@ -1,23 +1,18 @@
 <resources>
-    
-                 <string name="txt_cancelll">"اغلاق"</string>
-    
+
+    <string name="txt_ask">"هل لديك سؤال للمجربات؟ اسئلي المشتركات"</string>
+    <string name="txt_cancelll">"اغلاق"</string>
     <string name="txt_signup_success3">"تم تسجيلك في ليب بيري بنجاح ولكن حسابك غير مفعل. فضلاً التحقق من بريدك المسجل و بريد الغير هام (junk, Spam)"</string>
-              <string name="txt_there_is_no_follower">"لا يوجد هناك من تتابعينهن"</string>
-    
-             <string name="txt_articleid_not_found">"This article was not found "</string>
-    
-                 <string name="txt_you_are_not_following">"لا يمكن ارسال رسالة خاصة للمشتركة لانك لا تتابعيها"</string>
-                         <string name="txt_emailis_sent_toactiviate">" تم ارسال بريد الكتروني لتفعيل تسجيلك"</string>
-                 
-            <string name="txt_follow_success">"تم اضافه الصور للألبوم "</string>
-    
-        <string name="txt_img_upload_succes">"تم اضافه الصور للألبوم "</string>
-    
+    <string name="txt_there_is_no_follower">"لا يوجد هناك من تتابعينهن"</string>
+    <string name="txt_articleid_not_found">"This article was not found "</string>
+    <string name="txt_you_are_not_following">"لا يمكن ارسال رسالة خاصة للمشتركة لانك لا تتابعيها"</string>
+    <string name="txt_emailis_sent_toactiviate">" تم ارسال بريد الكتروني لتفعيل تسجيلك"</string>
+    <string name="txt_follow_success">"تم اضافه الصور للألبوم "</string>
+    <string name="txt_img_upload_succes">"تم اضافه الصور للألبوم "</string>
     <string name="txt_send_mail">"إرسال بريد إلكتروني"</string>
-        <string name="txt_thanks">"شكراً لك"</string>
-        <string name="txt_shared_via">"نشر بواسطة"</string>
-        
+    <string name="txt_thanks">"شكراً لك"</string>
+    <string name="txt_shared_via">"نشر بواسطة"</string>
+    <string name="txt_find_member">"ابحثي عن مشتركة "</string>
     <string name="txt_deleted_succesfully">"تم مسح هذه الرسلة"</string>
     <string name="txt_suc_like_comments">"تم اعجابك بالتعليق"</string>
     <string name="txt_already_following">"تتابعينها"</string>
@@ -124,16 +119,16 @@
     <string name="txt_you_have_selcect_image"> "لقد تم اختيار صورة "</string>
     <string name="txt_failed_to_select_an_image"> "فشل في اختيار صورة "</string>
     <string name="txt_resend_aciviation"> "لم يتم تسجيل دخولك لأن حسابك غير مفعل.فضلاً التحقق من بريدك المسجل و بريد الغير هام (Junk, Spam) .إذا لم تصلك رسالة التفعيل عبر بريدك المسجل يمكنك طلبها مره اخرى من "</string>
-
+    <string name="txt_password_length"> "كلمة المرور يجب ان لا تقل عن 6 أحرف"</string>
     <!--
 App Specific
-ا-
+ا-
     -->
 
 
     <!--
 Inbox
-ا
+ا
     -->
     <string name="txt_my_page">"صفحتي"</string>
     <string name="inbox_msz">"الرسائل"</string>
@@ -198,7 +193,7 @@ Inbox
     <string name="et_type_your_comment_here">"اكتب تعليقك هنا "</string>
     <!--
      Type your comment here
-     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
+     post within cat in screen <string name="txt_body_details">"معلومات جسمك"</string>
     -->
     <string name="txt_make_up">"المكياج"</string>
     <string name="txt_another_cat">"ذهاب إلى قسم اخر"</string>

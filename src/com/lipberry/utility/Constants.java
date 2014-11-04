@@ -1,8 +1,18 @@
 package com.lipberry.utility;
 
 import java.io.File;
-import java.util.regex.Matcher;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.util.regex.Pattern;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Environment;
+import android.util.Log;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.fragment.FragmentWriteTopic;
@@ -10,41 +20,51 @@ import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Environment;
-
 public class Constants {
 	
-
+	public static Bitmap getBitmapFromURL(String src) {
+	    try {
+	        java.net.URL url = new java.net.URL(src);
+	        HttpURLConnection connection = (HttpURLConnection) url
+	                .openConnection();
+	        connection.setDoInput(true);
+	        connection.connect();
+	        InputStream input = connection.getInputStream();
+	        Bitmap myBitmap = BitmapFactory.decodeStream(input);
+	        return myBitmap;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return null;
+	    }
+	}
+	static boolean debugon=false;
+	public static void debugLog(String key,String msz){
+		if(debugon){
+			Log.e(key, msz);	
+		}
+	}
 	public static boolean pushnotificationcalllive=false;
-	
 	public static String type;
-	
 	public static boolean topicwritesuccess=false;
 	public static HomeActivity homeActivity;
 	public static boolean IMAGEPAGECALLED=false; 
 	public static ArticleList articlelist;
 	public static boolean STATECALLPDFORMENU=false;
-	public static int GOTABFROMWRITETOPIC;
-	public static boolean GOARTCLEPAGEFROMMEMBER=false; 
+	public static int GOT_AB_FROM_WRITE_TOPIC;
+	public static boolean GO_ARTCLE_PAGE_FROM_MEMBER=false; 
 	public static Article ARTICLETOSEE;
 	public static ArticleDetails articledetails;
-	public static boolean GOARTCLEPAGE=false; 
+	public static boolean GO_ARTCLE_PAGE=false; 
 	public static int from;
-	
 	public static String INTER_ARTICLE_ID;
 	public static String INTER_MEMBER_ID;
-	public static boolean GOMEMBERSTATEFROMIMESSAGE=false; 
-	public static boolean GOMEMBERSTATEFROMINTERACTION=false; 
-	public static boolean GOMEMBERSTATEFROMSETTING=false; 
-	
+	public static boolean GO_MEMBER_STATE_FROM_IMESSAGE=false; 
+	public static boolean GO_MEMBER_STATE_FROM_INTERACTION=false; 
+	public static boolean GO_MEMBER_STATE_FROM_SETTING=false; 
 	public static boolean MESSAGESETTINGSTATE=false;
 	public static boolean catgeory=false;
 	public static String caturl="-1";
 	public static String caname=""; 
-	
 	public static boolean writetopicsuccess=false;
 	public static String drectory;
 	public static String photofromcamera;
@@ -61,7 +81,6 @@ public class Constants {
 		}
 		return false;
 	}
-
 	public  static boolean isValidEmail(CharSequence target) {
 		if (target == null) {
 			return false;
@@ -69,8 +88,6 @@ public class Constants {
 			return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
 		}
 	}
-
-
 	public static  boolean namecheck(String name){
 
 		if(((name.length()>10)||(name.length()<3))){
@@ -83,14 +100,6 @@ public class Constants {
 	public static final int REQUEST_TYPE_POST = 2;
 	public static final int REQUEST_TYPE_PUT = 3;
 	public static final int REQUEST_TYPE_DELETE = 4;
-	
-	private String weekly_news;
-	private String stop_privateMails;
-	private String stop_privateMessages;
-	private String stop_commentMails;
-	private String stop_followerMails;
-	private String stop_likeArtMails;
-	
 	public static final String PUSHNEWMESSAGE = "pushnewmessage1";
 	public static final String WEEKLY_NEWS = "weeklynews";
 	public static final String STOPPRIVATEMAILS = "stopprivatemail";
@@ -98,9 +107,6 @@ public class Constants {
 	public static final String STOPCOMMENTMAIL = "stopcommentmail";
 	public static final String STOPFOLLOWERMAIL = "stopfollwemail";
 	public static final String STOPLIKEARTMAIL = "stoplikeartmails";
-
-
-	
 	public static final String SYSTEM_NOTIFICATION = "system_notification1";
 	public static final String WEEKLY_NEWSLATER = "weeklynewsletter";
 	public static final String DIRECT_MSZ_TOMAIL = "direcmsztomail";

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 public class IneractionTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
+	private static HomeActivity homeActivity;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class IneractionTabFragment extends TabFragment{
 		FragmentInteraction initialFragment = new FragmentInteraction();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
+		homeActivity=(HomeActivity)getActivity();
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +52,8 @@ public class IneractionTabFragment extends TabFragment{
 
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
@@ -61,6 +65,8 @@ public class IneractionTabFragment extends TabFragment{
 		FragmentInteraction newFragment = new FragmentInteraction() ;
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -73,7 +79,7 @@ public class IneractionTabFragment extends TabFragment{
 	}
 	@Override
 	public void onBackPressed() {
-		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOTABFROMWRITETOPIC);
+		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOT_AB_FROM_WRITE_TOPIC);
 //		if (backEndStack.size()==1) {
 //			((HomeActivity) getActivity()).close();
 //		}

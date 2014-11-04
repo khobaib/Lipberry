@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +41,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+@SuppressLint("ShowToast")
 public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 	ArrayList<Comments> list;
 	Activity activity;
@@ -60,7 +63,6 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 
 	public CustomAdapterForCommentFromDialog(Activity activity, ArrayList<Comments> list, String url,
 			HomeTabFragment parent, CategoryTabFragment parent3, Dialog dia) {
-
 		super();
 		this.dia = dia;
 		this.parent = parent;
@@ -76,7 +78,6 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 				.defaultDisplayImageOptions(defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
-
 	}
 
 	@Override
@@ -101,7 +102,6 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		ImageView img_report_abuse;
 		TextView txt_name;
 		TextView txt_title;
-
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 			holder.txt_name = (TextView) convertView.findViewById(R.id.txt_name);
 			holder.txt_title = (TextView) convertView.findViewById(R.id.txt_title);
 			holder.img_report_abuse = (ImageView) convertView.findViewById(R.id.img_report_abuse);
-			holder.txt_title.setTypeface(Utility.getTypeface2(activity));
+			// holder.txt_title.setTypeface(Utility.getTypeface2(activity));
 			holder.txt_name.setTypeface(Utility.getTypeface2(activity));
 
 			convertView.setTag(holder);
@@ -130,7 +130,6 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		holder.img_report_abuse.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 			}
 		});
 		if (list.get(position).getlikeommentFlag()) {
@@ -157,7 +156,6 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 
 			@Override
 			public void onClick(View v) {
-
 				index = position;
 				pd = ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
 						activity.getResources().getString(R.string.txt_please_wait), false);
@@ -168,15 +166,19 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		});
 
 		holder.img_comment.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				showCustomDialog();
 			}
 		});
-		holder.txt_title.setText(Html.fromHtml(list.get(position).getComment()));
+		//holder.txt_title.setText(Html.fromHtml(list.get(position).getComment()));
+		String text = list.get(position).getComment();
+		text = text.replaceAll("\n", "<br />");
+		holder.txt_title.setText(Html.fromHtml(text));
+		holder.txt_title.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext = new ShowHtmlText(holder.txt_title, activity);
-		showtext.updateImages(true, list.get(position).getComment());
+		showtext.updateImages(true, text);
+		
 		holder.txt_name.setText(list.get(position).getMember_name());
 		if (list.get(position).getMember_avatar() != null) {
 			imageLoader.displayImage(list.get(position).getMember_avatar(), holder.img_avatar);
@@ -184,30 +186,27 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		holder.txt_name.setTextColor(Color.parseColor("#60AC39"));
 		holder.txt_title.setTextColor(Color.parseColor("#60AC39"));
 		holder.img_avatar.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				if (dia != null) {
 					dia.cancel();
 				}
-				callmemberpage(position);
-
+				callMemberPage(position);
 			}
 		});
 		holder.txt_name.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				if (dia != null) {
 					dia.cancel();
 				}
-				callmemberpage(position);
+				callMemberPage(position);
 			}
 		});
 		return convertView;
 	}
 
-	public void callmemberpage(int position) {
+	public void callMemberPage(int position) {
 		if (parent != null) {
 			Constants.userid = list.get(position).getMember_id();
 			parent.startMemberFragment(0);
@@ -215,7 +214,6 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 			Constants.userid = list.get(position).getMember_id();
 			parent3.startFragmentMemberFromCategories();
 		}
-
 	}
 
 	private class AsyncTaskLike extends AsyncTask<Void, Void, ServerResponse> {
@@ -258,8 +256,8 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 					Log.e("imageview", "1 " + this.imgview_like);
 					list.get(index).setlikeommentFlag(true);
 					notifyDataSetChanged();
-					Toast.makeText(activity, activity.getResources().getString(R.string.txt_suc_like_comments), Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(activity, activity.getResources().getString(R.string.txt_suc_like_comments),
+							Toast.LENGTH_LONG).show();
 				} else {
 					Toast.makeText(activity, description, 10000).show();
 					if (description.equals("You presed like before")) {
@@ -322,6 +320,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private class AsyncTaskSetDislike extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -484,7 +483,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 						notifyDataSetChanged();
 					}
 				} else {
-					String description = jobj.getString("message");
+					// String description = jobj.getString("message");
 					// Toast.makeText(activity,description,
 					// Toast.LENGTH_SHORT).show();
 				}

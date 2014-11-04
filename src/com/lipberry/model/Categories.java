@@ -2,7 +2,6 @@ package com.lipberry.model;
 
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
@@ -16,7 +15,6 @@ public class Categories {
 	private String URL;
 	private String name;
 	public Categories() {
-		// TODO Auto-generated constructor stub
 	}
 	public Categories( String URL,String name) {
 		this.URL=URL;

@@ -41,8 +41,6 @@ public class ImageScale
 
 	         options.inSampleSize=scale;
 	         bitmap=BitmapFactory.decodeStream(new FileInputStream(file), null, options);
-	         Log.e("size",""+bitmap.getWidth()+bitmap.getHeight());
-
 	     }  
 	     catch(Exception e) 
 	     {  
@@ -80,8 +78,6 @@ public class ImageScale
 
          options.inSampleSize=scale;
          bitmap=BitmapFactory.decodeStream(new FileInputStream(file), null, options);
-         Log.e("size",""+bitmap.getWidth()+bitmap.getHeight());
-
      }  
      catch(Exception e) 
      {  
@@ -120,9 +116,7 @@ public class ImageScale
 
          options.inSampleSize=scale;
          bitmap=BitmapFactory.decodeStream(new FileInputStream(file), null, options);
-         Log.e("size",""+bitmap.getWidth()+bitmap.getHeight());
-
-     }  
+      }  
      catch(Exception e) 
      {  
          bitmap = null;

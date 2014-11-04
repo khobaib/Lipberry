@@ -100,26 +100,6 @@ public class FragmentMessageSettingFromInbo extends Fragment {
 		check_push_new_msz=(CheckBox) v.findViewById(R.id.check_push_new_msz);
 		btn_save=(Button) v.findViewById(R.id.btn_save);
 		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
-		//
-		//		check_push_new_msz=(CheckBox) v.findViewById(R.id.check_push_new_msz);
-		//		system_notification.setTypeface(Utility.getTypeface1(getActivity()));
-		//		check_weekly_news_letter.setTypeface(Utility.getTypeface1(getActivity()));
-		//		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
-		//		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
-		//		btn_save.setTypeface(Utility.getTypeface1(getActivity()));
-		//		check_push_new_msz.setTypeface(Utility.getTypeface1(getActivity()));
-		//		
-		//		
-		//		check_direct_msz_to_mail.setChecked(appInstance.getUserCred().getDirect_msz_mail());
-		//		check_allow_member_directmsz.setChecked(appInstance.getUserCred().getAllow_direct_msz());
-		//		check_push_new_msz.setChecked(appInstance.getUserCred().getStop_push_new_message());
-		//		system_notification.setChecked(appInstance.getUserCred().getSystem_notification());
-		//		check_weekly_news_letter.setChecked(appInstance.getUserCred().getWeekly_newsletter());
-		
-//		CheckBox check_weekly_news,check_stop_emailmessage,check_stop_privatemessage,check_stop_commentMails,
-//		check_stop_followerMails,check_stop_likeArtMails,check_push_new_msz;
-		Log.e("result", appInstance.getUserCred().getPush_new_msz());
-
 		if(appInstance.getUserCred().getPush_new_msz().equals("0")){
 			check_push_new_msz.setChecked(false);
 		}
@@ -260,7 +240,6 @@ public class FragmentMessageSettingFromInbo extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -310,9 +289,6 @@ public class FragmentMessageSettingFromInbo extends Fragment {
 		}
 	
 		appInstance.setUserCred(ucred);
-		Log.e("result", appInstance.getUserCred().getPush_new_msz());
-
-
 	}
 
 	@Override

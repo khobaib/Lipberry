@@ -40,26 +40,15 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onRegistered(Context context, String registrationId) {
-		Log.i(TAG, "Device registered: regId = " + registrationId);
-		//        Utility.displayMessage(context, getString(R.string.gcm_registered));
 		this.context=context;
 		boolean registered = ServerUtilities.register(context, registrationId);
-		//        if (!registered) {
-		//            GCMRegistrar.unregister(context);
-		//        }
-		//        ServerUtilities.register(context, registrationId);
 	}
 
 	@Override
 	protected void onUnregistered(Context context, String registrationId) {
-		Log.i(TAG, "Device unregistered");
-		// Utility.displayMessage(context,"deleted");
 		if (GCMRegistrar.isRegisteredOnServer(context)) {
 			ServerUtilities.unregister(context, registrationId);
 		} else {
-			// This callback results from the call to unregister made on
-			// ServerUtilities when the registration to the server failed.
-			Log.i(TAG, "Ignoring unregister callback");
 		}
 	}
 
@@ -87,37 +76,25 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected boolean onRecoverableError(Context context, String errorId) {
-		// log message
-		Log.i(TAG, "Received recoverable error: " + errorId);
-		//        Utility.displayMessage(context, getString(R.string.gcm_recoverable_error, errorId));
 		return super.onRecoverableError(context, errorId);
 	}
 
 
 	private void handleMessage(Context context, Intent intent) {
-		Log.e("Qv21 App", "Message received");
 		Bundle extras = intent.getExtras();
-		Log.e("EXTRAS", extras.toString());
 		if (extras != null) {           
 			String receivedMsg = "" + (String) extras.get("message");
 			String type=""+(String)extras.get("type");
-			//Toast.makeText(getApplicationContext(), type, 2000).show();
 			appInstance = (LipberryApplication) getApplication();
 			String rememberMeFlag = appInstance.getUserCred().getPush_new_msz();
 			boolean foregroud=false;
 			try {
 				 foregroud = new ForegroundCheckTask().execute(context).get();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (ExecutionException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 			if(rememberMeFlag.equals("0")){
 				String from_username=""+(String)extras.get("from_username");
-				
-				
 				if(!foregroud){
 					if((appInstance.getUserCred().getUsername()==null)||(appInstance.getUserCred().getUsername().equals(""))){
 						
@@ -143,54 +120,17 @@ public class GCMIntentService extends GCMBaseIntentService {
 			}
 		}
 	}
-	
-//private void sendNotificationFromApp(String msg,String type) {
-//		
-//		Intent myIntent;
-//		int MY_NOTIFICATION_ID=1;
-//		myIntent = new Intent(this, HomeActivity.class);
-//		myIntent.putExtra("type", type);
-////		PendingIntent pendingIntent = PendingIntent.getActivity(
-////				this, 
-////				0, 
-////				myIntent, 
-////				PendingIntent.FLAG_UPDATE_CURRENT);
-//		
-//		
-//		Notification  myNotification = new NotificationCompat.Builder(this)
-//		.setContentTitle("Lipberry")
-//		.setContentText(msg)
-//		.setTicker("Notification!")
-//		.setWhen(System.currentTimeMillis())
-//		.setContentIntent(myIntent)
-//		.setDefaults(Notification.DEFAULT_SOUND)
-//		.setAutoCancel(true)
-//		.setSmallIcon(R.drawable.ic_launcher)
-//		.build();
-//
-//		NotificationManager  notificationManager = 
-//				(NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-//		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
-//		
-//		
-//
-//	}
 private void sendNotificationOnlive(String msg,String type,boolean foregroud) {
-		Log.e("type", "type");
 		Intent myIntent;
 		int MY_NOTIFICATION_ID=1;
-		
 		myIntent = new Intent(this, WebViewActtivity.class);
 		myIntent.putExtra("type", type);
 		myIntent.putExtra("foregroud", foregroud);
-		//PendingIntent.g
 		PendingIntent pendingIntent = PendingIntent.getActivity(
 				this, 
 				0, 
 				myIntent, 
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		
-		
 		Notification  myNotification = new NotificationCompat.Builder(this)
 		.setContentTitle("Lipberry")
 		.setContentText(msg)
@@ -201,51 +141,16 @@ private void sendNotificationOnlive(String msg,String type,boolean foregroud) {
 		.setAutoCancel(true)
 		.setSmallIcon(R.drawable.ic_launcher)
 		.build();
-
 		NotificationManager  notificationManager = 
 				(NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
 		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
 	}
-	
-//	private void sendNotification(String msg,String type) {
-//		
-//		Intent myIntent;
-//		int MY_NOTIFICATION_ID=1;
-//		
-//		myIntent = new Intent(this, HomeActivity.class);
-//		myIntent.putExtra("type", type);
-//		
-//		PendingIntent pendingIntent = PendingIntent.getActivity(
-//				this, 
-//				0, 
-//				myIntent, 
-//				PendingIntent.FLAG_UPDATE_CURRENT);
-//		
-//		
-//		Notification  myNotification = new NotificationCompat.Builder(this)
-//		.setContentTitle("Lipberry")
-//		.setContentText(msg)
-//		.setTicker("Notification!")
-//		.setWhen(System.currentTimeMillis())
-//		.setContentIntent(pendingIntent)
-//		.setDefaults(Notification.DEFAULT_SOUND)
-//		.setAutoCancel(true)
-//		.setSmallIcon(R.drawable.ic_launcher)
-//		.build();
-//
-//		NotificationManager  notificationManager = 
-//				(NotificationManager)this.getSystemService(Context.NOTIFICATION_SERVICE);
-//		notificationManager.notify(MY_NOTIFICATION_ID, myNotification);
-//	}
-	 
-    class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
-
-   	  @Override
+	class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
+		@Override
    	  protected Boolean doInBackground(Context... params) {
    	    final Context context = params[0].getApplicationContext();
    	    return isAppOnForeground(context);
    	  }
-
    	  private boolean isAppOnForeground(Context context) {
    	    ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
    	    List<RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();

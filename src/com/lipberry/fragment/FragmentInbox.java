@@ -2,59 +2,31 @@
 package com.lipberry.fragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import com.bugsense.trace.Utils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.CustomAdapterForIInboxMessage;
 import com.lipberry.db.LipberryDatabase;
-import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.InboxMessage;
 import com.lipberry.model.InboxMessgaeList;
-import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.ThreadMessageList;
 import com.lipberry.model.TndividualThreadMessage;
@@ -69,7 +41,7 @@ public class FragmentInbox extends Fragment{
 	int startindex=0;
 	ThreadMessageList messagelist;
 	int endex=10;
-	private ArrayAdapter<String> mAdapter;
+	// private ArrayAdapter<String> mAdapter;
 	RelativeLayout re_sent_msz,re_new_msz,re_setting;
 	CustomAdapterForIInboxMessage adapter;
 	public static boolean oncreatecalledstate=false;
@@ -105,7 +77,6 @@ public class FragmentInbox extends Fragment{
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				parent.startfragmentSendMessage();
 			}
 		});
@@ -113,7 +84,6 @@ public class FragmentInbox extends Fragment{
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				parent.startFragmentNewMessage();
 			}
 		});
@@ -121,7 +91,6 @@ public class FragmentInbox extends Fragment{
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				parent.StartFragmentMessageSettingFromInbo();
 				//				Constants.MESSAGESETTINGSTATE=true;
 				//				((HomeActivity)getActivity()).mTabHost.setCurrentTab(5);
@@ -147,7 +116,6 @@ public class FragmentInbox extends Fragment{
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_inbox));
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
@@ -175,7 +143,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -200,7 +167,6 @@ public class FragmentInbox extends Fragment{
 				}
 
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -213,7 +179,7 @@ public class FragmentInbox extends Fragment{
 		dbInstance.open();
 
 		dbInstance.insertOrUpdateInboxMessageList(inboxlist);
-		List<InboxMessage>inbox_list= dbInstance.retrieveInboxMessage();
+		// List<InboxMessage>inbox_list= dbInstance.retrieveInboxMessage();
 		//Toast.makeText(getActivity(), ""+inbox_list.size(), 1000).show();
 		dbInstance.close();
 	}
@@ -231,7 +197,6 @@ public class FragmentInbox extends Fragment{
 		try {
 			dbInstance.createtableInboxDbManager();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		inboxlist= (ArrayList<InboxMessage>) dbInstance.retrieveInboxMessage();
@@ -241,8 +206,6 @@ public class FragmentInbox extends Fragment{
 	public void LoadListView(){
 		adapter=new CustomAdapterForIInboxMessage(getActivity(), inboxlist,FragmentInbox.this);
 		listviewforinbbox.setAdapter(adapter);
-
-
 	}
 
 
@@ -272,7 +235,7 @@ public class FragmentInbox extends Fragment{
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"inbox/inbox/";
+//				String url =Constants.baseurl+"inbox/inbox/";
 
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, inboxlist.get(position).getMessage_url(), null,
 						loginData, null);
@@ -286,7 +249,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -361,13 +323,11 @@ public class FragmentInbox extends Fragment{
 		try {
 			dbInstance.createtableThreadMessage();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 
 		for(int i=0;i<inbox_list.size();i++){
-			Log.e("parent id", "1 "+inbox_list.get(i).getParent_id());
 			if(inbox_list.get(i).getParent_id().equals(parent_id)){
 				inbox_message.add(inbox_list.get(i));
 
@@ -395,7 +355,6 @@ public class FragmentInbox extends Fragment{
 		try {
 			dbInstance.createtableThreadMessage();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -403,7 +362,7 @@ public class FragmentInbox extends Fragment{
 			messagelist.getIndividualThreadlist().get(i).setParent_flag(parent_id);
 		}
 		dbInstance.insertOrUpdateThreadMessageInboxList(messagelist.getIndividualThreadlist());
-		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
+//		ArrayList<TndividualThreadMessage>inbox_list= (ArrayList<TndividualThreadMessage>) dbInstance.retrieveThreadInboxtMessage();
 		dbInstance.close();
 	}
 
@@ -428,14 +387,12 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			JSONObject job=result.getjObj();
 
 			try {
+				@SuppressWarnings("unused")
 				String status=job.getString("status");
-
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -443,6 +400,7 @@ public class FragmentInbox extends Fragment{
 	
 	
 	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
+		@SuppressWarnings("unused")
 		int position;
 		public AsyncTaskgetArticleDetails(int position){
 			this.position=position;
@@ -465,7 +423,6 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
@@ -474,7 +431,7 @@ public class FragmentInbox extends Fragment{
 				String status=jobj.getString("status");
 				if(status.equals("success")){
 					ArticleDetails articledetails=ArticleDetails.getArticleDetails(jobj);
-					Constants.GOARTCLEPAGE=true;
+					Constants.GO_ARTCLE_PAGE=true;
 					Constants.articledetails=articledetails;
 					Constants.from=1;
 					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);

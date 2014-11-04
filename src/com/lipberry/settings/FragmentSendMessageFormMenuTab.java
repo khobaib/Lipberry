@@ -1,66 +1,29 @@
-
 package com.lipberry.settings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.webkit.WebView.FindListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.bugsense.trace.Utils;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.adapter.CustomAdapterForIInboxMessage;
-import com.lipberry.adapter.CustomAdapterMessage;
 import com.lipberry.fragment.MenuTabFragment;
-import com.lipberry.model.Article;
-import com.lipberry.model.InboxMessage;
-import com.lipberry.model.InboxMessgaeList;
-import com.lipberry.model.MemberList;
 import com.lipberry.model.MemberListForSendMessage;
-import com.lipberry.model.NotificationList;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.ThreadMessageList;
 import com.lipberry.parser.JsonParser;
@@ -69,89 +32,90 @@ import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 @SuppressLint({ "NewApi", "ValidFragment" })
-public class FragmentSendMessageFormMenuTab extends Fragment{
+public class FragmentSendMessageFormMenuTab extends Fragment {
 	int threadposition;
 	public MenuTabFragment parent;
 	ProgressDialog pd;
 	MemberListForSendMessage memberListobject;
 	ThreadMessageList messagelist;;
-	private ArrayAdapter<String> mAdapter;
-	RelativeLayout re_sent_msz,re_new_msz,re_setting;
+	// private ArrayAdapter<String> mAdapter;
+	RelativeLayout re_sent_msz, re_new_msz, re_setting;
 	CustomAdapterForIInboxMessage adapter;
 	String messageid;
-	boolean oncreatecalledstate=false;
+	boolean oncreatecalledstate = false;
 	JsonParser jsonParser;
 	LipberryApplication appInstance;
-	Button b_reply,b_delete;
+	Button b_reply, b_delete;
 	String replymessage;
 	EditText et_msg_body;
 	TextView act_to;
 	Button b_send;
 	String subject;
 	EditText et_su;
-	String nickname,userid;
-	public FragmentSendMessageFormMenuTab(String nickname,String userid){
-		this.nickname=nickname;
-		this.userid=userid;
-	}
-	@SuppressLint("NewApi")
+	String nickname, userid;
 
+	public FragmentSendMessageFormMenuTab(String nickname, String userid) {
+		this.nickname = nickname;
+		this.userid = userid;
+	}
+
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		memberListobject=new MemberListForSendMessage();
-		oncreatecalledstate=true;
-		
-		jsonParser=new JsonParser();
-		appInstance = (LipberryApplication)getActivity().getApplication();
+		memberListobject = new MemberListForSendMessage();
+		oncreatecalledstate = true;
+
+		jsonParser = new JsonParser();
+		appInstance = (LipberryApplication) getActivity().getApplication();
 
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.send_messagefrommemberpage,
-				container, false);
-		act_to=(TextView) v.findViewById(R.id.act_to);
-		b_send=(Button) v.findViewById(R.id.b_send);
-		et_msg_body=(EditText) v.findViewById(R.id.et_msg_body);
-		et_su=(EditText) v.findViewById(R.id.et_su);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.send_messagefrommemberpage, container, false);
+		act_to = (TextView) v.findViewById(R.id.act_to);
+		b_send = (Button) v.findViewById(R.id.b_send);
+		et_msg_body = (EditText) v.findViewById(R.id.et_msg_body);
+		et_su = (EditText) v.findViewById(R.id.et_su);
 		act_to.setText(nickname);
-		
+
 		act_to.setTypeface(Utility.getTypeface2(getActivity()));
 		b_send.setTypeface(Utility.getTypeface2(getActivity()));
 		et_msg_body.setTypeface(Utility.getTypeface2(getActivity()));
 		et_su.setTypeface(Utility.getTypeface2(getActivity()));
-		
+
 		b_send.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				replymessage=et_msg_body.getText().toString();
-				subject=et_su.getText().toString();
-				if(Constants.isOnline(getActivity())){
-					if(replymessage.equalsIgnoreCase("")){
-						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),
+				replymessage = et_msg_body.getText().toString();
+				subject = et_su.getText().toString();
+				if (Constants.isOnline(getActivity())) {
+					if (replymessage.equalsIgnoreCase("")) {
+						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_enter_msz),
 								Toast.LENGTH_SHORT).show();
-						
+
 					}
-					
-					else{
-						pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-								getActivity().getResources().getString(R.string.txt_please_wait), false);
+
+					else {
+						pd = ProgressDialog.show(getActivity(),
+								getActivity().getResources().getString(R.string.app_name_arabic), getActivity()
+										.getResources().getString(R.string.txt_please_wait), false);
 						new AsyncTaskSendMessage().execute();
 					}
 
-				}
-				else{
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(),
+							getActivity().getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT)
+							.show();
 				}
 			}
 		});
-		
+
 		return v;
 	}
+
 	private class AsyncTaskSendMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -159,25 +123,25 @@ public class FragmentSendMessageFormMenuTab extends Fragment{
 			try {
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-				byte[] ba =replymessage.getBytes();
+				byte[] ba = replymessage.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
-				loginObj.put("message",base64Str);
-				//loginObj.put("tomember",base64Str);
-				if(!subject.equals("")){
-					ba =subject.getBytes();
+				loginObj.put("message", base64Str);
+				// loginObj.put("tomember",base64Str);
+				if (!subject.equals("")) {
+					ba = subject.getBytes();
 					base64Str = Base64.encodeBytes(ba);
-					loginObj.put("subject",base64Str);
+					loginObj.put("subject", base64Str);
 				}
-				ba =userid.getBytes();
+				ba = userid.getBytes();
 				base64Str = Base64.encodeBytes(ba);
-				loginObj.put("tomember",userid);
+				loginObj.put("tomember", userid);
 				String loginData = loginObj.toString();
-				String url =Constants.baseurl+"inbox/sendmessage/";
+				String url = Constants.baseurl + "inbox/sendmessage/";
 
-				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+				ServerResponse response = jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
-			} catch (JSONException e) {                
+			} catch (JSONException e) {
 				e.printStackTrace();
 				return null;
 			}
@@ -186,21 +150,20 @@ public class FragmentSendMessageFormMenuTab extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("Sending", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
+			if (pd.isShowing() && (pd != null)) {
 				pd.dismiss();
 			}
-			JSONObject job=result.getjObj();
+			JSONObject job = result.getjObj();
 
 			try {
-				String status=job.getString("status");
-				if(status.equals("success")){
-					InboxMessgaeList messagelist=InboxMessgaeList.getMessageList(job);
-					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_msz_is_sent), Toast.LENGTH_SHORT).show();
+				String status = job.getString("status");
+				if (status.equals("success")) {
+					// InboxMessgaeList messagelist = InboxMessgaeList.getMessageList(job);
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_msz_is_sent),
+							Toast.LENGTH_SHORT).show();
 					parent.onBackPressed();
-				}
-				else{
-					Toast.makeText(getActivity(),job.getString("description"), Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(getActivity(), job.getString("description"), Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {
@@ -214,15 +177,13 @@ public class FragmentSendMessageFormMenuTab extends Fragment{
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
-		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
+		((HomeActivity) getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity) getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				parent.onBackPressed();
 			}
 		});
 	}
-	
+
 }
-
-

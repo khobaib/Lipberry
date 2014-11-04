@@ -80,6 +80,7 @@ public class FragmentSingleMember extends Fragment {
 	ProgressDialog pd;
 	boolean followstate=false;
 	String member_id;
+	String meberResponse;
 	public FragmentSingleMember(String member_id){
 		this.member_id=member_id;
 	}
@@ -164,6 +165,9 @@ public class FragmentSingleMember extends Fragment {
 				parent.onBackPressed();
 			}
 		});
+		if(meberResponse!=null){
+			setMemberObject(meberResponse);
+		}
 	}
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -195,6 +199,7 @@ public class FragmentSingleMember extends Fragment {
 
 	public void setMemberObject(String  respnse){
 		try {
+			meberResponse=respnse;
 			JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			if(status.equals("success")){
@@ -214,7 +219,7 @@ public class FragmentSingleMember extends Fragment {
 	}
 	public void setUserInterface(){
 		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
-		((HomeActivity)activity).welcome_title.setText(singleMember.getName());
+		((HomeActivity)activity).welcome_title.setText(singleMember.getNickname());
 		if(singleMember.getId().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setVisibility(View.GONE);
 			btn_send.setVisibility(View.GONE);
@@ -456,7 +461,8 @@ public class FragmentSingleMember extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
-				Constants.GOARTCLEPAGEFROMMEMBER=true; 
+				Constants.GO_ARTCLE_PAGE_FROM_MEMBER=true; 
+				Constants.from=5;
 				Constants.ARTICLETOSEE=articlelistinstance.getArticlelist().get(position);
 				imageviewarticlepicclicked(position);
 				
@@ -499,7 +505,6 @@ public class FragmentSingleMember extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

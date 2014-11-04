@@ -1,6 +1,9 @@
 
 package com.lipberry.settings;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +17,8 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -40,6 +45,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidquery.AQuery;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.SignupActivity;
@@ -111,7 +118,6 @@ public class FragmentProfileSetting extends Fragment {
 		citylist=new ArrayList<City>();
 		allcityname=new ArrayList<String>();
 		if(Constants.isOnline(getActivity())){
-
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetCountry().execute();
@@ -121,15 +127,12 @@ public class FragmentProfileSetting extends Fragment {
 					getString(R.string.Toast_check_internet), 10000).show();
 		}
 		stateofcalloncreate=1;
-		Log.e("tag", "onCreate");
-
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_profile_setting,
 				container, false);
-		Log.e("tag", "onCreateView");
 		img_profile=(ImageView) v.findViewById(R.id.img_profile);
 		btn_change_photo=(Button) v.findViewById(R.id.btn_change_photo);
 		s_city=(Spinner) v.findViewById(R.id.s_city);
@@ -296,13 +299,10 @@ public class FragmentProfileSetting extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("res", result.getjObj().toString());
 			if(pd.isShowing()&&(pd!=null)){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
-//05-25 21:05:51.194: E/res(11296): {"status":"failure","description":"Invalid nickname ,it contains dot"}
-
 			try {
 				String status=job.getString("status");
 				String description=job.getString("description");
@@ -311,7 +311,7 @@ public class FragmentProfileSetting extends Fragment {
 				}
 				else{
 				}
-				Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), description, Toast.LENGTH_LONG).show();
 
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -332,7 +332,6 @@ public class FragmentProfileSetting extends Fragment {
 			ucred.setCity(city_id);
 		}
 		if(!country_id.equals("")){
-			Log.e("country_id", country_id);
 			ucred.setCountry(country_id);
 		}
 		if(!brief.equals("")){
@@ -462,8 +461,7 @@ public class FragmentProfileSetting extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("response", result.getjObj().toString());
-					try {
+				try {
 						
 						String country=result.getjObj().getString("country_list");
 						s_country.setVisibility(View.VISIBLE);
@@ -508,8 +506,6 @@ public class FragmentProfileSetting extends Fragment {
 	}
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
-		Log.e("tag", "onCreateView");
 		super.onResume();
 		if(bitmap!=null){
 			img_profile.setImageBitmap(bitmap);
@@ -528,35 +524,21 @@ public class FragmentProfileSetting extends Fragment {
 	}
 
 	private void setcountry(){
-
-		Log.e("tag", "1");
 		adapter = new ArrayAdapter<String>(getActivity(),
 				R.layout.spinner_item, allcountryname);
-		Log.e("tag", "2");
-
 		int position=0;
-		Log.e("tag", "3");
-
 		for (int i=0;i<countrylist.size();i++){
 			if(countrylist.get(i).getId().equals(appInstance.getUserCred().getCountry())){
 				position=i;
 			}
 		}
-		
-
-
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		Log.e("tag", "5");
-
-		//s_country.setAdapter(adapter);
-	s_country.setAdapter(
+		s_country.setAdapter(
 			
 				new NothingSelectedSpinnerAdapter(
 						adapter,
 						R.drawable.contact_spinner_row_nothing_selected_country,
 					getActivity()));
-		Log.e("tag", "6");
-
 		s_country.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
@@ -574,7 +556,6 @@ public class FragmentProfileSetting extends Fragment {
 				selectedcountryposition=-1;
 			}
 		});
-		//Toast.makeText(getActivity(), ""+position, 2000).show();
 		s_country.setSelection(position+1);
 		selectedcountryposition=position;
 		t_city.setVisibility(View.VISIBLE);
@@ -598,13 +579,11 @@ public class FragmentProfileSetting extends Fragment {
 					pd.dismiss();
 				}
 			}
-			Log.e("responses", result.getjObj().toString());
 			setMemberObject(result.getjObj().toString());
 		}
 	}
 	public void setMemberObject(String  respnse){
 		try {
-			Log.i("serverreponse", respnse);
 			JSONObject jobj=new JSONObject(respnse);
 			String  status=jobj.getString("status");
 			if(status.equals("success")){
@@ -613,47 +592,46 @@ public class FragmentProfileSetting extends Fragment {
 				
 			}
 			else{
-//				Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
-//						Toast.LENGTH_SHORT).show();
 			}
 		} catch (JSONException e) {
-//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_member_found),
-//					Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}
 	public void setMemberObjectView(){
-		ImageLoadingListener imll=new ImageLoadingListener() {
-
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-			}
-
-			@Override
-			public void onLoadingFailed(String imageUri, View view,
-					FailReason failReason) {
-			}
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				bitmap=loadedImage;
-				img_profile.setImageBitmap(bitmap);
-			}
-
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-			}
-		};
-		ImageLoader.getInstance().getMemoryCache().clear();
-		ImageLoader.getInstance().getDiscCache().clear();
-		ImageLoader.getInstance().loadImage(singleMember.getAvatar(), imll);
-		//ImageLoader.getInstance().displayImage(singleMember.getAvatar(), img_profile);
-		Log.e("url", "a  "+ singleMember.getAvatar());
+		AQuery aQuery=new AQuery(getActivity());
+		aQuery.id(img_profile).image(singleMember.getAvatar());
+		
+//		imageLoader.clearDiscCache();
+//		imageLoader.clearMemoryCache();
+//		imageLoader.displayImage(singleMember.getAvatar(),img_profile, defaultOptions, new ImageLoadingListener() {
+//			
+//			@Override
+//			public void onLoadingStarted(String imageUri, View view) {
+//				
+//			}
+//			
+//			@Override
+//			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//				
+//			}
+//			
+//			@Override
+//			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//				img_profile.setImageBitmap(loadedImage);
+//			}
+//			
+//			@Override
+//			public void onLoadingCancelled(String imageUri, View view) {
+//				
+//			}
+//		});
 		e_nickname.setText(singleMember.getNickname());
 		et_email.setText(singleMember.getEmail());
 		et_site_url.setText(singleMember.getSiteurl());
 		et_brief.setText(singleMember.getBrief());
 		
 	}
+	
+	
 }
 

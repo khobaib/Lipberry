@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 public class CategoryTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
+	private static HomeActivity homeActivity;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +36,7 @@ public class CategoryTabFragment extends TabFragment{
 		FragmentCategories initialFragment = new FragmentCategories();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
+		homeActivity=(HomeActivity)getActivity();
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,7 +50,7 @@ public class CategoryTabFragment extends TabFragment{
 		return v;
 	}
 	public void onStart( ) {
-		Constants.GOTABFROMWRITETOPIC=3;
+		Constants.GOT_AB_FROM_WRITE_TOPIC=3;
 
 		if(Constants.catgeory){
 			startFragmentSubCategoriesList(Constants.caturl,
@@ -57,6 +59,8 @@ public class CategoryTabFragment extends TabFragment{
 		}
 		Fragment fragment = backEndStack.peek();
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
@@ -68,6 +72,8 @@ public class CategoryTabFragment extends TabFragment{
 		FragmentSendMessageFormCategory newFragment = new FragmentSendMessageFormCategory (nickname,username);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -83,6 +89,8 @@ public class CategoryTabFragment extends TabFragment{
 		newFragment.setUrl(url,catname,article);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -99,6 +107,8 @@ public class CategoryTabFragment extends TabFragment{
 		newFragment.setArticle(article,articledetails);
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -110,6 +120,8 @@ public class CategoryTabFragment extends TabFragment{
 		FragmentMemberFromCategories newFragment = new FragmentMemberFromCategories ();
 		newFragment.parent = this;
 		FragmentManager fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -134,6 +146,8 @@ public class CategoryTabFragment extends TabFragment{
 				Fragment frg = backEndStack.peek();
 				Log.d("1", "4");
 				FragmentManager fragmentManager = getChildFragmentManager();
+				if(fragmentManager==null)
+					fragmentManager = homeActivity.getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();

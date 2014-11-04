@@ -1,16 +1,30 @@
 package com.lipberry;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
 import com.lipberry.model.City;
@@ -20,33 +34,6 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class SignupActivity extends Activity {
 	Spinner  s_city,s_country,s_kowaboutus;//
@@ -314,7 +301,7 @@ public class SignupActivity extends Activity {
 			}
 			else{
 				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_uname_spec),
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_LONG).show();
 			}
 
 		}
@@ -355,6 +342,13 @@ public class SignupActivity extends Activity {
 			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_enter_password),
 					Toast.LENGTH_SHORT).show();
 		}
+		else if  (password.length()<6) {
+			e_password.setBackgroundResource(R.drawable.rounded_text_nofield);
+
+			Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_password_length),
+					Toast.LENGTH_SHORT).show();
+		}
+		
 		else if  (confirmpass.trim().equals("")) {
 			e_confirmpass.setBackgroundResource(R.drawable.rounded_text_nofield);
 
@@ -392,8 +386,8 @@ public class SignupActivity extends Activity {
 		else {
 
 
-			pd=ProgressDialog.show(SignupActivity.this, "Lipberry",
-					"Loading", true);
+			pd=ProgressDialog.show(SignupActivity.this, getResources().getString(R.string.app_name),
+					getResources().getString(R.string.txt_loading), true);
 			new AsyncTaskSignUp().execute();
 		}
 	}
@@ -431,7 +425,7 @@ public class SignupActivity extends Activity {
 
 	private void setcity(){
 
-		ArrayAdapter  adapter2 = new ArrayAdapter<String>(this,
+		ArrayAdapter<String>  adapter2 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, allcityname);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
@@ -455,7 +449,7 @@ public class SignupActivity extends Activity {
 
 	public void setknowus(){
 
-		ArrayAdapter  adapter = new ArrayAdapter<String>(this,
+		ArrayAdapter<String>  adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, knowList);
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -689,7 +683,7 @@ public class SignupActivity extends Activity {
 	}
 
 	public void completesignup(String result){
-
+		Log.e("result",result);
 		try {
 			JSONObject response=new JSONObject(result);
 			String  status=response.getString("status");
@@ -699,23 +693,24 @@ public class SignupActivity extends Activity {
 //					Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_emailis_sent_toactiviate), 
 //							10000).show();
 //				}
-				new AlertDialog.Builder(this)
-			    .setTitle(getResources().getString(R.string.app_name))
-			    .setMessage(getResources().getString(R.string.txt_signup_success3))
-			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			        	dialog.cancel();
-			        	Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
-						startActivity(intent);
-						finish();
-			        }
-			     }).show();
-				
-				
+//				new AlertDialog.Builder(this)
+//			    .setTitle(getResources().getString(R.string.app_name))
+//			    .setMessage(getResources().getString(R.string.txt_signup_success3))
+//			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
+//			        public void onClick(DialogInterface dialog, int which) { 
+//			        	dialog.cancel();
+//			        	
+//			        }
+//			     }).show();
+				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_signup_success3)
+						, Toast.LENGTH_LONG).show();
+				Intent intent=new Intent(SignupActivity.this, LoginActivity.class);
+				startActivity(intent);
+				finish();
 				
 			}
 			else{
-				Toast.makeText(SignupActivity.this, msz, 10000).show();
+				Toast.makeText(SignupActivity.this, msz, Toast.LENGTH_LONG).show();
 			}
 
 		} catch (JSONException e) {
@@ -723,55 +718,6 @@ public class SignupActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
-	public void showalerttoactiviateuser(String msz){
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SignupActivity.this);
-		alertDialogBuilder.setTitle("Lipberry");
-		alertDialogBuilder
-		.setMessage(msz+"./n" +"Do you want to activiate your account")
-		.setCancelable(false)
-		.setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				activiateuse();
-			}
-		})
-		.setNegativeButton("No",new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-
-				dialog.cancel();
-			}
-		});
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
-	}
-	public void activiateuse(){
-		stateofbackpressed=1;
-		setContentView(R.layout.activiate_user);
-		Button bt_enter;
-		e_activiate_email=(EditText) findViewById(R.id.e_activiate_email);
-		e_activiate_key=(EditText) findViewById(R.id.e_activiate_key);
-		bt_enter=(Button) findViewById(R.id.bt_enter);
-		bt_enter.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				acivitedemail=e_activiate_email.getText().toString();
-				activiatedkey=e_activiate_key.getText().toString();
-				if  (acivitedemail.trim().equals("")) {
-					Toast.makeText(SignupActivity.this, "Please enter  email",
-							10000).show();
-				}
-				else if  (activiatedkey.trim().equals("")) {
-					Toast.makeText(SignupActivity.this, "Please enter key",
-							10000).show();
-				}
-				else{
-					Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
-					startActivity(intent);
-					finish();
-				}
-
-
-			}
-		});
-	}
+	
 
 }

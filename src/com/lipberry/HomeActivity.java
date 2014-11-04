@@ -1,5 +1,4 @@
 package com.lipberry;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,6 +21,7 @@ import com.google.android.gcm.GCMRegistrar;
 import com.lipberry.fragment.FragmentInbox;
 import com.lipberry.fragment.FragmentWriteTopic;
 import com.lipberry.fragment.HomeTabFragment;
+import com.lipberry.fragment.ReclickableTabHost;
 import com.lipberry.fragment.WriteTopicTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
 import com.lipberry.fragment.IneractionTabFragment;
@@ -67,6 +67,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
@@ -81,7 +82,7 @@ import android.widget.Toast;
 public class HomeActivity extends FragmentActivity {
 	public static Typeface tp;
 	public  String photofromcamera;
-	public  FragmentTabHost mTabHost;
+	public  ReclickableTabHost mTabHost;
 	public  String drectory;
 	public  String drectorythumb;
 	private static final String LIST_STATE = "listState";
@@ -125,36 +126,22 @@ public class HomeActivity extends FragmentActivity {
 		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
 		
 		setTabs();
-		Log.e("tag", "1");
 		try {
-			Log.e("tag", "2");
-
 			a=getIntent().getExtras().getString("type");
-			Log.e("tag", "3");
-
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			Log.e("tag", "4");
-
 			e.printStackTrace();
-			a="normal";
 		}
 		if(a.equals("normal")){
-			Log.e("tag", "5");
-
 			k=4;
 			//mTabHost.setCurrentTab(4);
 		}
 		else if(a.equals("inbox message")){
-			Log.e("tag", "6");
-
 			k=1;
 			//mTabHost.setCurrentTab(1);
 
 		}
 		else{
-			Log.e("tag", "7");
-
 			k=2;
 		}
 		mTabHost.setCurrentTab(k);
@@ -193,7 +180,8 @@ public class HomeActivity extends FragmentActivity {
 	    }
 	}
 	private void setTabs() {
-		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+		mTabHost = (ReclickableTabHost) findViewById(android.R.id.tabhost);
+
 		mTabHost.setup(this, getSupportFragmentManager(),
 				android.R.id.tabcontent);
 		mTabsPlaceHoler = (TabWidget) findViewById(android.R.id.tabs);
@@ -203,8 +191,9 @@ public class HomeActivity extends FragmentActivity {
 		addTab("Categories", R.drawable.lcategory, CategoryTabFragment.class);
 		addTab("Home", R.drawable.lhome, HomeTabFragment.class);
 		addTab("Menu", R.drawable.lmenu, MenuTabFragment.class);
-
+		int i=mTabHost.getCurrentTab();
 	}
+	
 
 	private void addTab(String labelId, int drawableId, Class<?> c) {
 		FragmentTabHost.TabSpec spec = mTabHost.newTabSpec(labelId);
@@ -385,8 +374,6 @@ public class HomeActivity extends FragmentActivity {
 				try {
 
 					String filepath =Environment.getExternalStorageDirectory()+"/"+photofromcamera;
-					Log.e("path", photofromcamera+"   "+Environment.getExternalStorageDirectory()+"   "+photo+"  "+filepath);
-					//					File file=new File(filepath);
 					if(photo.exists()){
 						ImageScale scaleimage=new ImageScale();
 						Bitmap bitmap = scaleimage.decodeImageForProfile( photo.getAbsolutePath());
@@ -458,8 +445,6 @@ public class HomeActivity extends FragmentActivity {
 				try {
 
 					String filepath =Environment.getExternalStorageDirectory()+"/"+photofromcamera;
-					Log.e("path", "yg  "+photo+" "+photo.exists());
-					//					File file=new File(filepath);
 					File sd = Environment.getExternalStorageDirectory();
 					if (sd.canWrite()){
 						Uri selectedImage = data.getData();
@@ -574,7 +559,7 @@ public class HomeActivity extends FragmentActivity {
 		}
 	}   
 	public void createfolder(){
-		String newFolder = "/Lipberryfinal";
+		String newFolder = "/Lipberryfinal1";
 		String thumb="/Lipberrythumb";
 		String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		drectory= extStorageDirectory + newFolder;
@@ -737,4 +722,3 @@ public class HomeActivity extends FragmentActivity {
 	}
 
 }
-

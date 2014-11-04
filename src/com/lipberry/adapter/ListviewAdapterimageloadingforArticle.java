@@ -1,33 +1,40 @@
 package com.lipberry.adapter;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
+import android.app.Activity;
 import android.app.Dialog;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
 import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.customalertdilog.LisAlertDialogForComment;
-import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.fragment.CategoryTabFragment;
-
+import com.lipberry.fragment.HomeTabFragment;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.ArticleList;
@@ -38,42 +45,11 @@ import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
-import com.lipberry.widzet.PanningEditText;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.sax.StartElementListener;
-
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment.SavedState;
-import android.support.v4.app.FragmentManager.BackStackEntry;
-import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 	ArrayList<Article> list;
@@ -104,7 +80,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		this.parent3=parent3;
 		appInstance = (LipberryApplication) activity.getApplication();
 		 defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				activity.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -195,6 +171,7 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 
 			}
 		});
+		
 		String url=list.get(position).getMember_photo();
 		if(url==null){
 
@@ -208,17 +185,14 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		if(list.get(position).getcategory().equals("2")){
 			if(list.get(position).getArticle_category_url().contains("shexp")){
 				int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-				Log.e("category", "null"+list.get(position).getcategory());
 				holder.img_some_icon.setImageResource(id);
 			}
 			else{
 				int id = activity.getResources().getIdentifier("bl"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-				Log.e("category", "null"+list.get(position).getcategory());
 				holder.img_some_icon.setImageResource(id);
 			}
 		}else{
 			int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
-			Log.e("category", "null"+list.get(position).getcategory());
 			holder.img_some_icon.setImageResource(id);
 		}
 		if(list.get(position).getMember_nickname()!=null){
@@ -342,66 +316,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			}
 		});
 
-		ImageLoadingListener imll=new ImageLoadingListener() {
-
-			@Override
-			public void onLoadingStarted(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				mProgress=new ProgressDialog(activity);
-				mProgress.setTitle("Image is  Loading");
-			//	mProgress.show();
-			}
-
-			@Override
-			public void onLoadingFailed(String imageUri, View view,
-					FailReason failReason) {
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				
-				holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
-
-			}
-
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// TODO Auto-generated method stub
-
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-				Bitmap bitmap=loadedImage;
-				
-				if(bitmap!=null){
-					int bitmapheight=bitmap.getHeight();
-					int bitmapweight=bitmap.getWidth();
-					int deviceheight=Utility.getDeviceHeight(activity);
-					int devicewidth=Utility.getDeviceWidth(activity);
-					float ratio=(float)devicewidth/(float)bitmapweight;
-					int resizebitmapwidth=devicewidth;
-					float a=(bitmapheight*ratio);
-					int resizebitmaphight=(int)a ;
-					Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
-					bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
-					holder.img_article_pro_pic.setImageBitmap(bitmap);
-					
-				
-				}
-				
-			}
-
-			@Override
-			public void onLoadingCancelled(String imageUri, View view) {
-				// TODO Auto-generated method stub
-				
-				holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
-				if((mProgress.isShowing())&&(mProgress!=null)){
-					mProgress.dismiss();
-				}
-			}
-		};
-		Log.i("x "+position, "null  "+list.get(position).getArticle_photo());
 		if((list.get(position).getArticle_photo()==null)||(list.get(position).getArticle_photo().equals(""))){
 			holder.img_article_pro_pic.setVisibility(View.GONE);
 			//holder.img_article_pro_pic.setImageResource(R.drawable.noimage);
@@ -441,14 +355,22 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 						int bitmapweight=bitmap.getWidth();
 						int deviceheight=Utility.getDeviceHeight(activity);
 						int devicewidth=Utility.getDeviceWidth(activity);
-						float ratio=(float)devicewidth/(float)bitmapweight;
-						int resizebitmapwidth=devicewidth;
-						float a=(bitmapheight*ratio);
-						int resizebitmaphight=(int)a ;
-						Log.e("image dim", "fhcbvfh  "+bitmapheight+"  "+resizebitmaphight+"  "+bitmapweight+"  "+resizebitmapwidth);
-						bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapwidth,resizebitmaphight, false);
+						float ratio=(float)524/(float)bitmapheight;
+						float a=(bitmapweight*ratio);
+						int resizebitmapweight=(int)a ;
+						
+						bitmap=Bitmap.createScaledBitmap(bitmap,resizebitmapweight,524, false);
+						
+						
+						float imratio=(float)devicewidth/(float)resizebitmapweight;
+						int imheight=(int) (524*imratio);
+						
+						RelativeLayout.LayoutParams parms = new RelativeLayout.LayoutParams(devicewidth,imheight);
+						holder.img_article_pro_pic.setLayoutParams(parms);
 						holder.img_article_pro_pic.setImageBitmap(bitmap);
+						holder.img_article_pro_pic.setScaleType(ScaleType.FIT_XY);
 					}
+					Log.e("Image size",""+ bitmap.getByteCount()/(1024));
 				}
 				
 				@Override
@@ -830,7 +752,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 					Commentslist commentslist=Commentslist.getCommentsListInstance(jobj);
 					if(commentslist.getCommentslist().size()>0){
 							alertcomment=new LisAlertDialogForComment(activity, commentslist.getCommentslist(), activity, parent, parent3,article.getComment_url());
-							Log.e("urlcomments", article.getComment_url());
 							alertcomment.show_alert();
 					}
 					else{
@@ -879,8 +800,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("response", result.getjObj().toString());
-			
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
@@ -994,6 +913,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
 				String url =list.get(position).getArticle_url();
+				Log.e("Url", url);
+
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -1005,7 +926,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

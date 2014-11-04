@@ -42,7 +42,10 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.androidquery.AQuery;
 import com.lipberry.HomeActivity;
+import com.lipberry.LoginActivity;
 import com.lipberry.R;
 import com.lipberry.SignupActivity;
 import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
@@ -63,6 +66,8 @@ import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 @SuppressLint({ "NewApi", "ValidFragment" })
 public class FragmentImageSetting extends Fragment {
 	public MenuTabFragment parent;
@@ -80,12 +85,14 @@ public class FragmentImageSetting extends Fragment {
 	int selectedcountryposition=-1;
 	ProgressDialog pd;
 	public SingleMember singleMember;
+	DisplayImageOptions defaultOptions;
 	FragmentProfileSetting lisenar;
+	AQuery aQuery;
 	public FragmentImageSetting(SingleMember singleMember,FragmentProfileSetting lisenar){
 		this.singleMember=singleMember;
 		this.lisenar=lisenar;
 	}
-	
+	UserCred usercred;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -93,7 +100,7 @@ public class FragmentImageSetting extends Fragment {
 		super.onCreate(savedInstanceState);
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisc(false)
 		.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getActivity().getApplicationContext()).defaultDisplayImageOptions(
@@ -112,11 +119,39 @@ public class FragmentImageSetting extends Fragment {
 		b_go_gallery=(Button) v.findViewById(R.id.b_go_gallery);
 		b_update=(Button) v.findViewById(R.id.b_update);
 		iv_profile_pic=(ImageView) v.findViewById(R.id.iv_profile_pic);
-		imageLoader.displayImage(singleMember.getAvatar(), iv_profile_pic);
 		b_take_pic.setTypeface(Utility.getTypeface2(getActivity()));
 		b_go_gallery.setTypeface(Utility.getTypeface2(getActivity()));
 		b_update.setTypeface(Utility.getTypeface2(getActivity()));
 
+		imageLoader.clearDiscCache();
+		imageLoader.clearMemoryCache();
+		
+		aQuery=new AQuery(getActivity());
+		aQuery.id(iv_profile_pic).image(singleMember.getAvatar());
+		//iv_profile_pic.setImageBitmap(Constants.getBitmapFromURL(singleMember.getAvatar());
+		
+//		imageLoader.displayImage(singleMember.getAvatar(),iv_profile_pic, defaultOptions, new ImageLoadingListener() {
+//			
+//			@Override
+//			public void onLoadingStarted(String imageUri, View view) {
+//				
+//			}
+//			
+//			@Override
+//			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//				
+//			}
+//			
+//			@Override
+//			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//				iv_profile_pic.setImageBitmap(loadedImage);
+//			}
+//			
+//			@Override
+//			public void onLoadingCancelled(String imageUri, View view) {
+//				
+//			}
+//		});
 		b_take_pic.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -167,7 +202,6 @@ public class FragmentImageSetting extends Fragment {
 		Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_have_selcect_image), Toast.LENGTH_SHORT).show();
 		iv_profile_pic.setImageBitmap(bitmap);
 		this.bitmap=bitmap;
-		Log.e("size", ""+bitmap.getHeight()+"  "+bitmap.getWidth());
 	}
 	public void onimageloadingFailed(){
 		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_failed_to_select_an_image), Toast.LENGTH_SHORT).show();
@@ -195,9 +229,9 @@ public class FragmentImageSetting extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
+				
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
-
 				ByteArrayOutputStream bao = new ByteArrayOutputStream();
 				bitmap.compress(CompressFormat.JPEG,100, bao);
 				byte[] ba = bao.toByteArray();
@@ -205,6 +239,7 @@ public class FragmentImageSetting extends Fragment {
 				loginObj.put("pic_data",  base64Str);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"settings/changemypicture/";
+				Log.e("req", url+"  "+loginData);
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -217,19 +252,14 @@ public class FragmentImageSetting extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			JSONObject jobj=result.getjObj();
-			if(pd!=null){
-				if(pd.isShowing()){
-					pd.cancel();
-				}
-			}
+			
 			try {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
 				if(status.equals("success")){
-					parent.onBackPressed();
+					
 					lisenar.bitmap=bitmap;
-					Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_upload_success), Toast.LENGTH_SHORT).show();
-
+					new AsyncTaskLogin().execute();
 				}
 				else{
 					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
@@ -241,5 +271,67 @@ public class FragmentImageSetting extends Fragment {
 			}
 		}
 	}
+	
+	
+	private class AsyncTaskLogin extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				byte[] ba = appInstance.getUserCred().getUsername().getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("username", appInstance.getUserCred().getUsername());
+				ba=appInstance.getUserCred().getPassword().getBytes();
+				base64Str=Base64.encodeBytes(ba);
+				//base64Str=Utility.getEncodedpassword(base64Str);
+				loginObj.put("password", base64Str);
+				String loginData = loginObj.toString();
+				String url = Constants.baseurl+"account/login";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			super.onPostExecute(result);
+			if(pd!=null){
+				if(pd.isShowing()){
+					pd.cancel();
+				}
+			}
+			setUsercredential(result.getjObj().toString());
+		}
+	}
+	public void setUsercredential(String result){
+
+		usercred=new UserCred();
+		try {
+			JSONObject  job=new JSONObject (result);
+			String descrip=job.getString("description");
+			String status=job.getString("status");
+			if(status.equals("success")){
+				usercred=usercred.parseUserCred(job);
+				usercred.checknull();
+				usercred.setPassword(appInstance.getUserCred().getPassword());
+				appInstance.setUserCred(usercred);
+				appInstance.setRememberMe(true);
+				Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_upload_success), Toast.LENGTH_SHORT).show();
+				parent.onBackPressed();
+			}
+			else{
+			
+					Toast.makeText(getActivity(),descrip, Toast.LENGTH_SHORT).show();
+			}
+
+
+		} catch (Exception e) {
+		}
+	}
+
 }
 

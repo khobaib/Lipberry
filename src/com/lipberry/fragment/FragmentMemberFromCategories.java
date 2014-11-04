@@ -215,7 +215,7 @@ public class FragmentMemberFromCategories extends Fragment {
 	}
 	public void setUserInterface(){
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
-		((HomeActivity)getActivity()).welcome_title.setText(singleMember.getName());
+		((HomeActivity)getActivity()).welcome_title.setText(singleMember.getNickname());
 		if(singleMember.getId().equals(appInstance.getUserCred().getId())){
 			btn_follow_her.setVisibility(View.GONE);
 			btn_send.setVisibility(View.GONE);
@@ -506,7 +506,6 @@ public class FragmentMemberFromCategories extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			Log.e("details", result.getjObj().toString());
 			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}

@@ -310,20 +310,15 @@ public class LoginActivity extends Activity {
 				return null;
 			}
 		}
-		//06-11 22:08:17.219: D/JsonParser(5138): sb = ï»¿ 	{"status":"success","message":"email sent successfully to activate your account"}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
-			Log.e("result", result.getjObj().toString());
 			setUsercredential(result.getjObj().toString());
 		}
 	}
-	//06-08 22:52:41.306: E/result(30555): {"status":"failure","description":"خطأ في معلومات تسجيل الدخول. حاول مرة اخرى"}
-
-
 	public void setUsercredential(String result){
 
 		usercred=new UserCred();
