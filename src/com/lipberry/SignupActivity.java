@@ -1,16 +1,30 @@
 package com.lipberry;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
 import com.lipberry.model.City;
@@ -20,33 +34,6 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class SignupActivity extends Activity {
 	Spinner  s_city,s_country,s_kowaboutus;//
@@ -438,7 +425,7 @@ public class SignupActivity extends Activity {
 
 	private void setcity(){
 
-		ArrayAdapter  adapter2 = new ArrayAdapter<String>(this,
+		ArrayAdapter<String>  adapter2 = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, allcityname);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
@@ -462,7 +449,7 @@ public class SignupActivity extends Activity {
 
 	public void setknowus(){
 
-		ArrayAdapter  adapter = new ArrayAdapter<String>(this,
+		ArrayAdapter<String>  adapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_dropdown_item, knowList);
 
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
