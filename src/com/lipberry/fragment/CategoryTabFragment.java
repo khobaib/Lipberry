@@ -2,29 +2,23 @@ package com.lipberry.fragment;
 
 import java.util.Stack;
 
-import com.lipberry.HomeActivity;
-import com.lipberry.R;
-import com.lipberry.model.Article;
-import com.lipberry.model.ArticleDetails;
-import com.lipberry.model.ArticleList;
-import com.lipberry.utility.Constants;
-
-
-
-
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.ViewParent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.lipberry.HomeActivity;
+import com.lipberry.R;
+import com.lipberry.model.Article;
+import com.lipberry.model.ArticleDetails;
+import com.lipberry.model.ArticleList;
+import com.lipberry.utility.Constants;
 
 public class CategoryTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;

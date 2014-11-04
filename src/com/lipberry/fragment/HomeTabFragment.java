@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,7 @@ import com.lipberry.model.ArticleDetails;
 import com.lipberry.utility.Constants;
 
 public class HomeTabFragment extends TabFragment {
+	@SuppressWarnings("unused")
 	private static final String TAG = "HomeTabFragment";
 
 	protected Stack<Fragment> backEndStack;
@@ -34,7 +34,6 @@ public class HomeTabFragment extends TabFragment {
 	private FragmentTransaction fragmentTransaction;
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		homeActivity=(HomeActivity)getActivity();
 	}
@@ -53,6 +52,8 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(initialFragment);
 
 		fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 	}
 
@@ -64,6 +65,8 @@ public class HomeTabFragment extends TabFragment {
 		trackCallHome.push(0);
 		backEndStack.push(initialFragment);
 		fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, initialFragment);
 		try {
@@ -88,6 +91,13 @@ public class HomeTabFragment extends TabFragment {
 		homeActivity.img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
+	}
+	
+	private void assureFragManagerNotNull(){
+		if(fragmentManager==null)
+			fragmentManager = getChildFragmentManager();
+		if(fragmentManager==null)
+			fragmentManager = homeActivity.getSupportFragmentManager();
 	}
 
 	@Override
@@ -137,6 +147,7 @@ public class HomeTabFragment extends TabFragment {
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction
+		assureFragManagerNotNull();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -160,6 +171,7 @@ public class HomeTabFragment extends TabFragment {
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction
+		assureFragManagerNotNull();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -181,6 +193,7 @@ public class HomeTabFragment extends TabFragment {
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction
+		assureFragManagerNotNull();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -202,6 +215,7 @@ public class HomeTabFragment extends TabFragment {
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction
+		assureFragManagerNotNull();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -225,6 +239,7 @@ public class HomeTabFragment extends TabFragment {
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction
+		assureFragManagerNotNull();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -248,6 +263,7 @@ public class HomeTabFragment extends TabFragment {
 		newFragment.parent = this;
 		// FragmentManager fragmentManager = getChildFragmentManager();
 		// FragmentTransaction
+		assureFragManagerNotNull();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
 		fragmentTransaction.addToBackStack(null);
@@ -285,6 +301,7 @@ public class HomeTabFragment extends TabFragment {
 					// FragmentManager fragmentManager =
 					// getChildFragmentManager();
 					// FragmentTransaction
+					assureFragManagerNotNull();
 					fragmentTransaction = fragmentManager.beginTransaction();
 					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
 				} else {
@@ -292,6 +309,7 @@ public class HomeTabFragment extends TabFragment {
 					// FragmentManager fragmentManager =
 					// getChildFragmentManager();
 					// FragmentTransaction
+					assureFragManagerNotNull();
 					fragmentTransaction = fragmentManager.beginTransaction();
 					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
 					if (callstate == 10) {
