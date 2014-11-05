@@ -37,7 +37,7 @@ public class Constants {
 	        return null;
 	    }
 	}
-	static boolean debugon=false;
+	static boolean debugon=true;
 	public static void debugLog(String key,String msz){
 		if(debugon){
 			Log.e(key, msz);	

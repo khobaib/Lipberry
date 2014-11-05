@@ -176,7 +176,7 @@ public class FragmentFindamember extends Fragment {
 					// Toast.LENGTH_SHORT).show();
 				} else {
 					Toast.makeText(getActivity(),
-							getActivity().getResources().getString(R.string.txt_no_member_found2), Toast.LENGTH_SHORT)
+							job.getString("description"), Toast.LENGTH_SHORT)
 							.show();
 				}
 			} catch (JSONException e) {
