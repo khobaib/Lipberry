@@ -179,9 +179,8 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		else{
 			url=url.replace("..", "http://www.lipberry.com");
 			Log.i("propicurl", url);
-			imageLoader.displayImage(url, holder.img_pro_pic);
-
 		}
+		imageLoader.displayImage(url, holder.img_pro_pic, defaultOptions);
 		if(list.get(position).getcategory().equals("2")){
 			if(list.get(position).getArticle_category_url().contains("shexp")){
 				int id = activity.getResources().getIdentifier("l"+list.get(position).getcategory(), "drawable", activity.getPackageName());
@@ -449,7 +448,6 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 			}
 		});
 
-		Log.i(" image loading", list.get(position).getArticle_photo());
 		return convertView;
 	}
 

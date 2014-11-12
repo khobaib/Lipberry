@@ -69,6 +69,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/rounded_edittext"
                     android:ems="10"
+                    android:editable="false"
                     android:gravity="right"
                     android:hint="@string/et_signup_nickname"
                     android:padding="7dp"

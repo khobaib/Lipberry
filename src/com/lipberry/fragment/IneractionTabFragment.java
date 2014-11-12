@@ -10,6 +10,7 @@ import com.lipberry.utility.Constants;
 
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,7 +26,8 @@ import android.widget.Toast;
 
 public class IneractionTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
-	private static HomeActivity homeActivity;
+	private  HomeActivity homeActivity;
+	FragmentManager fragmentManager;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,6 +37,7 @@ public class IneractionTabFragment extends TabFragment{
 		backEndStack.push(initialFragment);
 		homeActivity=(HomeActivity)getActivity();
 	}
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,11 +50,17 @@ public class IneractionTabFragment extends TabFragment{
 		return v;
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		homeActivity=(HomeActivity) getActivity();
+		fragmentManager=homeActivity.getSupportFragmentManager();
+	}
 	public void onStart( ) {
 	//	Constants.GOTABFROMWRITETOPIC=2;
 
 		Fragment fragment = backEndStack.peek();
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -64,7 +73,6 @@ public class IneractionTabFragment extends TabFragment{
 	public void startMenufragment() {
 		FragmentInteraction newFragment = new FragmentInteraction() ;
 		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager

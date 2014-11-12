@@ -34,14 +34,17 @@ public class UserCred {
 	private String stop_commentMails;
 	private String stop_followerMails;
 	private String stop_likeArtMails;
+	private String avatar;
 
+	
 	public UserCred(String push_new_msz,String weekly_news, String stop_privateMails,
 			 String stop_privateMessages, String stop_commentMails,String stop_followerMails,String stop_likeArtMails,
 			String administrator,String name, String youtube,String telephone,
 			String brief, String city, String country, String id,String twitter,
 			String username, String email,String description,String session_id,
 			String instagram, String nickname,String countrycity_flag,
-			String is_authorized,String siteurl) {
+			String is_authorized,String siteurl,String avatar) {
+		this.avatar=avatar;
 		this.push_new_msz=push_new_msz;
 		this.stop_likeArtMails=stop_likeArtMails;
 		this.weekly_news=weekly_news;
@@ -69,6 +72,9 @@ public class UserCred {
 		this.session_id=session_id;
 		this.instagram=instagram;
 
+	}
+	public String getAvater(){
+		return this.avatar;
 	}
 	public String  getPush_new_msz(){
 		return this.push_new_msz;

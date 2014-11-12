@@ -45,6 +45,7 @@ public class FragmentFindamember extends Fragment {
 	private EditText et_username;
 	private String username;
 	private Button btn_go;
+	String search_Key;
 	// private Spinner spn_uname;
 	private ListView lvFoundMembers;
 	private FoundMemberListAdapter fmlAdapter;
@@ -67,6 +68,7 @@ public class FragmentFindamember extends Fragment {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.find_a_member, container, false);
 		et_username = (EditText) v.findViewById(R.id.et_username);
 		et_username.setTypeface(Utility.getTypeface2(getActivity()));
+		
 		// spn_uname = (Spinner) v.findViewById(R.id.spn_uname);
 		lvFoundMembers = (ListView) v.findViewById(R.id.lvFoundMemberList);
 		fmlAdapter = new FoundMemberListAdapter(getActivity(), memberListobject.getMemberlistForSendMessage());
@@ -78,7 +80,7 @@ public class FragmentFindamember extends Fragment {
 				// TODO show single user
 				if (position < memberListobject.getMemberlistForSendMessage().size()) {
 					MemberForSendMessage m = (MemberForSendMessage) pt.getItemAtPosition(position);
-					et_username.setText(m.getUserName());
+					search_Key=et_username.getText().toString();
 					Constants.userid = m.getId();
 					parent.startFragmentSingleMember(m.getId());
 				}
@@ -91,6 +93,7 @@ public class FragmentFindamember extends Fragment {
 			@Override
 			public void onClick(View v) {
 				username = et_username.getText().toString();
+				search_Key=username;
 				if (Constants.isOnline(getActivity())) {
 					pd = ProgressDialog.show(getActivity(),
 							getActivity().getResources().getString(R.string.app_name_arabic), getActivity()
@@ -118,8 +121,21 @@ public class FragmentFindamember extends Fragment {
 				parent.onBackPressed();
 			}
 		});
-		et_username.setText("");
-		et_username.setHint(R.string.txt_find_member);
+		if((search_Key!=null)){
+			if(search_Key.equals("")){
+				et_username.setText("");
+				et_username.setHint(R.string.txt_find_member);
+			}
+			else{
+				et_username.setText(search_Key);
+			}
+			
+		}
+		else{
+			et_username.setText("");
+			et_username.setHint(R.string.txt_find_member);
+		}
+		
 	}
 
 	private class AsyncTaskGetMemberListWithName extends AsyncTask<Void, Void, ServerResponse> {
@@ -189,7 +205,6 @@ public class FragmentFindamember extends Fragment {
 		// take adapter
 		// set list
 		// set on-click listener
-		Log.i("Touhid", "showFoundMemberList");
 		fmlAdapter.setData(memberListobject.getMemberlistForSendMessage());
 		fmlAdapter.notifyDataSetChanged();
 	}

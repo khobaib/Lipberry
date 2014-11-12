@@ -55,7 +55,7 @@ public class FragmentSendMessageFormCategory extends Fragment{
 	String subject;
 	EditText et_su;
 	String nickname,userid;
-	public FragmentSendMessageFormCategory(String nickname,String userid){
+	public void setFragmentSendMessageFormCategory(String nickname,String userid){
 		this.nickname=nickname;
 		this.userid=userid;
 	}

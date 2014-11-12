@@ -55,7 +55,7 @@ public class FragmentSendMessageFormHome extends Fragment{
 	String subject;
 	EditText et_su;
 	String nickname,userid;
-	public FragmentSendMessageFormHome(String nickname,String userid){
+	public void setFragmentSendMessageFormHome(String nickname,String userid){
 		this.nickname=nickname;
 		this.userid=userid;
 	}

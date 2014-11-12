@@ -42,6 +42,8 @@ public class LipberryApplication extends Application {
 	}
 	public void setUserCred(UserCred userCred){
 		Editor editor = User.edit();
+		
+		editor.putString(Constants.AVATER, userCred.getAvater());
 		editor.putString(Constants.PUSHNEWMESSAGE, userCred.getPush_new_msz());
 		editor.putString(Constants.WEEKLY_NEWS, userCred.getWeekly_news());
 		editor.putString(Constants.STOPPRIVATEMAILS, userCred.getStop_privateMails());
@@ -100,10 +102,11 @@ public class LipberryApplication extends Application {
 		 String stop_followerMails=User.getString(Constants.STOPFOLLOWERMAIL, "0");
 		 String stop_likeArtMails=User.getString(Constants.STOPLIKEARTMAIL, "0");
 		 String Push_new_msz=User.getString(Constants.PUSHNEWMESSAGE, "0");
+		 String avaterz=User.getString(Constants.AVATER, "0");
 		UserCred userCred = new UserCred(Push_new_msz,weekly_news,stop_privateMails,stop_privateMessages,
 				stop_commentMails,stop_followerMails,stop_likeArtMails,administrator, name, youtube, telephone, 
 				brief, city, country, id, twitter, username, email, description, session_id, 
-				instagram, nickname, countrycity_flag, is_authorized, siteurl);
+				instagram, nickname, countrycity_flag, is_authorized, siteurl,avaterz);
 		userCred.setPassword(password) ;
 		return userCred;
 	}

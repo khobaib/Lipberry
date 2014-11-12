@@ -113,18 +113,15 @@ public class HomeActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
 		setContentView(R.layout.main);
-		
 		img_cat_icon=(ImageView) findViewById(R.id.img_cat_icon);
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);
 		backbuttonoftab.setVisibility(View.GONE);
 		topBar=(RelativeLayout) findViewById(R.id.topBar);
 		welcome_title.setTypeface(Utility.getTypeface1(HomeActivity.this));
-		
 		setTabs();
 		try {
 			a=getIntent().getExtras().getString("type");
@@ -152,9 +149,6 @@ public class HomeActivity extends FragmentActivity {
 //			@Override
 //			public void run() {
 //				writetopic=new FragmentWriteTopic();
-				
-				
-				
 //
 //			}
 //		},4000);

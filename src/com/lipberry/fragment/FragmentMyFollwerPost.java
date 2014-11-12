@@ -131,8 +131,6 @@ public class FragmentMyFollwerPost extends Fragment {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 				if(Constants.isOnline(getActivity())){
-					//					pd=ProgressDialog.show(getActivity(), "Lipberry",
-					//							"Retreving more Post", true);
 					new AsyncTaskRefreashPostFrommyFollowing().execute();
 				}
 				else{
@@ -142,10 +140,6 @@ public class FragmentMyFollwerPost extends Fragment {
 				}
 			}
 		});
-		
-		
-		
-		
 		if(Constants.isOnline(activity)){
 			if(articlaList.size()>0){
 				loadlistview(true);

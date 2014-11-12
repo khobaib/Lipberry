@@ -48,6 +48,7 @@ public class JsonParser {
 	public ServerResponse retrieveServerData(int reqType, String url, List<NameValuePair> urlParams, String content, String appToken) {
 		int status = 0;
 		StringBuilder sb = null;
+		Constants.debugLog(url, "a  "+content);
 		if (urlParams != null) {
 			String paramString = URLEncodedUtils.format(urlParams, "utf-8");
 			url += "?" + paramString;            

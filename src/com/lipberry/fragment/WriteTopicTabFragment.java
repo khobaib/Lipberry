@@ -11,6 +11,7 @@ import com.lipberry.utility.Constants;
 
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 public class WriteTopicTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private static HomeActivity homeActivity;
+	FragmentManager fragmentManager;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +51,13 @@ public class WriteTopicTabFragment extends TabFragment{
 		return v;
 	}
 
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		homeActivity=(HomeActivity) getActivity();
+		fragmentManager=homeActivity.getSupportFragmentManager();
+	}
 	public void onStart( ) {
 //		Log.e("Calling", "Calling");
 //		File file = new File(Environment.getExternalStorageDirectory().toString() + "/Lipberrythumb");
@@ -65,7 +74,6 @@ public class WriteTopicTabFragment extends TabFragment{
 //		initialFragment.parent = this;
 //		backEndStack.push(initialFragment);
 		Fragment fragment = backEndStack.peek();
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -78,7 +86,6 @@ public class WriteTopicTabFragment extends TabFragment{
 	public void startfragmenthome() {
 		FragmentWriteTopic newFragment = new FragmentWriteTopic ();
 		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -100,7 +107,7 @@ public class WriteTopicTabFragment extends TabFragment{
 	}
 	@Override
 	public void onBackPressed() {
-		((HomeActivity) getActivity()).mTabHost.setCurrentTab(Constants.GOT_AB_FROM_WRITE_TOPIC);
+		homeActivity.mTabHost.setCurrentTab(Constants.GOT_AB_FROM_WRITE_TOPIC);
 //		if (backEndStack.size()==1) {
 //			((HomeActivity) getActivity()).close();
 //		}

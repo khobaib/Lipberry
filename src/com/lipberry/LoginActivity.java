@@ -153,39 +153,39 @@ public class LoginActivity extends Activity {
 				
 			}
 			else{
-				if  (!Constants.namecheck(username)) {
-					 
-	            	e_uname.setBackgroundResource(R.drawable.rounded_text_nofield);
-
-					if(username.length()<3){
-						
-						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
-								Toast.LENGTH_SHORT).show();
-					}
-
-					else if(username.length()>10){
-						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_more),
-								10000).show();
-						
-					}
-					else{
-						Toast.makeText(LoginActivity.this,getResources().getString(R.string.txt_uname_spec),
-								10000).show();
-					}
-				}
-				
-				else if(password.trim().equals("")){
-	            	e_pass.setBackgroundResource(R.drawable.rounded_txt_forgotpass);
-
-					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
-							10000).show();
-				}
-				else{
+//				if  (!Constants.namecheck(username)) {
+//					 
+//	            	e_uname.setBackgroundResource(R.drawable.rounded_text_nofield);
+//
+//					if(username.length()<3){
+//						
+//						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
+//								Toast.LENGTH_SHORT).show();
+//					}
+//
+//					else if(username.length()>10){
+//						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_more),
+//								10000).show();
+//						
+//					}
+//					else{
+//						Toast.makeText(LoginActivity.this,getResources().getString(R.string.txt_uname_spec),
+//								10000).show();
+//					}
+//				}
+//				
+//				else if(password.trim().equals("")){
+//	            	e_pass.setBackgroundResource(R.drawable.rounded_txt_forgotpass);
+//
+//					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
+//							10000).show();
+//				}
+//				else{
 					pd=ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.app_name_arabic),
 							getResources().getString(R.string.txt_signing_in), false);
 					new  AsyncTaskLogin().execute();
 					
-				}
+	//			}
 				
 			}
 		}
@@ -372,30 +372,35 @@ public class LoginActivity extends Activity {
 	}
 	public void resenlinktomail() {
 
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				LoginActivity.this);
-		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
-		alertDialogBuilder
-		.setMessage(getResources().getString(R.string.txt_resend_aciviation))
-		.setCancelable(false)
-		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				dialog.cancel();
-				Intent intent=new  Intent(LoginActivity.this, ResendActiviationEmail.class);
-				startActivity(intent);
-				finish();
+//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+//				LoginActivity.this);
+//		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
+//		alertDialogBuilder
+//		.setMessage(getResources().getString(R.string.txt_resend_aciviation))
+//		.setCancelable(false)
+//		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog,int id) {
+//				dialog.cancel();
+//				Intent intent=new  Intent(LoginActivity.this, ResendActiviationEmail.class);
+//				startActivity(intent);
+//				finish();
+//
+//				
+//
+//			}
+//		})
+//		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
+//			public void onClick(DialogInterface dialog,int id) {
+//				dialog.cancel();
+//			}
+//		});
+//		AlertDialog alertDialog = alertDialogBuilder.create();
+//		alertDialog.show();
+		Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_resend_aciviation), Toast.LENGTH_LONG).show();
+		Intent intent=new  Intent(LoginActivity.this, ResendActiviationEmail.class);
+		startActivity(intent);
+		finish();
 
-				
-
-			}
-		})
-		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog,int id) {
-				dialog.cancel();
-			}
-		});
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
 	}
 
 

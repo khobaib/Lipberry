@@ -321,7 +321,7 @@ public class FragmentWriteTopic extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 
-		else if (selectedSpinnerPos == -1) {
+		else if (!spinner_category.isSelected()) {
 			Toast.makeText(activity, getActivity().getResources().getString(R.string.txt_please_select_category),
 					Toast.LENGTH_SHORT).show();
 		}

@@ -13,6 +13,7 @@ import com.lipberry.utility.Constants;
 
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +30,7 @@ import android.widget.Toast;
 public class CategoryTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private static HomeActivity homeActivity;
+	FragmentManager fragmentManager ;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -49,6 +51,13 @@ public class CategoryTabFragment extends TabFragment{
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		homeActivity=(HomeActivity) getActivity();
+		fragmentManager=homeActivity.getSupportFragmentManager();
+	}
 	public void onStart( ) {
 		Constants.GOT_AB_FROM_WRITE_TOPIC=3;
 
@@ -58,7 +67,6 @@ public class CategoryTabFragment extends TabFragment{
 			Constants.catgeory=false;
 		}
 		Fragment fragment = backEndStack.peek();
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -69,9 +77,9 @@ public class CategoryTabFragment extends TabFragment{
 	}
 	
 	public void StartFragmentSendMessageFormHome(String nickname,String username) {
-		FragmentSendMessageFormCategory newFragment = new FragmentSendMessageFormCategory (nickname,username);
+		FragmentSendMessageFormCategory newFragment = new FragmentSendMessageFormCategory ();
+		newFragment.setFragmentSendMessageFormCategory(nickname,username);
 		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -88,7 +96,6 @@ public class CategoryTabFragment extends TabFragment{
 		Constants.caname=catname;
 		newFragment.setUrl(url,catname,article);
 		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -106,7 +113,6 @@ public class CategoryTabFragment extends TabFragment{
 		FragmentArticleDetailsFromCategory newFragment = new FragmentArticleDetailsFromCategory ();
 		newFragment.setArticle(article,articledetails);
 		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -119,7 +125,6 @@ public class CategoryTabFragment extends TabFragment{
 	public void startFragmentMemberFromCategories() {
 		FragmentMemberFromCategories newFragment = new FragmentMemberFromCategories ();
 		newFragment.parent = this;
-		FragmentManager fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -135,17 +140,14 @@ public class CategoryTabFragment extends TabFragment{
 	@Override
 	public void onBackPressed() {
 		if (backEndStack.size()==1) {
-			((HomeActivity) getActivity()).close();
+			homeActivity.close();
 		}
 		else {
 			if (backEndStack.size()==1) {
-				((HomeActivity) getActivity()).close();
-				Log.d("1", "2");
+				homeActivity.close();
 			} else {
 				backEndStack.pop();
 				Fragment frg = backEndStack.peek();
-				Log.d("1", "4");
-				FragmentManager fragmentManager = getChildFragmentManager();
 				if(fragmentManager==null)
 					fragmentManager = homeActivity.getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager

@@ -88,12 +88,11 @@ public class FragmentImageSetting extends Fragment {
 	DisplayImageOptions defaultOptions;
 	FragmentProfileSetting lisenar;
 	AQuery aQuery;
-	public FragmentImageSetting(SingleMember singleMember,FragmentProfileSetting lisenar){
+	public void setFragmentImageSetting(SingleMember singleMember,FragmentProfileSetting lisenar){
 		this.singleMember=singleMember;
 		this.lisenar=lisenar;
 	}
 	UserCred usercred;
-
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -122,36 +121,28 @@ public class FragmentImageSetting extends Fragment {
 		b_take_pic.setTypeface(Utility.getTypeface2(getActivity()));
 		b_go_gallery.setTypeface(Utility.getTypeface2(getActivity()));
 		b_update.setTypeface(Utility.getTypeface2(getActivity()));
-
-		imageLoader.clearDiscCache();
-		imageLoader.clearMemoryCache();
-		
-		aQuery=new AQuery(getActivity());
-		aQuery.id(iv_profile_pic).image(singleMember.getAvatar());
-		//iv_profile_pic.setImageBitmap(Constants.getBitmapFromURL(singleMember.getAvatar());
-		
-//		imageLoader.displayImage(singleMember.getAvatar(),iv_profile_pic, defaultOptions, new ImageLoadingListener() {
-//			
-//			@Override
-//			public void onLoadingStarted(String imageUri, View view) {
-//				
-//			}
-//			
-//			@Override
-//			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-//				
-//			}
-//			
-//			@Override
-//			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//				iv_profile_pic.setImageBitmap(loadedImage);
-//			}
-//			
-//			@Override
-//			public void onLoadingCancelled(String imageUri, View view) {
-//				
-//			}
-//		});
+		imageLoader.displayImage(appInstance.getUserCred().getAvater(),iv_profile_pic, defaultOptions, new ImageLoadingListener() {
+			
+			@Override
+			public void onLoadingStarted(String imageUri, View view) {
+				
+			}
+			
+			@Override
+			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+				
+			}
+			
+			@Override
+			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+				iv_profile_pic.setImageBitmap(loadedImage);
+			}
+			
+			@Override
+			public void onLoadingCancelled(String imageUri, View view) {
+				
+			}
+		});
 		b_take_pic.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -239,7 +230,6 @@ public class FragmentImageSetting extends Fragment {
 				loginObj.put("pic_data",  base64Str);
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"settings/changemypicture/";
-				Log.e("req", url+"  "+loginData);
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;
@@ -257,7 +247,6 @@ public class FragmentImageSetting extends Fragment {
 				String status= jobj.getString("status");
 				String description=jobj.getString("description");
 				if(status.equals("success")){
-					
 					lisenar.bitmap=bitmap;
 					new AsyncTaskLogin().execute();
 				}
@@ -308,7 +297,6 @@ public class FragmentImageSetting extends Fragment {
 		}
 	}
 	public void setUsercredential(String result){
-
 		usercred=new UserCred();
 		try {
 			JSONObject  job=new JSONObject (result);
@@ -324,8 +312,7 @@ public class FragmentImageSetting extends Fragment {
 				parent.onBackPressed();
 			}
 			else{
-			
-					Toast.makeText(getActivity(),descrip, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(),descrip, Toast.LENGTH_SHORT).show();
 			}
 
 

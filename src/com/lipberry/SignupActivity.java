@@ -7,7 +7,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -683,7 +685,7 @@ public class SignupActivity extends Activity {
 	}
 
 	public void completesignup(String result){
-		Log.e("result",result);
+
 		try {
 			JSONObject response=new JSONObject(result);
 			String  status=response.getString("status");
@@ -693,24 +695,23 @@ public class SignupActivity extends Activity {
 //					Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_emailis_sent_toactiviate), 
 //							10000).show();
 //				}
-//				new AlertDialog.Builder(this)
-//			    .setTitle(getResources().getString(R.string.app_name))
-//			    .setMessage(getResources().getString(R.string.txt_signup_success3))
-//			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
-//			        public void onClick(DialogInterface dialog, int which) { 
-//			        	dialog.cancel();
-//			        	
-//			        }
-//			     }).show();
-				Toast.makeText(SignupActivity.this, getResources().getString(R.string.txt_signup_success3)
-						, Toast.LENGTH_LONG).show();
-				Intent intent=new Intent(SignupActivity.this, LoginActivity.class);
-				startActivity(intent);
-				finish();
+				new AlertDialog.Builder(this)
+			    .setTitle(getResources().getString(R.string.app_name))
+			    .setMessage(getResources().getString(R.string.txt_signup_success3))
+			    .setPositiveButton(getResources().getString(R.string.txt_cancelll), new DialogInterface.OnClickListener() {
+			        public void onClick(DialogInterface dialog, int which) { 
+			        	dialog.cancel();
+			        	Intent intent=new Intent(SignupActivity.this, Splash2Activity.class);
+						startActivity(intent);
+						finish();
+			        }
+			     }).show();
+				
+				
 				
 			}
 			else{
-				Toast.makeText(SignupActivity.this, msz, Toast.LENGTH_LONG).show();
+				Toast.makeText(SignupActivity.this, msz, 10000).show();
 			}
 
 		} catch (JSONException e) {

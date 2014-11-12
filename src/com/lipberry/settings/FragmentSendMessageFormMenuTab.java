@@ -54,7 +54,7 @@ public class FragmentSendMessageFormMenuTab extends Fragment {
 	EditText et_su;
 	String nickname, userid;
 
-	public FragmentSendMessageFormMenuTab(String nickname, String userid) {
+	public void setFragmentSendMessageFormMenuTab(String nickname, String userid) {
 		this.nickname = nickname;
 		this.userid = userid;
 	}

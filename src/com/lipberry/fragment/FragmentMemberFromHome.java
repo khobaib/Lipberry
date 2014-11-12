@@ -236,13 +236,13 @@ public class FragmentMemberFromHome extends Fragment {
 		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
-				startActivity(browserIntent);
-//				webview_member.setVisibility(View.VISIBLE);
-//				WebSettings webSettings = webview_member.getSettings();
-//				webSettings.setJavaScriptEnabled(true);
-//				webview_member.setWebViewClient(new CustomWebViewClient());
-//				webview_member.loadUrl(singleMember.getSiteurl());
+				if(singleMember.getSiteurl()!=null){
+					if(singleMember.getSiteurl().contains("http:")){
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
+						startActivity(browserIntent);
+					}
+					
+				}
 			}
 		});
 

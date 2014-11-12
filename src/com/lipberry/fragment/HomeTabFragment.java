@@ -27,20 +27,23 @@ public class HomeTabFragment extends TabFragment {
 	protected Stack<Fragment> backEndStack;
 	protected Stack<Integer> trackCallHome;
 	int callstatefromtab = 0;
-	private static HomeActivity homeActivity;
+	private  HomeActivity homeActivity;
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
+	HomeTabFragment homeTabFragment;
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
-		homeActivity=(HomeActivity)getActivity();
+		homeActivity=(HomeActivity) getActivity();
+		fragmentManager=homeActivity.getSupportFragmentManager();
+		homeTabFragment=this;
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initHomeTab();
-		homeActivity.mTabHost.AttachHomeFragment(this);
+		homeActivity.mTabHost.AttachHomeFragment(homeTabFragment);
 		// sBundle = savedInstanceState;
 	}
 	private void initHomeTab() {
@@ -50,7 +53,6 @@ public class HomeTabFragment extends TabFragment {
 		initialFragment.parent = this;
 		trackCallHome.push(0);
 		backEndStack.push(initialFragment);
-		fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
@@ -62,7 +64,6 @@ public class HomeTabFragment extends TabFragment {
 		initialFragment.parent = this;
 		trackCallHome.push(0);
 		backEndStack.push(initialFragment);
-		fragmentManager = getChildFragmentManager();
 		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
@@ -143,8 +144,6 @@ public class HomeTabFragment extends TabFragment {
 	}
 	private void assureFragManagerNotNull(){
 		if(fragmentManager==null)
-			fragmentManager = getChildFragmentManager();
-		if(fragmentManager==null)
 			fragmentManager = homeActivity.getSupportFragmentManager();
 	}
 	public void FragmentArticleDetailsFromInteraction(ArticleDetails articledetails, int from) {
@@ -173,7 +172,8 @@ public class HomeTabFragment extends TabFragment {
 		// ((HomeActivity) getActivity()).img_cat_icon.setVisibility(View.GONE);
 		homeActivity.img_cat_icon.setVisibility(View.GONE);
 
-		FragmentSendMessageFormHome newFragment = new FragmentSendMessageFormHome(nickname, username);
+		FragmentSendMessageFormHome newFragment = new FragmentSendMessageFormHome();
+		newFragment.setFragmentSendMessageFormHome(nickname, username);
 		newFragment.parent = this;
 		assureFragManagerNotNull();
 		// FragmentManager fragmentManager = getChildFragmentManager();
@@ -307,6 +307,7 @@ public class HomeTabFragment extends TabFragment {
 					// FragmentManager fragmentManager =
 					// getChildFragmentManager();
 					// FragmentTransaction
+					assureFragManagerNotNull();
 					fragmentTransaction = fragmentManager.beginTransaction();
 					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
 				} else {
@@ -334,7 +335,7 @@ public class HomeTabFragment extends TabFragment {
 		}
 	}
 
-	public static HomeTabFragment newInstance(HomeActivity hActivity) {
+	public  HomeTabFragment newInstance(HomeActivity hActivity) {
 		homeActivity = hActivity;
 		return new HomeTabFragment();
 	}

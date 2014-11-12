@@ -66,7 +66,7 @@ public class FragmentMessage extends Fragment{
 	int from;
 	@SuppressLint("NewApi")
 
-	public FragmentMessage(ThreadMessageList messagelist,String messageid,boolean read_flag,int from){
+	public void  SetFragmentMessage(ThreadMessageList messagelist,String messageid,boolean read_flag,int from){
 		this.messagelist=messagelist;
 		this.messageid=messageid;
 		this.read_flag=read_flag;

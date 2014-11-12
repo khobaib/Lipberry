@@ -243,8 +243,14 @@ public class FragmentMemberFromCategories extends Fragment {
 		btn_share.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
-				startActivity(browserIntent);
+				if(singleMember.getSiteurl()!=null){
+					if(singleMember.getSiteurl().contains("http:")){
+						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
+						startActivity(browserIntent);
+					}
+					
+				}
+				
 //				webview_member.setVisibility(View.VISIBLE);
 //				WebSettings webSettings = webview_member.getSettings();
 //				webSettings.setJavaScriptEnabled(true);

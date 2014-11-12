@@ -181,13 +181,12 @@ public class FragmentProfileSetting extends Fragment {
 				nickname=e_nickname.getText().toString();
 				password=et_new_pass.getText().toString();
 				brief=et_brief.getText().toString();
-				
 				siteurl=et_site_url.getText().toString();
 			//	Toast.makeText(getActivity(), selectedcountryposition+"  "+selectedcityposition,2000).show();
 				if((selectedcountryposition!=-1)&&(selectedcityposition==-1)){
 					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_select_city), Toast.LENGTH_SHORT).show();
 				}
-				else if((!nickname.equals(""))||(!password.equals(""))||(!brief.equals(""))||(!siteurl.equals("")))
+				else if((!password.equals(""))||(!brief.equals(""))||(!siteurl.equals("")))
 				{
 					
 						
@@ -207,7 +206,7 @@ public class FragmentProfileSetting extends Fragment {
 			}
 		});
 		
-		//imageLoader.displayImage(appInstance.getUserCred().get, imageView)
+		imageLoader.displayImage(appInstance.getUserCred().getAvater(), img_profile,defaultOptions);
 		t_city.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -265,18 +264,14 @@ public class FragmentProfileSetting extends Fragment {
 
 				}
 				if(!password.equals("")){
-					byte[] ba = brief.getBytes();
+					byte[] ba = password.getBytes();
 					String base64Str = Base64.encodeBytes(ba);
-					loginObj.put("password",password);
+					loginObj.put("password",base64Str);
 				}
 				if(!siteurl.equals("")){
 					loginObj.put("siteurl", siteurl);
 				}
-				if(!nickname.equals("")){
-					byte[] ba = nickname.getBytes();
-					String base64Str = Base64.encodeBytes(ba);
-					loginObj.put("nickname", base64Str);
-				}
+				
 				if(!brief.equals("")){
 					byte[] ba = brief.getBytes();
 					String base64Str = Base64.encodeBytes(ba);
