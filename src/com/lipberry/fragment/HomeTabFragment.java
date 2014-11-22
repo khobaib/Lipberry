@@ -36,8 +36,9 @@ public class HomeTabFragment extends TabFragment {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		homeActivity=(HomeActivity) getActivity();
-		fragmentManager=homeActivity.getSupportFragmentManager();
 		homeTabFragment=this;
+		fragmentManager=homeTabFragment.getChildFragmentManager();
+		
 	}
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,29 +55,10 @@ public class HomeTabFragment extends TabFragment {
 		trackCallHome.push(0);
 		backEndStack.push(initialFragment);
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = homeTabFragment.getChildFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 	}
-	public void resetHome() {
-		trackCallHome = new Stack<Integer>();
-		backEndStack = new Stack<Fragment>();
-		FragmentHomeHolder initialFragment = new FragmentHomeHolder();
-		initialFragment.parent = this;
-		trackCallHome.push(0);
-		backEndStack.push(initialFragment);
-		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
-		fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, initialFragment);
-		try {
-			fragmentTransaction.commit();
-		} catch (IllegalStateException ise) {
-			ise.printStackTrace();
-			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
-			fragmentTransaction.replace(R.id.tab3Content, initialFragment);
-			fragmentTransaction.commit();
-		}
-	}
+
 
 	@Override
 	public void onResume() {
@@ -85,8 +67,6 @@ public class HomeTabFragment extends TabFragment {
 
 	@Override
 	public void onPause() {
-		Constants.debugLog("msz", "as "+homeActivity);
-		Constants.debugLog("msz1", "as "+homeActivity.img_cat_icon);
 		homeActivity.img_cat_icon.setVisibility(View.GONE);
 
 		super.onPause();
@@ -144,7 +124,7 @@ public class HomeTabFragment extends TabFragment {
 	}
 	private void assureFragManagerNotNull(){
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = homeTabFragment.getChildFragmentManager();
 	}
 	public void FragmentArticleDetailsFromInteraction(ArticleDetails articledetails, int from) {
 		FragmentArticleDetailsFromInteraction newFragment = FragmentArticleDetailsFromInteraction.newInstance(
@@ -231,7 +211,7 @@ public class HomeTabFragment extends TabFragment {
 			fragmentTransaction.commit();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
-			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
+			fragmentTransaction = homeTabFragment.getChildFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
 			fragmentTransaction.commit();
 		}
@@ -294,12 +274,10 @@ public class HomeTabFragment extends TabFragment {
 	public void onBackPressed() {
 		if (backEndStack.size() == 1) {
 			// ((HomeActivity) getActivity()).close();
+			
 			homeActivity.close();
 		} else {
-			if (backEndStack.size() == 1) {
-				// ((HomeActivity) getActivity()).close();
-				homeActivity.close();
-			} else {
+			
 				int callstate = trackCallHome.pop();
 				backEndStack.pop();
 				if (callstate == 0) {
@@ -321,6 +299,7 @@ public class HomeTabFragment extends TabFragment {
 					if (callstate == 10) {
 						// ((HomeActivity)
 						// getActivity()).mTabHost.setCurrentTab(0);
+						
 						homeActivity.mTabHost.setCurrentTab(0);
 					} else {
 						// ((HomeActivity)
@@ -332,7 +311,6 @@ public class HomeTabFragment extends TabFragment {
 
 			}
 
-		}
 	}
 
 	public  HomeTabFragment newInstance(HomeActivity hActivity) {

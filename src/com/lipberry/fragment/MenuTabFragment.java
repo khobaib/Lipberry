@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class MenuTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private static HomeActivity homeActivity;
 	FragmentManager fragmentManager;
+	MenuTabFragment menutabFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentMenu initialFragment = new FragmentMenu();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		homeActivity=(HomeActivity)getActivity();
+		homeActivity.mTabHost.AttachMenuFragment(menutabFragment);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,12 +47,19 @@ public class MenuTabFragment extends TabFragment{
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
+	public void restasrtTab(){
+		backEndStack = new Stack<Fragment>();
+		backEndStack.clear();
+		startMenufragment();
+	}
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		homeActivity=(HomeActivity) getActivity();
-		fragmentManager=homeActivity.getSupportFragmentManager();
+		menutabFragment=this;
+		fragmentManager=menutabFragment.getChildFragmentManager();
+		
 	}
 
 	public void onStart( ) {
@@ -59,13 +68,16 @@ public class MenuTabFragment extends TabFragment{
 			backEndStack.clear();
 			startMenufragment();
 		}
+		
 		else{
 			Constants.IMAGEPAGECALLED=false;
 		}
 		Constants.GOT_AB_FROM_WRITE_TOPIC=5;
 		Fragment fragment = backEndStack.peek();
-		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+		if(fragmentManager==null){
+			fragmentManager = menutabFragment.getChildFragmentManager();;
+		}
+			
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
@@ -80,7 +92,7 @@ public class MenuTabFragment extends TabFragment{
 		newFragment.setFragmentSendMessageFormMenuTab(nickname,username);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -95,7 +107,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentContactUs newFragment = new FragmentContactUs();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();;
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -107,7 +119,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentFindamember newFragment = new FragmentFindamember();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();;
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -119,7 +131,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentMessageSetting newFragment = new FragmentMessageSetting();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -131,7 +143,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentMyProfile newFragment = new FragmentMyProfile();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -143,7 +155,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentSingleMember newFragment = new FragmentSingleMember( member_id);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager =menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -159,7 +171,7 @@ public class MenuTabFragment extends TabFragment{
 		newFragment.setFragmentImageSetting(singleMember,lisenar);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -173,7 +185,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentProfileSetting newFragment = new FragmentProfileSetting();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -187,7 +199,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentMenu newFragment = new FragmentMenu();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -200,7 +212,7 @@ public class MenuTabFragment extends TabFragment{
 		FragmentSetting newFragment = new FragmentSetting();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = menutabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -223,7 +235,7 @@ public class MenuTabFragment extends TabFragment{
 				backEndStack.pop();
 				Fragment frg = backEndStack.peek();
 				if(fragmentManager==null)
-					fragmentManager = homeActivity.getSupportFragmentManager();
+					fragmentManager =menutabFragment.getChildFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();

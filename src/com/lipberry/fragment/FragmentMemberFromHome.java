@@ -208,6 +208,18 @@ public class FragmentMemberFromHome extends Fragment {
 					Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+		if(singleMember.getSiteurl()!=null){
+			if(singleMember.getSiteurl().contains("http:")){
+				btn_share.setVisibility(View.VISIBLE);
+			}
+			else{
+				btn_share.setVisibility(View.GONE);
+			}
+			
+		}
+		else{
+			btn_share.setVisibility(View.GONE);
+		}
 	}
 	public void setUserInterface(){
 		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);

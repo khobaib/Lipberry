@@ -30,6 +30,7 @@ public class WriteTopicTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private static HomeActivity homeActivity;
 	FragmentManager fragmentManager;
+	WriteTopicTabFragment writeTopicTabFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +57,8 @@ public class WriteTopicTabFragment extends TabFragment{
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		homeActivity=(HomeActivity) getActivity();
-		fragmentManager=homeActivity.getSupportFragmentManager();
+		writeTopicTabFragment=this;
+		fragmentManager=writeTopicTabFragment.getChildFragmentManager();
 	}
 	public void onStart( ) {
 //		Log.e("Calling", "Calling");
@@ -75,7 +77,7 @@ public class WriteTopicTabFragment extends TabFragment{
 //		backEndStack.push(initialFragment);
 		Fragment fragment = backEndStack.peek();
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = writeTopicTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
@@ -87,7 +89,7 @@ public class WriteTopicTabFragment extends TabFragment{
 		FragmentWriteTopic newFragment = new FragmentWriteTopic ();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = writeTopicTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);

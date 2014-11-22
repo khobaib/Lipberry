@@ -56,7 +56,7 @@ public class FragmentFindamember extends Fragment {
 		super.onCreate(savedInstanceState);
 		memberListobject = new MemberListForSendMessage();
 		jsonParser = new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisc(false)
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
 				.defaultDisplayImageOptions(defaultOptions).build();

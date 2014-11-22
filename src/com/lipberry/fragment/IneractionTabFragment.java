@@ -28,6 +28,7 @@ public class IneractionTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private  HomeActivity homeActivity;
 	FragmentManager fragmentManager;
+	IneractionTabFragment int_tab_frag;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,14 +56,15 @@ public class IneractionTabFragment extends TabFragment{
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		homeActivity=(HomeActivity) getActivity();
-		fragmentManager=homeActivity.getSupportFragmentManager();
+		int_tab_frag=this;
+		fragmentManager=int_tab_frag.getChildFragmentManager();
 	}
 	public void onStart( ) {
 	//	Constants.GOTABFROMWRITETOPIC=2;
 
 		Fragment fragment = backEndStack.peek();
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager=int_tab_frag.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
@@ -74,7 +76,7 @@ public class IneractionTabFragment extends TabFragment{
 		FragmentInteraction newFragment = new FragmentInteraction() ;
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager=int_tab_frag.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);

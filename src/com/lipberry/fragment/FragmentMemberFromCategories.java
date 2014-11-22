@@ -132,7 +132,7 @@ public class FragmentMemberFromCategories extends Fragment {
 		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_article.setTypeface(Utility.getTypeface2(getActivity()));
-		
+
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
@@ -142,15 +142,15 @@ public class FragmentMemberFromCategories extends Fragment {
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
+
 		btn_follow_her.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				buttonfollowclicked();
 			}
 		});
-		
-		
+
+
 		return v;
 	}
 
@@ -212,6 +212,18 @@ public class FragmentMemberFromCategories extends Fragment {
 					Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
+		if(singleMember.getSiteurl()!=null){
+			if(singleMember.getSiteurl().contains("http:")){
+				btn_share.setVisibility(View.VISIBLE);
+			}
+			else{
+				btn_share.setVisibility(View.GONE);
+			}
+			
+		}
+		else{
+			btn_share.setVisibility(View.GONE);
+		}
 	}
 	public void setUserInterface(){
 		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
@@ -231,7 +243,7 @@ public class FragmentMemberFromCategories extends Fragment {
 		if(singleMember.getBrief()!=null){
 			txt_bio.setText(Html.fromHtml(singleMember.getBrief()));
 		}
-		
+
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
 		txt_bio.setMovementMethod(LinkMovementMethod.getInstance());
 		ShowHtmlText showtext=new ShowHtmlText(txt_bio, getActivity());
@@ -248,17 +260,17 @@ public class FragmentMemberFromCategories extends Fragment {
 						Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(singleMember.getSiteurl()));
 						startActivity(browserIntent);
 					}
-					
+
 				}
-				
-//				webview_member.setVisibility(View.VISIBLE);
-//				WebSettings webSettings = webview_member.getSettings();
-//				webSettings.setJavaScriptEnabled(true);
-//				webview_member.setWebViewClient(new Callback());
-//				webview_member.loadUrl(singleMember.getSiteurl());
+
+				//				webview_member.setVisibility(View.VISIBLE);
+				//				WebSettings webSettings = webview_member.getSettings();
+				//				webSettings.setJavaScriptEnabled(true);
+				//				webview_member.setWebViewClient(new Callback());
+				//				webview_member.loadUrl(singleMember.getSiteurl());
 			}
 		});
-		
+
 		if(!singleMember.getAlready_followin().equals("Yes")){
 			followstate=false;
 		}
@@ -273,20 +285,20 @@ public class FragmentMemberFromCategories extends Fragment {
 			btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
 			btn_follow_her.setText(getActivity().getResources().getString(R.string.txt_follow_her));
 		}
-		
+
 		btn_send.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if(followstate){
-						//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
-						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
-					}
-					else{
-						parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
-//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
-//								Toast.LENGTH_SHORT).show();
-					}
+					//parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getId());
+					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
+				}
+				else{
+					parent.StartFragmentSendMessageFormHome(singleMember.getNickname(),singleMember.getUsername());
+					//						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_cant_send_msz),
+					//								Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 
@@ -408,7 +420,7 @@ public class FragmentMemberFromCategories extends Fragment {
 	private class Callback extends WebViewClient{  //HERE IS THE MAIN CHANGE. 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			
+
 			return (false);
 		}
 	}
@@ -472,11 +484,11 @@ public class FragmentMemberFromCategories extends Fragment {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position,
 					long arg3) {
 				imageviewarticlepicclicked(position);
-			//	parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
+				//	parent.startFragmentArticleDetailsFromHome(articlelistinstance.getArticlelist().get(position));
 			}
 		});
 	}
-	
+
 	public void imageviewarticlepicclicked(int position){
 		if(Constants.isOnline(activity)){
 			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
@@ -487,7 +499,7 @@ public class FragmentMemberFromCategories extends Fragment {
 			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
+
 	}
 	private class AsyncTaskgetArticleDetails extends AsyncTask<Void, Void, ServerResponse> {
 		int position;
@@ -531,11 +543,11 @@ public class FragmentMemberFromCategories extends Fragment {
 			}
 		}
 	}
-	
+
 	public void GoArticlePage(int position,ArticleDetails articleDetails){
-	
+
 		parent.startFragmentArticleDetails(articlelistinstance.getArticlelist().get(position),articleDetails);
-			
+
 	}
-	
+
 }

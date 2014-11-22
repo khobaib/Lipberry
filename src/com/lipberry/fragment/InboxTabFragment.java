@@ -30,16 +30,14 @@ public class InboxTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private  HomeActivity homeActivity;
 	FragmentManager fragmentManager;
+	InboxTabFragment inboxTabFragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		backEndStack = new Stack<Fragment>();
 		FragmentInbox initialFragment = new FragmentInbox();
 		initialFragment.parent = this;
-		Log.e("tagR", "1");
 		backEndStack.push(initialFragment);
-		Log.e("tagR", "2");
-
 		homeActivity=(HomeActivity)getActivity();
 		Log.e("tagR", "3");
 
@@ -51,7 +49,8 @@ public class InboxTabFragment extends TabFragment{
 		Log.e("tagR", "4");
 
 		homeActivity=(HomeActivity) getActivity();
-		fragmentManager=homeActivity.getSupportFragmentManager();
+		inboxTabFragment=this;
+		fragmentManager=inboxTabFragment.getChildFragmentManager();
 		Log.e("tagR", "5");
 
 	}
@@ -82,7 +81,7 @@ public class InboxTabFragment extends TabFragment{
 		if(fragmentManager==null){
 			Log.e("tagR", "11");
 
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = inboxTabFragment.getChildFragmentManager();
 			Log.e("tagR", "12");
 
 		}
@@ -105,7 +104,7 @@ public class InboxTabFragment extends TabFragment{
 		FragmentMessageSettingFromInbo newFragment = new FragmentMessageSettingFromInbo();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = inboxTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -118,7 +117,7 @@ public class InboxTabFragment extends TabFragment{
 		newFragment.SetFragmentMessage(messagelist, messageid, read_flag,from);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = inboxTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -131,7 +130,7 @@ public class InboxTabFragment extends TabFragment{
 		FragmentSendMessage newFragment = new FragmentSendMessage();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager =inboxTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -144,7 +143,7 @@ public class InboxTabFragment extends TabFragment{
 		FragmentInbox newFragment = new FragmentInbox();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = inboxTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -156,7 +155,7 @@ public class InboxTabFragment extends TabFragment{
 		FragmentSentMessage newFragment = new FragmentSentMessage();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = inboxTabFragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -179,7 +178,7 @@ public class InboxTabFragment extends TabFragment{
 				backEndStack.pop();
 				Fragment frg = backEndStack.peek();
 				if(fragmentManager==null)
-					fragmentManager = homeActivity.getSupportFragmentManager();
+					fragmentManager = inboxTabFragment.getChildFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager
 						.beginTransaction();
 				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();

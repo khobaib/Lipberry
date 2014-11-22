@@ -313,6 +313,7 @@ public class FragmentWriteTopic extends Fragment {
 
 	private void startwritetopic() {
 		// String title,category_id,category_prefix,body,photo,video;
+	
 		title = txt_topic.getText().toString();
 		body = txt_text.getText().toString();
 		tags = txt_tag.getText().toString();
@@ -321,7 +322,7 @@ public class FragmentWriteTopic extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 
-		else if (!spinner_category.isSelected()) {
+		else if (spinner_category.getSelectedItemPosition()==0) {
 			Toast.makeText(activity, getActivity().getResources().getString(R.string.txt_please_select_category),
 					Toast.LENGTH_SHORT).show();
 		}

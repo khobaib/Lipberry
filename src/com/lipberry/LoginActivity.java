@@ -153,39 +153,39 @@ public class LoginActivity extends Activity {
 				
 			}
 			else{
-//				if  (!Constants.namecheck(username)) {
-//					 
-//	            	e_uname.setBackgroundResource(R.drawable.rounded_text_nofield);
-//
-//					if(username.length()<3){
-//						
-//						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
-//								Toast.LENGTH_SHORT).show();
-//					}
-//
-//					else if(username.length()>10){
-//						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_more),
-//								10000).show();
-//						
-//					}
-//					else{
-//						Toast.makeText(LoginActivity.this,getResources().getString(R.string.txt_uname_spec),
-//								10000).show();
-//					}
-//				}
-//				
-//				else if(password.trim().equals("")){
-//	            	e_pass.setBackgroundResource(R.drawable.rounded_txt_forgotpass);
-//
-//					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
-//							10000).show();
-//				}
-//				else{
+				if  (!Constants.namecheck(username)) {
+					 
+	            	e_uname.setBackgroundResource(R.drawable.rounded_text_nofield);
+
+					if(username.length()<3){
+						
+						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_lessthan),
+								Toast.LENGTH_SHORT).show();
+					}
+
+					else if(username.length()>10){
+						Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_uname_cant_more),
+								10000).show();
+						
+					}
+					else{
+						Toast.makeText(LoginActivity.this,getResources().getString(R.string.txt_uname_spec),
+								10000).show();
+					}
+				}
+				
+				else if(password.trim().equals("")){
+	            	e_pass.setBackgroundResource(R.drawable.rounded_txt_forgotpass);
+
+					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
+							10000).show();
+				}
+				else{
 					pd=ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.app_name_arabic),
 							getResources().getString(R.string.txt_signing_in), false);
 					new  AsyncTaskLogin().execute();
 					
-	//			}
+				}
 				
 			}
 		}
@@ -310,15 +310,20 @@ public class LoginActivity extends Activity {
 				return null;
 			}
 		}
+		//06-11 22:08:17.219: D/JsonParser(5138): sb = ï»¿ 	{"status":"success","message":"email sent successfully to activate your account"}
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
+			Log.e("result", result.getjObj().toString());
 			setUsercredential(result.getjObj().toString());
 		}
 	}
+	//06-08 22:52:41.306: E/result(30555): {"status":"failure","description":"خطأ في معلومات تسجيل الدخول. حاول مرة اخرى"}
+
+
 	public void setUsercredential(String result){
 
 		usercred=new UserCred();
@@ -338,7 +343,6 @@ public class LoginActivity extends Activity {
 				this.getParent().finish();
 			}
 			else{
-			//	String descrip=job.getString("description");
 				if(descrip.equals("Inactive email")){
 					 resenlinktomail();
 				}
@@ -372,35 +376,90 @@ public class LoginActivity extends Activity {
 	}
 	public void resenlinktomail() {
 
-//		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-//				LoginActivity.this);
-//		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
-//		alertDialogBuilder
-//		.setMessage(getResources().getString(R.string.txt_resend_aciviation))
-//		.setCancelable(false)
-//		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog,int id) {
-//				dialog.cancel();
-//				Intent intent=new  Intent(LoginActivity.this, ResendActiviationEmail.class);
-//				startActivity(intent);
-//				finish();
-//
-//				
-//
-//			}
-//		})
-//		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
-//			public void onClick(DialogInterface dialog,int id) {
-//				dialog.cancel();
-//			}
-//		});
-//		AlertDialog alertDialog = alertDialogBuilder.create();
-//		alertDialog.show();
-		Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_resend_aciviation), Toast.LENGTH_LONG).show();
-		Intent intent=new  Intent(LoginActivity.this, ResendActiviationEmail.class);
-		startActivity(intent);
-		finish();
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				LoginActivity.this);
+		alertDialogBuilder.setTitle(getResources().getString(R.string.app_name_arabic));
+		alertDialogBuilder
+		.setMessage(getResources().getString(R.string.txt_resend_aciviation))
+		.setCancelable(false)
+		.setPositiveButton(getResources().getString(R.string.txt_yes),new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+				ResendActivation();
+			}
+		})
+		.setNegativeButton(getResources().getString(R.string.txt_no),new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,int id) {
+				dialog.cancel();
+			}
+		});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
+	public void ResendActivation(){
+		 if(Constants.isOnline(LoginActivity.this)){
+			
+				pd=ProgressDialog.show(LoginActivity.this, getResources().getString(R.string.app_name_arabic),
+						getResources().getString(R.string.txt_loading), true);
+				new  AsyncTaskCallResend().execute();
+		}
 
+		else{
+			Toast.makeText(LoginActivity.this, getResources().getString(R.string.Toast_check_internet), 10000).show();
+				 
+		}
+	}
+	
+	private class AsyncTaskCallResend extends AsyncTask<Void, Void, ServerResponse> {
+		@Override
+		protected ServerResponse doInBackground(Void... params) {
+
+			try {
+				JSONObject loginObj = new JSONObject();
+				byte[] ba = username.getBytes();
+				String base64Str = Base64.encodeBytes(ba);
+				loginObj.put("username", base64Str);
+				ba=password.getBytes();
+				base64Str=Base64.encodeBytes(ba);
+				loginObj.put("password", base64Str);
+				String loginData = loginObj.toString();
+				String url = Constants.baseurl+"account/resendactivation";
+				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
+						loginData, null);
+				return response;
+			} catch (JSONException e) {                
+				e.printStackTrace();
+				return null;
+			}
+		}
+
+		@Override
+		protected void onPostExecute(ServerResponse result) {
+			Log.e("result", result.getjObj().toString());
+			if((pd.isShowing())&&(pd!=null)){
+				pd.dismiss();
+			}
+			try {
+				JSONObject  job=result.getjObj();
+				String descrip=job.getString("message");
+				String status=job.getString("status");
+				if(status.equals("success")){
+					
+					Toast.makeText(LoginActivity.this,getResources().getString(R.string.txt_mszsendto_email), Toast.LENGTH_SHORT).show();
+				}
+				else{
+			
+						Toast.makeText(LoginActivity.this,descrip, Toast.LENGTH_SHORT).show();
+
+				}
+
+
+			} catch (Exception e) {
+			}
+			super.onPostExecute(result);
+			
+			
+		}
 	}
 
 

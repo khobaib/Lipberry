@@ -99,7 +99,7 @@ public class FragmentImageSetting extends Fragment {
 		super.onCreate(savedInstanceState);
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
-		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisc(false)
+		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 		.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getActivity().getApplicationContext()).defaultDisplayImageOptions(

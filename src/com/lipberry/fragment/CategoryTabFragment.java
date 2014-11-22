@@ -31,6 +31,7 @@ public class CategoryTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
 	private static HomeActivity homeActivity;
 	FragmentManager fragmentManager ;
+	CategoryTabFragment cat_tabfragment;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,7 +57,8 @@ public class CategoryTabFragment extends TabFragment{
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		homeActivity=(HomeActivity) getActivity();
-		fragmentManager=homeActivity.getSupportFragmentManager();
+		cat_tabfragment=this;
+		fragmentManager=cat_tabfragment.getChildFragmentManager();
 	}
 	public void onStart( ) {
 		Constants.GOT_AB_FROM_WRITE_TOPIC=3;
@@ -68,26 +70,26 @@ public class CategoryTabFragment extends TabFragment{
 		}
 		Fragment fragment = backEndStack.peek();
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager=cat_tabfragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, fragment);
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
-	
+
 	public void StartFragmentSendMessageFormHome(String nickname,String username) {
 		FragmentSendMessageFormCategory newFragment = new FragmentSendMessageFormCategory ();
 		newFragment.setFragmentSendMessageFormCategory(nickname,username);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager=cat_tabfragment.getChildFragmentManager();	
 		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
-		fragmentTransaction.commitAllowingStateLoss();
+			.beginTransaction();
+			fragmentTransaction.replace(R.id.tab3Content, newFragment);
+			fragmentTransaction.addToBackStack(null);
+			backEndStack.push(newFragment);
+			fragmentTransaction.commitAllowingStateLoss();
 	}
 
 	public void startFragmentSubCategoriesList( String url,String catname,ArticleList article) {
@@ -97,15 +99,15 @@ public class CategoryTabFragment extends TabFragment{
 		newFragment.setUrl(url,catname,article);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager=cat_tabfragment.getChildFragmentManager();	
 		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		
+			.beginTransaction();
+			fragmentTransaction.replace(R.id.tab3Content, newFragment);
+			fragmentTransaction.addToBackStack(null);
+
 			backEndStack.push(newFragment);
-		
-		fragmentTransaction.commitAllowingStateLoss();
+
+			fragmentTransaction.commitAllowingStateLoss();
 	}
 
 
@@ -114,19 +116,19 @@ public class CategoryTabFragment extends TabFragment{
 		newFragment.setArticle(article,articledetails);
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager=cat_tabfragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
-		fragmentTransaction.commitAllowingStateLoss();
+			.beginTransaction();
+			fragmentTransaction.replace(R.id.tab3Content, newFragment);
+			fragmentTransaction.addToBackStack(null);
+			backEndStack.push(newFragment);
+			fragmentTransaction.commitAllowingStateLoss();
 	}
 	public void startFragmentMemberFromCategories() {
 		FragmentMemberFromCategories newFragment = new FragmentMemberFromCategories ();
 		newFragment.parent = this;
 		if(fragmentManager==null)
-			fragmentManager = homeActivity.getSupportFragmentManager();
+			fragmentManager = cat_tabfragment.getChildFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.tab3Content, newFragment);
@@ -149,10 +151,10 @@ public class CategoryTabFragment extends TabFragment{
 				backEndStack.pop();
 				Fragment frg = backEndStack.peek();
 				if(fragmentManager==null)
-					fragmentManager = homeActivity.getSupportFragmentManager();
+					fragmentManager=cat_tabfragment.getChildFragmentManager();		
 				FragmentTransaction fragmentTransaction = fragmentManager
-						.beginTransaction();
-				fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
+					.beginTransaction();
+					fragmentTransaction.replace(R.id.tab3Content, frg).commitAllowingStateLoss();
 			}
 
 		}

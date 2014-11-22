@@ -64,13 +64,13 @@ public class CustomAdapterMessage extends BaseAdapter {
 		this.list=list;
 		this.activity=activity;
 		appInstance = (LipberryApplication) activity.getApplication();
-		//		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		//		.cacheInMemory(false).cacheOnDisc(false).build();
-		//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-		//				activity.getApplicationContext()).defaultDisplayImageOptions(
-		//						defaultOptions).build();
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(true).cacheOnDisc(true).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				activity.getApplicationContext()).defaultDisplayImageOptions(
+						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		//		ImageLoader.getInstance().init(config);
+		ImageLoader.getInstance().init(config);
 
 	}
 

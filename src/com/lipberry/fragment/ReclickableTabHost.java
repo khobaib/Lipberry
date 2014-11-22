@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 public class ReclickableTabHost extends FragmentTabHost {
 	HomeTabFragment homeactivity;
+	MenuTabFragment menu_fragment;
     public ReclickableTabHost(Context context) {
         super(context);
        
@@ -17,6 +18,9 @@ public class ReclickableTabHost extends FragmentTabHost {
     public void AttachHomeFragment(HomeTabFragment homeactivity){
     	 this.homeactivity=homeactivity;
     }
+    public void AttachMenuFragment(MenuTabFragment menu_fragment){
+   	 this.menu_fragment=menu_fragment;
+   }
 
     public ReclickableTabHost(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -28,6 +32,11 @@ public class ReclickableTabHost extends FragmentTabHost {
             if(index==4){
             	if(homeactivity!=null){
             		homeactivity.restasrtTab();
+            	}
+            }
+            else if(index==5){
+            	if(menu_fragment!=null){
+            		menu_fragment.restasrtTab();
             	}
             }
         } else {

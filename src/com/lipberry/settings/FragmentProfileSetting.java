@@ -106,8 +106,8 @@ public class FragmentProfileSetting extends Fragment {
 		stateofcalloncreate=1;
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser=new JsonParser();
-		 defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
+		defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(true).cacheOnDisc(true).build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getActivity().getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
@@ -127,6 +127,7 @@ public class FragmentProfileSetting extends Fragment {
 					getString(R.string.Toast_check_internet), 10000).show();
 		}
 		stateofcalloncreate=1;
+	
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -153,10 +154,10 @@ public class FragmentProfileSetting extends Fragment {
 		et_email.setTypeface(Utility.getTypeface2(getActivity()));
 		et_site_url.setTypeface(Utility.getTypeface2(getActivity()));
 		et_brief.setTypeface(Utility.getTypeface2(getActivity()));
-		
+
 		btn_change_photo.setTypeface(Utility.getTypeface1(getActivity()));
 		bt_update_profile.setTypeface(Utility.getTypeface1(getActivity()));
-		
+
 		img_profile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -175,29 +176,30 @@ public class FragmentProfileSetting extends Fragment {
 		bt_update_profile.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				
+
 				// TODO Auto-generated method stub
 				//String  nickname,email,country_id,city_id,brief,password;
 				nickname=e_nickname.getText().toString();
 				password=et_new_pass.getText().toString();
 				brief=et_brief.getText().toString();
 				siteurl=et_site_url.getText().toString();
-			//	Toast.makeText(getActivity(), selectedcountryposition+"  "+selectedcityposition,2000).show();
+				Log.e("siteurl", " b "+siteurl);
+				//	Toast.makeText(getActivity(), selectedcountryposition+"  "+selectedcityposition,2000).show();
 				if((selectedcountryposition!=-1)&&(selectedcityposition==-1)){
 					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_select_city), Toast.LENGTH_SHORT).show();
 				}
-				else if((!password.equals(""))||(!brief.equals(""))||(!siteurl.equals("")))
+				else if(!password.equals("")||(brief!=null)||(siteurl!=null))
 				{
-					
-						
-							 country_id=countrylist.get(selectedcountryposition).getId();
-							 city_id=citylist.get(selectedcityposition).getId();
-							pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-									getActivity().getResources().getString(R.string.txt_please_wait), false);
-							new AsyncTasksetUpdateProfile().execute();
-						
-					
-					
+
+
+					country_id=countrylist.get(selectedcountryposition).getId();
+					city_id=citylist.get(selectedcityposition).getId();
+					pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+							getActivity().getResources().getString(R.string.txt_please_wait), false);
+					new AsyncTasksetUpdateProfile().execute();
+
+
+
 
 				}
 				else{
@@ -205,7 +207,7 @@ public class FragmentProfileSetting extends Fragment {
 				}
 			}
 		});
-		
+
 		imageLoader.displayImage(appInstance.getUserCred().getAvater(), img_profile,defaultOptions);
 		t_city.setOnClickListener(new OnClickListener() {
 
@@ -235,20 +237,20 @@ public class FragmentProfileSetting extends Fragment {
 				setcountry();
 			}
 			if (singleMember!=null){
-			//	Toast.makeText(getActivity(), "called", 1000).show();
+				//	Toast.makeText(getActivity(), "called", 1000).show();
 				setMemberObjectView();
-				
+
 			}
 			else{
-			//	Toast.makeText(getActivity(), " not called", 1000).show();
+				//	Toast.makeText(getActivity(), " not called", 1000).show();
 			}
-			
+
 		}
-		
+
 		return v;
 	}
 	//public void callparent
-	
+
 
 
 	private class AsyncTasksetUpdateProfile extends AsyncTask<Void, Void, ServerResponse> {
@@ -261,25 +263,24 @@ public class FragmentProfileSetting extends Fragment {
 				if((selectedcountryposition!=-1)&&(selectedcityposition!=-1)){
 					loginObj.put("country_id",countrylist.get(selectedcountryposition).getId());
 					loginObj.put("city_id",citylist.get(selectedcityposition).getId());
-
 				}
 				if(!password.equals("")){
 					byte[] ba = password.getBytes();
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("password",base64Str);
 				}
-				if(!siteurl.equals("")){
+				if(siteurl!=null){
 					loginObj.put("siteurl", siteurl);
 				}
-				
-				if(!brief.equals("")){
+
+				if(brief!=null){
 					byte[] ba = brief.getBytes();
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("brief", base64Str);
 				}
-//				if(Constants.isValidEmail(email)){
-//					loginObj.put("email", email);
-//				}
+				//				if(Constants.isValidEmail(email)){
+				//					loginObj.put("email", email);
+				//				}
 				String loginData = loginObj.toString();
 				String url =Constants.baseurl+"settings/profilesettings/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
@@ -319,7 +320,7 @@ public class FragmentProfileSetting extends Fragment {
 			ucred.setPassword(password);
 		}
 
-		
+
 		if(!brief.equals("")){
 			ucred.setbBrief(brief);
 		}
@@ -360,9 +361,9 @@ public class FragmentProfileSetting extends Fragment {
 				if(pd.isShowing()){
 					pd.dismiss();
 				}
-				
+
 			}
-			
+
 			try {
 				String city=result.getjObj().getString("city_list");
 				loadcitylist(city);
@@ -404,17 +405,17 @@ public class FragmentProfileSetting extends Fragment {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-			
+
 
 	}
 	private void setcity(){
-		
+
 
 		ArrayAdapter  adapter2 = new ArrayAdapter<String>(getActivity(),
 				android.R.layout.simple_spinner_dropdown_item, allcityname);
 		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
-//				adapter2, R.drawable.contact_spinner_row_nothing_selected_city,getActivity()));
+		//		s_city.setAdapter( new NothingSelectedSpinnerAdapter(
+		//				adapter2, R.drawable.contact_spinner_row_nothing_selected_city,getActivity()));
 		s_city.setAdapter(adapter2);
 		s_city.setOnItemSelectedListener(new OnItemSelectedListener(){
 
@@ -425,7 +426,7 @@ public class FragmentProfileSetting extends Fragment {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				
+
 			}
 		});
 		if(state==0){
@@ -438,9 +439,9 @@ public class FragmentProfileSetting extends Fragment {
 			}
 			selectedcityposition=inexforcity;
 			s_city.setSelection(selectedcityposition);
-			
+
 		}
-	
+
 	}
 
 	private class AsyncTaskGetCountry extends AsyncTask<Void, Void, ServerResponse> {
@@ -456,17 +457,17 @@ public class FragmentProfileSetting extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-				try {
-						
-						String country=result.getjObj().getString("country_list");
-						s_country.setVisibility(View.VISIBLE);
-						loadcountrylist(country);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				
-				new AsyncTaskGetSinleMember().execute();
+			try {
+
+				String country=result.getjObj().getString("country_list");
+				s_country.setVisibility(View.VISIBLE);
+				loadcountrylist(country);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			new AsyncTaskGetSinleMember().execute();
 		}
 	}
 
@@ -484,7 +485,7 @@ public class FragmentProfileSetting extends Fragment {
 				Country contr=new Country(id, name);
 				countrylist.add(contr);
 				allcountryname.add(name);
-				
+
 			}
 			setcountry();
 
@@ -492,7 +493,7 @@ public class FragmentProfileSetting extends Fragment {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
@@ -529,21 +530,21 @@ public class FragmentProfileSetting extends Fragment {
 		}
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		s_country.setAdapter(
-			
+
 				new NothingSelectedSpinnerAdapter(
 						adapter,
 						R.drawable.contact_spinner_row_nothing_selected_country,
-					getActivity()));
+						getActivity()));
 		s_country.setOnItemSelectedListener(new OnItemSelectedListener(){
 
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, 
 					long arg3){
-				
+
 				selectedcountryposition=position-1;
 				selectedcityposition=-1;
 				t_city.setVisibility(View.VISIBLE);
 				s_city.setVisibility(View.GONE);
-				
+
 			}
 
 			@Override
@@ -556,7 +557,7 @@ public class FragmentProfileSetting extends Fragment {
 		t_city.setVisibility(View.VISIBLE);
 		s_city.setVisibility(View.GONE);
 		new AsyncTaskGetCity().execute();
-		}
+	}
 
 	private class AsyncTaskGetSinleMember extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -584,7 +585,7 @@ public class FragmentProfileSetting extends Fragment {
 			if(status.equals("success")){
 				singleMember  =SingleMember.parseSingleMember(jobj);
 				setMemberObjectView();
-				
+
 			}
 			else{
 			}
@@ -595,38 +596,30 @@ public class FragmentProfileSetting extends Fragment {
 	public void setMemberObjectView(){
 		AQuery aQuery=new AQuery(getActivity());
 		aQuery.id(img_profile).image(singleMember.getAvatar());
+
 		
-//		imageLoader.clearDiscCache();
-//		imageLoader.clearMemoryCache();
-//		imageLoader.displayImage(singleMember.getAvatar(),img_profile, defaultOptions, new ImageLoadingListener() {
-//			
-//			@Override
-//			public void onLoadingStarted(String imageUri, View view) {
-//				
-//			}
-//			
-//			@Override
-//			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-//				
-//			}
-//			
-//			@Override
-//			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//				img_profile.setImageBitmap(loadedImage);
-//			}
-//			
-//			@Override
-//			public void onLoadingCancelled(String imageUri, View view) {
-//				
-//			}
-//		});
 		e_nickname.setText(singleMember.getNickname());
 		et_email.setText(singleMember.getEmail());
-		et_site_url.setText(singleMember.getSiteurl());
-		et_brief.setText(singleMember.getBrief());
+		if((singleMember.getSiteurl().equals(""))||(singleMember.getSiteurl()==null)){
+			et_site_url.setHint(getActivity().getResources().getString(R.string.txt_site_url));
+
+		}
+		else{
+			et_site_url.setText(singleMember.getSiteurl());
+		}
+		if((singleMember.getBrief().equals(""))||(singleMember.getBrief()==null)){
+			et_brief.setHint(getActivity().getResources().getString(R.string.txt_brief));
+
+		}
+		else{
+			et_brief.setText(singleMember.getBrief());
+
+		}
 		
+		
+
 	}
-	
-	
+
+
 }
 

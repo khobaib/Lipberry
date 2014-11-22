@@ -72,7 +72,7 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		this.list = list;
 		this.activity = activity;
 		jsonParser = new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(false).cacheOnDisc(false)
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 				.build();
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(activity.getApplicationContext())
 				.defaultDisplayImageOptions(defaultOptions).build();
