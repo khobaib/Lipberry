@@ -600,14 +600,22 @@ public class FragmentProfileSetting extends Fragment {
 		
 		e_nickname.setText(singleMember.getNickname());
 		et_email.setText(singleMember.getEmail());
-		if((singleMember.getSiteurl().equals(""))||(singleMember.getSiteurl()==null)){
+		if((singleMember.getSiteurl()==null)){
+			et_site_url.setHint(getActivity().getResources().getString(R.string.txt_site_url));
+
+		}
+		else if((singleMember.getSiteurl().equals(""))){
 			et_site_url.setHint(getActivity().getResources().getString(R.string.txt_site_url));
 
 		}
 		else{
 			et_site_url.setText(singleMember.getSiteurl());
 		}
-		if((singleMember.getBrief().equals(""))||(singleMember.getBrief()==null)){
+		if((singleMember.getBrief()==null)){
+			et_brief.setHint(getActivity().getResources().getString(R.string.txt_brief));
+
+		}
+		else if((singleMember.getBrief().equals(""))){
 			et_brief.setHint(getActivity().getResources().getString(R.string.txt_brief));
 
 		}

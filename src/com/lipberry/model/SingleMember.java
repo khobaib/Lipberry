@@ -173,6 +173,7 @@ public class SingleMember {
 	
 
 	public String getSiteurl(){
+		
 		return this.siteurl;
 	}
 

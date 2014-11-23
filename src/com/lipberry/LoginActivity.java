@@ -418,7 +418,7 @@ public class LoginActivity extends Activity {
 				JSONObject loginObj = new JSONObject();
 				byte[] ba = username.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
-				loginObj.put("username", base64Str);
+				loginObj.put("username", username);
 				ba=password.getBytes();
 				base64Str=Base64.encodeBytes(ba);
 				loginObj.put("password", base64Str);
