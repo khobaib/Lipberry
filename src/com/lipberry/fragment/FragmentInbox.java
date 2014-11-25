@@ -411,7 +411,7 @@ public class FragmentInbox extends Fragment{
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				String loginData = loginObj.toString();
-				String url=Constants.baseurl+"article/findarticlebyid/"+messagelist.getIndividualThreadlist().get(0).getArticle_id();
+				String url=messagelist.getIndividualThreadlist().get(0).getArticle_url();
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
 				return response;

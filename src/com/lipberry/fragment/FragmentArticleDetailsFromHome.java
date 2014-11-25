@@ -543,6 +543,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				webSettings.setJavaScriptEnabled(true);
 				web_view.setWebViewClient(new Callback());
 				web_view.loadUrl(articledetails.getVideo());
+				Log.e("articledetails", articledetails.getVideo());
 			}
 		});
 		txt_like.setOnClickListener(new OnClickListener() {

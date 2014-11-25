@@ -60,7 +60,7 @@ public class FragmentWriteTopic extends Fragment {
 	private final String TAG_T = "FragmentWriteTopic_Touhid";
 
 	// btn_add_more_photo
-	EditText txt_topic, txt_text, txt_tag;
+	EditText txt_topic, txt_text, txt_tag,txt_vedio;
 	Button btn_select_photo, btn_go;
 	WriteTopicTabFragment parent;
 	int pos = 1;
@@ -80,7 +80,7 @@ public class FragmentWriteTopic extends Fragment {
 	ArrayList<Categories> categorylist;
 	ImageScale bitmapimage;
 	GridView grid_image;
-	String title, category_id, category_prefix, body, photo, tags;
+	String title, category_id, category_prefix, body, photo, tags,string_txt_vedio;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -131,6 +131,7 @@ public class FragmentWriteTopic extends Fragment {
 		txt_text = (EditText) v.findViewById(R.id.txt_text);
 		txt_tag = (EditText) v.findViewById(R.id.txt_tag);
 		btn_go = (Button) v.findViewById(R.id.btn_go);
+		txt_vedio=(EditText) v.findViewById(R.id.txt_vedio);
 		txt_topic.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_tag.setTypeface(Utility.getTypeface2(getActivity()));
@@ -317,6 +318,7 @@ public class FragmentWriteTopic extends Fragment {
 		title = txt_topic.getText().toString();
 		body = txt_text.getText().toString();
 		tags = txt_tag.getText().toString();
+		string_txt_vedio=txt_vedio.getText().toString();
 		if (title.trim().equals("")) {
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_please_enter_title),
 					Toast.LENGTH_SHORT).show();
@@ -381,7 +383,11 @@ public class FragmentWriteTopic extends Fragment {
 					articleObj.put("photo", base64Str);
 					
 				}
-				articleObj.put("video", "");// FIXME !!: video was here!
+				articleObj.put("video", "");
+				if(string_txt_vedio!=null){
+					articleObj.put("video", string_txt_vedio);
+				}
+				// FIXME !!: video was here!
 				articleObj.put("tags", getTagArray(tags));// FIXME !!
 				String loginData = articleObj.toString();
 				Log.e("request", loginData);

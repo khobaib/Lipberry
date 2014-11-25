@@ -85,6 +85,7 @@
     <string name="txt_article_body">"نص المشاركة"</string>
     <string name="txt_select_photo">"اختيار صورة "</string>
     <string name="txt_video_url">"رابط الفيديو"</string>
+    <string name="txt_enter_tag">"دخول الوسم"</string>
     <string name="txt_enter">"ادخال"</string>
     <string name="app_name_arabic">"ليب بيري"</string>
     <string name="txt_signing_in">"تسجيل الدخول"</string>

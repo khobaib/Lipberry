@@ -174,10 +174,10 @@ public class LoginActivity extends Activity {
 					}
 				}
 				
-				else if(password.trim().equals("")){
+				else if(password.trim().length()<6){
 	            	e_pass.setBackgroundResource(R.drawable.rounded_txt_forgotpass);
 
-					Toast.makeText(LoginActivity.this, getResources().getString(R.string.txt_please_enter_password),
+					Toast.makeText(LoginActivity.this, getResources().getString(R.string.et_signup_password),
 							10000).show();
 				}
 				else{

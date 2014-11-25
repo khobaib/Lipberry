@@ -42,6 +42,7 @@ public class FoundMemberListAdapter extends ArrayAdapter<MemberForSendMessage> {
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				context.getApplicationContext()).defaultDisplayImageOptions(
 						defaultOptions).build();
+		imgLoader = ImageLoader.getInstance();
 		ImageLoader.getInstance().init(config);
 	}
 
