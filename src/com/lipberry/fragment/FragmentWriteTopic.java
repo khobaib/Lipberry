@@ -80,7 +80,7 @@ public class FragmentWriteTopic extends Fragment {
 	ArrayList<Categories> categorylist;
 	ImageScale bitmapimage;
 	GridView grid_image;
-	String title, category_id, category_prefix, body, photo, tags,string_txt_vedio;
+	String title, category_id, category_prefix, body, photo, string_txt_vedio;//tags,
 
 	@SuppressLint("NewApi")
 	@Override
@@ -317,7 +317,7 @@ public class FragmentWriteTopic extends Fragment {
 	
 		title = txt_topic.getText().toString();
 		body = txt_text.getText().toString();
-		tags = txt_tag.getText().toString();
+		//tags = txt_tag.getText().toString();
 		string_txt_vedio=txt_vedio.getText().toString();
 		if (title.trim().equals("")) {
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_please_enter_title),
@@ -329,7 +329,7 @@ public class FragmentWriteTopic extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 
-		else if ((!body.equals("")) || (tags.equals("")) || (bitmap != null)) {
+		else if ((!body.equals("")) || (bitmap != null)) {
 
 			if (Constants.isOnline(getActivity())) {
 				pd = new ProgressDialog(getActivity());
@@ -388,7 +388,7 @@ public class FragmentWriteTopic extends Fragment {
 					articleObj.put("video", string_txt_vedio);
 				}
 				// FIXME !!: video was here!
-				articleObj.put("tags", getTagArray(tags));// FIXME !!
+				articleObj.put("tags", "");// FIXME !!
 				String loginData = articleObj.toString();
 				Log.e("request", loginData);
 				String url = Constants.baseurl + "article/addarticle/";
@@ -679,8 +679,8 @@ public class FragmentWriteTopic extends Fragment {
 					txt_topic.setHint(R.string.txt_title);
 					txt_text.setText("");
 					txt_text.setHint(R.string.txt_article_body);
-					txt_tag.setText("");
-					txt_tag.setHint(R.string.txt_video_url);
+					txt_vedio.setText("");
+					txt_vedio.setHint(R.string.txt_video_url);
 					String newFolder = "/Lipberryfinal1";
 					String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 					String drectory = extStorageDirectory + newFolder;
