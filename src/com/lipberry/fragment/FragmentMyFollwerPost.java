@@ -69,7 +69,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	JsonParser jsonParser;
 	int startindex=0;
 	int endindex=9;
-	Activity activity;
+	HomeActivity homeactivity;
 	PullToRefreshListView list_view_latest_post2;
 	ListView listviewforarticle;
 	ArrayList<Article>articlaList;
@@ -84,16 +84,21 @@ public class FragmentMyFollwerPost extends Fragment {
 		jsonParser=new JsonParser();
 		articlaList=new ArrayList<Article>();
 		limemberlist=new ArrayList<LikeMember>();
-		activity=getActivity();
 		memberListobject=new MemberList();
 		oncreatecallsate1=true;
+	}
+	@Override
+	public void onAttach(Activity activity) {
+		// TODO Auto-generated method stub
+		super.onAttach(activity);
+		homeactivity=(HomeActivity) activity;
 	}
 	public static  void setParent(HomeTabFragment parent2){
 		parent=parent;
 	}
 	@Override
 	public void onResume() {
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		homeactivity.backbuttonoftab.setVisibility(View.GONE);
 		super.onResume();
 	}
 
@@ -109,19 +114,19 @@ public class FragmentMyFollwerPost extends Fragment {
 		if(oncreatecallsate1){
 			startindex=0;
 			 endindex=9;
-			 if(Constants.isOnline(activity)){
-					pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-							getActivity().getResources().getString(R.string.txt_please_wait), false);
+			 if(Constants.isOnline(homeactivity)){
+					pd=ProgressDialog.show(homeactivity,homeactivity.getResources().getString(R.string.app_name_arabic),
+							homeactivity.getResources().getString(R.string.txt_please_wait), false);
 					new AsyncTaskLoadPostFrommyFollowing().execute();
 				}
 				else{
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.makeText(homeactivity, homeactivity.getResources().getString(R.string.Toast_check_internet),
 							Toast.LENGTH_SHORT).show();
 				}
 
 		}
 		oncreatecallsate1=false;
-		appInstance = (LipberryApplication) getActivity().getApplication();
+		appInstance = (LipberryApplication)homeactivity.getApplication();
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_myfollowerpost,
 				container, false);
 		list_view_latest_post2=(PullToRefreshListView) v.findViewById(R.id.list_view_latest_post);
@@ -130,17 +135,17 @@ public class FragmentMyFollwerPost extends Fragment {
 		list_view_latest_post2.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				if(Constants.isOnline(getActivity())){
+				if(Constants.isOnline(homeactivity)){
 					new AsyncTaskRefreashPostFrommyFollowing().execute();
 				}
 				else{
 					getfromdb();
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+					Toast.makeText(homeactivity, homeactivity.getResources().getString(R.string.Toast_check_internet),
 							Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
-		if(Constants.isOnline(activity)){
+		if(Constants.isOnline(homeactivity)){
 			if(articlaList.size()>0){
 				loadlistview(true);
 			}
@@ -154,37 +159,11 @@ public class FragmentMyFollwerPost extends Fragment {
 		
 		else{
 			getfromdb();
-			Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
+			Toast.makeText(homeactivity,homeactivity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
-//
-//		if(Constants.isOnline(getActivity())){
-////			pd=ProgressDialog.show(getActivity(), "Lipberry",
-////					"Retreving more Post", true);
-//			new AsyncTaskRefreashPostFrommyFollowing().execute();
-//		}
-//		else{
-//			getfromdb();
-//			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-//					Toast.LENGTH_SHORT).show();
-//		}
-//
-//		
-//		
-		
-//		
-//		if(Constants.isOnline(activity)){
-////
-////			pd=ProgressDialog.show(activity, "Lipberry",
-////					"Retreving Post", true);
-//			new AsyncTaskLoadPostFrommyFollowing().execute();
-//		}
-//		else{
-//			getfromdb();
-//			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
-//					Toast.LENGTH_SHORT).show();
-//		}
+
+
 
 		return v;
 	}
@@ -200,7 +179,6 @@ public class FragmentMyFollwerPost extends Fragment {
 				String url =Constants.baseurl+"home/myfollowerposts/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
-				//getActivity().getl
 				return response;
 			} catch (JSONException e) {                
 				e.printStackTrace();
@@ -241,10 +219,7 @@ public class FragmentMyFollwerPost extends Fragment {
 				pd.dismiss();
 			}
 			
-			Log.i("res", result.getjObj().toString());
-			
-//			Toast.makeText(getActivity(), " "+startindex+"  "+endindex, 4000).show();
-			refreasharticlelistfrommyfollowing(result.getjObj().toString()); 
+		refreasharticlelistfrommyfollowing(result.getjObj().toString()); 
 		}
 	}
 	public void refreasharticlelistfrommyfollowing(String  a){
@@ -263,7 +238,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			else{
 //				String message=result.getString("description");
 //				if(message.equals("There is no followers")){
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+					Toast.makeText(homeactivity, homeactivity.getResources().getString(R.string.txt_there_is_no_follower),
 							Toast.LENGTH_SHORT).show();
 //				}
 //				else{
@@ -292,11 +267,17 @@ public class FragmentMyFollwerPost extends Fragment {
 			}
 			else{
 				//06-08 21:44:44.739: D/JsonParser(21070): sb = {"status":"failure","description":"There is no followers","memberstofollow":[{"member_id":"9028","member_nickname":"\u0645\u0631\u064a\u0645 \u0627\u0644\u0639\u064a\u062f","member_username":"mariam","member_bio":"\u0627\u062e\u0635\u0627\u0626\u064a\u0629 \u062a\u063a\u0630\u064a\u0629  \u062d\u0627\u0635\u0644\u0629 \u0639\u0644\u0649 \u0634\u0647\u0627\u062f\u0629 \u0627\u0644\u0645\u0627\u062c\u0633\u062a\u064a\u0631 .. \u062a\u0633\u0639\u062f\u0646\u064a \u0642\u0631\u0627\u0626\u062a\u0643\u0645 \u0644\u0643\u062a\u0627\u0628\u0627\u062a\u064a \u0627\u0644\u062a\u064a \u0627\u0633\u0639\u0649 \u0641\u064a\u0647\u0627 \u0644\u0627\u0641\u0627\u062f\u062a\u0643\u0645 \r\n\u0627\u0644\u062a\u063a\u0630\u064a\u0629 \u0637\u0631\u064a\u0642 \u0627\u0644\u062c\u0645\u0627\u0644 .. \u062a\u0627\u0628\u0639\u0648\u0646\u064a \u0628\u0627\u0644\u0636\u063a\u0637 \u0639\u0644\u0649 \u0632\u0631 \u0627\u0644\u0645\u062a\u0627\u0628\u0639\u0647 :) \u062d\u064a\u0627\u0643\u0645","member_photo":"http:\/\/www.lipberry.com\/uploaded_content\/member\/member_9028.jpg","member_url":"http:\/\/www.lipberry.com\/user\/mariam\/"},{"member_id":"9575","member_nickname":"manalll14","member_username":"manalll14","member_bio":"\u0645\u0646\u0627\u0644....\u0627\u062d\u0628 \u0643\u0644 \u0634\u064a \u064a\u062e\u0635 \u0627\u0644\u062c\u0645\u0627\u0644 \u0648\u0627\u0644\u0645\u0643\u064a\u0627\u062c \u0648\u0627\u062d\u0628 \u0627\u0641\u064a\u062f \u063a\u064a\u0631\u064a \u0628\u062a\u062c\u0627\u0631\u0628\u064a","member_photo":"http:\/\/www.lipberry.com\/uploaded_content\/member\/member_9575.jpg","member_url":"http:\/\/www.lipberry.com\/user\/manalll14\/"},{"member_id":"9625","member_nickname":"\u0645\u0631\u0648\u0647","member_username":"marwa","member_bio":"\u0645\u062f\u0648\u0646\u0629  \u0645\u0647\u062a\u0645\u0629 \u0628\u0627\u0644\u0645\u0643\u064a\u0627\u062c \u0648 \u0627\u0644\u0627\u0632\u064a\u0627\u0621 \u0648 \u0627\u0646\u0634\u0631 \u0627\u0644\u0644\u0627\u0634\u064a\u0627\u0621 \u0627\u0644\u0644\u064a \u062a\u0639\u062c\u0628\u0646\u064a :) .. \u062a\u0627\u0628\u0639\u064a \u0635\u0641\u062d\u062a\u064a \u0639\u0634\u0627\u0646 \u064a\u0648\u0635\u0644\u0643 \u062c\u062f\u064a\u062f\u064a \r\n\u062d\u0627\u0644\u064a\u0627 \u0627\u0646\u0634\u0631 \u0627\u0632\u064a\u0627\u0621 2014 \u0644\u0644\u0645\u0635\u0645\u0645\u064a\u0646","member_photo":"http:\/\/www.lipberry.com\/uploaded_content\/member\/member_9625.jpg","member_url":"http:\/\/www.lipberry.com\/user\/marwa\/"}]}
-
+				if(result.has("description")){
+					Toast.makeText(homeactivity,result.getString("description"),
+							Toast.LENGTH_SHORT).show();
+				}
+				else{
+					Toast.makeText(homeactivity,homeactivity.getResources().getString(R.string.txt_there_is_no_follower),
+							Toast.LENGTH_SHORT).show();
+				}
 //				String message=result.getString("description");
 //				if(message.equals("There is no followers")){
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
-							Toast.LENGTH_SHORT).show();
+				
 //				}
 //				else{
 //					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
@@ -320,12 +301,12 @@ public class FragmentMyFollwerPost extends Fragment {
 		}
 	}
 	public void setlistformember(ArrayList<Member>memberList){
-		FragmentActivity  activity=getActivity();
-		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,getActivity(),parent);
+		FragmentActivity  activity=homeactivity;
+		ListviewAdapterMember ladapter=new ListviewAdapterMember(activity,memberList,homeactivity,parent);
 		listviewforarticle.setAdapter(ladapter);
 	}
 	public void  loadlistview(boolean from){
-		ladapter=new ListviewAdapterimageloadingforArticle(activity, 
+		ladapter=new ListviewAdapterimageloadingforArticle(homeactivity, 
 				articlaList,parent);
 		listviewforarticle.setAdapter(ladapter);
 		if(from){
@@ -339,7 +320,7 @@ public class FragmentMyFollwerPost extends Fragment {
 				artarticlelist.get(i).getLikedmemberlist().get(j).setForeign_key_article_id(artid);
 			}
 		}
-		LipberryDatabase dbInstance = new LipberryDatabase(activity);
+		LipberryDatabase dbInstance = new LipberryDatabase(homeactivity);
 		dbInstance.open();
 		for(int i=0;i<artarticlelist.size();i++){
 			dbInstance.insertOrUpdateArticlefollowing(artarticlelist.get(i));
@@ -348,7 +329,7 @@ public class FragmentMyFollwerPost extends Fragment {
 		dbInstance.close();
 	}
 	public void getfromdb(){
-		LipberryDatabase dbInstance = new LipberryDatabase(activity);
+		LipberryDatabase dbInstance = new LipberryDatabase(homeactivity);
 		dbInstance.open();
 		articlaList= (ArrayList<Article>) dbInstance.retrieveArticleListfollowing();
 		dbInstance.close();
@@ -356,7 +337,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			loadlistview(false);
 		}
 		else{
-			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_article_found),
+			Toast.makeText(homeactivity, homeactivity.getResources().getString(R.string.Toast_article_found),
 					Toast.LENGTH_SHORT).show();
 		}
 	}

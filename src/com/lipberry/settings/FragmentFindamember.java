@@ -153,6 +153,7 @@ public class FragmentFindamember extends Fragment {
 				String base64Str = Base64.encodeBytes(ba);
 				loginObj.put("searchtext", base64Str);
 				String loginData = loginObj.toString();
+				Log.e("searchtext", loginData);
 				String url = Constants.baseurl + "account/searchMember/";// memberlist/";
 				ServerResponse response = jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
