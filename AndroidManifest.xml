@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lipberry"
-    android:versionCode="53"
+    android:versionCode="60"
     android:versionName="5." >
 
     <uses-sdk

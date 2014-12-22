@@ -144,11 +144,6 @@ public class FragmentFindamember extends Fragment {
 
 			try {
 				JSONObject loginObj = new JSONObject();
-				// loginObj.put("session_id",
-				// appInstance.getUserCred().getSession_id());
-				// loginObj.put("startIndex",""+0);
-				// loginObj.put("endIndex",""+1500);
-				// loginObj.put("username", username);
 				byte[] ba = username.getBytes();
 				String base64Str = Base64.encodeBytes(ba);
 				loginObj.put("searchtext", base64Str);

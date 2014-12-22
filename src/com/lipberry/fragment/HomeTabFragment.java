@@ -35,7 +35,7 @@ public class HomeTabFragment extends TabFragment {
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
-		homeActivity=(HomeActivity) getActivity();
+		homeActivity=(HomeActivity) activity;
 		homeTabFragment=this;
 		fragmentManager=homeTabFragment.getChildFragmentManager();
 		
@@ -44,7 +44,20 @@ public class HomeTabFragment extends TabFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		initHomeTab();
-		homeActivity.mTabHost.AttachHomeFragment(homeTabFragment);
+		Log.e("homeActivity","1 "+ homeActivity);
+		Log.e("homeTabFragment","2 "+ homeTabFragment);
+		Log.e("homeActivity.mTabHost","3 "+ homeActivity.mTabHost);
+		if(homeActivity.mTabHost==null){
+			Log.e("mTabHost","4 ");
+			homeActivity.mTabHost= (ReclickableTabHost) homeActivity.findViewById(android.R.id.tabhost);
+			Log.e("mTabHost","5 ");
+
+		}
+		if(homeActivity!=null){
+			if(homeTabFragment!=null){
+				homeActivity.mTabHost.AttachHomeFragment(homeTabFragment);
+			}
+		}
 		// sBundle = savedInstanceState;
 	}
 	private void initHomeTab() {

@@ -105,8 +105,8 @@
     <string name="txt_enter_email"> "الرجاء ادخال بريد إلكتروني صحيح"</string>
     <string name="txt_enter_password"> "الرجاء ادخال كلمة السر"</string>
     <string name="txt_enter_confirm"> "الرجاء تأكيد كلمة السر"</string>
-    <string name="txt_select_city"> "الرجاء اختيار المدينة"</string>
-    <string name="txt_select_country"> "الرجاء اختيار المدينة"</string>
+    <string name="txt_select_city">"الرجاء اختيار المدينة"</string>
+    <string name="txt_select_country"> "الرجاء اختيار البلد"</string>
     <string name="txt_select_know_us"> "الرجاء الاختيار كيف عرفتي عن ليب بيري"</string>
     <string name="txt_match_pass"> "كلمة السر و الاعادة غير متطابقتان "</string>
     <string name="txt_not_available"> "غير متوفر"</string>

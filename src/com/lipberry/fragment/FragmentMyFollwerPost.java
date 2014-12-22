@@ -191,6 +191,7 @@ public class FragmentMyFollwerPost extends Fragment {
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
+			Log.e("Post", result.getjObj().toString());
 			loadarticlelistfrommyfollowing(result.getjObj().toString());
 		}
 	}
@@ -203,6 +204,7 @@ public class FragmentMyFollwerPost extends Fragment {
 				loginObj.put("startIndex", ""+startindex);
 				loginObj.put("endIndex", ""+endindex);
 				String loginData = loginObj.toString();
+				Log.e("loginObj", loginObj.toString());
 				String url =Constants.baseurl+"home/myfollowerposts/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
@@ -218,7 +220,8 @@ public class FragmentMyFollwerPost extends Fragment {
 			if((pd.isShowing())&&(pd!=null)){
 				pd.dismiss();
 			}
-			
+			Log.e("refresh", result.getjObj().toString());
+
 		refreasharticlelistfrommyfollowing(result.getjObj().toString()); 
 		}
 	}
@@ -240,6 +243,12 @@ public class FragmentMyFollwerPost extends Fragment {
 //				if(message.equals("There is no followers")){
 					Toast.makeText(homeactivity, homeactivity.getResources().getString(R.string.txt_there_is_no_follower),
 							Toast.LENGTH_SHORT).show();
+					if(result.has("memberstofollow")){
+						loadmemberlist( a);
+
+					}
+					list_view_latest_post2.onRefreshComplete();
+					
 //				}
 //				else{
 //					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
@@ -283,7 +292,10 @@ public class FragmentMyFollwerPost extends Fragment {
 //					Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
 //	
 //				}
-				loadmemberlist( a);
+				if(result.has("memberstofollow")){
+					loadmemberlist( a);
+
+				}
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();

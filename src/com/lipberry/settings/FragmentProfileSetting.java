@@ -278,6 +278,11 @@ public class FragmentProfileSetting extends Fragment {
 					String base64Str = Base64.encodeBytes(ba);
 					loginObj.put("brief", base64Str);
 				}
+				if(!nickname.equals("")){
+					byte[] ba = nickname.getBytes();
+					String base64Str = Base64.encodeBytes(ba);
+					loginObj.put("nickname", base64Str);
+				}
 				//				if(Constants.isValidEmail(email)){
 				//					loginObj.put("email", email);
 				//				}

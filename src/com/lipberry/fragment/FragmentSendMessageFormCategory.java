@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -94,6 +96,9 @@ public class FragmentSendMessageFormCategory extends Fragment{
 			public void onClick(View arg0) {
 				replymessage=et_msg_body.getText().toString();
 				subject=et_su.getText().toString();
+				InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+					      Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(et_msg_body.getWindowToken(), 0);
 				if(Constants.isOnline(getActivity())){
 					if(replymessage.equalsIgnoreCase("")){
 						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_enter_msz),

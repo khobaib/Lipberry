@@ -156,6 +156,7 @@ public class HomeActivity extends FragmentActivity {
 		if(k==4){
 			newgetGCMDeviceID();
 		}
+		
 	}
 	
 	
