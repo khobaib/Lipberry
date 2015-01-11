@@ -3,17 +3,12 @@ package com.lipberry.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lipberry.model.Article;
-import com.lipberry.model.InboxMessage;
-import com.lipberry.model.LikeMember;
-import com.lipberry.model.Member;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.Toast;
+
+import com.lipberry.model.InboxMessage;
 public class SentMessageDbManager {
 	private static final String TAG = ArticleDbManager.class.getSimpleName();
 	private static String TABLE_EDUCATION_LIST = "sent_message";
@@ -124,6 +119,7 @@ public class SentMessageDbManager {
 				c.moveToNext();
 			}
 		}
+		c.close();
 		return inboxlist;
 	}
 	public static long update(SQLiteDatabase db, InboxMessage inmessage) throws SQLException {
@@ -155,6 +151,7 @@ public class SentMessageDbManager {
 		if ((c != null) && (c.getCount() > 0)) {
 			itemExist = true;
 		}
+		c.close();
 		return itemExist;
 	}
 	public static void insertOrupdate(SQLiteDatabase db, InboxMessage inmessage){

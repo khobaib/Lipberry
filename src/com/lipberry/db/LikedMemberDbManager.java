@@ -3,15 +3,13 @@ package com.lipberry.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lipberry.model.Article;
-import com.lipberry.model.LikeMember;
-import com.lipberry.model.Member;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.lipberry.model.LikeMember;
 public class LikedMemberDbManager {
 	private static final String TAG = ArticleDbManager.class.getSimpleName();
 	private static String TABLE_EDUCATION_LIST = "liked_member_list_table2";
@@ -49,6 +47,7 @@ public class LikedMemberDbManager {
 				c.moveToNext();
 			}
 		}
+		c.close();
 		return likeMemberslist;
 	}
 	public static long update(SQLiteDatabase db, LikeMember likeMember) throws SQLException {
@@ -69,6 +68,7 @@ public class LikedMemberDbManager {
 		if ((c != null) && (c.getCount() > 0)) {
 			itemExist = true;
 		}
+		c.close();
 		return itemExist;
 	}
 
