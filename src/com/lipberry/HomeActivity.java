@@ -4,80 +4,63 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.android.gcm.GCMRegistrar;
-import com.lipberry.fragment.FragmentInbox;
-import com.lipberry.fragment.FragmentWriteTopic;
-import com.lipberry.fragment.HomeTabFragment;
-import com.lipberry.fragment.ReclickableTabHost;
-import com.lipberry.fragment.WriteTopicTabFragment;
-import com.lipberry.fragment.CategoryTabFragment;
-import com.lipberry.fragment.IneractionTabFragment;
-import com.lipberry.fragment.InboxTabFragment;
-import com.lipberry.fragment.MenuTabFragment;
-import com.lipberry.fragment.TabFragment;
-import com.lipberry.model.ImageScale;
-import com.lipberry.model.ServerResponse;
-import com.lipberry.parser.JsonParser;
-import com.lipberry.settings.FragmentImageSetting;
-import com.lipberry.settings.FragmentMessageSetting;
-import com.lipberry.utility.Constants;
-import com.lipberry.utility.LipberryApplication;
-import com.lipberry.utility.Utility;
-
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.app.LocalActivityManager;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gcm.GCMRegistrar;
+import com.lipberry.fragment.CategoryTabFragment;
+import com.lipberry.fragment.FragmentWriteTopic;
+import com.lipberry.fragment.HomeTabFragment;
+import com.lipberry.fragment.InboxTabFragment;
+import com.lipberry.fragment.IneractionTabFragment;
+import com.lipberry.fragment.MenuTabFragment;
+import com.lipberry.fragment.ReclickableTabHost;
+import com.lipberry.fragment.TabFragment;
+import com.lipberry.fragment.WriteTopicTabFragment;
+import com.lipberry.model.ImageScale;
+import com.lipberry.model.ServerResponse;
+import com.lipberry.parser.JsonParser;
+import com.lipberry.settings.FragmentImageSetting;
+import com.lipberry.utility.Constants;
+import com.lipberry.utility.LipberryApplication;
+import com.lipberry.utility.Utility;
 
 public class HomeActivity extends FragmentActivity {
 	public static Typeface tp;
@@ -112,6 +95,7 @@ public class HomeActivity extends FragmentActivity {
 	MyTimerTask myTimerTask;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.e("HomeActivity","onCreate");
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
@@ -174,7 +158,8 @@ public class HomeActivity extends FragmentActivity {
 	        });
 	    }
 	}
-	private void setTabs() {
+	
+	public void setTabs() {
 		mTabHost = (ReclickableTabHost) findViewById(android.R.id.tabhost);
 
 		mTabHost.setup(this, getSupportFragmentManager(),
@@ -229,6 +214,7 @@ public class HomeActivity extends FragmentActivity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+		Log.e("HomeActivity","onStart");
 	}
 	@Override
 	protected void onPause() {
@@ -240,6 +226,7 @@ public class HomeActivity extends FragmentActivity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		Log.e("HomeActivity","onResume");
         if(Constants.pushnotificationcalllive){
         	Constants.pushnotificationcalllive=false;
         	String type=Constants.type;
@@ -247,7 +234,7 @@ public class HomeActivity extends FragmentActivity {
         	
         	
         }
-		Log.e(" onResume", " onResume");
+//		Log.e(" onResume", " onResume");
 //		 myTimer = new Timer();
 //		 myTimerTask= new MyTimerTask();
 //		 myTimer.scheduleAtFixedRate(myTimerTask, 0, 10000); 

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.lipberry.HomeActivity;
@@ -33,8 +32,8 @@ public class HomeTabFragment extends TabFragment {
 	HomeTabFragment homeTabFragment;
 	@Override
 	public void onAttach(Activity activity) {
-		// TODO Auto-generated method stub
 		super.onAttach(activity);
+		Log.e("HomeTabFragment","onAttach");
 		homeActivity=(HomeActivity) activity;
 		homeTabFragment=this;
 		fragmentManager=homeTabFragment.getChildFragmentManager();
@@ -43,21 +42,23 @@ public class HomeTabFragment extends TabFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initHomeTab();
-		Log.e("homeActivity","1 "+ homeActivity);
-		Log.e("homeTabFragment","2 "+ homeTabFragment);
-		Log.e("homeActivity.mTabHost","3 "+ homeActivity.mTabHost);
-		if(homeActivity.mTabHost==null){
-			Log.e("mTabHost","4 ");
-			homeActivity.mTabHost= (ReclickableTabHost) homeActivity.findViewById(android.R.id.tabhost);
-			Log.e("mTabHost","5 ");
-
-		}
-		if(homeActivity!=null){
-			if(homeTabFragment!=null){
-				homeActivity.mTabHost.AttachHomeFragment(homeTabFragment);
-			}
-		}
+		Log.e("HomeTabFragment","onCreate");
+//		initHomeTab();
+//		Log.e("homeActivity","1 "+ homeActivity);
+//		Log.e("homeTabFragment","2 "+ homeTabFragment);
+//		Log.e("homeActivity.mTabHost","3 "+ homeActivity.mTabHost);
+//		if(homeActivity.mTabHost==null){
+//			Log.e("mTabHost","4 ");
+//			((HomeActivity) getActivity()).setTabs();
+////			homeActivity.mTabHost= (ReclickableTabHost) homeActivity.findViewById(android.R.id.tabhost);
+//			Log.e("mTabHost","5 ");
+//
+//		}
+//		if(homeActivity!=null){
+//			if(homeTabFragment!=null){
+//				homeActivity.mTabHost.AttachHomeFragment(homeTabFragment);
+//			}
+//		}
 		// sBundle = savedInstanceState;
 	}
 	private void initHomeTab() {
@@ -76,6 +77,7 @@ public class HomeTabFragment extends TabFragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.e("HomeTabFragment","onResume");
 	}
 
 	@Override
@@ -87,6 +89,7 @@ public class HomeTabFragment extends TabFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		Log.e("HomeTabFragment","onCreateView");
 		ViewParent parent = (ViewParent) container.getParent();
 		if (parent instanceof View) {
 			((TextView) ((View) parent).findViewById(R.id.welcome_title)).setText(this.getTag());
@@ -94,10 +97,37 @@ public class HomeTabFragment extends TabFragment {
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		Log.e("HomeTabFragment","onActivityCreated");
+		
+		
+		initHomeTab();
+		Log.e("homeActivity","1 "+ homeActivity);
+		Log.e("homeTabFragment","2 "+ homeTabFragment);
+		Log.e("homeActivity.mTabHost","3 "+ homeActivity.mTabHost);
+		if(homeActivity.mTabHost==null){
+			Log.e("mTabHost","4 ");
+			((HomeActivity) getActivity()).setTabs();
+//			homeActivity.mTabHost= (ReclickableTabHost) homeActivity.findViewById(android.R.id.tabhost);
+			Log.e("mTabHost","5 ");
+
+		}
+		if(homeActivity!=null){
+			if(homeTabFragment!=null){
+				homeActivity.mTabHost.AttachHomeFragment(homeTabFragment);
+			}
+		}
+	}
+	
+	
 	public void restasrtTab(){
 		onStart();
 	}
 	public void onStart() {
+		Log.e("HomeTabFragment","onStart");
 		Constants.GOT_AB_FROM_WRITE_TOPIC = 4;
 
 		if (Constants.GO_MEMBER_STATE_FROM_INTERACTION) {

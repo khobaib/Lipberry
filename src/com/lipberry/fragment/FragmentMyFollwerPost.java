@@ -1,50 +1,30 @@
 package com.lipberry.fragment;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonArray;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-import com.lipberry.SignupActivity;
 import com.lipberry.adapter.ListviewAdapterMember;
 import com.lipberry.adapter.ListviewAdapterimageloadingforArticle;
 import com.lipberry.db.LipberryDatabase;
@@ -58,7 +38,6 @@ import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
-import com.viewpagerindicator.TabPageIndicator;
 @SuppressLint("NewApi")
 public class FragmentMyFollwerPost extends Fragment {
 	LipberryApplication appInstance;	
@@ -81,6 +60,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.e("FragmentMyFollwerPost","onCreate");
 		jsonParser=new JsonParser();
 		articlaList=new ArrayList<Article>();
 		limemberlist=new ArrayList<LikeMember>();
@@ -91,6 +71,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
+		Log.e("FragmentMyFollwerPost","onAttach");
 		homeactivity=(HomeActivity) activity;
 	}
 	public static  void setParent(HomeTabFragment parent2){
@@ -98,6 +79,7 @@ public class FragmentMyFollwerPost extends Fragment {
 	}
 	@Override
 	public void onResume() {
+		Log.e("FragmentMyFollwerPost","onResume");
 		homeactivity.backbuttonoftab.setVisibility(View.GONE);
 		super.onResume();
 	}
@@ -106,11 +88,13 @@ public class FragmentMyFollwerPost extends Fragment {
 	public void onPause() {
 //		startindex=0;
 //		endindex=2;
+		Log.e("FragmentMyFollwerPost","onPause");
 		super.onPause();
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.e("FragmentMyFollwerPost","onCreateView");
 		if(oncreatecallsate1){
 			startindex=0;
 			 endindex=9;

@@ -31,10 +31,12 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.e("FragmentHomeHolder","onCreate");
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.e("FragmentHomeHolder","onCreateView");
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_home_holder,
 				container, false);
 		view=container;
@@ -48,6 +50,7 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		Log.e("FragmentHomeHolder","onResume");
 		((HomeActivity)getActivity()).img_cat_icon.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
 		( (HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_new_article));
@@ -57,6 +60,7 @@ public class FragmentHomeHolder extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
+		Log.e("FragmentHomeHolder","onStart");
 	}
 	@Override
 	public void onPause() {
@@ -74,10 +78,12 @@ public class FragmentHomeHolder extends Fragment {
 		@Override
 		public Fragment getItem(int position) {
 			if (position == 0) {
+				Log.e(">>>>>>>>>>>>>", "position = 0");
 				FragmentMyCountriesPost newfrag=new FragmentMyCountriesPost();
 				FragmentMyCountriesPost.parent=parent;
 				return newfrag;
 			} else if (position == 1) {
+				Log.e(">>>>>>>>>>>>>", "position = 1");
 				FragmentMyFollwerPost newfrag=new FragmentMyFollwerPost();
 				FragmentMyFollwerPost.parent=parent;
 				return newfrag;
