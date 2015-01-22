@@ -61,6 +61,7 @@ import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
+import com.splunk.mint.Mint;
 
 public class HomeActivity extends FragmentActivity {
 	public static Typeface tp;
@@ -95,6 +96,8 @@ public class HomeActivity extends FragmentActivity {
 	MyTimerTask myTimerTask;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Mint.initAndStartSession(this, "761a56f9");
+		
 		Log.e("HomeActivity","onCreate");
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jsonParser=new JsonParser();

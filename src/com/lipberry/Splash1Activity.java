@@ -13,7 +13,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,7 +45,7 @@ public class Splash1Activity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Mint.initAndStartSession(Splash1Activity.this, "567679b7");
+		Mint.initAndStartSession(this, "761a56f9");
 
 		jsonParser = new JsonParser();
 		appInstance = (LipberryApplication) getApplication();

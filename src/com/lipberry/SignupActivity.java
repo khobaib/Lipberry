@@ -36,6 +36,7 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
+import com.splunk.mint.Mint;
 
 public class SignupActivity extends Activity {
 	Spinner  s_city,s_country,s_kowaboutus;//
@@ -62,6 +63,8 @@ public class SignupActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Mint.initAndStartSession(this, "761a56f9");
+		
 		jsonParser=new JsonParser();
 		countrylist=new ArrayList<Country>();
 		allcountryname=new ArrayList<String>();

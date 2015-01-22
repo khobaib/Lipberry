@@ -1,15 +1,5 @@
 package com.lipberry;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.media.MediaPlayer;
-import android.media.MediaPlayer.OnCompletionListener;
-import android.media.MediaPlayer.OnPreparedListener;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,13 +15,23 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.util.Log;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MediaController;
 import android.widget.VideoView;
+
+import com.splunk.mint.Mint;
 
 public class ActivityVideoViewDemo extends Activity implements
 OnPreparedListener, OnCompletionListener {
@@ -44,6 +44,8 @@ OnPreparedListener, OnCompletionListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Mint.initAndStartSession(this, "761a56f9");
+		
 		super.setContentView(R.layout.playvedio);
 		videoView = (VideoView) findViewById(R.id.YoutubeVideoView);
 		videoView.setOnPreparedListener(this);

@@ -1,13 +1,12 @@
 package com.lipberry;
 
-import com.lipberry.utility.Constants;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.webkit.WebView;
+
+import com.lipberry.utility.Constants;
+import com.splunk.mint.Mint;
 
 public class WebViewActtivity extends FragmentActivity   {
 	WebView web_view;
@@ -15,6 +14,8 @@ public class WebViewActtivity extends FragmentActivity   {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Mint.initAndStartSession(this, "761a56f9");
+		
 		String type="normal";
 		boolean foregroud=false;
 		int callno=2;
