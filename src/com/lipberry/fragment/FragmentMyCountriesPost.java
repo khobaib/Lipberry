@@ -109,7 +109,6 @@ public class FragmentMyCountriesPost extends Fragment {
 		jsonParser=new JsonParser();
 		articlaList=new ArrayList<Article>();
 		limemberlist=new ArrayList<LikeMember>();
-		activity=getActivity();
 		memberListobject=new MemberList();
 		oncreatecallsate=true;
 		
@@ -122,6 +121,21 @@ public class FragmentMyCountriesPost extends Fragment {
 			Bundle savedInstanceState) {
 //		startindex=0;
 //		endindex=2;
+		
+		
+		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_from_my_country,
+				container, false);
+		list_view_latest_post2=(PullToRefreshListView) v.findViewById(R.id.list_view_latest_post);
+		listviewforarticle=list_view_latest_post2.getRefreshableView();
+		listviewforarticle.setDividerHeight(6);
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		activity=getActivity();
+		appInstance = (LipberryApplication) getActivity().getApplication();
 		if(oncreatecallsate){
 			startindex=0;
 			 endindex=9;
@@ -138,12 +152,7 @@ public class FragmentMyCountriesPost extends Fragment {
 		}
 
 		oncreatecallsate=false;
-		appInstance = (LipberryApplication) getActivity().getApplication();
-		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_post_from_my_country,
-				container, false);
-		list_view_latest_post2=(PullToRefreshListView) v.findViewById(R.id.list_view_latest_post);
-		listviewforarticle=list_view_latest_post2.getRefreshableView();
-		listviewforarticle.setDividerHeight(6);
+		
 		list_view_latest_post2.setOnRefreshListener(new OnRefreshListener<ListView>() {
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -176,7 +185,7 @@ public class FragmentMyCountriesPost extends Fragment {
 			Toast.makeText(activity,activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}	
-		return v;
+		
 	}
 	private class AsyncTaskLoadPostFrommyCountries extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -199,7 +208,7 @@ public class FragmentMyCountriesPost extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			loadarticlelistFrommyCountries(result.getjObj().toString()); 
