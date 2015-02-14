@@ -111,7 +111,7 @@ public class JsonParser {
 		} catch (JSONException e) {
 		}
 		ServerResponse response=new ServerResponse(jObj, status);
-		Constants.debugLog(url, response.getjObj().toString());
+		Constants.debugLog(url, response.getjObj()==null ? "null" : response.getjObj().toString());
 		return response;
 	}
 
