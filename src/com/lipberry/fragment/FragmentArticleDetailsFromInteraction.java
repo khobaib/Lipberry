@@ -99,11 +99,7 @@ public class FragmentArticleDetailsFromInteraction extends Fragment {
 		super.onCreate(savedInstanceState);
 		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 				.build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
-				.defaultDisplayImageOptions(defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
-		activity = getActivity();
+		
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -180,10 +176,22 @@ public void onAttach(Activity activity) {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		appInstance = (LipberryApplication) getActivity().getApplication();
-		jsonParser = new JsonParser();
+		
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details, container, false);
 		initview(v);
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
+		.defaultDisplayImageOptions(defaultOptions).build();
+		imageLoader = ImageLoader.getInstance();
+		ImageLoader.getInstance().init(config);
+		activity = getActivity();
+		appInstance = (LipberryApplication) getActivity().getApplication();
+		jsonParser = new JsonParser();
 		if (Constants.isOnline(getActivity())) {
 
 			new AsyncTaskGetComments(0).execute();
@@ -198,9 +206,8 @@ public void onAttach(Activity activity) {
 			// new AsyncTaskgetArticleDetails().execute();
 		} else {
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT)
-					.show();
+			.show();
 		}
-		return v;
 	}
 
 	@Override
@@ -1017,7 +1024,7 @@ public void onAttach(Activity activity) {
 			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 					}
@@ -1050,7 +1057,7 @@ public void onAttach(Activity activity) {
 				activity.runOnUiThread(new Runnable(){
 					public void run(){
 
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 					}
@@ -1104,7 +1111,7 @@ public void onAttach(Activity activity) {
 			public void onLoadingCancelled(String imageUri, View view) {
 				activity.runOnUiThread(new Runnable(){
 					public void run(){
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 

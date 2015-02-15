@@ -61,13 +61,21 @@ public class FragmentCategories extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_cat));
+		
 		categorylist=new ArrayList<Categories>();
-		appInstance = (LipberryApplication) getActivity().getApplication();
+		
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_categories,
 				container, false);
 		list_categories=(ListView) v.findViewById(R.id.list_categories);
 		jsonParser=new JsonParser();
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.topbar_cat));
+		appInstance = (LipberryApplication) getActivity().getApplication();
 		if(Constants.isOnline(getActivity())){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
@@ -77,7 +85,6 @@ public class FragmentCategories extends Fragment {
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		return v;
 	}
 	@Override
 	public void onResume() {
@@ -101,7 +108,7 @@ public class FragmentCategories extends Fragment {
 						loginData, null);
 				return response;
 			} catch (JSONException e) { 
-				if((pd.isShowing())&&(pd!=null)){
+				if((pd!=null)&&(pd.isShowing())){
 					pd.dismiss();
 				}
 				e.printStackTrace();
@@ -111,7 +118,7 @@ public class FragmentCategories extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject res=result.getjObj();
@@ -185,7 +192,7 @@ public class FragmentCategories extends Fragment {
 						loginData, null);
 				return response;
 			} catch (JSONException e) { 
-				if((pd.isShowing())&&(pd!=null)){
+				if((pd!=null)&&(pd.isShowing())){
 					pd.dismiss();
 				}
 				e.printStackTrace();
@@ -195,7 +202,7 @@ public class FragmentCategories extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject res=result.getjObj();

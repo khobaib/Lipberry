@@ -85,15 +85,7 @@ public class FragmentMemberFromCategories extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		appInstance = (LipberryApplication) getActivity().getApplication();
-		jsonParser=new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getActivity().getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+		
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -133,27 +125,41 @@ public class FragmentMemberFromCategories extends Fragment {
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_article.setTypeface(Utility.getTypeface2(getActivity()));
 
-		if(Constants.isOnline(getActivity())){
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
-			new AsyncTaskGetSinleMember().execute();
-		}
-		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
-
-		btn_follow_her.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				buttonfollowclicked();
-			}
-		});
-
-
 		return v;
 	}
+@Override
+public void onActivityCreated(Bundle savedInstanceState) {
+	super.onActivityCreated(savedInstanceState);
+	appInstance = (LipberryApplication) getActivity().getApplication();
+	jsonParser=new JsonParser();
+	DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+	.cacheInMemory(false).cacheOnDisc(false).build();
+	ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+			getActivity().getApplicationContext()).defaultDisplayImageOptions(
+					defaultOptions).build();
+	imageLoader = ImageLoader.getInstance();
+	ImageLoader.getInstance().init(config);
+	
+	if(Constants.isOnline(getActivity())){
+		pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
+				getActivity().getResources().getString(R.string.txt_please_wait), false);
+		new AsyncTaskGetSinleMember().execute();
+	}
+	else{
+		Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+				Toast.LENGTH_SHORT).show();
+	}
 
+	btn_follow_her.setOnClickListener(new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			buttonfollowclicked();
+		}
+	});
+
+	
+	
+}
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -350,7 +356,7 @@ public class FragmentMemberFromCategories extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -392,7 +398,7 @@ public class FragmentMemberFromCategories extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();

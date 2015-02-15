@@ -60,7 +60,7 @@ public class FragmentInteraction extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		jsonParser=new JsonParser();
-		appInstance = (LipberryApplication)getActivity().getApplication();
+		
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +68,16 @@ public class FragmentInteraction extends Fragment {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_interaction,
 				container, false);
 		lst_interaction=(ListView) v.findViewById(R.id.lst_interaction);
+		
+		
+	
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		appInstance = (LipberryApplication)getActivity().getApplication();
 		if(Constants.isOnline(getActivity())){
 			
 			new AsyncTaskGetNotification().execute();
@@ -77,10 +87,7 @@ public class FragmentInteraction extends Fragment {
 					Toast.LENGTH_SHORT).show();
 		}
 		
-	
-		return v;
 	}
-	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub

@@ -47,6 +47,11 @@ public class MenuTabFragment extends TabFragment{
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		homeActivity=(HomeActivity) getActivity();
+	}
 	public void restasrtTab(){
 		backEndStack = new Stack<Fragment>();
 		backEndStack.clear();

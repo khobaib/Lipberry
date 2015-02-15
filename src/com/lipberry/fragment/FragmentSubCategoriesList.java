@@ -91,31 +91,14 @@ public class FragmentSubCategoriesList extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		Log.d("name", "a  "+catname);
-		((HomeActivity)getActivity()).welcome_title.setText(catname);
-		appInstance = (LipberryApplication) getActivity().getApplication();
+		
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sub_categories,
 				container, false);
 		img_cat=(ImageView) v.findViewById(R.id.img_cat);
 		list_categories=(PullToRefreshListView) v.findViewById(R.id.list_categories);
 		listviewforarticle=list_categories.getRefreshableView();
 		listviewforarticle.setDividerHeight(6);
-		((HomeActivity)getActivity()).ProductList=listviewforarticle;
 		
-		list_categories.setOnRefreshListener(new OnRefreshListener<ListView>() {
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				
-				if(Constants.isOnline(getActivity())){
-						new AsyncTaskgetmoreSubCategoriesPost().execute();
-				}
-				else{
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
-							Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-		
-		jsonParser=new JsonParser();
 		btn_go_another_category=(Button) v.findViewById(R.id.btn_go_another_category);
 		btn_go_another_category.setTypeface(Utility.getTypeface2(getActivity()));
 		btn_go_another_category.setOnClickListener(new OnClickListener() {
@@ -128,27 +111,51 @@ public class FragmentSubCategoriesList extends ListFragment {
 		txt_make_up=(TextView) v.findViewById(R.id.txt_make_up);
 		txt_make_up.setText(catname);
 		txt_make_up.setTypeface(Utility.getTypeface1(getActivity()));
-		loadlistview();
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((HomeActivity)getActivity()).welcome_title.setText(catname);
+		appInstance = (LipberryApplication) getActivity().getApplication();
+		((HomeActivity)getActivity()).ProductList=listviewforarticle;
 
-	      if(index!=-1){
-	    	  listviewforarticle.setSelection(index);
-	    	
-	      }
+		list_categories.setOnRefreshListener(new OnRefreshListener<ListView>() {
+			@Override
+			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
 
-			if(article.getArticlelist().get(0).getcategory().equals("2")){
-				if(article.getArticlelist().get(0).getArticle_category_url().contains("shexp")){
-					int id = getActivity().getResources().getIdentifier("l"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
-					img_cat.setImageResource(id);
+				if(Constants.isOnline(getActivity())){
+					new AsyncTaskgetmoreSubCategoriesPost().execute();
 				}
 				else{
-					int id = getActivity().getResources().getIdentifier("bl"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
-					img_cat.setImageResource(id);
+					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+							Toast.LENGTH_SHORT).show();
 				}
-			}else{
+			}
+		});
+
+		jsonParser=new JsonParser();
+		loadlistview();
+
+		if(index!=-1){
+			listviewforarticle.setSelection(index);
+
+		}
+
+		if(article.getArticlelist().get(0).getcategory().equals("2")){
+			if(article.getArticlelist().get(0).getArticle_category_url().contains("shexp")){
 				int id = getActivity().getResources().getIdentifier("l"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
 				img_cat.setImageResource(id);
 			}
-		return v;
+			else{
+				int id = getActivity().getResources().getIdentifier("bl"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
+				img_cat.setImageResource(id);
+			}
+		}else{
+			int id = getActivity().getResources().getIdentifier("l"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
+			img_cat.setImageResource(id);
+		}
 	}
 	@Override
 	public void onResume() {

@@ -72,15 +72,7 @@ public class FragmentMemberFromHome extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		appInstance = (LipberryApplication) getActivity().getApplication();
-		jsonParser=new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getActivity().getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+		
 	}
 	public FragmentMemberFromHome(int callstatefromtab,String userid){
 		this.callstatefromtab=callstatefromtab;
@@ -126,6 +118,22 @@ public class FragmentMemberFromHome extends Fragment {
 		txt_following_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_follower_text.setTypeface(Utility.getTypeface2(getActivity()));
 		txt_article.setTypeface(Utility.getTypeface2(getActivity()));
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		appInstance = (LipberryApplication) getActivity().getApplication();
+		jsonParser=new JsonParser();
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(false).cacheOnDisc(false).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getActivity().getApplicationContext()).defaultDisplayImageOptions(
+						defaultOptions).build();
+		imageLoader = ImageLoader.getInstance();
+		ImageLoader.getInstance().init(config);
+
 		if(Constants.isOnline(activity)){
 			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
 					getActivity().getResources().getString(R.string.txt_please_wait), false);
@@ -142,9 +150,7 @@ public class FragmentMemberFromHome extends Fragment {
 				buttonfollowclicked();
 			}
 		});
-		return v;
 	}
-
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -332,7 +338,7 @@ public class FragmentMemberFromHome extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			btn_follow_her.setBackgroundResource(R.drawable.rounded_follower);
@@ -373,7 +379,7 @@ public class FragmentMemberFromHome extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();

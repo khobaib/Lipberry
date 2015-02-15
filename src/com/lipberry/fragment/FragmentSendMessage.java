@@ -79,9 +79,7 @@ public class FragmentSendMessage extends Fragment{
 		oncreatecalledstate=true;
 		inboxlist=new ArrayList<InboxMessage>();
 		jsonParser=new JsonParser();
-		appInstance = (LipberryApplication)getActivity().getApplication();
 		
-
 	}
 
 
@@ -98,6 +96,14 @@ public class FragmentSendMessage extends Fragment{
 		b_send.setTypeface(Utility.getTypeface2(getActivity()));
 		et_msg_body.setTypeface(Utility.getTypeface2(getActivity()));
 		et_su.setTypeface(Utility.getTypeface2(getActivity()));
+		
+
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		appInstance = (LipberryApplication)getActivity().getApplication();
 		b_send.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -157,8 +163,6 @@ public class FragmentSendMessage extends Fragment{
 					Toast.LENGTH_SHORT).show();
 		}
 		membername=new ArrayList<String>();
-
-		return v;
 	}
 	private class AsyncTaskSendMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
@@ -193,7 +197,7 @@ public class FragmentSendMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
@@ -252,7 +256,7 @@ public class FragmentSendMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

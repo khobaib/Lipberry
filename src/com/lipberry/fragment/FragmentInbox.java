@@ -59,7 +59,7 @@ public class FragmentInbox extends Fragment{
 		oncreatecalledstate=true;
 		inboxlist=new ArrayList<InboxMessage>();
 		jsonParser=new JsonParser();
-		appInstance = (LipberryApplication)getActivity().getApplication();
+		
 
 	}
 
@@ -72,7 +72,13 @@ public class FragmentInbox extends Fragment{
 		re_setting=(RelativeLayout) v.findViewById(R.id.re_setting);
 		listviewforinbbox =(ListView) v.findViewById(R.id.listviewforinbbox);
 		re_sent_msz=(RelativeLayout) v.findViewById(R.id.re_sent_msz);
-
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		appInstance = (LipberryApplication)getActivity().getApplication();
 		re_new_msz.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -110,10 +116,8 @@ public class FragmentInbox extends Fragment{
 			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-		
-		return v;
-	}
 
+}
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -143,7 +147,7 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
@@ -249,7 +253,7 @@ public class FragmentInbox extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

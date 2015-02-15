@@ -240,7 +240,7 @@ public class FragmentMessageSettingFromInbo extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

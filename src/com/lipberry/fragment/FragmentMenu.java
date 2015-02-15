@@ -39,6 +39,12 @@ public class FragmentMenu extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_menu, container, false);
 		list_menu_item = (ListView) v.findViewById(R.id.list_menu_item);
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 		menuarray = getActivity().getResources().getStringArray(R.array.menuarray);
 		ArrayList<String> list = new ArrayList<String>(Arrays.asList(menuarray));
 		CustomAdapterForMenu adapter1 = new CustomAdapterForMenu(getActivity(), list);
@@ -47,7 +53,7 @@ public class FragmentMenu extends Fragment {
 		if (Constants.MESSAGESETTINGSTATE) {
 			parent.startFragmentSetting();
 		}
-		return v;
+		
 	}
 
 	@Override

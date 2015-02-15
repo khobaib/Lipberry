@@ -128,11 +128,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 		super.onCreate(savedInstanceState);
 		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 				.build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
-				.defaultDisplayImageOptions(defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
-		activity = getActivity();
+		
 	}
 
 	public static void setListViewHeightBasedOnChildren(ListView listView) {
@@ -206,29 +202,39 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		// state=0;
-		appInstance = (LipberryApplication) getActivity().getApplication();
-		jsonParser = new JsonParser();
+		
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details, container, false);
 		initview(v);
-		if (Constants.isOnline(getActivity())) {
-
-			new AsyncTaskGetComments(0).execute();
-			if (articledetails.getFollow_flag() != null) {
-				if (!articledetails.getFollow_flag().equals("Not a follower")) {
-					followstate = true;
-				} else {
-					followstate = false;
-				}
-			}
-			setview();
-		} else {
-			setview();
-			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT)
-					.show();
-		}
+		
 		return v;
 	}
+   @Override
+   public void onActivityCreated(Bundle savedInstanceState) {
+	   super.onActivityCreated(savedInstanceState);
+	   ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
+	   .defaultDisplayImageOptions(defaultOptions).build();
+	   imageLoader = ImageLoader.getInstance();
+	   ImageLoader.getInstance().init(config);
+	   activity = getActivity();
+	   appInstance = (LipberryApplication) getActivity().getApplication();
+	   jsonParser = new JsonParser();
+	   if (Constants.isOnline(getActivity())) {
 
+		   new AsyncTaskGetComments(0).execute();
+		   if (articledetails.getFollow_flag() != null) {
+			   if (!articledetails.getFollow_flag().equals("Not a follower")) {
+				   followstate = true;
+			   } else {
+				   followstate = false;
+			   }
+		   }
+		   setview();
+	   } else {
+		   setview();
+		   Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet), Toast.LENGTH_SHORT)
+		   .show();
+	   }
+   }
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -1202,7 +1208,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 					}
@@ -1235,7 +1241,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 				activity.runOnUiThread(new Runnable(){
 					public void run(){
 
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 					}
@@ -1289,7 +1295,7 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 			public void onLoadingCancelled(String imageUri, View view) {
 				activity.runOnUiThread(new Runnable(){
 					public void run(){
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 

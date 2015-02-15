@@ -311,7 +311,7 @@ public class FragmentMessage extends Fragment{
 					}
 				}
 				else{
-					if(pd.isShowing()&&(pd!=null)){
+					if((pd!=null)&&(pd.isShowing())){
 						pd.dismiss();
 					}
 					Toast.makeText(getActivity(),job.getString("description"), Toast.LENGTH_SHORT).show();
@@ -348,7 +348,7 @@ public class FragmentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
@@ -396,7 +396,7 @@ public class FragmentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

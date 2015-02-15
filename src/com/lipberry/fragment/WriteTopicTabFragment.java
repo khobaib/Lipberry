@@ -51,7 +51,11 @@ public class WriteTopicTabFragment extends TabFragment{
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
 	}
-
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		homeActivity=(HomeActivity)getActivity();
+	}
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub

@@ -36,7 +36,7 @@ public class IneractionTabFragment extends TabFragment{
 		FragmentInteraction initialFragment = new FragmentInteraction();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		homeActivity=(HomeActivity)getActivity();
+		
 	}
 	
 	@Override
@@ -58,6 +58,11 @@ public class IneractionTabFragment extends TabFragment{
 		homeActivity=(HomeActivity) getActivity();
 		int_tab_frag=this;
 		fragmentManager=int_tab_frag.getChildFragmentManager();
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		homeActivity=(HomeActivity)getActivity();
 	}
 	public void onStart( ) {
 	//	Constants.GOTABFROMWRITETOPIC=2;

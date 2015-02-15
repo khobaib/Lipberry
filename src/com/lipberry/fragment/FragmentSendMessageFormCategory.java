@@ -70,7 +70,7 @@ public class FragmentSendMessageFormCategory extends Fragment{
 		oncreatecalledstate=true;
 		
 		jsonParser=new JsonParser();
-		appInstance = (LipberryApplication)getActivity().getApplication();
+		
 
 	}
 
@@ -122,6 +122,11 @@ public class FragmentSendMessageFormCategory extends Fragment{
 		
 		return v;
 	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		appInstance = (LipberryApplication)getActivity().getApplication();
+	}
 	private class AsyncTaskSendMessage extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -154,7 +159,7 @@ public class FragmentSendMessageFormCategory extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

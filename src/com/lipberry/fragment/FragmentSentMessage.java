@@ -58,7 +58,7 @@ public class FragmentSentMessage extends Fragment{
 		oncreatecalledstate=true;
 		inboxlist=new ArrayList<InboxMessage>();
 		jsonParser=new JsonParser();
-		appInstance = (LipberryApplication)getActivity().getApplication();
+		
 
 	}
 
@@ -68,6 +68,13 @@ public class FragmentSentMessage extends Fragment{
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_sent_msz,
 				container, false);
 		listviewforinbbox =(ListView) v.findViewById(R.id.listviewforinbbox);
+
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		appInstance = (LipberryApplication)getActivity().getApplication();
 
 
 		//		if(oncreatecalledstate){
@@ -90,7 +97,7 @@ public class FragmentSentMessage extends Fragment{
 		//			}
 		//		}
 		oncreatecalledstate=false;
-		return v;
+		
 	}
 
 
@@ -117,7 +124,7 @@ public class FragmentSentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();
@@ -231,7 +238,7 @@ public class FragmentSentMessage extends Fragment{
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

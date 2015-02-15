@@ -39,7 +39,7 @@ public class CategoryTabFragment extends TabFragment{
 		FragmentCategories initialFragment = new FragmentCategories();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		homeActivity=(HomeActivity)getActivity();
+		
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +56,7 @@ public class CategoryTabFragment extends TabFragment{
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
-		homeActivity=(HomeActivity) getActivity();
+		
 		cat_tabfragment=this;
 		fragmentManager=cat_tabfragment.getChildFragmentManager();
 	}
@@ -77,7 +77,12 @@ public class CategoryTabFragment extends TabFragment{
 		fragmentTransaction.commitAllowingStateLoss();
 		super.onStart();
 	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
 
+		super.onActivityCreated(savedInstanceState);
+		homeActivity=(HomeActivity) getActivity();
+	}
 	public void StartFragmentSendMessageFormHome(String nickname,String username) {
 		FragmentSendMessageFormCategory newFragment = new FragmentSendMessageFormCategory ();
 		newFragment.setFragmentSendMessageFormCategory(nickname,username);

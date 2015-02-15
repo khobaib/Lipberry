@@ -97,13 +97,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		super.onCreate(savedInstanceState);
 		defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true).cacheOnDisc(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getActivity().getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
-		activity = getActivity();
-
+		
 	}
 	@Override
 	public void onAttach(Activity activity) {
@@ -187,11 +181,25 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		appInstance = (LipberryApplication) getActivity().getApplication();
-		jsonParser=new JsonParser();
+		
 		ViewGroup v = (ViewGroup) inflater.inflate(R.layout.fragment_article_details,
 				container, false);
 		initview(v);
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getActivity().getApplicationContext()).defaultDisplayImageOptions(
+						defaultOptions).build();
+		imageLoader = ImageLoader.getInstance();
+		ImageLoader.getInstance().init(config);
+		activity = getActivity();
+		
+		appInstance = (LipberryApplication) getActivity().getApplication();
+		jsonParser=new JsonParser();
+		
 		if(Constants.isOnline(getActivity())){
 
 			new AsyncTaskGetComments(0).execute();
@@ -210,14 +218,14 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			Toast.makeText(getActivity(), getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
-
 		TextView tv = new TextView(getActivity());
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 		params.leftMargin = 107;
 		params.topMargin=100;
 
-		return v;
+
+		
 	}
 	@Override
 	public void onResume() {
@@ -312,7 +320,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -614,7 +622,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -659,7 +667,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -706,7 +714,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null) && (pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -743,7 +751,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -783,7 +791,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject jobj=result.getjObj();
@@ -898,7 +906,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 
 				}
 				else{
-					if((pd.isShowing())&&(pd!=null)){
+					if((pd!=null)&&(pd.isShowing())){
 						pd.dismiss();
 					}
 					String description=jobj.getString("description");
@@ -1079,7 +1087,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 				getActivity().runOnUiThread(new Runnable(){
 					public void run(){
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 					}
@@ -1112,7 +1120,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 				activity.runOnUiThread(new Runnable(){
 					public void run(){
 
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 					}
@@ -1167,7 +1175,7 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 			public void onLoadingCancelled(String imageUri, View view) {
 				activity.runOnUiThread(new Runnable(){
 					public void run(){
-						if((pd.isShowing())&&(pd!=null)){
+						if((pd!=null)&&(pd.isShowing())){
 							pd.dismiss();
 						}
 

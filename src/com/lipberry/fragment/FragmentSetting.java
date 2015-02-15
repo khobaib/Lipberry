@@ -146,7 +146,7 @@ public class FragmentSetting extends Fragment {
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
 			Log.e("res", result.getjObj().toString());
-			if(pd.isShowing()&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 			JSONObject job=result.getjObj();

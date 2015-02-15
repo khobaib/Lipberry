@@ -63,15 +63,9 @@ public class FragmentMember extends Fragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		appInstance = (LipberryApplication) getActivity().getApplication();
+		
 		jsonParser=new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(false).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getActivity().getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
-		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+		
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,6 +82,20 @@ public class FragmentMember extends Fragment {
 		btn_follow_her=(Button) v.findViewById(R.id.btn_follow_her);
 		btn_send=(Button) v.findViewById(R.id.btn_send);
 		btn_share=(Button) v.findViewById(R.id.btn_share);
+		
+		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		appInstance = (LipberryApplication) getActivity().getApplication();
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(false).cacheOnDisc(false).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getActivity().getApplicationContext()).defaultDisplayImageOptions(
+						defaultOptions).build();
+		imageLoader = ImageLoader.getInstance();
+		ImageLoader.getInstance().init(config);
 		if(followstate){
 			btn_follow_her.setText("unfollow");
 		}
@@ -110,7 +118,6 @@ public class FragmentMember extends Fragment {
 				buttonfollowclicked();
 			}
 		});
-		return v;
 	}
 
 	@Override
@@ -214,7 +221,7 @@ public class FragmentMember extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
-			if((pd.isShowing())&&(pd!=null)){
+			if((pd!=null)&&(pd.isShowing())){
 				pd.dismiss();
 			}
 		}

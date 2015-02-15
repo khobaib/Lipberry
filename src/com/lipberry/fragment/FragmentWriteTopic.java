@@ -100,6 +100,17 @@ public class FragmentWriteTopic extends Fragment {
 		jsonParser = new JsonParser();
 		categorylist = new ArrayList<Categories>();
 		catnamelist = new ArrayList<String>();
+		
+		((HomeActivity) activity).welcome_title.setText(R.string.txt_write_topic);
+		if (Constants.isOnline(activity)) {
+			pd = ProgressDialog.show(activity, getActivity().getResources().getString(R.string.app_name_arabic),
+					getActivity().getResources().getString(R.string.txt_retreiving_category), false);
+
+			new AsyncTaskgetCategories().execute();
+		} else {
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
@@ -159,16 +170,6 @@ public class FragmentWriteTopic extends Fragment {
 			}
 		});
 		spinner_category = (Spinner) v.findViewById(R.id.spinner_category);
-		((HomeActivity) activity).welcome_title.setText(R.string.txt_write_topic);
-		if (Constants.isOnline(activity)) {
-			pd = ProgressDialog.show(activity, getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_retreiving_category), false);
-
-			new AsyncTaskgetCategories().execute();
-		} else {
-			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
-					Toast.LENGTH_SHORT).show();
-		}
 		return v;
 	}
 

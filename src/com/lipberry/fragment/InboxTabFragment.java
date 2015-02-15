@@ -38,7 +38,6 @@ public class InboxTabFragment extends TabFragment{
 		FragmentInbox initialFragment = new FragmentInbox();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		homeActivity=(HomeActivity)getActivity();
 		Log.e("tagR", "3");
 
 	}
@@ -68,6 +67,11 @@ public class InboxTabFragment extends TabFragment{
 
 		View v = inflater.inflate(R.layout.fragment_tab3, container, false);
 		return v;
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		homeActivity=(HomeActivity)getActivity();
 	}
 	public void onStart( ) {
 		Log.e("tagR", "8");
