@@ -61,6 +61,9 @@ import com.lipberry.settings.FragmentImageSetting;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.splunk.mint.Mint;
 
 public class HomeActivity extends FragmentActivity {
@@ -72,7 +75,7 @@ public class HomeActivity extends FragmentActivity {
 	private static final String LIST_STATE = "listState";
 	private Parcelable mListState = null;
 	ProgressDialog pd;
-	public TextView text_notification_no_fromactivity;
+	public static TextView text_notification_no_fromactivity;
 	public ImageView img_cat_icon;
 	File photo;
 	public TabFragment activeFragment;
@@ -100,9 +103,18 @@ public class HomeActivity extends FragmentActivity {
 		
 		Log.e("HomeActivity","onCreate");
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		setContentView(R.layout.main);
+		
 		jsonParser=new JsonParser();
 		appInstance = (LipberryApplication) getApplication();
-		setContentView(R.layout.main);
+		
+		
+		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		.cacheInMemory(false).cacheOnDisc(false).build();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).defaultDisplayImageOptions(
+						defaultOptions).build();
+		ImageLoader.getInstance().init(config);
+		
 		img_cat_icon=(ImageView) findViewById(R.id.img_cat_icon);
 		welcome_title=(TextView) findViewById(R.id.welcome_title);
 		backbuttonoftab=(Button) findViewById(R.id.backbuttonoftab);

@@ -3,16 +3,15 @@ package com.lipberry.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lipberry.model.Article;
-import com.lipberry.model.InboxMessage;
-import com.lipberry.model.LikeMember;
-import com.lipberry.model.TndividualThreadMessage;
-
 import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
+
+import com.lipberry.model.Article;
+import com.lipberry.model.InboxMessage;
+import com.lipberry.model.LikeMember;
+import com.lipberry.model.TndividualThreadMessage;
 public class LipberryDatabase {
 	private static final String TAG = LipberryDatabase.class.getSimpleName();
 	private DatabaseHelper dbHelper;

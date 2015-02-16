@@ -2,44 +2,27 @@
 
 package com.lipberry.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Html;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
+
 import com.lipberry.HomeActivity;
-import com.lipberry.LoginActivity;
 import com.lipberry.R;
-import com.lipberry.ShowHtmlText;
 import com.lipberry.adapter.CustomAdapterForInteraction;
 import com.lipberry.model.ArticleDetails;
 import com.lipberry.model.NotificationList;
@@ -55,6 +38,9 @@ public class FragmentInteraction extends Fragment {
 	NotificationList notificationList;
 	ProgressDialog pd;
 	LipberryApplication appInstance;
+	
+	Activity activity;
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,26 +61,36 @@ public class FragmentInteraction extends Fragment {
 	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.e("20150215", "FragmentInteraction onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
+		activity = getActivity();
 		
-		appInstance = (LipberryApplication)getActivity().getApplication();
-		if(Constants.isOnline(getActivity())){
+		if(activity!=null){
+			Log.e("20150215", "getactivity NOT NULL");
+			if(activity.getApplicationContext() == null){
+				Log.e("20150215", "getActivity().getApplicationContext() == NULL");
+			} else {
+				Log.e("20150215", "getActivity().getApplicationContext() NOT NULL");
+			}
+		}
+		appInstance = (LipberryApplication)activity.getApplication();
+		if(Constants.isOnline(activity)){
 			
 			new AsyncTaskGetNotification().execute();
 		}
 		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 		
 	}
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
+		Log.e("20150215", "onResume");
 		super.onResume();
-		((HomeActivity)getActivity()).welcome_title.setText(R.string.txt_interaction);
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.VISIBLE);
-		((HomeActivity)getActivity()).backbuttonoftab.setOnClickListener(new OnClickListener() {
+		((HomeActivity)activity).welcome_title.setText(R.string.txt_interaction);
+		((HomeActivity)activity).backbuttonoftab.setVisibility(View.VISIBLE);
+		((HomeActivity)activity).backbuttonoftab.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				parent.onBackPressed();
@@ -102,11 +98,11 @@ public class FragmentInteraction extends Fragment {
 		});
 	}
 	private class AsyncTaskGetNotification extends AsyncTask<Void, Void, ServerResponse> {
-		ProgressDialog pd2=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-				getActivity().getResources().getString(R.string.txt_please_wait), true);
+		ProgressDialog pd2=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+				activity.getResources().getString(R.string.txt_please_wait), true);
 		@Override
 		protected void onPreExecute() {
-			
+			Log.e("20150215", "AsyncTaskGetNotification onPreExecute");
 		};
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
@@ -153,7 +149,7 @@ public class FragmentInteraction extends Fragment {
 					
 				}
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,job.getString("message"), Toast.LENGTH_SHORT).show();
 				}
 				
 			} catch (JSONException e) {
@@ -167,7 +163,7 @@ public class FragmentInteraction extends Fragment {
 	}
 	
 	public void setlistinteraction(){
-		CustomAdapterForInteraction adapter=new CustomAdapterForInteraction(getActivity(), notificationList.getnotificationslist());
+		CustomAdapterForInteraction adapter=new CustomAdapterForInteraction(((HomeActivity)activity), notificationList.getnotificationslist());
 		lst_interaction.setAdapter(adapter);
 		lst_interaction.setOnItemClickListener(new OnItemClickListener() {
 
@@ -178,34 +174,34 @@ public class FragmentInteraction extends Fragment {
 				if(notificationList.getnotificationslist().get(position).getInteraction_types()!=0){
 					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
 					Constants.GO_MEMBER_STATE_FROM_INTERACTION=true;
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+					((HomeActivity)activity).mTabHost.setCurrentTab(4);
 				}
 				else{
 					
-					if(Constants.isOnline(getActivity())){
+					if(Constants.isOnline(activity)){
 						
 						
 						
 						if((notificationList.getnotificationslist().get(position).getArticle_id()!=null)
 								){
-							pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-									getActivity().getResources().getString(R.string.txt_please_wait), false);
+							pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+									activity.getResources().getString(R.string.txt_please_wait), false);
 							new AsyncTaskgetArticleDetails(position).execute();
 						}
 						else{
-							Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_articleid_not_found),
+							Toast.makeText(activity, activity.getResources().getString(R.string.txt_articleid_not_found),
 									Toast.LENGTH_SHORT).show();
 						}
 					}
 					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+						Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 								Toast.LENGTH_SHORT).show();
 					}
 //					Constants.userid=notificationList.getnotificationslist().get(position).getFrom_id();
 //					Constants.GOARTCLEPAGE=true;
 //					Constants.INTER_ARTICLE_ID=notificationList.getnotificationslist().get(position).getArticle_id();
 //				//	Constants.INTER_MEMBER_ID=notificationList.getnotificationslist().get(position).getArticle_id();
-//					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+//					((HomeActivity)activity).mTabHost.setCurrentTab(4);
 				}
 				
 			}
@@ -242,8 +238,8 @@ public class FragmentInteraction extends Fragment {
 			try {
 				String status=job.getString("status");
 				if(status.equals("success")){
-					if(((HomeActivity)getActivity()).text_notification_no_fromactivity!=null){
-						((HomeActivity)getActivity()).text_notification_no_fromactivity.setVisibility(View.GONE);
+					if(((HomeActivity)activity).text_notification_no_fromactivity!=null){
+						((HomeActivity)activity).text_notification_no_fromactivity.setVisibility(View.GONE);
 
 					}
 				}
@@ -291,11 +287,11 @@ public class FragmentInteraction extends Fragment {
 					Constants.GO_ARTCLE_PAGE=true;
 					Constants.articledetails=articledetails;
 					Constants.from=2;
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+					((HomeActivity)activity).mTabHost.setCurrentTab(4);
 				}
 				else{
 					String message=jobj.getString("description");
-					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();

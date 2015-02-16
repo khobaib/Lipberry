@@ -1,54 +1,26 @@
 package com.lipberry.adapter;
 
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import com.lipberry.HomeActivity;
-import com.lipberry.R;
-import com.lipberry.ShowHtmlText;
-import com.lipberry.model.ArticleGallery;
-import com.lipberry.model.Notifications;
-import com.lipberry.utility.Constants;
-import com.lipberry.utility.Utility;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import android.app.Fragment;
-import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
-
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.sax.StartElementListener;
-import android.text.method.LinkMovementMethod;
-
-
+import android.graphics.Color;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.lipberry.HomeActivity;
+import com.lipberry.R;
+import com.lipberry.ShowHtmlText;
+import com.lipberry.model.Notifications;
+import com.lipberry.utility.Constants;
+import com.lipberry.utility.Utility;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class CustomAdapterForInteraction extends BaseAdapter {
 	ArrayList<Notifications> list;
@@ -57,15 +29,16 @@ public class CustomAdapterForInteraction extends BaseAdapter {
 	public CustomAdapterForInteraction(Activity activity,
 			ArrayList<Notifications> list) {
 		super();
+		Log.e("20150215", "CustomAdapterForInteraction CONSTRUCTOR");
 		this.list=list;
 		this.activity=activity;
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-		.cacheInMemory(false).cacheOnDisc(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				activity.getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
+//		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+//		.cacheInMemory(false).cacheOnDisc(true).build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//				this.activity).defaultDisplayImageOptions(
+//						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 		for(int i=0;i<list.size();i++){
 			String msz=list.get(i).getMessage().substring(list.get(i).getMessage().indexOf("</a>"));
 			list.get(i).setMessage(msz);

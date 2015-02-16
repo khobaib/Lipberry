@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,6 +53,9 @@ public class FragmentInbox extends Fragment{
 	ArrayList<InboxMessage>inboxlist;
 	ListView listviewforinbbox;
 	String messageid;
+	
+	Activity activity;
+	
 	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,11 @@ public class FragmentInbox extends Fragment{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		appInstance = (LipberryApplication)getActivity().getApplication();
+		Log.e("20150216", "FragmentInbox onActivityCreated");
+		
+		activity = getActivity();
+		
+		appInstance = (LipberryApplication)activity.getApplication();
 		re_new_msz.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -99,21 +107,22 @@ public class FragmentInbox extends Fragment{
 			public void onClick(View arg0) {
 				parent.StartFragmentMessageSettingFromInbo();
 				//				Constants.MESSAGESETTINGSTATE=true;
-				//				((HomeActivity)getActivity()).mTabHost.setCurrentTab(5);
+				//				((HomeActivity)activity).mTabHost.setCurrentTab(5);
 			}
 		});
 
 		//		if(oncreatecalledstate){
-		if(Constants.isOnline(getActivity())){
+		if(Constants.isOnline(activity)){
+			Log.e("20150216", "in onActivityCreated, (HomeActivity)getActivity() = " + activity);
 			startindex=0;
 			endex=10;
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+					activity.getResources().getString(R.string.txt_please_wait), false);
 			new AsyncTaskGetMessage().execute();
 		}
 		else{
 			getinbox_list();
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 
@@ -121,10 +130,17 @@ public class FragmentInbox extends Fragment{
 	@Override
 	public void onResume() {
 		super.onResume();
-		((HomeActivity)getActivity()).welcome_title.setText(getActivity().getResources().getString(R.string.txt_inbox));
-		((HomeActivity)getActivity()).backbuttonoftab.setVisibility(View.GONE);
+		((HomeActivity)activity).welcome_title.setText(activity.getResources().getString(R.string.txt_inbox));
+		((HomeActivity)activity).backbuttonoftab.setVisibility(View.GONE);
 	}
 	private class AsyncTaskGetMessage extends AsyncTask<Void, Void, ServerResponse> {
+		
+//		private Context mContext;
+//		
+//		public AsyncTaskGetMessage(Context context) {
+//			mContext = context;
+//		}
+		
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 
@@ -162,12 +178,12 @@ public class FragmentInbox extends Fragment{
 						LoadListView();
 					}
 					else{
-						Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity, activity.getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 					}
 
 				}
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,job.getString("message"), Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {
@@ -179,16 +195,17 @@ public class FragmentInbox extends Fragment{
 	
 	public void saveindb(ArrayList<InboxMessage>inboxlist){
 		deletetable();
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 
 		dbInstance.insertOrUpdateInboxMessageList(inboxlist);
 		// List<InboxMessage>inbox_list= dbInstance.retrieveInboxMessage();
-		//Toast.makeText(getActivity(), ""+inbox_list.size(), 1000).show();
+		//Toast.makeText(activity, ""+inbox_list.size(), 1000).show();
 		dbInstance.close();
 	}
 	public void deletetable(){
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		Log.e("20150216", "(HomeActivity)getActivity() = " + activity);
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 		dbInstance.droptableInboxDbManager();
 		dbInstance.createtableInboxDbManager();
@@ -196,7 +213,7 @@ public class FragmentInbox extends Fragment{
 	}
 	public void getinbox_list(){
 
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 		try {
 			dbInstance.createtableInboxDbManager();
@@ -208,16 +225,16 @@ public class FragmentInbox extends Fragment{
 		dbInstance.close();
 	}
 	public void LoadListView(){
-		adapter=new CustomAdapterForIInboxMessage(getActivity(), inboxlist,FragmentInbox.this);
+		adapter=new CustomAdapterForIInboxMessage(activity, inboxlist,FragmentInbox.this);
 		listviewforinbbox.setAdapter(adapter);
 	}
 
 
 	public void loadthreadmessage(int position){
-		if(Constants.isOnline(getActivity())){
+		if(Constants.isOnline(activity)){
 			
-			pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-					getActivity().getResources().getString(R.string.txt_please_wait), false);
+			pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+					activity.getResources().getString(R.string.txt_please_wait), false);
 			LoadThreadMessage individualmessage=new LoadThreadMessage(position); 
 			individualmessage.execute();
 		}
@@ -281,34 +298,34 @@ public class FragmentInbox extends Fragment{
 						}
 						else{
 							//	Constants.userid=inboxlist.get(position).getFrom_id();
-							if(Constants.isOnline(getActivity())){
+							if(Constants.isOnline(activity)){
 								if(messagelist.getIndividualThreadlist().get(0).getArticle_id()!=null){
-									pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),
-											getActivity().getResources().getString(R.string.txt_please_wait), false);
+									pd=ProgressDialog.show(activity, activity.getResources().getString(R.string.app_name_arabic),
+											activity.getResources().getString(R.string.txt_please_wait), false);
 									new AsyncTaskgetArticleDetails(position).execute();
 								}
 								else{
-									Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_articleid_not_found),
+									Toast.makeText(activity, activity.getResources().getString(R.string.txt_articleid_not_found),
 											Toast.LENGTH_SHORT).show();
 								}
 							}
 							else{
-								Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+								Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 										Toast.LENGTH_SHORT).show();
 							}
 //							Constants.INTER_ARTICLE_ID=messagelist.getIndividualThreadlist().get(0).getArticle_id();
-//							((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+//							((HomeActivity)activity).mTabHost.setCurrentTab(4);
 						}
 					}
 					else{
-						Toast.makeText(getActivity(),getActivity().getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
+						Toast.makeText(activity,activity.getResources().getString(R.string.txt_you_dont_have_msz), Toast.LENGTH_SHORT).show();
 
 
 					}
 
 				}   
 				else{
-					Toast.makeText(getActivity(),job.getString("message"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,job.getString("message"), Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {
@@ -322,7 +339,7 @@ public class FragmentInbox extends Fragment{
 	public void tryfromdb(String parent_id){
 		//messagelist.getIndividualThreadlist()
 		ArrayList<TndividualThreadMessage>inbox_message=new ArrayList<TndividualThreadMessage>();
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 		try {
 			dbInstance.createtableThreadMessage();
@@ -346,7 +363,7 @@ public class FragmentInbox extends Fragment{
 
 		}
 		else{
-			Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.Toast_check_internet),
+			Toast.makeText(activity, activity.getResources().getString(R.string.Toast_check_internet),
 					Toast.LENGTH_SHORT).show();
 		}
 
@@ -354,7 +371,7 @@ public class FragmentInbox extends Fragment{
 		dbInstance.close();
 	}
 	public void saveindb(String parent_id){
-		LipberryDatabase dbInstance = new LipberryDatabase(getActivity());
+		LipberryDatabase dbInstance = new LipberryDatabase(activity);
 		dbInstance.open();
 		try {
 			dbInstance.createtableThreadMessage();
@@ -438,11 +455,11 @@ public class FragmentInbox extends Fragment{
 					Constants.GO_ARTCLE_PAGE=true;
 					Constants.articledetails=articledetails;
 					Constants.from=1;
-					((HomeActivity)getActivity()).mTabHost.setCurrentTab(4);
+					((HomeActivity)activity).mTabHost.setCurrentTab(4);
 				}
 				else{
 					String message=jobj.getString("description");
-					Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity,message, Toast.LENGTH_SHORT).show();
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
