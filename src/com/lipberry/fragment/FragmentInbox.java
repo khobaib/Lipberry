@@ -183,7 +183,7 @@ public class FragmentInbox extends Fragment{
 
 				}
 				else{
-					Toast.makeText(activity,job.getString("message"), Toast.LENGTH_SHORT).show();
+					Toast.makeText(activity, job.getString("description"), Toast.LENGTH_SHORT).show();
 				}
 
 			} catch (JSONException e) {
