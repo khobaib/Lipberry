@@ -37,9 +37,7 @@ import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 @SuppressLint("ShowToast")
 public class CustomAdapterForCommentFromDialog extends BaseAdapter {
@@ -72,12 +70,12 @@ public class CustomAdapterForCommentFromDialog extends BaseAdapter {
 		this.list = list;
 		this.activity = activity;
 		jsonParser = new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
-				.build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(activity.getApplicationContext())
-				.defaultDisplayImageOptions(defaultOptions).build();
+//		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
+//				.build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(activity.getApplicationContext())
+//				.defaultDisplayImageOptions(defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 	}
 
 	@Override

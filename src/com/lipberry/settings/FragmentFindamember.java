@@ -31,9 +31,6 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Base64;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.Utility;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 @SuppressLint({ "NewApi", "ValidFragment" })
 public class FragmentFindamember extends Fragment {
@@ -56,11 +53,11 @@ public class FragmentFindamember extends Fragment {
 		super.onCreate(savedInstanceState);
 		memberListobject = new MemberListForSendMessage();
 		jsonParser = new JsonParser();
-		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
-				.build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
-				.defaultDisplayImageOptions(defaultOptions).build();
-		ImageLoader.getInstance().init(config);
+//		DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
+//				.build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
+//				.defaultDisplayImageOptions(defaultOptions).build();
+//		ImageLoader.getInstance().init(config);
 	}
 
 	@Override

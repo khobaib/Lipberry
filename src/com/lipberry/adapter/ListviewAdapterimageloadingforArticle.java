@@ -23,7 +23,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,7 +46,6 @@ import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
@@ -81,11 +79,11 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		appInstance = (LipberryApplication) activity.getApplication();
 		 defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true).cacheOnDisc(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				activity.getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//				activity.getApplicationContext()).defaultDisplayImageOptions(
+//						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 		
 	}
 
@@ -99,11 +97,11 @@ public class ListviewAdapterimageloadingforArticle extends BaseAdapter {
 		appInstance = (LipberryApplication) activity.getApplication();
 		defaultOptions = new DisplayImageOptions.Builder()
 		.cacheInMemory(true).cacheOnDisc(true).build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				activity.getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//				activity.getApplicationContext()).defaultDisplayImageOptions(
+//						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 	}
 
 	@Override

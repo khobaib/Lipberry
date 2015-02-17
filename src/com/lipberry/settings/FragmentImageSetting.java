@@ -2,41 +2,22 @@
 package com.lipberry.settings;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.graphics.Bitmap.CompressFormat;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -45,16 +26,8 @@ import android.widget.Toast;
 
 import com.androidquery.AQuery;
 import com.lipberry.HomeActivity;
-import com.lipberry.LoginActivity;
 import com.lipberry.R;
-import com.lipberry.SignupActivity;
-import com.lipberry.adapter.NothingSelectedSpinnerAdapter;
-import com.lipberry.fragment.FragmentMyCountriesPost;
-import com.lipberry.fragment.FragmentMyFollwerPost;
 import com.lipberry.fragment.MenuTabFragment;
-import com.lipberry.model.City;
-import com.lipberry.model.Commentslist;
-import com.lipberry.model.Country;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.model.SingleMember;
 import com.lipberry.model.UserCred;
@@ -65,7 +38,6 @@ import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 @SuppressLint({ "NewApi", "ValidFragment" })
@@ -101,11 +73,11 @@ public class FragmentImageSetting extends Fragment {
 		jsonParser=new JsonParser();
 		defaultOptions = new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisc(true)
 		.build();
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getActivity().getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//				getActivity().getApplicationContext()).defaultDisplayImageOptions(
+//						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 	}
 
 	@Override

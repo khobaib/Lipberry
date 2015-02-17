@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -53,7 +52,6 @@ import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
@@ -185,10 +183,10 @@ public void onAttach(Activity activity) {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
-		.defaultDisplayImageOptions(defaultOptions).build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
+//		.defaultDisplayImageOptions(defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 		activity = getActivity();
 		appInstance = (LipberryApplication) getActivity().getApplication();
 		jsonParser = new JsonParser();

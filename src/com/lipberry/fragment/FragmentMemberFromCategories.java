@@ -1,12 +1,6 @@
 
 package com.lipberry.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,35 +8,26 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.webkit.WebSettings;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,9 +43,8 @@ import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 
@@ -132,13 +116,13 @@ public void onActivityCreated(Bundle savedInstanceState) {
 	super.onActivityCreated(savedInstanceState);
 	appInstance = (LipberryApplication) getActivity().getApplication();
 	jsonParser=new JsonParser();
-	DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
-	.cacheInMemory(false).cacheOnDisc(false).build();
-	ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-			getActivity().getApplicationContext()).defaultDisplayImageOptions(
-					defaultOptions).build();
+//	DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+//	.cacheInMemory(false).cacheOnDisc(false).build();
+//	ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//			getActivity().getApplicationContext()).defaultDisplayImageOptions(
+//					defaultOptions).build();
 	imageLoader = ImageLoader.getInstance();
-	ImageLoader.getInstance().init(config);
+//	ImageLoader.getInstance().init(config);
 	
 	if(Constants.isOnline(getActivity())){
 		pd=ProgressDialog.show(getActivity(), getActivity().getResources().getString(R.string.app_name_arabic),

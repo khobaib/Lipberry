@@ -1,78 +1,58 @@
 package com.lipberry.fragment;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.CursorAdapter;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.MeasureSpec;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.view.View.OnClickListener;
-import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lipberry.ActivityVideoViewDemo;
 import com.lipberry.HomeActivity;
-import com.lipberry.LoginActivity;
 import com.lipberry.R;
 import com.lipberry.ShowHtmlText;
-import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.CustomAdapter;
 import com.lipberry.adapter.CustomAdapterForComment;
 import com.lipberry.customalertdilog.LisAlertDialog;
 import com.lipberry.model.Article;
 import com.lipberry.model.ArticleDetails;
-import com.lipberry.model.ArticleList;
 import com.lipberry.model.Commentslist;
 import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
@@ -82,7 +62,6 @@ import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 
@@ -211,10 +190,10 @@ public class FragmentArticleDetailsFromHome extends Fragment {
    @Override
    public void onActivityCreated(Bundle savedInstanceState) {
 	   super.onActivityCreated(savedInstanceState);
-	   ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
-	   .defaultDisplayImageOptions(defaultOptions).build();
+//	   ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getActivity().getApplicationContext())
+//	   .defaultDisplayImageOptions(defaultOptions).build();
 	   imageLoader = ImageLoader.getInstance();
-	   ImageLoader.getInstance().init(config);
+//	   ImageLoader.getInstance().init(config);
 	   activity = getActivity();
 	   appInstance = (LipberryApplication) getActivity().getApplication();
 	   jsonParser = new JsonParser();

@@ -56,7 +56,6 @@ import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
 @SuppressLint({ "NewApi", "ResourceAsColor" })
@@ -190,11 +189,11 @@ public class FragmentArticleDetailsFromCategory extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				getActivity().getApplicationContext()).defaultDisplayImageOptions(
-						defaultOptions).build();
+//		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+//				getActivity().getApplicationContext()).defaultDisplayImageOptions(
+//						defaultOptions).build();
 		imageLoader = ImageLoader.getInstance();
-		ImageLoader.getInstance().init(config);
+//		ImageLoader.getInstance().init(config);
 		activity = getActivity();
 		
 		appInstance = (LipberryApplication) getActivity().getApplication();
