@@ -1,16 +1,17 @@
 package com.lipberry.fragment;
 import java.util.Stack;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.TextView;
+
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
 import com.lipberry.model.SingleMember;
@@ -24,7 +25,7 @@ import com.lipberry.settings.FragmentSingleMember;
 import com.lipberry.utility.Constants;
 public class MenuTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
-	private static HomeActivity homeActivity;
+//	private static HomeActivity homeActivity;
 	FragmentManager fragmentManager;
 	MenuTabFragment menutabFragment;
 	@Override
@@ -34,7 +35,6 @@ public class MenuTabFragment extends TabFragment{
 		FragmentMenu initialFragment = new FragmentMenu();
 		initialFragment.parent = this;
 		backEndStack.push(initialFragment);
-		homeActivity.mTabHost.AttachMenuFragment(menutabFragment);
 	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +50,7 @@ public class MenuTabFragment extends TabFragment{
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		homeActivity=(HomeActivity) getActivity();
+		((HomeActivity)getActivity()).mTabHost.AttachMenuFragment(menutabFragment);
 	}
 	public void restasrtTab(){
 		backEndStack = new Stack<Fragment>();
@@ -61,7 +61,7 @@ public class MenuTabFragment extends TabFragment{
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
-		homeActivity=(HomeActivity) getActivity();
+//		homeActivity=(HomeActivity) getActivity();
 		menutabFragment=this;
 		fragmentManager=menutabFragment.getChildFragmentManager();
 		
@@ -231,11 +231,11 @@ public class MenuTabFragment extends TabFragment{
 	@Override
 	public void onBackPressed() {
 		if (backEndStack.size()==1) {
-			homeActivity.close();
+			
 		}
 		else {
 			if (backEndStack.size()==1) {
-				homeActivity.close();
+				getActivity().finish();
 			} else {
 				backEndStack.pop();
 				Fragment frg = backEndStack.peek();

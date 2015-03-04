@@ -52,6 +52,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 	Button btn_go_another_category;
 	TextView txt_make_up;
 	ListviewAdapterimageloadingforArticle adapter;
+	
 	public void setUrl(String url,String catname,ArticleList article){
 		this.url=Constants.caturl;
 		this.article=article;
@@ -246,6 +247,9 @@ public class FragmentSubCategoriesList extends ListFragment {
 		Log.e("erroe", "1");
 		FragmentActivity fragActivity=getActivity();	
 		Log.e("erroe", ((article == null)? "null" : article.getArticlelist().size())+ " " + listviewforarticle);
+		
+		if(article == null)
+			article = new ArticleList();
 
 		 adapter=new ListviewAdapterimageloadingforArticle(fragActivity,
 				article.getArticlelist(),parent);
