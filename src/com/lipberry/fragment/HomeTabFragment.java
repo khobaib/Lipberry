@@ -182,12 +182,12 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(newFragment);
 		trackCallHome.push(from);
 		try {
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		}
 	}
 
@@ -207,12 +207,12 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(newFragment);
 		trackCallHome.push(0);
 		try {
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		}
 	}
 
@@ -229,12 +229,12 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(newFragment);
 		trackCallHome.push(0);
 		try {
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		}
 	}
 
@@ -251,12 +251,12 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(newFragment);
 		trackCallHome.push(state);
 		try {
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			fragmentTransaction = homeTabFragment.getChildFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		}
 	}
 
@@ -275,12 +275,12 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(newFragment);
 		trackCallHome.push(0);
 		try {
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		}
 	}
 
@@ -299,12 +299,12 @@ public class HomeTabFragment extends TabFragment {
 		backEndStack.push(newFragment);
 		trackCallHome.push(state);
 		try {
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		} catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			fragmentTransaction = homeActivity.getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.replace(R.id.tab3Content, newFragment);
-			fragmentTransaction.commit();
+			fragmentTransaction.commitAllowingStateLoss();
 		}
 	}
 

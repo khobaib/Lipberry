@@ -1,12 +1,9 @@
 package com.lipberry.fragment;
 
-import com.lipberry.HomeActivity;
-
 import android.content.Context;
 import android.support.v4.app.FragmentTabHost;
 import android.util.AttributeSet;
-import android.widget.TabHost;
-import android.widget.Toast;
+import android.util.Log;
 
 public class ReclickableTabHost extends FragmentTabHost {
 	HomeTabFragment homeactivity;
@@ -28,19 +25,23 @@ public class ReclickableTabHost extends FragmentTabHost {
 
     @Override
     public void setCurrentTab(int index) {
-        if (index == getCurrentTab()) {
-            if(index==4){
-            	if(homeactivity!=null){
-            		homeactivity.restasrtTab();
-            	}
-            }
-            else if(index==5){
-            	if(menu_fragment!=null){
-            		menu_fragment.restasrtTab();
-            	}
-            }
-        } else {
-            super.setCurrentTab(index);
-        }
+    	try {
+    		if (index == getCurrentTab()) {
+    			if(index==4){
+    				if(homeactivity!=null){
+    					homeactivity.restasrtTab();
+    				}
+    			}
+    			else if(index==5){
+    				if(menu_fragment!=null){
+    					menu_fragment.restasrtTab();
+    				}
+    			}
+    		} else {
+    			super.setCurrentTab(index);
+    		}
+    	} catch (IllegalStateException e) {
+			Log.e("20150311", "state loss - IllegalStateException");
+		}
     }
 }
