@@ -3,28 +3,20 @@ package com.lipberry.fragment;
 import java.io.File;
 import java.util.Stack;
 
-import com.lipberry.HomeActivity;
-import com.lipberry.R;
-import com.lipberry.utility.Constants;
-
-
-
-
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.ViewParent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.lipberry.HomeActivity;
+import com.lipberry.R;
+import com.lipberry.utility.Constants;
 
 public class WriteTopicTabFragment extends TabFragment{
 	protected Stack<Fragment> backEndStack;
@@ -89,18 +81,18 @@ public class WriteTopicTabFragment extends TabFragment{
 		super.onStart();
 	}
 
-	public void startfragmenthome() {
-		FragmentWriteTopic newFragment = new FragmentWriteTopic ();
-		newFragment.parent = this;
-		if(fragmentManager==null)
-			fragmentManager = writeTopicTabFragment.getChildFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.tab3Content, newFragment);
-		fragmentTransaction.addToBackStack(null);
-		backEndStack.push(newFragment);
-		fragmentTransaction.commitAllowingStateLoss();
-	}
+//	public void startfragmenthome() {
+//		FragmentWriteTopic newFragment = new FragmentWriteTopic ();
+//		newFragment.parent = this;
+//		if(fragmentManager==null)
+//			fragmentManager = writeTopicTabFragment.getChildFragmentManager();
+//		FragmentTransaction fragmentTransaction = fragmentManager
+//				.beginTransaction();
+//		fragmentTransaction.replace(R.id.tab3Content, newFragment);
+//		fragmentTransaction.addToBackStack(null);
+//		backEndStack.push(newFragment);
+//		fragmentTransaction.commitAllowingStateLoss();
+//	}
 	public void clearr(){
 		backEndStack.pop();
 	}

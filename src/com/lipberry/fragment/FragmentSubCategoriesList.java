@@ -124,6 +124,15 @@ public class FragmentSubCategoriesList extends ListFragment {
 
 		}
 
+		getImageResourceFromId();
+	}
+	
+	
+	private void getImageResourceFromId(){
+		if(article== null || article.getArticlelist()== null || article.getArticlelist().size() <= 0 ){
+			return;
+		}
+		
 		if(article.getArticlelist().get(0).getcategory().equals("2")){
 			if(article.getArticlelist().get(0).getArticle_category_url().contains("shexp")){
 				int id = getActivity().getResources().getIdentifier("l"+article.getArticlelist().get(0).getcategory(), "drawable", getActivity().getPackageName());
@@ -138,6 +147,8 @@ public class FragmentSubCategoriesList extends ListFragment {
 			img_cat.setImageResource(id);
 		}
 	}
+	
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -221,6 +232,7 @@ public class FragmentSubCategoriesList extends ListFragment {
 						
 						if(article.getArticlelist().size()>0){
 							adapter.notifyDataSetChanged();
+							getImageResourceFromId();
 							list_categories.onRefreshComplete(); 
 							
 						}

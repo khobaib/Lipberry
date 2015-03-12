@@ -13,6 +13,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -192,7 +193,7 @@ public class FragmentImageSetting extends Fragment {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
 			try {
-				
+				Log.e("20150311", "doinbackground AsyncTaskUploadImage");
 				JSONObject loginObj = new JSONObject();
 				loginObj.put("session_id", appInstance.getUserCred().getSession_id());
 				ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -204,6 +205,7 @@ public class FragmentImageSetting extends Fragment {
 				String url =Constants.baseurl+"settings/changemypicture/";
 				ServerResponse response =jsonParser.retrieveServerData(Constants.REQUEST_TYPE_POST, url, null,
 						loginData, null);
+				Log.e("20150311", "got response from AsyncTaskUploadImage");
 				return response;
 			} catch (JSONException e) {                
 				e.printStackTrace();
@@ -216,14 +218,18 @@ public class FragmentImageSetting extends Fragment {
 			JSONObject jobj=result.getjObj();
 			
 			try {
+				Log.e("20150311", "onPostExecute AsyncTaskUploadImage");
 				String status= jobj.getString("status");
-				String description=jobj.getString("description");
+				Log.e("20150311", "status = " + status);
+				String description=jobj.optString("description");
 				if(status.equals("success")){
 					lisenar.bitmap=bitmap;
+//					pd.dismiss();
 					new AsyncTaskLogin().execute();
 				}
 				else{
-					Toast.makeText(getActivity(),description, Toast.LENGTH_SHORT).show();
+					pd.dismiss();
+					Toast.makeText(getActivity(), "" + description, Toast.LENGTH_SHORT).show();
 
 				}
 				
@@ -237,7 +243,7 @@ public class FragmentImageSetting extends Fragment {
 	private class AsyncTaskLogin extends AsyncTask<Void, Void, ServerResponse> {
 		@Override
 		protected ServerResponse doInBackground(Void... params) {
-
+			Log.e("20150311", "doinbackground AsyncTaskLogin");
 			try {
 				JSONObject loginObj = new JSONObject();
 				byte[] ba = appInstance.getUserCred().getUsername().getBytes();
@@ -260,9 +266,12 @@ public class FragmentImageSetting extends Fragment {
 		@Override
 		protected void onPostExecute(ServerResponse result) {
 			super.onPostExecute(result);
+			Log.e("20150311", "onPostExecute AsyncTaskLogin");
 			if(pd!=null){
+				Log.e("20150311", "onPostExecute pd not NULL");
 				if(pd.isShowing()){
-					pd.cancel();
+					Log.e("20150311", "onPostExecute pd is SHowing");
+					pd.dismiss();
 				}
 			}
 			setUsercredential(result.getjObj().toString());

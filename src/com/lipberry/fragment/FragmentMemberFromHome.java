@@ -41,7 +41,6 @@ import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
 import com.lipberry.utility.Utility;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 
 
@@ -72,6 +71,10 @@ public class FragmentMemberFromHome extends Fragment {
 		super.onCreate(savedInstanceState);
 		
 	}
+	
+	public FragmentMemberFromHome(){
+	}
+	
 	public FragmentMemberFromHome(int callstatefromtab,String userid){
 		this.callstatefromtab=callstatefromtab;
 		this.userid=userid;
