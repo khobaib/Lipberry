@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lipberry"
-    android:versionCode="77"
-    android:versionName="7.7" >
+    android:versionCode="78"
+    android:versionName="7.8" >
 
     <uses-sdk
         android:minSdkVersion="14"

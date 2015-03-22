@@ -1,54 +1,29 @@
 package com.lipberry.fragment;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Typeface;
-import android.net.MailTo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.lipberry.HomeActivity;
 import com.lipberry.R;
-import com.lipberry.SignupActivity;
-import com.lipberry.Splash1Activity;
-import com.lipberry.Splash2Activity;
 import com.lipberry.adapter.ListviewAdapterMember;
 import com.lipberry.adapter.ListviewAdapterimageloadingforArticle;
 import com.lipberry.db.LipberryDatabase;
@@ -62,7 +37,6 @@ import com.lipberry.model.ServerResponse;
 import com.lipberry.parser.JsonParser;
 import com.lipberry.utility.Constants;
 import com.lipberry.utility.LipberryApplication;
-import com.viewpagerindicator.TabPageIndicator;
 
 
 
@@ -291,7 +265,7 @@ public class FragmentMyCountriesPost extends Fragment {
 			else{
 //				String message=result.getString("description");
 //				if(message.equals("There is no followers")){
-					Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.txt_there_is_no_follower),
+					Toast.makeText(activity, activity.getResources().getString(R.string.txt_there_is_no_follower),
 							Toast.LENGTH_SHORT).show();
 //				}
 //				else{

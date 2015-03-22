@@ -64,6 +64,10 @@ public class FragmentSingleMember extends Fragment {
 	boolean followstate=false;
 	String member_id;
 	String meberResponse;
+	
+	public FragmentSingleMember() {
+	}
+	
 	public FragmentSingleMember(String member_id){
 		this.member_id=member_id;
 	}

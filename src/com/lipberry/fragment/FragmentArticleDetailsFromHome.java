@@ -197,6 +197,11 @@ public class FragmentArticleDetailsFromHome extends Fragment {
 	   activity = getActivity();
 	   appInstance = (LipberryApplication) getActivity().getApplication();
 	   jsonParser = new JsonParser();
+	   
+	   if(articledetails == null){
+		   articledetails = new ArticleDetails();
+	   }
+	   
 	   if (Constants.isOnline(getActivity())) {
 
 		   new AsyncTaskGetComments(0).execute();
